@@ -13,7 +13,7 @@
     </RootPath>
     <RootNamespace>CC.Connections.DB</RootNamespace>
     <AssemblyName>CC.Connections.DB</AssemblyName>
-    <ModelCollation>1033, CI</ModelCollation>
+    <ModelCollation>1033,CI</ModelCollation>
     <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
     <DeployToDatabase>True</DeployToDatabase>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
@@ -22,6 +22,7 @@
     <SqlServerVerification>False</SqlServerVerification>
     <IncludeCompositeObjects>True</IncludeCompositeObjects>
     <TargetDatabaseSet>True</TargetDatabaseSet>
+    <DefaultCollation>SQL_Latin1_General_CP1_CI_AS</DefaultCollation>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -56,5 +57,22 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
+    <Folder Include="Tables" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Tables\tblLogin.sql" />
+    <Build Include="Tables\tblContact_Info.sql" />
+    <Build Include="Tables\tblCategories.sql" />
+    <Build Include="Tables\tblCharity.sql" />
+    <Build Include="Tables\tblCharityEvents.sql" />
+    <Build Include="Tables\tblEventRequirements.sql" />
+    <Build Include="Tables\tblHelpingAction.sql" />
+    <Build Include="Tables\tblMemberType.sql" />
+    <Build Include="Tables\tblMemberCategories.sql" />
+    <Build Include="Tables\tblNeedsRequirements.sql" />
+    <Build Include="Tables\tblRoles.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="CC.Connections.DB.refactorlog" />
   </ItemGroup>
 </Project>
