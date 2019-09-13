@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29230.47
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CC.Connections.WebUI", "CC.Connections.WebUI.csproj", "{EF2A93A8-4B56-4171-B169-2005BCE6181D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CC.Connections.WebUI", "CC.Connections.WebUI.csproj", "{EF2A93A8-4B56-4171-B169-2005BCE6181D}"
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "CC.Connections.DB", "..\CC.Connections.DB\CC.Connections.DB.sqlproj", "{BE381CBE-10D2-45FB-AE39-5122E42CCE7D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CC.Connections.BL", "..\CC.Connections.BL\CC.Connections.BL.csproj", "{F4CC55D1-6BA6-4AA9-8FF6-D245F1B64101}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CC.Connections.PL", "..\CC.Connections.PL\CC.Connections.PL.csproj", "{C1BD18E0-42CF-4E7B-9736-1252E0AF2D3F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +31,10 @@ Global
 		{F4CC55D1-6BA6-4AA9-8FF6-D245F1B64101}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4CC55D1-6BA6-4AA9-8FF6-D245F1B64101}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F4CC55D1-6BA6-4AA9-8FF6-D245F1B64101}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1BD18E0-42CF-4E7B-9736-1252E0AF2D3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1BD18E0-42CF-4E7B-9736-1252E0AF2D3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1BD18E0-42CF-4E7B-9736-1252E0AF2D3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1BD18E0-42CF-4E7B-9736-1252E0AF2D3F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
