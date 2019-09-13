@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CC.Connections.PL;
+//using CC.Connections.PL;
 
 namespace CC.Connections.BL
 {
@@ -27,6 +27,18 @@ namespace CC.Connections.BL
         public string Phone { get; set; }
         [DisplayName("Email")]
         public string Email { get; set; }
+        [DisplayName("Name")]
+        public string FullName
+        {
+            get { return FirstName + " " + LastName; }
+        }
+        [DisplayName("Location")]
+        public string Location
+        {
+            //"825 Pilgrim Way, Green Bay, WI"
+            get { return Address + " ,"+City+" ,"+State; }
+        }
+
 
         public ContactInfo()
         {
