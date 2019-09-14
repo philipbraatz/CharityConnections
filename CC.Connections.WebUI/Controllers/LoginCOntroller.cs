@@ -29,31 +29,6 @@ namespace CC.Connections.WebUI.Controllers
             return View();
         }
 
-
-        [HttpPost]
-        public ActionResult Create(Member member, string returnurl)
-        {
-            ViewResult result = View(member);
-            try
-            {
-                ViewBag.ReturnUrl = returnurl;
-
-                if (member.Login())
-                {
-                    HttpContext.Session["member"] = member;
-                    //return RedirectToAction("Index", "ProgDec");
-                    return Redirect(returnurl);
-                }
-                ViewBag.Message = "Sorry. No soup for you!";
-                return result;
-            }
-            catch (Exception ex)
-            {
-                ViewBag.Message = ex.Message;
-                return View(member);
-            }
-        }
-
         [HttpPost]
         public ActionResult Login(Member member, string returnurl)
         {
@@ -62,9 +37,9 @@ namespace CC.Connections.WebUI.Controllers
                 if (member.Login())
                 {
                     Session["member"] = member;
-                    if (returnurl != null)
-                        return Redirect(returnurl);
-                    else
+                    //if (returnurl != null)
+                    //    return Redirect(returnurl);
+                    //else
                         return RedirectToAction("Index", "Home");
                 }
                 else
@@ -79,6 +54,13 @@ namespace CC.Connections.WebUI.Controllers
                 return View(member);
             }
         }
+
+        //Fake successful login
+        //[HttpPost]
+        //public ActionResult Login()
+        //{
+        //    return RedirectToAction("Index", "Home");
+        //}
 
 
     }

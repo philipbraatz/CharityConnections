@@ -12,6 +12,13 @@ namespace CC.Connections.BL
         public int ID { get; set; }
         public string Description { get; set; }
 
+        public Role()
+        {}
+        public Role(int? role_ID)
+        {
+            this.ID = (int)role_ID;
+        }
+
         public int Insert()
         {
             try

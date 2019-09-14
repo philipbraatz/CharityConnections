@@ -14,8 +14,10 @@ namespace CC.Connections.BL
         public Role Role { get; set; }
         public Member_Type Member_Type { get; set; }
         public string Password { get; set; }
-
-        // Used for User Login
+        
+        //required for login controller
+        public Member()
+        {}
         public Member(string email, string userpass)
         {
             Contact = new ContactInfo(email);
@@ -42,13 +44,13 @@ namespace CC.Connections.BL
                 else
                 {
                     DBconnections dc = new DBconnections();
-                    PL.Member entry = dc.Members.FirstOrDefault(u => u.ContactEmail == this.Contact.Email);
+                    PL.Member entry = null;//dc.Members.FirstOrDefault(u => u.ContactEmail == this.Contact.Email);
 
                     string temp = GetHash();
 
                     if (entry == null)
                         return false;
-                    else if (entry.Password == temp)//success
+                    else if (false)//entry.Password == temp)//success
                     {
                         //Contact = new ContactInfo( entry.ContactID);//Loaded on email check, unsecure
                         Role = new Role(entry.Role_ID);
@@ -61,9 +63,7 @@ namespace CC.Connections.BL
                 }
             }
             catch (Exception e)
-            {
-                throw e;
-            }
+            {throw e;}
         }
     }
 }
