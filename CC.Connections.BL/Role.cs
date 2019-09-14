@@ -16,6 +16,8 @@ namespace CC.Connections.BL
         {
             try
             {
+                if (Description == string.Empty)
+                    throw new Exception("Description cannot be empty");
                 using (DBconnections dc = new DBconnections())
                 {
                     ID = dc.Roles.Max(c => c.Role_ID) + 1;
@@ -50,6 +52,8 @@ namespace CC.Connections.BL
         {
             try
             {
+                if (Description == string.Empty)
+                    throw new Exception("Description cannot be empty");
                 using (DBconnections dc = new DBconnections())
                 {
                     //if (this.ID == Guid.Empty)
@@ -72,11 +76,11 @@ namespace CC.Connections.BL
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invaild");
 
-                    PL.Role Genre = dc.Roles.FirstOrDefault(c => c.Role_ID == this.ID);
-                    if (Genre == null)
+                    PL.Role entry = dc.Roles.FirstOrDefault(c => c.Role_ID == this.ID);
+                    if (entry == null)
                         throw new Exception("Genre does not exist");
 
-                    Description = Genre.Role_desc;
+                    Description = entry.Role_desc;
                 }
             }
             catch (Exception e)

@@ -16,12 +16,19 @@ namespace CC.Connections.WebUI.Controllers
             return View();
         }
 
+        public ActionResult Login(string returnurl)
+        {
+            ViewBag.ReturnUrl = returnurl;
+            return View();
+        }
+
         public ActionResult Logout()
         {
             //Logged out
             HttpContext.Session["user"] = null;
             return View();
         }
+
 
         [HttpPost]
         public ActionResult Create(Member member, string returnurl)
@@ -46,5 +53,33 @@ namespace CC.Connections.WebUI.Controllers
                 return View(member);
             }
         }
+
+        [HttpPost]
+        public ActionResult Login(Member member, string returnurl)
+        {
+            try
+            {
+                if (member.Login())
+                {
+                    Session["member"] = member;
+                    if (returnurl != null)
+                        return Redirect(returnurl);
+                    else
+                        return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    ViewBag.Message = "Incorrect Credentials";
+                    return View(member);
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Message = ex.Message;
+                return View(member);
+            }
+        }
+
+
     }
 }
