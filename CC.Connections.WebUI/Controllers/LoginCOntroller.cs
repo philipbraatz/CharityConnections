@@ -22,6 +22,12 @@ namespace CC.Connections.WebUI.Controllers
             return View();
         }
 
+        public ActionResult SignUp(string returnurl)
+        {
+            ViewBag.ReturnUrl = returnurl;
+            return View();
+        }
+
         public ActionResult Logout()
         {
             //Logged out
@@ -62,6 +68,10 @@ namespace CC.Connections.WebUI.Controllers
         //    return RedirectToAction("Index", "Home");
         //}
 
-
+        [HttpPost]
+        public ActionResult SignUp()
+        {
+            return RedirectToAction("Index", "Home");
+        }
     }
 }
