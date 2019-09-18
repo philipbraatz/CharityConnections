@@ -10,6 +10,9 @@ namespace CC.Connections.BL
 {
     public class ContactInfo
     {
+        private int? contactID;
+
+        public int ID { get; set; }
         [DisplayName("Email")]
         public string Email { get; set; }
         [DisplayName("First Name")]
@@ -45,6 +48,17 @@ namespace CC.Connections.BL
             Email = email;
             LoadId();
         }
+
+        public ContactInfo(int? contactID)
+        {
+            this.contactID = contactID;
+        }
+
+        internal void Insert(DBconnections dc, int iD)
+        {
+            throw new NotImplementedException();
+        }
+
         //public ContactInfo(string email,string firstname,string lastname,
         //    string address, string city, string state,string zip,
         //    string phonenumber )
@@ -85,7 +99,7 @@ namespace CC.Connections.BL
             }
             catch (Exception e) { throw e; }
         }
-        public int Delete()
+        public int Delete(DBconnections dc)
         {
             try
             {
@@ -100,7 +114,13 @@ namespace CC.Connections.BL
             }
             catch (Exception e) { throw e; }
         }
-        public int Update()
+
+        internal void Delete(DBconnections dc, int iD)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Update(DBconnections dc)
         {
             try
             {
@@ -126,6 +146,12 @@ namespace CC.Connections.BL
             }
             catch (Exception e) { throw e; }
         }
+
+        internal void Update(DBconnections dc, int iD)
+        {
+            throw new NotImplementedException();
+        }
+
         public void LoadId()
         {
             try

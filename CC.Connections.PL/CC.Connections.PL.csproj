@@ -51,18 +51,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Category.cs">
-      <DependentUpon>DBconnections.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Charity.cs">
-      <DependentUpon>DBconnections.tt</DependentUpon>
-    </Compile>
-    <Compile Include="CharityEvent.cs">
-      <DependentUpon>DBconnections.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Contact_Info.cs">
-      <DependentUpon>DBconnections.tt</DependentUpon>
-    </Compile>
     <Compile Include="DBconnections.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -78,37 +66,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DBconnections.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Event_Requirements.cs">
-      <DependentUpon>DBconnections.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Helping_Action.cs">
-      <DependentUpon>DBconnections.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Log_in.cs">
-      <DependentUpon>DBconnections.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Member.cs">
-      <DependentUpon>DBconnections.tt</DependentUpon>
-    </Compile>
-    <Compile Include="MemberCategory.cs">
-      <DependentUpon>DBconnections.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Member_Action.cs">
-      <DependentUpon>DBconnections.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Member_Categories.cs">
-      <DependentUpon>DBconnections.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Member_Type.cs">
-      <DependentUpon>DBconnections.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NeedsRequirement.cs">
-      <DependentUpon>DBconnections.tt</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Role.cs">
-      <DependentUpon>DBconnections.tt</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="DBconnections.edmx">
