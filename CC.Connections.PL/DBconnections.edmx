@@ -484,7 +484,7 @@
             <PropertyRef Name="Member_ID" />
           </Key>
           <Property Name="Member_ID" Type="Int32" Nullable="false" />
-          <Property Name="ContactID" Type="Int32" Nullable="false" />
+          <Property Name="ContactID" Type="Int32" />
           <Property Name="Role_ID" Type="Int32" />
           <Property Name="MemeberTypeID" Type="Int32" />
           <NavigationProperty Name="Contact_Info" Relationship="Self.FK__Members__Contact__01142BA1" FromRole="Members" ToRole="Contact_Info" />
