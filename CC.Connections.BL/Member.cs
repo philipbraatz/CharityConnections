@@ -9,6 +9,7 @@ namespace CC.Connections.BL
 {
     //NOTE: PB 1.5 hours CRUD
     //      2 creating links to classes
+    //      15 min load all
     public class Member
     {
         public int ID { get; set; }
@@ -31,10 +32,8 @@ namespace CC.Connections.BL
             {
                 using (DBconnections dc = new DBconnections())
                 {
-                    ID = dc.Members.Where(c => c.ContactID == contactID);
+                    ID = dc.Members.Where(c => c.Contact_ID == contactID).FirstOrDefault();
                     this.LoadId();
-                    PL.Log_in login = dc.Log_in.FirstOrDefault(c => c.MemeberID == this.ID);
-                    Password = new Password(login.Log_in_ID, login.Password);
                 }
             }
             catch (Exception e)
@@ -59,15 +58,15 @@ namespace CC.Connections.BL
                         Role_ID = Role.ID
                     };
 
-                    Contact.Insert(dc, ID);
-                    Password.Insert(dc, ID);
-                    Pref.Insert(dc, ID);
+                    Contact.Insert();
+                    Password.Insert();
+                    Pref.Insert();
                     foreach (var cat in Prefered_Categories)
                         cat.InsertMember(dc, ID);
                     foreach (var act in helping_Action_List)
                         act.InsertMember(dc, ID);
                     foreach (var char_ID in Prefered_Charity_ID_List)
-                        Charity.DeleteMember(dc, ID);
+                        Charity.InsertMember(dc, ID);
 
                     dc.Members.Add(entry);
                     return dc.SaveChanges();
@@ -84,15 +83,15 @@ namespace CC.Connections.BL
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invaild");
 
-                    Contact.Delete(dc, ID);
-                    Password.Delete(dc, ID);
-                    Pref.Delete(dc, ID);
+                    Contact.Delete();
+                    Password.Delete();
+                    Pref.Delete();
                     foreach (var cat in Prefered_Categories)
                         cat.DeleteMember(dc, ID);
                     foreach (var act in helping_Action_List)
                         act.DeleteMember(dc, ID);
-                    foreach (var char_ID in Prefered_Charity_ID_List)
-                        Charity.DeleteMember(dc, ID);
+                    foreach (int char_ID in Prefered_Charity_ID_List)
+                        Charity.InsertMember(dc, ID, char_ID);//Maybe put in Member class
                     dc.Roles.Remove(dc.Roles.Where(c => c.Role_ID == ID).FirstOrDefault());
 
                     return dc.SaveChanges();
@@ -119,8 +118,8 @@ namespace CC.Connections.BL
                         cat.UpdateMember(dc, ID);
                     foreach (var act in helping_Action_List)
                         act.UpdateMember(dc, ID);
-                    foreach (var char_ID in Prefered_Charity_ID_List)
-                        Charity.UpdateMember(dc, ID);
+                    foreach (int char_ID in Prefered_Charity_ID_List)
+                        Charity.UpdateMember(dc, ID, char_ID);
 
                     return dc.SaveChanges();
                 }
@@ -137,16 +136,18 @@ namespace CC.Connections.BL
                     //    throw new Exception("ID is invaild");
 
                     PL.Member entry = dc.Members.Where(c => c.Role_ID == this.ID).FirstOrDefault();
-                    ID = entry.Member_ID;
-                    Contact = new ContactInfo(entry.ContactID);
-                    Password = new Password.FromID(entry.Member_ID);
-                    Pref= new Preference(entry.Preference_ID);
+                    this.ID = entry.Member_ID;
+                    this.Contact = new ContactInfo(entry.ContactID);
 
-                    Category.LoadMembersList(entry.Member_ID);
-                    Helping_Action.LoadMembersList(entry.Member_ID);
-                    Charity.LoadMembersList(entry.Member_ID);
-                    foreach (var char_ID in Prefered_Charity_ID_List)
-                        Charity.UpdateMember(dc, ID);
+                    PL.Log_in login = dc.Log_in.FirstOrDefault(c => c.MemeberID == this.ID);
+                    this.Password = new Password(login.Log_in_ID, login.Password);
+
+                    this.Pref = new Preference(entry.Preference_ID);
+
+                    this.Prefered_Categories = Category.LoadMembersList(dc,entry.Member_ID);
+                    helping_Action_List = Helping_Action.LoadMembersList(dc,entry.Member_ID);
+                    this.Prefered_Charity_ID_List = Charity.LoadMembersIdList(dc,entry.Member_ID);
+                    this.Member_Type = new Member_Type(this.ID);
                 }
             }
             catch (Exception e)
@@ -176,6 +177,35 @@ namespace CC.Connections.BL
             }
             catch (Exception e)
             {throw e;}
+        }
+    }
+
+    public class MemberList
+    : List<Member>
+    {
+        public void Load()
+        {
+            try
+            {
+                using (DBconnections dc = new DBconnections())
+                {
+
+                    dc.Members.ToList().ForEach(c => this.Add(new Member
+                    {
+                        ID = c.Member_ID,
+                        Contact = new ContactInfo(c.ContactID),
+                        Pref = new Preference(c.Preference_ID),
+                        Password = new Password(
+                            dc.Log_in.FirstOrDefault(d => d.MemeberID == c.Member_ID).Log_in_ID,
+                            dc.Log_in.FirstOrDefault(d => d.MemeberID == c.Member_ID).Password),
+                        Prefered_Categories = Category.LoadMembersList(dc,c.Member_ID),
+                        helping_Action_List = Helping_Action.LoadMembersList(dc,c.Member_ID),
+                        Prefered_Charity_ID_List = Charity.LoadMembersIdList(dc,c.Member_ID),
+                        Member_Type = new Member_Type(c.Member_ID)
+                    }));
+                }
+            }
+            catch (Exception e) { throw e; }
         }
     }
 }

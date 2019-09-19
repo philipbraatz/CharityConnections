@@ -39,6 +39,12 @@ public partial class Member
 
     public Nullable<int> MemeberTypeID { get; set; }
 
+    public Nullable<int> Contact_ID { get; set; }
+
+    public Nullable<int> Memeber_Type_ID { get; set; }
+
+    public Nullable<int> Preference_ID { get; set; }
+
 
 
     public virtual Contact_Info Contact_Info { get; set; }

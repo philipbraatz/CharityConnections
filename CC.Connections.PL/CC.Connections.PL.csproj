@@ -99,6 +99,9 @@
     <Compile Include="Member_Categories.cs">
       <DependentUpon>DBconnections.tt</DependentUpon>
     </Compile>
+    <Compile Include="Member_Charities.cs">
+      <DependentUpon>DBconnections.tt</DependentUpon>
+    </Compile>
     <Compile Include="Member_Type.cs">
       <DependentUpon>DBconnections.tt</DependentUpon>
     </Compile>

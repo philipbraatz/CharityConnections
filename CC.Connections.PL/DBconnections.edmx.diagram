@@ -32,6 +32,7 @@
         <AssociationConnector Association="charityconnectionsDBModel.FK__Member_Ca__Membe__73BA3083" ManuallyRouted="false" />
         <AssociationConnector Association="charityconnectionsDBModel.FK__Members__Memeber__02FC7413" ManuallyRouted="false" />
         <AssociationConnector Association="charityconnectionsDBModel.FK__Members__Role_ID__02084FDA" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="charityconnectionsDBModel.Member_Charities" Width="1.5" PointX="11.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

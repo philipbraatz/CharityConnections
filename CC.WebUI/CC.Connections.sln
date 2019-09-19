@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CC.Connections.PL", "..\CC.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CC.Connections.WebUI", "..\CC.Connections.WebUI\CC.Connections.WebUI.csproj", "{633CEEFD-6C86-472B-A688-01A3414BF835}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CC.Connections.BL.Test", "CC.Connections.BL.Test\CC.Connections.BL.Test.csproj", "{AA66BD06-08CA-488A-9560-28B139F992E8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{633CEEFD-6C86-472B-A688-01A3414BF835}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{633CEEFD-6C86-472B-A688-01A3414BF835}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{633CEEFD-6C86-472B-A688-01A3414BF835}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA66BD06-08CA-488A-9560-28B139F992E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA66BD06-08CA-488A-9560-28B139F992E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA66BD06-08CA-488A-9560-28B139F992E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA66BD06-08CA-488A-9560-28B139F992E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

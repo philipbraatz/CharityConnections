@@ -60,6 +60,8 @@ public partial class DBconnections : DbContext
 
     public virtual DbSet<Role> Roles { get; set; }
 
+    public virtual DbSet<Member_Charities> Member_Charities { get; set; }
+
 }
 
 }

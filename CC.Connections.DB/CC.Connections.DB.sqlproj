@@ -7,7 +7,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
     <ProjectGuid>{be381cbe-10d2-45fb-ae39-5122e42cce7d}</ProjectGuid>
-    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.SqlAzureV12DatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
     <RootPath>
     </RootPath>
@@ -68,11 +68,18 @@
     <Build Include="dbo\Tables\Charity.sql" />
     <Build Include="dbo\Tables\Roles.sql" />
     <Build Include="dbo\Tables\Contact_Info.sql" />
-    <Build Include="dbo\Tables\Members.sql" />
     <Build Include="dbo\Tables\CharityEvents.sql" />
     <Build Include="dbo\Tables\Log_in.sql" />
     <Build Include="dbo\Tables\NeedsRequirements.sql" />
     <Build Include="dbo\Tables\MemberCategories.sql" />
     <Build Include="dbo\Tables\Event_Requirements.sql" />
+    <Build Include="dbo\Tables\Member_Charities.sql" />
+    <Build Include="dbo\Tables\Members.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CC.Connections.DB.publish.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="CC.Connections.DB.refactorlog" />
   </ItemGroup>
 </Project>

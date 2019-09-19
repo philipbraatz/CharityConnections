@@ -47,6 +47,15 @@ public partial class Charity
 
     public virtual ICollection<CharityEvent> CharityEvents { get; set; }
 
-}
+        public static void InsertMember(DBconnections dc, int iD)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void UpdateMember(DBconnections dc, int iD)
+        {
+            throw new NotImplementedException();
+        }
+    }
 
 }

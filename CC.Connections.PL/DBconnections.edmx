@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="charityconnectionsDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="charityconnectionsDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Categories">
           <Key>
             <PropertyRef Name="Categories_ID" />
@@ -92,6 +92,14 @@
           <Property Name="MemberCat_Categories_ID" Type="int" />
           <Property Name="MemberCat_Member_ID" Type="int" />
         </EntityType>
+        <EntityType Name="Member_Charities">
+          <Key>
+            <PropertyRef Name="Member_Charity_ID" />
+          </Key>
+          <Property Name="Member_Charity_ID" Type="int" Nullable="false" />
+          <Property Name="Member_ID" Type="int" Nullable="false" />
+          <Property Name="Charity_ID" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Member_Type">
           <Key>
             <PropertyRef Name="Member_Type_ID" />
@@ -112,9 +120,10 @@
             <PropertyRef Name="Member_ID" />
           </Key>
           <Property Name="Member_ID" Type="int" Nullable="false" />
-          <Property Name="ContactID" Type="int" />
+          <Property Name="Contact_ID" Type="int" />
           <Property Name="Role_ID" Type="int" />
-          <Property Name="MemeberTypeID" Type="int" />
+          <Property Name="Memeber_Type_ID" Type="int" />
+          <Property Name="Preference_ID" Type="int" />
         </EntityType>
         <EntityType Name="NeedsRequirements">
           <Key>
@@ -130,78 +139,6 @@
           <Property Name="Role_ID" Type="int" Nullable="false" />
           <Property Name="Role_desc" Type="char" MaxLength="75" />
         </EntityType>
-        <Association Name="FK__CharityEv__Chari__03F0984C">
-          <End Role="Charity" Type="Self.Charity" Multiplicity="0..1" />
-          <End Role="CharityEvents" Type="Self.CharityEvents" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Charity">
-              <PropertyRef Name="Charity_ID" />
-            </Principal>
-            <Dependent Role="CharityEvents">
-              <PropertyRef Name="CharityEventCharityID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__CharityEv__Conta__04E4BC85">
-          <End Role="Contact_Info" Type="Self.Contact_Info" Multiplicity="0..1" />
-          <End Role="CharityEvents" Type="Self.CharityEvents" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Contact_Info">
-              <PropertyRef Name="Contact_Info_ID" />
-            </Principal>
-            <Dependent Role="CharityEvents">
-              <PropertyRef Name="ContactInfoID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Event_Req__Chari__7D439ABD">
-          <End Role="CharityEvents" Type="Self.CharityEvents" Multiplicity="0..1" />
-          <End Role="Event_Requirements" Type="Self.Event_Requirements" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CharityEvents">
-              <PropertyRef Name="CharityEvent_ID" />
-            </Principal>
-            <Dependent Role="Event_Requirements">
-              <PropertyRef Name="CharityEventID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Event_Req__Needs__7C4F7684">
-          <End Role="NeedsRequirements" Type="Self.NeedsRequirements" Multiplicity="0..1" />
-          <End Role="Event_Requirements" Type="Self.Event_Requirements" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="NeedsRequirements">
-              <PropertyRef Name="NeedsRequirements_ID" />
-            </Principal>
-            <Dependent Role="Event_Requirements">
-              <PropertyRef Name="NeedsRequirementsID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Helping_A__Helpi__7B5B524B">
-          <End Role="Categories" Type="Self.Categories" Multiplicity="0..1" />
-          <End Role="Helping_Action" Type="Self.Helping_Action" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Categories">
-              <PropertyRef Name="Categories_ID" />
-            </Principal>
-            <Dependent Role="Helping_Action">
-              <PropertyRef Name="Helping_Action_CatID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Log_in__MemeberI__05D8E0BE">
-          <End Role="Members" Type="Self.Members" Multiplicity="0..1" />
-          <End Role="Log_in" Type="Self.Log_in" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Members">
-              <PropertyRef Name="Member_ID" />
-            </Principal>
-            <Dependent Role="Log_in">
-              <PropertyRef Name="MemeberID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__Member_Ac__Membe__797309D9">
           <End Role="Helping_Action" Type="Self.Helping_Action" Multiplicity="0..1" />
           <End Role="Member_Action" Type="Self.Member_Action" Multiplicity="*" />
@@ -250,42 +187,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Members__Contact__01142BA1">
-          <End Role="Contact_Info" Type="Self.Contact_Info" Multiplicity="0..1" />
-          <End Role="Members" Type="Self.Members" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Contact_Info">
-              <PropertyRef Name="Contact_Info_ID" />
-            </Principal>
-            <Dependent Role="Members">
-              <PropertyRef Name="ContactID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Members__Memeber__02FC7413">
-          <End Role="Member_Type" Type="Self.Member_Type" Multiplicity="0..1" />
-          <End Role="Members" Type="Self.Members" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Member_Type">
-              <PropertyRef Name="Member_Type_ID" />
-            </Principal>
-            <Dependent Role="Members">
-              <PropertyRef Name="MemeberTypeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Members__Role_ID__02084FDA">
-          <End Role="Roles" Type="Self.Roles" Multiplicity="0..1" />
-          <End Role="Members" Type="Self.Members" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Roles">
-              <PropertyRef Name="Role_ID" />
-            </Principal>
-            <Dependent Role="Members">
-              <PropertyRef Name="Role_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="charityconnectionsDBModelStoreContainer">
           <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Charity" EntityType="Self.Charity" Schema="dbo" store:Type="Tables" />
@@ -296,35 +197,12 @@
           <EntitySet Name="Log_in" EntityType="Self.Log_in" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Member_Action" EntityType="Self.Member_Action" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Member_Categories" EntityType="Self.Member_Categories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Member_Charities" EntityType="Self.Member_Charities" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Member_Type" EntityType="Self.Member_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MemberCategories" EntityType="Self.MemberCategories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Members" EntityType="Self.Members" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NeedsRequirements" EntityType="Self.NeedsRequirements" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__CharityEv__Chari__03F0984C" Association="Self.FK__CharityEv__Chari__03F0984C">
-            <End Role="Charity" EntitySet="Charity" />
-            <End Role="CharityEvents" EntitySet="CharityEvents" />
-          </AssociationSet>
-          <AssociationSet Name="FK__CharityEv__Conta__04E4BC85" Association="Self.FK__CharityEv__Conta__04E4BC85">
-            <End Role="Contact_Info" EntitySet="Contact_Info" />
-            <End Role="CharityEvents" EntitySet="CharityEvents" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Event_Req__Chari__7D439ABD" Association="Self.FK__Event_Req__Chari__7D439ABD">
-            <End Role="CharityEvents" EntitySet="CharityEvents" />
-            <End Role="Event_Requirements" EntitySet="Event_Requirements" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Event_Req__Needs__7C4F7684" Association="Self.FK__Event_Req__Needs__7C4F7684">
-            <End Role="NeedsRequirements" EntitySet="NeedsRequirements" />
-            <End Role="Event_Requirements" EntitySet="Event_Requirements" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Helping_A__Helpi__7B5B524B" Association="Self.FK__Helping_A__Helpi__7B5B524B">
-            <End Role="Categories" EntitySet="Categories" />
-            <End Role="Helping_Action" EntitySet="Helping_Action" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Log_in__MemeberI__05D8E0BE" Association="Self.FK__Log_in__MemeberI__05D8E0BE">
-            <End Role="Members" EntitySet="Members" />
-            <End Role="Log_in" EntitySet="Log_in" />
-          </AssociationSet>
           <AssociationSet Name="FK__Member_Ac__Membe__797309D9" Association="Self.FK__Member_Ac__Membe__797309D9">
             <End Role="Helping_Action" EntitySet="Helping_Action" />
             <End Role="Member_Action" EntitySet="Member_Action" />
@@ -341,21 +219,8 @@
             <End Role="Members" EntitySet="Members" />
             <End Role="Member_Categories" EntitySet="Member_Categories" />
           </AssociationSet>
-          <AssociationSet Name="FK__Members__Contact__01142BA1" Association="Self.FK__Members__Contact__01142BA1">
-            <End Role="Contact_Info" EntitySet="Contact_Info" />
-            <End Role="Members" EntitySet="Members" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Members__Memeber__02FC7413" Association="Self.FK__Members__Memeber__02FC7413">
-            <End Role="Member_Type" EntitySet="Member_Type" />
-            <End Role="Members" EntitySet="Members" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Members__Role_ID__02084FDA" Association="Self.FK__Members__Role_ID__02084FDA">
-            <End Role="Roles" EntitySet="Roles" />
-            <End Role="Members" EntitySet="Members" />
-          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="charityconnectionsDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -493,6 +358,9 @@
           <NavigationProperty Name="Member_Categories" Relationship="Self.FK__Member_Ca__Membe__73BA3083" FromRole="Members" ToRole="Member_Categories" />
           <NavigationProperty Name="Member_Type" Relationship="Self.FK__Members__Memeber__02FC7413" FromRole="Members" ToRole="Member_Type" />
           <NavigationProperty Name="Role" Relationship="Self.FK__Members__Role_ID__02084FDA" FromRole="Members" ToRole="Roles" />
+          <Property Name="Contact_ID" Type="Int32" />
+          <Property Name="Memeber_Type_ID" Type="Int32" />
+          <Property Name="Preference_ID" Type="Int32" />
         </EntityType>
         <EntityType Name="NeedsRequirement">
           <Key>
@@ -733,7 +601,16 @@
             <End Role="Roles" EntitySet="Roles" />
             <End Role="Members" EntitySet="Members" />
           </AssociationSet>
+          <EntitySet Name="Member_Charities" EntityType="charityconnectionsDBModel.Member_Charities" />
         </EntityContainer>
+        <EntityType Name="Member_Charities">
+          <Key>
+            <PropertyRef Name="Member_Charity_ID" />
+          </Key>
+          <Property Name="Member_Charity_ID" Type="Int32" Nullable="false" />
+          <Property Name="Member_ID" Type="Int32" Nullable="false" />
+          <Property Name="Charity_ID" Type="Int32" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -856,10 +733,11 @@
           <EntitySetMapping Name="Members">
             <EntityTypeMapping TypeName="charityconnectionsDBModel.Member">
               <MappingFragment StoreEntitySet="Members">
+                <ScalarProperty Name="Preference_ID" ColumnName="Preference_ID" />
+                <ScalarProperty Name="Memeber_Type_ID" ColumnName="Memeber_Type_ID" />
+                <ScalarProperty Name="Contact_ID" ColumnName="Contact_ID" />
                 <ScalarProperty Name="Member_ID" ColumnName="Member_ID" />
-                <ScalarProperty Name="ContactID" ColumnName="ContactID" />
                 <ScalarProperty Name="Role_ID" ColumnName="Role_ID" />
-                <ScalarProperty Name="MemeberTypeID" ColumnName="MemeberTypeID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -876,6 +754,15 @@
               <MappingFragment StoreEntitySet="Roles">
                 <ScalarProperty Name="Role_ID" ColumnName="Role_ID" />
                 <ScalarProperty Name="Role_desc" ColumnName="Role_desc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Member_Charities">
+            <EntityTypeMapping TypeName="charityconnectionsDBModel.Member_Charities">
+              <MappingFragment StoreEntitySet="Member_Charities">
+                <ScalarProperty Name="Charity_ID" ColumnName="Charity_ID" />
+                <ScalarProperty Name="Member_ID" ColumnName="Member_ID" />
+                <ScalarProperty Name="Member_Charity_ID" ColumnName="Member_Charity_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

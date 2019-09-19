@@ -99,7 +99,7 @@ namespace CC.Connections.BL
             }
             catch (Exception e) { throw e; }
         }
-        public int Delete(DBconnections dc)
+        public int Delete()
         {
             try
             {
@@ -115,12 +115,12 @@ namespace CC.Connections.BL
             catch (Exception e) { throw e; }
         }
 
-        internal void Delete(DBconnections dc, int iD)
+        internal void Delete(int iD)
         {
             throw new NotImplementedException();
         }
 
-        public int Update(DBconnections dc)
+        public int Update()
         {
             try
             {

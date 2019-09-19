@@ -43,7 +43,7 @@ namespace CC.Connections.BL
         public Password(int id, string hash)
         {
             ID = id;
-            this.hash =hash
+            this.hash = hash;
         }
 
         internal void Insert(DBconnections dc, int iD)
@@ -69,6 +69,16 @@ namespace CC.Connections.BL
             {
                 this.member_ID = member_ID;
             }
+        }
+
+        internal void Insert()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void Delete()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -26,5 +26,10 @@ namespace CC.Connections.BL
         {
             throw new NotImplementedException();
         }
+
+        internal void Delete()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

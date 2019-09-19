@@ -84,4 +84,25 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="ID" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="5e60b2f5-1355-483d-ba2b-6ce834281a8a" ChangeDateTime="09/19/2019 00:15:51">
+    <Property Name="ElementName" Value="[dbo].[Members].[MemeberTypeID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Members]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="MemeberType_ID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="9529de4e-ac61-4e49-a9f1-64339935da13" ChangeDateTime="09/19/2019 00:15:54">
+    <Property Name="ElementName" Value="[dbo].[Members].[ContactID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Members]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Contact_ID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="02e113ab-1e98-4ef6-a2f7-858dcfe2083f" ChangeDateTime="09/19/2019 00:16:03">
+    <Property Name="ElementName" Value="[dbo].[Members].[MemeberType_ID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Members]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Memeber_Type_ID" />
+  </Operation>
 </Operations>

@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Category.cs" />
+    <Compile Include="Charity.cs" />
     <Compile Include="ContactInfo.cs" />
     <Compile Include="Helping_Action.cs" />
     <Compile Include="Member.cs" />
