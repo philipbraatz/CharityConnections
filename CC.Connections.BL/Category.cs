@@ -12,7 +12,7 @@ namespace CC.Connections.BL
     public class Category
     {
 
-
+        public Category() { }
         public Category(int memberCat_ID)
         {
             this.memberCat_ID = memberCat_ID;

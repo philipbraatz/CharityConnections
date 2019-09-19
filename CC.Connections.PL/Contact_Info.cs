@@ -18,17 +18,6 @@ using System;
 public partial class Contact_Info
 {
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-    public Contact_Info()
-    {
-
-        this.CharityEvents = new HashSet<CharityEvent>();
-
-        this.Members = new HashSet<Member>();
-
-    }
-
-
     public int Contact_Info_ID { get; set; }
 
     public string Contact_Info_FName { get; set; }
@@ -46,16 +35,6 @@ public partial class Contact_Info
     public string Contact_Info_Phone { get; set; }
 
     public string Contact_Info_Email { get; set; }
-
-
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<CharityEvent> CharityEvents { get; set; }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<Member> Members { get; set; }
 
 }
 

@@ -7,8 +7,10 @@ using CC.Connections.PL;
 
 namespace CC.Connections.BL
 {
-    class Charity
+    public class Charity
     {
+        public int ID { get; set; }
+
         internal static List<int> LoadMembersIdList(DBconnections dc, int member_ID)
         {
             throw new NotImplementedException();
@@ -25,6 +27,15 @@ namespace CC.Connections.BL
         }
 
         internal static void UpdateMember(DBconnections dc, int iD, int char_ID)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class CharityList :
+        List<Charity>
+    {
+        public void load()
         {
             throw new NotImplementedException();
         }

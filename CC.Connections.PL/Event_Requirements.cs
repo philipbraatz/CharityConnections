@@ -24,12 +24,6 @@ public partial class Event_Requirements
 
     public Nullable<int> CharityEventID { get; set; }
 
-
-
-    public virtual CharityEvent CharityEvent { get; set; }
-
-    public virtual NeedsRequirement NeedsRequirement { get; set; }
-
 }
 
 }

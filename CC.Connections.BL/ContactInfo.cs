@@ -54,11 +54,6 @@ namespace CC.Connections.BL
             this.contactID = contactID;
         }
 
-        internal void Insert(DBconnections dc, int iD)
-        {
-            throw new NotImplementedException();
-        }
-
         //public ContactInfo(string email,string firstname,string lastname,
         //    string address, string city, string state,string zip,
         //    string phonenumber )
@@ -115,11 +110,6 @@ namespace CC.Connections.BL
             catch (Exception e) { throw e; }
         }
 
-        internal void Delete(int iD)
-        {
-            throw new NotImplementedException();
-        }
-
         public int Update()
         {
             try
@@ -145,11 +135,6 @@ namespace CC.Connections.BL
                 }
             }
             catch (Exception e) { throw e; }
-        }
-
-        internal void Update(DBconnections dc, int iD)
-        {
-            throw new NotImplementedException();
         }
 
         public void LoadId()

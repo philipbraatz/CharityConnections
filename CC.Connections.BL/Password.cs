@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 namespace CC.Connections.BL
 {
+    //NOTE PB: 
+    //  .1 hour
     public class Password
     {
         public int ID { get; set; }
@@ -25,6 +27,8 @@ namespace CC.Connections.BL
                 }
             }
         }
+
+        public Password() { }
         //new password
         public Password(string password)
         {
@@ -48,37 +52,25 @@ namespace CC.Connections.BL
 
         internal void Insert(DBconnections dc, int iD)
         {
-            throw new NotImplementedException();
+            ID = dc.Helping_Action.Max(c => c.Helping_Action_ID) + 1;
+            PL.Log_in entry = new PL.Log_in
+            {
+                Log_in_ID = ID,
+                MemeberID = iD,
+                Password = hash
+            };
+            dc.Log_in.Add(entry);
         }
 
         internal void Delete(DBconnections dc, int iD)
         {
-            throw new NotImplementedException();
+            dc.Log_in.Remove(dc.Log_in.Where(c => c.MemeberID== ID).FirstOrDefault());
         }
 
         internal void Update(DBconnections dc, int iD)
         {
-            throw new NotImplementedException();
-        }
-
-        internal class FromID : Password
-        {
-            private int member_ID;
-
-            public FromID(int member_ID)
-            {
-                this.member_ID = member_ID;
-            }
-        }
-
-        internal void Insert()
-        {
-            throw new NotImplementedException();
-        }
-
-        internal void Delete()
-        {
-            throw new NotImplementedException();
+            PL.Log_in entry = dc.Log_in.Where(c => c.MemeberID== this.ID).FirstOrDefault();
+            entry.Password = hash;
         }
     }
 }

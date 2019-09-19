@@ -22,8 +22,6 @@ public partial class Member
     public Member()
     {
 
-        this.Log_in = new HashSet<Log_in>();
-
         this.Member_Action = new HashSet<Member_Action>();
 
         this.Member_Categories = new HashSet<Member_Categories>();
@@ -33,25 +31,15 @@ public partial class Member
 
     public int Member_ID { get; set; }
 
-    public Nullable<int> ContactID { get; set; }
+    public Nullable<int> Contact_ID { get; set; }
 
     public Nullable<int> Role_ID { get; set; }
-
-    public Nullable<int> MemeberTypeID { get; set; }
-
-    public Nullable<int> Contact_ID { get; set; }
 
     public Nullable<int> Memeber_Type_ID { get; set; }
 
     public Nullable<int> Preference_ID { get; set; }
 
 
-
-    public virtual Contact_Info Contact_Info { get; set; }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<Log_in> Log_in { get; set; }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
@@ -60,10 +48,6 @@ public partial class Member
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
     public virtual ICollection<Member_Categories> Member_Categories { get; set; }
-
-    public virtual Member_Type Member_Type { get; set; }
-
-    public virtual Role Role { get; set; }
 
 }
 

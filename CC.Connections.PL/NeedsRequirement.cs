@@ -18,24 +18,9 @@ using System;
 public partial class NeedsRequirement
 {
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-    public NeedsRequirement()
-    {
-
-        this.Event_Requirements = new HashSet<Event_Requirements>();
-
-    }
-
-
     public int NeedsRequirements_ID { get; set; }
 
     public string NeedsRequirementsDesc { get; set; }
-
-
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<Event_Requirements> Event_Requirements { get; set; }
 
 }
 

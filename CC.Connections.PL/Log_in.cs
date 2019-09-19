@@ -24,10 +24,6 @@ public partial class Log_in
 
     public string Password { get; set; }
 
-
-
-    public virtual Member Member { get; set; }
-
 }
 
 }

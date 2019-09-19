@@ -63,6 +63,9 @@
     <Compile Include="Contact_Info.cs">
       <DependentUpon>DBconnections.tt</DependentUpon>
     </Compile>
+    <Compile Include="C__RefactorLog.cs">
+      <DependentUpon>DBconnections.tt</DependentUpon>
+    </Compile>
     <Compile Include="DBconnections.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -106,6 +109,9 @@
       <DependentUpon>DBconnections.tt</DependentUpon>
     </Compile>
     <Compile Include="NeedsRequirement.cs">
+      <DependentUpon>DBconnections.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Preference.cs">
       <DependentUpon>DBconnections.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

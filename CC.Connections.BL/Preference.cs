@@ -1,35 +1,96 @@
 ﻿using System;
+using System.Linq;
 using CC.Connections.PL;
 
 namespace CC.Connections.BL
 {
+    //NOTE PB:
+    //.5 hours
     public class Preference
     {
-        private object preference_ID;
+        public int ID;
+        public double distance;
 
-        public Preference(object preference_ID)
+        public Preference(int preference_ID)
         {
-            this.preference_ID = preference_ID;
+            this.ID = preference_ID;
         }
 
-        internal void Update(DBconnections dc, int iD)
+        public int Insert()
         {
-            throw new NotImplementedException();
-        }
+            try
+            {
+                //if (Description == string.Empty)
+                //    throw new Exception("Description cannot be empty");
+                using (DBconnections dc = new DBconnections())
+                {
+                    ID = dc.Preferences.Max(c => c.Preference_Id) + 1;
+                    PL.Preference entry = new PL.Preference
+                    {
+                        Preference_Id =ID,
+                        Distance = this.distance
+                    };
 
-        internal void Insert(DBconnections dc, int iD)
-        {
-            throw new NotImplementedException();
+                    dc.Preferences.Add(entry);
+                    return dc.SaveChanges();
+                }
+            }
+            catch (Exception e) { throw e; }
         }
-
-        internal void Delete(DBconnections dc, int iD)
+        public int Delete()
         {
-            throw new NotImplementedException();
+            try
+            {
+                using (DBconnections dc = new DBconnections())
+                {
+                    //if (this.ID == Guid.Empty)
+                    //    throw new Exception("ID is invaild");
+
+                    dc.Preferences.Remove(dc.Preferences.Where(c => c.Preference_Id == ID).FirstOrDefault());
+                    return dc.SaveChanges();
+                }
+            }
+            catch (Exception e) { throw e; }
         }
-
-        internal void Delete()
+        public int Update()
         {
-            throw new NotImplementedException();
+            try
+            {
+                //if (Description == string.Empty)
+                //    throw new Exception("Description cannot be empty");
+                using (DBconnections dc = new DBconnections())
+                {
+                    //if (this.ID == Guid.Empty)
+                    //    throw new Exception("ID is invaild");
+
+                    PL.Preference entry = dc.Preferences.Where(c => c.Preference_Id == this.ID).FirstOrDefault();
+                    entry.Distance = distance;
+
+                    return dc.SaveChanges();
+                }
+            }
+            catch (Exception e) { throw e; }
+        }
+        public void LoadId()
+        {
+            try
+            {
+                using (DBconnections dc = new DBconnections())
+                {
+                    //if (this.ID == Guid.Empty)
+                    //    throw new Exception("ID is invaild");
+
+                    PL.Preference entry = dc.Preferences.FirstOrDefault(c => c.Preference_Id == this.ID);
+                    if (entry == null)
+                        throw new Exception("Genre does not exist");
+
+                    distance = (double)entry.Distance;
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
     }
 }

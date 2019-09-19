@@ -16,6 +16,7 @@ namespace CC.Connections.BL
         //TODO ask team to rename Helping Action Desc to Action
         public string Action { get; set; }
 
+        public Helping_Action(){}
         public Helping_Action(int member_Action_Action_ID)
         {
             this.ID = member_Action_Action_ID;
@@ -133,11 +134,5 @@ namespace CC.Connections.BL
                 throw e;
             }
         }
-
-        internal static List<Helping_Action> LoadMembersList(int member_ID)
-        {
-            throw new NotImplementedException();
-        }
     }
-}
 }

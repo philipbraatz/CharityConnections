@@ -32,7 +32,7 @@ namespace CC.Connections.BL
             {
                 using (DBconnections dc = new DBconnections())
                 {
-                    ID = dc.Members.Where(c => c.Contact_ID == contactID).FirstOrDefault();
+                    ID = (int)dc.Members.Where(c => c.Contact_ID== contactID).FirstOrDefault().Member_ID;
                     this.LoadId();
                 }
             }
@@ -54,12 +54,12 @@ namespace CC.Connections.BL
                     PL.Member entry = new PL.Member
                     {
                         Member_ID = ID,
-                        ContactID = Contact.ID,
+                        Contact_ID = Contact.ID,
                         Role_ID = Role.ID
                     };
 
                     Contact.Insert();
-                    Password.Insert();
+                    Password.Insert(dc,ID);
                     Pref.Insert();
                     foreach (var cat in Prefered_Categories)
                         cat.InsertMember(dc, ID);
@@ -84,7 +84,7 @@ namespace CC.Connections.BL
                     //    throw new Exception("ID is invaild");
 
                     Contact.Delete();
-                    Password.Delete();
+                    Password.Delete(dc, ID);
                     Pref.Delete();
                     foreach (var cat in Prefered_Categories)
                         cat.DeleteMember(dc, ID);
@@ -111,9 +111,9 @@ namespace CC.Connections.BL
                     //    throw new Exception("ID is invaild");
 
                     PL.Member entry = dc.Members.Where(c => c.Role_ID == this.ID).FirstOrDefault();
-                    Contact.Update(dc, ID);
+                    Contact.Update();
                     Password.Update(dc, ID);
-                    Pref.Update(dc, ID);
+                    Pref.Update();
                     foreach (var cat in Prefered_Categories)
                         cat.UpdateMember(dc, ID);
                     foreach (var act in helping_Action_List)
@@ -137,12 +137,12 @@ namespace CC.Connections.BL
 
                     PL.Member entry = dc.Members.Where(c => c.Role_ID == this.ID).FirstOrDefault();
                     this.ID = entry.Member_ID;
-                    this.Contact = new ContactInfo(entry.ContactID);
+                    this.Contact = new ContactInfo(entry.Contact_ID);
 
                     PL.Log_in login = dc.Log_in.FirstOrDefault(c => c.MemeberID == this.ID);
                     this.Password = new Password(login.Log_in_ID, login.Password);
 
-                    this.Pref = new Preference(entry.Preference_ID);
+                    this.Pref = new Preference((int)entry.Preference_ID);
 
                     this.Prefered_Categories = Category.LoadMembersList(dc,entry.Member_ID);
                     helping_Action_List = Helping_Action.LoadMembersList(dc,entry.Member_ID);
@@ -172,7 +172,7 @@ namespace CC.Connections.BL
                     if (entry == null)
                         return false;
                     else
-                        return entry.Password == Password.Hash);//success if match
+                        return entry.Password == Password.Hash;//success if match
                 }
             }
             catch (Exception e)
@@ -193,8 +193,8 @@ namespace CC.Connections.BL
                     dc.Members.ToList().ForEach(c => this.Add(new Member
                     {
                         ID = c.Member_ID,
-                        Contact = new ContactInfo(c.ContactID),
-                        Pref = new Preference(c.Preference_ID),
+                        Contact = new ContactInfo(c.Contact_ID),
+                        Pref = new Preference((int)c.Preference_ID),
                         Password = new Password(
                             dc.Log_in.FirstOrDefault(d => d.MemeberID == c.Member_ID).Log_in_ID,
                             dc.Log_in.FirstOrDefault(d => d.MemeberID == c.Member_ID).Password),

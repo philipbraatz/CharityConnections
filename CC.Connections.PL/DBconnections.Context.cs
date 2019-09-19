@@ -32,6 +32,8 @@ public partial class DBconnections : DbContext
     }
 
 
+    public virtual DbSet<C__RefactorLog> C__RefactorLog { get; set; }
+
     public virtual DbSet<Category> Categories { get; set; }
 
     public virtual DbSet<Charity> Charities { get; set; }
@@ -50,6 +52,8 @@ public partial class DBconnections : DbContext
 
     public virtual DbSet<Member_Categories> Member_Categories { get; set; }
 
+    public virtual DbSet<Member_Charities> Member_Charities { get; set; }
+
     public virtual DbSet<Member_Type> Member_Type { get; set; }
 
     public virtual DbSet<MemberCategory> MemberCategories { get; set; }
@@ -60,7 +64,7 @@ public partial class DBconnections : DbContext
 
     public virtual DbSet<Role> Roles { get; set; }
 
-    public virtual DbSet<Member_Charities> Member_Charities { get; set; }
+    public virtual DbSet<Preference> Preferences { get; set; }
 
 }
 

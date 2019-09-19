@@ -18,15 +18,6 @@ using System;
 public partial class CharityEvent
 {
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-    public CharityEvent()
-    {
-
-        this.Event_Requirements = new HashSet<Event_Requirements>();
-
-    }
-
-
     public int CharityEvent_ID { get; set; }
 
     public string CharityEventName { get; set; }
@@ -44,16 +35,6 @@ public partial class CharityEvent
     public Nullable<System.DateTime> CharityEventTime { get; set; }
 
     public string CharityEvent_Email { get; set; }
-
-
-
-    public virtual Charity Charity { get; set; }
-
-    public virtual Contact_Info Contact_Info { get; set; }
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<Event_Requirements> Event_Requirements { get; set; }
 
 }
 

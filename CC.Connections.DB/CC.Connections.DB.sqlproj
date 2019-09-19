@@ -75,6 +75,7 @@
     <Build Include="dbo\Tables\Event_Requirements.sql" />
     <Build Include="dbo\Tables\Member_Charities.sql" />
     <Build Include="dbo\Tables\Members.sql" />
+    <Build Include="dbo\Tables\Preferences.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CC.Connections.DB.publish.xml" />

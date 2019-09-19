@@ -15,12 +15,10 @@ namespace CC.Connections.PL
 using System;
     using System.Collections.Generic;
     
-public partial class Role
+public partial class C__RefactorLog
 {
 
-    public int Role_ID { get; set; }
-
-    public string Role_desc { get; set; }
+    public System.Guid OperationKey { get; set; }
 
 }
 

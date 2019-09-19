@@ -18,15 +18,6 @@ using System;
 public partial class Charity
 {
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-    public Charity()
-    {
-
-        this.CharityEvents = new HashSet<CharityEvent>();
-
-    }
-
-
     public int Charity_ID { get; set; }
 
     public Nullable<int> Charity_ContactID { get; set; }
@@ -41,21 +32,6 @@ public partial class Charity
 
     public string Charity_Email { get; set; }
 
-
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<CharityEvent> CharityEvents { get; set; }
-
-        public static void InsertMember(DBconnections dc, int iD)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static void UpdateMember(DBconnections dc, int iD)
-        {
-            throw new NotImplementedException();
-        }
-    }
+}
 
 }

@@ -18,24 +18,9 @@ using System;
 public partial class Member_Type
 {
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-    public Member_Type()
-    {
-
-        this.Members = new HashSet<Member>();
-
-    }
-
-
     public int Member_Type_ID { get; set; }
 
     public string Member_Type_Desc { get; set; }
-
-
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<Member> Members { get; set; }
 
 }
 

@@ -22,8 +22,6 @@ public partial class Category
     public Category()
     {
 
-        this.Helping_Action = new HashSet<Helping_Action>();
-
         this.Member_Categories = new HashSet<Member_Categories>();
 
     }
@@ -34,10 +32,6 @@ public partial class Category
     public string Categories_Desc { get; set; }
 
 
-
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-
-    public virtual ICollection<Helping_Action> Helping_Action { get; set; }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 
