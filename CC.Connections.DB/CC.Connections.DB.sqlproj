@@ -60,6 +60,9 @@
     <Folder Include="Properties" />
     <Folder Include="dbo\" />
     <Folder Include="dbo\Tables\" />
+    <Folder Include="Post-Deployment" />
+    <Folder Include="Post-Deployment\DefaultData" />
+    <Folder Include="Pre-Deployment" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Categories.sql" />
@@ -75,11 +78,31 @@
     <Build Include="dbo\Tables\Member_Charities.sql" />
     <Build Include="dbo\Tables\Members.sql" />
     <Build Include="dbo\Tables\Preferences.sql" />
+    <None Include="Post-Deployment\DefaultData\Categories.sql" />
+    <None Include="Post-Deployment\DefaultData\Charity.sql" />
+    <None Include="Post-Deployment\DefaultData\CharityEvents.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CC.Connections.DB.publish.xml" />
+    <None Include="Post-Deployment\DefaultData\ContactInfo.sql" />
+    <None Include="Post-Deployment\DefaultData\EventRequirements.sql" />
+    <None Include="Post-Deployment\DefaultData\HelpingActions.sql" />
+    <None Include="Post-Deployment\DefaultData\Login.sql" />
+    <None Include="Post-Deployment\DefaultData\MemberCharities.sql" />
+    <None Include="Post-Deployment\DefaultData\MemberType.sql" />
+    <None Include="Post-Deployment\DefaultData\MemberCategories.sql" />
+    <None Include="Post-Deployment\DefaultData\Members.sql" />
+    <None Include="Post-Deployment\DefaultData\NeedsRequirements.sql" />
+    <None Include="Post-Deployment\DefaultData\Preferences.sql" />
+    <None Include="Post-Deployment\DefaultData\Roles.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="CC.Connections.DB.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Post-Deployment\Script.PostDeployment1.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PreDeploy Include="Pre-Deployment\Script.PreDeployment1.sql" />
   </ItemGroup>
 </Project>
