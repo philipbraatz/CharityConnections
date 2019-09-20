@@ -4,6 +4,8 @@ using CC.Connections.PL;
 
 namespace CC.Connections.BL
 {
+    //NOTE PB:
+    // .25 hours
     public class Member_Type
     {
 
@@ -14,6 +16,9 @@ namespace CC.Connections.BL
         {
             this.ID = id;
         }
+
+        public Member_Type(){}
+
         public int Insert()
         {
             try
@@ -22,7 +27,10 @@ namespace CC.Connections.BL
                 //    throw new Exception("Description cannot be empty");
                 using (DBconnections dc = new DBconnections())
                 {
-                    ID = dc.Member_Type.Max(c => c.Member_Type_ID) + 1;
+                    if (dc.Member_Type.ToList().Count > 0)
+                        ID = dc.Member_Type.Max(c => c.Member_Type_ID) + 1;//unique id
+                    else
+                        ID = 0;
                     PL.Member_Type entry = new PL.Member_Type
                     {
                         Member_Type_ID = ID,

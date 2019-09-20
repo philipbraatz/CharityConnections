@@ -16,24 +16,52 @@ namespace CC.Connections.BL
         //TODO ask team to rename Helping Action Desc to Action
         public string Action { get; set; }
 
-        public Helping_Action(){}
+        public Helping_Action(){ Clear(); }
+        private void Clear()
+        {
+            Action = string.Empty;
+            category = new Category();
+        }
         public Helping_Action(int member_Action_Action_ID)
         {
             this.ID = member_Action_Action_ID;
         }
 
-        internal void InsertMember(DBconnections dc, int id)
+        internal bool InsertMember(DBconnections dc, int id)
         {
+            if (MemberExists(dc, id))//dont add existing
+                return false;
+            if (!Exists(dc))//add missing
+                Insert();
+
+            if (dc.Member_Action.ToList().Count >0)
+                ID = (int)dc.Member_Action.Max(c => c.Member_Action_Member_ID) + 1;//unique id
+            else
+                ID = 0;
+
             //TODO check if new category or new member first
             Member_Action entry = new Member_Action
             {
-                Member_Action_ID = (int)dc.Member_Action.Max(c => c.Member_Action_Member_ID) + 1,
+                Member_Action_ID =ID,
                 Member_Action_Member_ID = id,//member
                 Member_Action_Action_ID = ID//action
             };
 
             dc.Member_Action.Add(entry);
+            dc.SaveChanges();
+            return true;
         }
+
+        private bool Exists(DBconnections dc)
+        {
+            return dc.Helping_Action.Where(c => c.Helping_Action_ID == ID).FirstOrDefault() != null;
+        }
+
+        private bool MemberExists(DBconnections dc, int id)
+        {
+            return dc.Member_Action.Where(c => c.Member_Action_ID == ID && c.Member_Action_Member_ID == id).FirstOrDefault() != null;
+        }
+
         //TODO test methods
         internal void DeleteMember(DBconnections dc, int id)
         {
@@ -63,7 +91,10 @@ namespace CC.Connections.BL
                 //    throw new Exception("Description cannot be empty");
                 using (DBconnections dc = new DBconnections())
                 {
-                    ID = dc.Helping_Action.Max(c => c.Helping_Action_ID) + 1;
+                    if (dc.Helping_Action.ToList().Count > 0)
+                        ID = dc.Helping_Action.Max(c => c.Helping_Action_ID) + 1;//unique id
+                    else
+                        ID = 0;
                     PL.Helping_Action entry = new PL.Helping_Action
                     {
                         Helping_Action_ID =ID,

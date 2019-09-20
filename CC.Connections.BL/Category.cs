@@ -26,29 +26,53 @@ namespace CC.Connections.BL
         //takes dc and save externally!
         //Member_Categories table
         //link a existing member to an existing category
-        internal void InsertMember(DBconnections dc, int id)
+        internal bool InsertMember(DBconnections dc, int id)
         {
-            //TODO check if new category or new member first
+            if (MemberExists(dc, id))//dont add existing
+                return false;
+            if (!Exists(dc))//add missing
+                Insert();
+
+            int mID = 0;
+            if (dc.Member_Categories.ToList().Count > 0)
+                mID = (int)dc.Member_Categories.Max(c => c.MemberCat_ID) + 1;//unique id
+
             Member_Categories entry = new Member_Categories
             {
-                MemberCat_ID = (int)dc.Member_Categories.Max(c => c.MemberCat_Categories_ID) + 1,
+                MemberCat_ID =mID,
                 MemberCat_Member_ID = id,//member
                 MemberCat_Categories_ID = ID//category
             };
 
+
+
             dc.Member_Categories.Add(entry);
+
+            dc.SaveChanges();
+            return true;
+
+
         }
         //TODO test methods
-        internal void DeleteMember(DBconnections dc, int id)
+        internal bool DeleteMember(DBconnections dc, int id)
         {
+            if (MemberExists(dc, id))//doesnt exist
+                return false;
+
             var entryList= dc.Member_Categories.Where(c => c.MemberCat_Member_ID == id);
             foreach(var entry in entryList)
                 dc.Member_Categories.Remove(entry);
+            return true;
         }
 
-        internal void UpdateMember(DBconnections dc, int id)
+        internal bool UpdateMember(DBconnections dc, int id)
         {
+            if (!MemberExists(dc, id))//doesnt exist
+                return false;
+            if (!Exists(dc))//add missing
+                Insert();
             dc.Member_Categories.Where(c => c.MemberCat_Member_ID == id).ToList().ForEach(c => c.MemberCat_Categories_ID = ID);//might not work
+            return true;
         }
 
         internal static List<Category> LoadMembersList(DBconnections dc,int member_ID)
@@ -56,6 +80,17 @@ namespace CC.Connections.BL
             List<Category> retList =new List<Category>();
             dc.Member_Categories.Where(c => c.MemberCat_Member_ID == member_ID).ToList().ForEach(c => retList.Add(new Category( c.MemberCat_ID)));
             return retList;
+        }
+
+        private bool MemberExists(DBconnections dc, int member_ID)
+        {
+            return dc.Member_Categories.Where(c => c.MemberCat_Member_ID == member_ID &&
+                                                c.MemberCat_Categories_ID ==ID
+            ).FirstOrDefault() != null;
+        }
+        private bool Exists(DBconnections dc)
+        {
+            return dc.Categories.Where(c => c.Categories_ID ==ID).FirstOrDefault() != null;
         }
 
         public int Insert()
@@ -66,7 +101,11 @@ namespace CC.Connections.BL
                 //    throw new Exception("Description cannot be empty");
                 using (DBconnections dc = new DBconnections())
                 {
-                    ID = dc.Categories.Max(c => c.Categories_ID) + 1;
+                    if (dc.Categories.ToList().Count > 0)
+                        ID = dc.Categories.Max(c => c.Categories_ID) + 1;//unique id
+                    else
+                        ID = 0;
+
                     PL.Category entry = new PL.Category
                     {
                         Categories_ID = ID,

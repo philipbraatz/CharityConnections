@@ -71,7 +71,6 @@
     <Build Include="dbo\Tables\CharityEvents.sql" />
     <Build Include="dbo\Tables\Log_in.sql" />
     <Build Include="dbo\Tables\NeedsRequirements.sql" />
-    <Build Include="dbo\Tables\MemberCategories.sql" />
     <Build Include="dbo\Tables\Event_Requirements.sql" />
     <Build Include="dbo\Tables\Member_Charities.sql" />
     <Build Include="dbo\Tables\Members.sql" />

@@ -1,0 +1,16 @@
+﻿<div class="container" style='width:@(240 * 5)px;overflow-y:auto'>
+    <table style='width:100%' class='table table-striped table-condensed'>
+        <tbody>
+            @for (int k = 0; k < 4; k++) //Rows Capacity is 4
+            {
+                <tr>
+                    @for (int i = 0; i < 5; i++) // Columns Capacity is 5
+                    {
+                        <td>
+                            <input type="text" name="name" class="form-control col-md-3" />
+                        </td>
+                    }
+                </tr>
+            }
+            </tbody>
+        </table>

@@ -56,8 +56,6 @@ public partial class DBconnections : DbContext
 
     public virtual DbSet<Member_Type> Member_Type { get; set; }
 
-    public virtual DbSet<MemberCategory> MemberCategories { get; set; }
-
     public virtual DbSet<Member> Members { get; set; }
 
     public virtual DbSet<NeedsRequirement> NeedsRequirements { get; set; }

@@ -76,8 +76,14 @@ namespace CC.Connections.BL
                     throw new Exception("Email cannot be empty");
                 using (DBconnections dc = new DBconnections())
                 {
+                    if (dc.Contact_Info.ToList().Count > 0)
+                        ID = dc.Contact_Info.Max(c => c.Contact_Info_ID) + 1;//unique id
+                    else
+                        ID = 0;
+
                     PL.Contact_Info entry = new PL.Contact_Info
                     {
+                        Contact_Info_ID = ID,
                         Contact_Info_Email = Email,
                         Contact_Info_FName = this.FirstName,
                         Contact_Info_LName =this.LastName,

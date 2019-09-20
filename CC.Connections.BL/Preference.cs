@@ -16,6 +16,8 @@ namespace CC.Connections.BL
             this.ID = preference_ID;
         }
 
+        public Preference(){}
+
         public int Insert()
         {
             try
@@ -24,7 +26,11 @@ namespace CC.Connections.BL
                 //    throw new Exception("Description cannot be empty");
                 using (DBconnections dc = new DBconnections())
                 {
-                    ID = dc.Preferences.Max(c => c.Preference_Id) + 1;
+                    if (dc.Preferences.ToList().Count > 0)
+                        ID = dc.Preferences.Max(c => c.Preference_Id) + 1;//unique id
+                    else
+                        ID = 0;
+
                     PL.Preference entry = new PL.Preference
                     {
                         Preference_Id =ID,

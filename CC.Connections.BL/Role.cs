@@ -27,7 +27,11 @@ namespace CC.Connections.BL
                     throw new Exception("Description cannot be empty");
                 using (DBconnections dc = new DBconnections())
                 {
-                    ID = dc.Roles.Max(c => c.Role_ID) + 1;
+                    if (dc.Roles.ToList().Count > 0)
+                        ID = dc.Roles.Max(c => c.Role_ID) + 1;//unique id
+                    else
+                        ID = 0;
+
                     PL.Role Genre = new PL.Role
                     {
                         Role_ID = ID,

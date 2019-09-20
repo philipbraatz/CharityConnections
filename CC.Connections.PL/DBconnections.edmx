@@ -113,14 +113,6 @@
           <Property Name="Member_Type_ID" Type="int" Nullable="false" />
           <Property Name="Member_Type_Desc" Type="char" MaxLength="75" />
         </EntityType>
-        <EntityType Name="MemberCategories">
-          <Key>
-            <PropertyRef Name="MemberCat_ID" />
-          </Key>
-          <Property Name="MemberCat_ID" Type="int" Nullable="false" />
-          <Property Name="CategoriesID" Type="int" />
-          <Property Name="MemberID" Type="int" />
-        </EntityType>
         <EntityType Name="Members">
           <Key>
             <PropertyRef Name="Member_ID" />
@@ -213,7 +205,6 @@
           <EntitySet Name="Member_Categories" EntityType="Self.Member_Categories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Member_Charities" EntityType="Self.Member_Charities" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Member_Type" EntityType="Self.Member_Type" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="MemberCategories" EntityType="Self.MemberCategories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Members" EntityType="Self.Members" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NeedsRequirements" EntityType="Self.NeedsRequirements" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Preferences" EntityType="Self.Preferences" Schema="dbo" store:Type="Tables" />
@@ -252,7 +243,6 @@
           <EntitySet Name="Member_Categories" EntityType="charityconnectionsDBModel.Member_Categories" />
           <EntitySet Name="Member_Charities" EntityType="charityconnectionsDBModel.Member_Charities" />
           <EntitySet Name="Member_Type" EntityType="charityconnectionsDBModel.Member_Type" />
-          <EntitySet Name="MemberCategories" EntityType="charityconnectionsDBModel.MemberCategory" />
           <EntitySet Name="Members" EntityType="charityconnectionsDBModel.Member" />
           <EntitySet Name="NeedsRequirements" EntityType="charityconnectionsDBModel.NeedsRequirement" />
           <EntitySet Name="Roles" EntityType="charityconnectionsDBModel.Role" />
@@ -387,14 +377,6 @@
           </Key>
           <Property Name="Member_Type_ID" Type="Int32" Nullable="false" />
           <Property Name="Member_Type_Desc" Type="String" MaxLength="75" FixedLength="true" Unicode="false" />
-        </EntityType>
-        <EntityType Name="MemberCategory">
-          <Key>
-            <PropertyRef Name="MemberCat_ID" />
-          </Key>
-          <Property Name="MemberCat_ID" Type="Int32" Nullable="false" />
-          <Property Name="CategoriesID" Type="Int32" />
-          <Property Name="MemberID" Type="Int32" />
         </EntityType>
         <EntityType Name="Member">
           <Key>
@@ -600,15 +582,6 @@
               <MappingFragment StoreEntitySet="Member_Type">
                 <ScalarProperty Name="Member_Type_Desc" ColumnName="Member_Type_Desc" />
                 <ScalarProperty Name="Member_Type_ID" ColumnName="Member_Type_ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MemberCategories">
-            <EntityTypeMapping TypeName="charityconnectionsDBModel.MemberCategory">
-              <MappingFragment StoreEntitySet="MemberCategories">
-                <ScalarProperty Name="MemberID" ColumnName="MemberID" />
-                <ScalarProperty Name="CategoriesID" ColumnName="CategoriesID" />
-                <ScalarProperty Name="MemberCat_ID" ColumnName="MemberCat_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

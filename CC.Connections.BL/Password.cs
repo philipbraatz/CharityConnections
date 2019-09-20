@@ -36,7 +36,14 @@ namespace CC.Connections.BL
             {
                 using (DBconnections dc = new DBconnections())
                 {
-                    ID = dc.Log_in.Max(m => m.Log_in_ID);
+                    try
+                    {
+                        ID = dc.Log_in.Max(m => m.Log_in_ID)+1;//unique id
+                    }
+                    catch
+                    {
+                        ID = 0;
+                    }
                 }
                 Hash = password;//auto hashs password
             }
@@ -52,7 +59,11 @@ namespace CC.Connections.BL
 
         internal void Insert(DBconnections dc, int iD)
         {
-            ID = dc.Helping_Action.Max(c => c.Helping_Action_ID) + 1;
+            if (dc.Log_in.ToList().Count > 0)
+                ID = dc.Log_in.Max(c => c.Log_in_ID) + 1;
+            else
+                ID = 0;
+            
             PL.Log_in entry = new PL.Log_in
             {
                 Log_in_ID = ID,
@@ -60,6 +71,7 @@ namespace CC.Connections.BL
                 Password = hash
             };
             dc.Log_in.Add(entry);
+            dc.SaveChanges();
         }
 
         internal void Delete(DBconnections dc, int iD)

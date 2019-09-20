@@ -93,9 +93,6 @@
     <Compile Include="Member.cs">
       <DependentUpon>DBconnections.tt</DependentUpon>
     </Compile>
-    <Compile Include="MemberCategory.cs">
-      <DependentUpon>DBconnections.tt</DependentUpon>
-    </Compile>
     <Compile Include="Member_Action.cs">
       <DependentUpon>DBconnections.tt</DependentUpon>
     </Compile>

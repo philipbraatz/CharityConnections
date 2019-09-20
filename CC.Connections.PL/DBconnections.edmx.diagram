@@ -7,17 +7,16 @@
       <Diagram DiagramId="49ee8ba6b1ce4b77b2e5edadfebd3e88" Name="Diagram1" ZoomLevel="101">
         <EntityTypeShape EntityType="charityconnectionsDBModel.C__RefactorLog" Width="1.5" PointX="5.75" PointY="2.125" />
         <EntityTypeShape EntityType="charityconnectionsDBModel.Category" Width="1.5" PointX="0.75" PointY="1.125" />
-        <EntityTypeShape EntityType="charityconnectionsDBModel.Charity" Width="1.5" PointX="5.75" PointY="4.125" />
+        <EntityTypeShape EntityType="charityconnectionsDBModel.Charity" Width="1.75" PointX="5.75" PointY="4.125" />
         <EntityTypeShape EntityType="charityconnectionsDBModel.CharityEvent" Width="1.5" PointX="2.75" PointY="7.125" />
         <EntityTypeShape EntityType="charityconnectionsDBModel.Contact_Info" Width="1.5" PointX="4.75" PointY="8.125" />
-        <EntityTypeShape EntityType="charityconnectionsDBModel.Event_Requirements" Width="1.5" PointX="6.75" PointY="8.125" />
+        <EntityTypeShape EntityType="charityconnectionsDBModel.Event_Requirements" Width="1.75" PointX="6.75" PointY="8.125" />
         <EntityTypeShape EntityType="charityconnectionsDBModel.Helping_Action" Width="1.5" PointX="0.75" PointY="6.875" />
         <EntityTypeShape EntityType="charityconnectionsDBModel.Log_in" Width="1.5" PointX="7.75" PointY="2.125" />
         <EntityTypeShape EntityType="charityconnectionsDBModel.Member_Action" Width="1.5" PointX="3" PointY="3.75" />
-        <EntityTypeShape EntityType="charityconnectionsDBModel.Member_Categories" Width="1.5" PointX="3" PointY="0.75" />
+        <EntityTypeShape EntityType="charityconnectionsDBModel.Member_Categories" Width="2" PointX="3" PointY="0.75" />
         <EntityTypeShape EntityType="charityconnectionsDBModel.Member_Charities" Width="1.5" PointX="7.75" PointY="5.125" />
-        <EntityTypeShape EntityType="charityconnectionsDBModel.Member_Type" Width="1.5" PointX="8.75" PointY="8.125" />
-        <EntityTypeShape EntityType="charityconnectionsDBModel.MemberCategory" Width="1.5" PointX="9.75" PointY="2.125" />
+        <EntityTypeShape EntityType="charityconnectionsDBModel.Member_Type" Width="1.875" PointX="8.75" PointY="8.125" />
         <EntityTypeShape EntityType="charityconnectionsDBModel.Member" Width="1.5" PointX="0.75" PointY="3.5" />
         <EntityTypeShape EntityType="charityconnectionsDBModel.NeedsRequirement" Width="1.5" PointX="0.75" PointY="11.125" />
         <EntityTypeShape EntityType="charityconnectionsDBModel.Role" Width="1.5" PointX="9.75" PointY="5.125" />
