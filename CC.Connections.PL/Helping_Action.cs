@@ -29,9 +29,9 @@ public partial class Helping_Action
 
     public int Helping_Action_ID { get; set; }
 
-    public Nullable<int> Helping_Action_CatID { get; set; }
+    public Nullable<int> HelpingActionCategory_ID { get; set; }
 
-    public string Helping_Action_Desc { get; set; }
+    public string HelpingActionDescription { get; set; }
 
 
 

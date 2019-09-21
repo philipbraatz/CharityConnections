@@ -15,18 +15,18 @@ namespace CC.Connections.PL
 using System;
     using System.Collections.Generic;
     
-public partial class CharityEvent
+public partial class Charity_Event
 {
 
     public int CharityEvent_ID { get; set; }
 
     public string CharityEventName { get; set; }
 
-    public string CharityEventLocation { get; set; }
+    public Nullable<int> CharityEventLocation_ID { get; set; }
 
-    public Nullable<int> CharityEventCharityID { get; set; }
+    public Nullable<int> CharityEventCharity_ID { get; set; }
 
-    public Nullable<int> ContactInfoID { get; set; }
+    public Nullable<int> CharityEventContactInfo_ID { get; set; }
 
     public Nullable<System.DateTime> CharityEventStartDate { get; set; }
 
@@ -34,7 +34,9 @@ public partial class CharityEvent
 
     public Nullable<System.DateTime> CharityEventTime { get; set; }
 
-    public string CharityEvent_Email { get; set; }
+    public string CharityEventStatus { get; set; }
+
+    public string CharityEventRequirements { get; set; }
 
 }
 

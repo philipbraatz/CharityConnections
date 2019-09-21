@@ -34,19 +34,19 @@ namespace CC.Connections.BL
                 Insert();
 
             int mID = 0;
-            if (dc.Member_Categories.ToList().Count > 0)
-                mID = (int)dc.Member_Categories.Max(c => c.MemberCat_ID) + 1;//unique id
+            if (dc.Preferred_Category.ToList().Count > 0)
+                mID = (int)dc.Preferred_Category.Max(c => c.PreferredCategory_ID) + 1;//unique id
 
-            Member_Categories entry = new Member_Categories
+            Preferred_Category entry = new Preferred_Category
             {
-                MemberCat_ID =mID,
+                PreferredCategory_ID = mID,
                 MemberCat_Member_ID = id,//member
-                MemberCat_Categories_ID = ID//category
+                MemberCat_Category_ID = ID//category
             };
 
 
 
-            dc.Member_Categories.Add(entry);
+            dc.Preferred_Category.Add(entry);
 
             dc.SaveChanges();
             return true;
@@ -59,9 +59,9 @@ namespace CC.Connections.BL
             if (MemberExists(dc, id))//doesnt exist
                 return false;
 
-            var entryList= dc.Member_Categories.Where(c => c.MemberCat_Member_ID == id);
-            foreach(var entry in entryList)
-                dc.Member_Categories.Remove(entry);
+            var entryList = dc.Preferred_Category.Where(c => c.MemberCat_Member_ID == id);
+            foreach (var entry in entryList)
+                dc.Preferred_Category.Remove(entry);
             return true;
         }
 
@@ -71,26 +71,26 @@ namespace CC.Connections.BL
                 return false;
             if (!Exists(dc))//add missing
                 Insert();
-            dc.Member_Categories.Where(c => c.MemberCat_Member_ID == id).ToList().ForEach(c => c.MemberCat_Categories_ID = ID);//might not work
+            dc.Preferred_Category.Where(c => c.MemberCat_Member_ID == id).ToList().ForEach(c => c.MemberCat_Category_ID = ID);//might not work
             return true;
         }
 
-        internal static List<Category> LoadMembersList(DBconnections dc,int member_ID)
+        internal static List<Category> LoadMembersList(DBconnections dc, int member_ID)
         {
-            List<Category> retList =new List<Category>();
-            dc.Member_Categories.Where(c => c.MemberCat_Member_ID == member_ID).ToList().ForEach(c => retList.Add(new Category( c.MemberCat_ID)));
+            List<Category> retList = new List<Category>();
+            dc.Preferred_Category.Where(c => c.MemberCat_Member_ID == member_ID).ToList().ForEach(c => retList.Add(new Category(c.PreferredCategory_ID)));
             return retList;
         }
 
         private bool MemberExists(DBconnections dc, int member_ID)
         {
-            return dc.Member_Categories.Where(c => c.MemberCat_Member_ID == member_ID &&
-                                                c.MemberCat_Categories_ID ==ID
+            return dc.Preferred_Category.Where(c => c.MemberCat_Member_ID == member_ID &&
+                                                c.MemberCat_Category_ID == ID
             ).FirstOrDefault() != null;
         }
         private bool Exists(DBconnections dc)
         {
-            return dc.Categories.Where(c => c.Categories_ID ==ID).FirstOrDefault() != null;
+            return dc.Categories.Where(c => c.Category_ID == ID).FirstOrDefault() != null;
         }
 
         public int Insert()
@@ -102,14 +102,14 @@ namespace CC.Connections.BL
                 using (DBconnections dc = new DBconnections())
                 {
                     if (dc.Categories.ToList().Count > 0)
-                        ID = dc.Categories.Max(c => c.Categories_ID) + 1;//unique id
+                        ID = dc.Categories.Max(c => c.Category_ID) + 1;//unique id
                     else
                         ID = 0;
 
                     PL.Category entry = new PL.Category
                     {
-                        Categories_ID = ID,
-                        Categories_Desc = this.Desc
+                        Category_ID = ID,
+                        Category_Desc = this.Desc
                     };
 
                     dc.Categories.Add(entry);
@@ -127,7 +127,7 @@ namespace CC.Connections.BL
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invaild");
 
-                    dc.Categories.Remove(dc.Categories.Where(c => c.Categories_ID == ID).FirstOrDefault());
+                    dc.Categories.Remove(dc.Categories.Where(c => c.Category_ID == ID).FirstOrDefault());
                     return dc.SaveChanges();
                 }
             }
@@ -144,8 +144,8 @@ namespace CC.Connections.BL
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invaild");
 
-                    PL.Category entry = dc.Categories.Where(c => c.Categories_ID == this.ID).FirstOrDefault();
-                    entry.Categories_Desc = Desc;
+                    PL.Category entry = dc.Categories.Where(c => c.Category_ID == this.ID).FirstOrDefault();
+                    entry.Category_Desc = Desc;
 
                     return dc.SaveChanges();
                 }
@@ -161,11 +161,11 @@ namespace CC.Connections.BL
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invaild");
 
-                    PL.Category entry = dc.Categories.FirstOrDefault(c => c.Categories_ID == this.ID);
+                    PL.Category entry = dc.Categories.FirstOrDefault(c => c.Category_ID == this.ID);
                     if (entry == null)
                         throw new Exception("Genre does not exist");
 
-                    Desc = entry.Categories_Desc;
+                    Desc = entry.Category_Desc;
                 }
             }
             catch (Exception e)

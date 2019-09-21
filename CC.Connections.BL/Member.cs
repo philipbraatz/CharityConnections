@@ -19,7 +19,8 @@ namespace CC.Connections.BL
         public List<int> Prefered_Charity_ID_List { get; set; }
         public List<Helping_Action> helping_Action_List { get; set; }
         public Member_Type Member_Type { get; set; }
-        public Role Role { get; set; }
+        //depreciated
+        //public Role Role { get; set; }
         public Preference Pref { get; set; }
 
         //required for login controller
@@ -27,17 +28,17 @@ namespace CC.Connections.BL
         {
             Clear();
         }
-        public Member(int contactID)
+        public Member(int memberID)
         {
             //get ID and password from other tables
             try
             {
                 using (DBconnections dc = new DBconnections())
                 {
-                    int? temp = dc.Members.Where(c => c.Contact_ID == contactID).FirstOrDefault().Member_ID;
-                    if (temp == null)
+                    PL.Member mID = dc.Members.Where(c => c.Member_ID == memberID).FirstOrDefault();
+                    if(mID == null)
                         throw new Exception("Contact_ID is null and cannot be loaded");
-                    ID = (int)temp;
+                    ID = (int)mID.Member_ID;
                     this.LoadId();
                 }
             }
@@ -55,7 +56,7 @@ namespace CC.Connections.BL
             Prefered_Charity_ID_List = new List<int>();
             helping_Action_List = new List<Helping_Action>();
             Member_Type = new Member_Type();
-            Role = new Role();
+            //Role = new Role();
             Pref = new Preference();
         }
 
@@ -76,8 +77,10 @@ namespace CC.Connections.BL
                     PL.Member entry = new PL.Member
                     {
                         Member_ID = ID,
-                        Contact_ID = Contact.ID,
-                        Role_ID = Role.ID
+                        MemberContact_ID = Contact.ID,
+                        //Role_ID = Role.ID,
+                        MemberType_ID =Member_Type.ID,
+                        MemberPreference_ID = Pref.ID
                     };
                     dc.Members.Add(entry);//adding prior to everything else
 
@@ -114,7 +117,7 @@ namespace CC.Connections.BL
                         act.DeleteMember(dc, ID);
                     foreach (int char_ID in Prefered_Charity_ID_List)
                         Charity.InsertMember(dc, ID, char_ID);//Maybe put in Member class
-                    dc.Roles.Remove(dc.Roles.Where(c => c.Role_ID == ID).FirstOrDefault());
+                    //dc.Roles.Remove(dc.Roles.Where(c => c.Role_ID == ID).FirstOrDefault());
 
                     return dc.SaveChanges();
                 }
@@ -132,7 +135,7 @@ namespace CC.Connections.BL
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invaild");
 
-                    PL.Member entry = dc.Members.Where(c => c.Role_ID == this.ID).FirstOrDefault();
+                    PL.Member entry = dc.Members.Where(c => c.Member_ID == this.ID).FirstOrDefault();
                     Contact.Update();
                     Password.Update(dc, ID);
                     Pref.Update();
@@ -157,21 +160,21 @@ namespace CC.Connections.BL
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invaild");
 
-                    PL.Member entry = dc.Members.Where(c => c.Role_ID == this.ID).FirstOrDefault();
+                    PL.Member entry = dc.Members.Where(c => c.Member_ID == this.ID).FirstOrDefault();
                     this.ID = entry.Member_ID;
-                    this.Contact = new ContactInfo(entry.Contact_ID);
+                    this.Contact = new ContactInfo(entry.MemberContact_ID);
 
-                    PL.Log_in login = dc.Log_in.FirstOrDefault(c => c.MemeberID == this.ID);
-                    this.Password = new Password(login.Log_in_ID, login.Password);
+                    PL.Log_in login = dc.Log_in.FirstOrDefault(c => c.LogInMember_ID == this.ID);
+                    this.Password = new Password(login.ContactInfoEmail,login.LogInPassword,true);
 
-                    if (entry.Preference_ID == null)
+                    if (entry.MemberPreference_ID == null)
                         throw new Exception("Preference ID is null and cannot be loaded");
-                    this.Pref = new Preference((int)entry.Preference_ID);
+                    this.Pref = new Preference((int)entry.MemberPreference_ID);
+                    this.Member_Type = new Member_Type((int)entry.MemberType_ID);
 
                     this.Prefered_Categories = Category.LoadMembersList(dc,entry.Member_ID);
                     helping_Action_List = Helping_Action.LoadMembersList(dc,entry.Member_ID);
-                    this.Prefered_Charity_ID_List = Charity.LoadMembersIdList(dc,entry.Member_ID);
-                    this.Member_Type = new Member_Type(this.ID);
+                    //this.Prefered_Charity_ID_List = Charity.LoadMembersIdList(dc,entry.Member_ID);//TODO impliment charities
                 }
             }
             catch (Exception e)
@@ -186,17 +189,19 @@ namespace CC.Connections.BL
             {
                 if (String.IsNullOrEmpty(Contact.Email))
                     throw new Exception("email must be set");//no userId
-                else if (String.IsNullOrEmpty(Password.Hash))
+                else if (String.IsNullOrEmpty(Password.Pass))
                     throw new Exception("password must be set");//no UserPass
                 else
                 {
-                    DBconnections dc = new DBconnections();
-                    PL.Log_in entry =dc.Log_in.FirstOrDefault(u => u.MemeberID == this.ID);
+                    using (DBconnections dc = new DBconnections())
+                    {
+                        PL.Log_in entry = dc.Log_in.FirstOrDefault(u => u.LogInMember_ID == this.ID);
 
-                    if (entry == null)
-                        return false;
-                    else
-                        return entry.Password == Password.Hash;//success if match
+                        if (entry == null)
+                            return false;
+                        else
+                            return entry.LogInPassword == Password.Pass;//success if match
+                    }
                 }
             }
             catch (Exception e)
@@ -207,7 +212,7 @@ namespace CC.Connections.BL
     public class MemberList
     : List<Member>
     {
-        public void Load()
+        public void LoadList()
         {
             try
             {
@@ -218,14 +223,15 @@ namespace CC.Connections.BL
                     dc.Members.ToList().ForEach(c => this.Add(new Member
                     {
                         ID = c.Member_ID,
-                        Contact = new ContactInfo(c.Contact_ID),
-                        Pref = new Preference((int)c.Preference_ID),
+                        Contact = new ContactInfo(c.MemberContact_ID),
+                        Pref = new Preference((int)c.MemberPreference_ID),
                         Password = new Password(
-                            dc.Log_in.FirstOrDefault(d => d.MemeberID == c.Member_ID).Log_in_ID,
-                            dc.Log_in.FirstOrDefault(d => d.MemeberID == c.Member_ID).Password),
+                            dc.Log_in.FirstOrDefault(d => d.LogInMember_ID == c.Member_ID).ContactInfoEmail,
+                            dc.Log_in.FirstOrDefault(d => d.LogInMember_ID == c.Member_ID).LogInPassword,
+                            true),
                         Prefered_Categories = Category.LoadMembersList(dc,c.Member_ID),
                         helping_Action_List = Helping_Action.LoadMembersList(dc,c.Member_ID),
-                        Prefered_Charity_ID_List = Charity.LoadMembersIdList(dc,c.Member_ID),
+                        //Prefered_Charity_ID_List = Charity.LoadMembersIdList(dc,c.Member_ID),
                         Member_Type = new Member_Type(c.Member_ID)
                     }));
                 }

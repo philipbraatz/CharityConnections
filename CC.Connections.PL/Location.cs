@@ -15,12 +15,18 @@ namespace CC.Connections.PL
 using System;
     using System.Collections.Generic;
     
-public partial class NeedsRequirement
+public partial class Location
 {
 
-    public int NeedsRequirements_ID { get; set; }
+    public int Location_ID { get; set; }
 
-    public string NeedsRequirementsDesc { get; set; }
+    public string ContactInfoAddress { get; set; }
+
+    public string ContactInfoCity { get; set; }
+
+    public string ContactInfoState { get; set; }
+
+    public string ContactInfoZip { get; set; }
 
 }
 

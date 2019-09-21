@@ -18,17 +18,15 @@ using System;
 public partial class Member_Action
 {
 
-    public int Member_Action_ID { get; set; }
+    public int MemberAction_ID { get; set; }
 
-    public Nullable<int> Member_Action_Member_ID { get; set; }
+    public Nullable<int> MemberActionMember_ID { get; set; }
 
-    public Nullable<int> Member_Action_Action_ID { get; set; }
+    public Nullable<int> MemberActionAction_ID { get; set; }
 
 
 
     public virtual Helping_Action Helping_Action { get; set; }
-
-    public virtual Member Member { get; set; }
 
 }
 

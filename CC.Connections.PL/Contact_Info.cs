@@ -20,21 +20,17 @@ public partial class Contact_Info
 
     public int Contact_Info_ID { get; set; }
 
-    public string Contact_Info_FName { get; set; }
+    public string ContactInfo_FName { get; set; }
 
-    public string Contact_Info_LName { get; set; }
+    public string ContactInfo_LName { get; set; }
 
-    public string Contact_Info_Address { get; set; }
+    public string ContactInfo_Phone { get; set; }
 
-    public string Contact_Info_City { get; set; }
+    public string ContactInfo_Email { get; set; }
 
-    public string Contact_Info_State { get; set; }
+    public Nullable<int> Location_ID { get; set; }
 
-    public string Contact_Info_Zip { get; set; }
-
-    public string Contact_Info_Phone { get; set; }
-
-    public string Contact_Info_Email { get; set; }
+    public Nullable<System.DateTime> DateOfBirth { get; set; }
 
 }
 

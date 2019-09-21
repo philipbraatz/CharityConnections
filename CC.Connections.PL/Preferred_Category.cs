@@ -15,12 +15,14 @@ namespace CC.Connections.PL
 using System;
     using System.Collections.Generic;
     
-public partial class Role
+public partial class Preferred_Category
 {
 
-    public int Role_ID { get; set; }
+    public int PreferredCategory_ID { get; set; }
 
-    public string Role_desc { get; set; }
+    public Nullable<int> MemberCat_Category_ID { get; set; }
+
+    public Nullable<int> MemberCat_Member_ID { get; set; }
 
 }
 

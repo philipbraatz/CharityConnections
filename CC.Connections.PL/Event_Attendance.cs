@@ -15,14 +15,16 @@ namespace CC.Connections.PL
 using System;
     using System.Collections.Generic;
     
-public partial class Event_Requirements
+public partial class Event_Attendance
 {
 
-    public int Event_Requirement_ID { get; set; }
+    public int EventAttendance_ID { get; set; }
 
-    public Nullable<int> NeedsRequirementsID { get; set; }
+    public Nullable<int> Event_ID { get; set; }
 
-    public Nullable<int> CharityEventID { get; set; }
+    public Nullable<int> Member_ID { get; set; }
+
+    public string Status { get; set; }
 
 }
 

@@ -11,9 +11,10 @@ namespace CC.Connections.BL
         public int ID;
         public double distance;
 
-        public Preference(int preference_ID)
+        public Preference(int Preference_ID)
         {
-            this.ID = preference_ID;
+            this.ID = Preference_ID;
+            LoadId();
         }
 
         public Preference(){}
@@ -27,14 +28,14 @@ namespace CC.Connections.BL
                 using (DBconnections dc = new DBconnections())
                 {
                     if (dc.Preferences.ToList().Count > 0)
-                        ID = dc.Preferences.Max(c => c.Preference_Id) + 1;//unique id
+                        ID = dc.Preferences.Max(c => c.Preference_ID) + 1;//unique id
                     else
                         ID = 0;
 
                     PL.Preference entry = new PL.Preference
                     {
-                        Preference_Id =ID,
-                        Distance = this.distance
+                        Preference_ID =ID,
+                        Distance = (decimal)distance
                     };
 
                     dc.Preferences.Add(entry);
@@ -52,7 +53,7 @@ namespace CC.Connections.BL
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invaild");
 
-                    dc.Preferences.Remove(dc.Preferences.Where(c => c.Preference_Id == ID).FirstOrDefault());
+                    dc.Preferences.Remove(dc.Preferences.Where(c => c.Preference_ID == ID).FirstOrDefault());
                     return dc.SaveChanges();
                 }
             }
@@ -69,8 +70,8 @@ namespace CC.Connections.BL
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invaild");
 
-                    PL.Preference entry = dc.Preferences.Where(c => c.Preference_Id == this.ID).FirstOrDefault();
-                    entry.Distance = distance;
+                    PL.Preference entry = dc.Preferences.Where(c => c.Preference_ID == this.ID).FirstOrDefault();
+                    entry.Distance = (decimal)distance;
 
                     return dc.SaveChanges();
                 }
@@ -86,7 +87,7 @@ namespace CC.Connections.BL
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invaild");
 
-                    PL.Preference entry = dc.Preferences.FirstOrDefault(c => c.Preference_Id == this.ID);
+                    PL.Preference entry = dc.Preferences.FirstOrDefault(c => c.Preference_ID == this.ID);
                     if (entry == null)
                         throw new Exception("Genre does not exist");
 

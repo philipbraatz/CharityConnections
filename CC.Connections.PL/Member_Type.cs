@@ -18,9 +18,9 @@ using System;
 public partial class Member_Type
 {
 
-    public int Member_Type_ID { get; set; }
+    public int MemberType_ID { get; set; }
 
-    public string Member_Type_Desc { get; set; }
+    public string MemberTypeDescription { get; set; }
 
 }
 

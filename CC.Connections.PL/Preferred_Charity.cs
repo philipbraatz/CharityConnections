@@ -15,20 +15,14 @@ namespace CC.Connections.PL
 using System;
     using System.Collections.Generic;
     
-public partial class Member_Categories
+public partial class Preferred_Charity
 {
 
-    public int MemberCat_ID { get; set; }
+    public int MemberCharity_ID { get; set; }
 
-    public Nullable<int> MemberCat_Categories_ID { get; set; }
+    public Nullable<int> Member_ID { get; set; }
 
-    public Nullable<int> MemberCat_Member_ID { get; set; }
-
-
-
-    public virtual Category Category { get; set; }
-
-    public virtual Member Member { get; set; }
+    public Nullable<int> Charity_ID { get; set; }
 
 }
 

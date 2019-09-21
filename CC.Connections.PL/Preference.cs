@@ -18,9 +18,9 @@ using System;
 public partial class Preference
 {
 
-    public int Preference_Id { get; set; }
+    public int Preference_ID { get; set; }
 
-    public Nullable<double> Distance { get; set; }
+    public Nullable<decimal> Distance { get; set; }
 
 }
 

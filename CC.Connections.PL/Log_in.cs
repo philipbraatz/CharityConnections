@@ -18,11 +18,11 @@ using System;
 public partial class Log_in
 {
 
-    public int Log_in_ID { get; set; }
+    public string ContactInfoEmail { get; set; }
 
-    public Nullable<int> MemeberID { get; set; }
+    public Nullable<int> LogInMember_ID { get; set; }
 
-    public string Password { get; set; }
+    public string LogInPassword { get; set; }
 
 }
 

@@ -10,8 +10,6 @@ namespace CC.Connections.BL
 {
     public class ContactInfo
     {
-        private int? contactID;
-
         public int ID { get; set; }
         [DisplayName("Email")]
         public string Email { get; set; }
@@ -19,15 +17,6 @@ namespace CC.Connections.BL
         public string FirstName { get; set; }
         [DisplayName("Last Name")]
         public string LastName { get; set; }
-        [DisplayName("Address")]
-        public string Address { get; set; }
-        [DisplayName("City")]
-        public string City { get; set; }
-        [DisplayName("State")]
-        public string State { get; set; }
-        [DisplayName("Zip")]
-        public string Zip { get; set; }
-        [DisplayName("Phone Number")]
         public string Phone { get; set; }
         [DisplayName("Name")]
         public string FullName
@@ -35,14 +24,10 @@ namespace CC.Connections.BL
             get { return FirstName + " " + LastName; }
         }
         [DisplayName("Location")]
-        public string Location
-        {
-            //"825 Pilgrim Way, Green Bay, WI"
-            get { return Address + " ,"+City+" ,"+State; }
-        }
+        public Location Location { get; set; }
+        public DateTime BirthDate { get; set; }
 
-        public ContactInfo()
-        { }
+        public ContactInfo(){ }
         public ContactInfo(string email)
         {
             Email = email;
@@ -51,7 +36,8 @@ namespace CC.Connections.BL
 
         public ContactInfo(int? contactID)
         {
-            this.contactID = contactID;
+            this.ID = (int)contactID;
+            LoadId();
         }
 
         //public ContactInfo(string email,string firstname,string lastname,
@@ -84,14 +70,12 @@ namespace CC.Connections.BL
                     PL.Contact_Info entry = new PL.Contact_Info
                     {
                         Contact_Info_ID = ID,
-                        Contact_Info_Email = Email,
-                        Contact_Info_FName = this.FirstName,
-                        Contact_Info_LName =this.LastName,
-                        Contact_Info_Address =this.Address,
-                        Contact_Info_City =this.City,
-                        Contact_Info_State =this.State,
-                        Contact_Info_Zip =this.Zip,
-                        Contact_Info_Phone =this.Phone
+                        ContactInfo_Email = Email,
+                        ContactInfo_FName = this.FirstName,
+                        ContactInfo_LName =this.LastName,
+                        Location_ID =this.Location.ID,
+                        ContactInfo_Phone =this.Phone,
+                        DateOfBirth =this.BirthDate
                     };
 
                     dc.Contact_Info.Add(entry);
@@ -109,7 +93,7 @@ namespace CC.Connections.BL
                     if (this.Email == string.Empty)
                         throw new Exception("Email is invaild");
 
-                    dc.Contact_Info.Remove(dc.Contact_Info.Where(c => c.Contact_Info_Email == Email).FirstOrDefault());
+                    dc.Contact_Info.Remove(dc.Contact_Info.Where(c => c.ContactInfo_Email == Email).FirstOrDefault());
                     return dc.SaveChanges();
                 }
             }
@@ -127,15 +111,13 @@ namespace CC.Connections.BL
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invaild");
 
-                    PL.Contact_Info entry = dc.Contact_Info.Where(c => c.Contact_Info_Email == this.Email).FirstOrDefault();
-                    entry.Contact_Info_Email = Email;
-                    entry.Contact_Info_FName = this.FirstName;
-                    entry.Contact_Info_LName = this.LastName;
-                    entry.Contact_Info_Address = this.Address;
-                    entry.Contact_Info_City = this.City;
-                    entry.Contact_Info_State = this.State;
-                    entry.Contact_Info_Zip = this.Zip;
-                    entry.Contact_Info_Phone = this.Phone;
+                    PL.Contact_Info entry = dc.Contact_Info.Where(c => c.ContactInfo_Email == this.Email).FirstOrDefault();
+                    entry.ContactInfo_Email = Email;
+                    entry.ContactInfo_FName = this.FirstName;
+                    entry.ContactInfo_LName = this.LastName;
+                    entry.Location_ID = this.Location.ID;
+                    entry.ContactInfo_Phone = this.Phone;
+                    entry.DateOfBirth = this.BirthDate;
 
                     return dc.SaveChanges();
                 }
@@ -152,18 +134,16 @@ namespace CC.Connections.BL
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invaild");
 
-                    PL.Contact_Info entry = dc.Contact_Info.FirstOrDefault(c => c.Contact_Info_Email == this.Email);
+                    PL.Contact_Info entry = dc.Contact_Info.FirstOrDefault(c => c.ContactInfo_Email == this.Email);
                     if (entry == null)
                         throw new Exception("Genre does not exist");
 
-                    this.Email = entry.Contact_Info_Email;
-                    this.FirstName = entry.Contact_Info_FName;
-                    this.LastName = entry.Contact_Info_LName;
-                    this.Address = entry.Contact_Info_Address;
-                    this.City = entry.Contact_Info_City;
-                    this.State = entry.Contact_Info_State;
-                    this.Zip = entry.Contact_Info_Zip;
-                    this.Phone = entry.Contact_Info_Phone;
+                    this.Email = entry.ContactInfo_Email;
+                    this.FirstName = entry.ContactInfo_FName;
+                    this.LastName = entry.ContactInfo_LName;
+                    this.Location = new Location(entry.Location_ID);
+                    this.Phone = entry.ContactInfo_Phone;
+                    this.BirthDate = (DateTime)entry.DateOfBirth;
                 }
             }
             catch (Exception e)
@@ -184,14 +164,11 @@ namespace CC.Connections.BL
                 {
                     dc.Contact_Info.ToList().ForEach(c => this.Add(new ContactInfo
                     {
-                        Email = c.Contact_Info_Email,
-                        FirstName = c.Contact_Info_FName,
-                        LastName = c.Contact_Info_LName,
-                        Address = c.Contact_Info_Address,
-                        City = c.Contact_Info_City,
-                        State = c.Contact_Info_State,
-                        Zip = c.Contact_Info_Zip,
-                        Phone = c.Contact_Info_Phone
+                        Email = c.ContactInfo_Email,
+                        FirstName = c.ContactInfo_FName,
+                        LastName = c.ContactInfo_LName,
+                        Phone = c.ContactInfo_Phone,
+                        BirthDate =(DateTime)c.DateOfBirth
                 }));
                 }
             }

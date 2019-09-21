@@ -20,7 +20,7 @@ public partial class Charity
 
     public int Charity_ID { get; set; }
 
-    public Nullable<int> Charity_ContactID { get; set; }
+    public Nullable<int> Charity_Contact_ID { get; set; }
 
     public string Charity_EIN { get; set; }
 
@@ -31,6 +31,12 @@ public partial class Charity
     public string Charity_Cause { get; set; }
 
     public string Charity_Email { get; set; }
+
+    public Nullable<int> Charity_Category_ID { get; set; }
+
+    public Nullable<int> Location_ID { get; set; }
+
+    public string Charity_Requirements { get; set; }
 
 }
 

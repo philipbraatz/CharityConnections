@@ -17,7 +17,7 @@ namespace CC.Connections.BL
             this.ID = id;
         }
 
-        public Member_Type(){}
+        public Member_Type() { }
 
         public int Insert()
         {
@@ -28,13 +28,13 @@ namespace CC.Connections.BL
                 using (DBconnections dc = new DBconnections())
                 {
                     if (dc.Member_Type.ToList().Count > 0)
-                        ID = dc.Member_Type.Max(c => c.Member_Type_ID) + 1;//unique id
+                        ID = dc.Member_Type.Max(c => c.MemberType_ID) + 1;//unique id
                     else
                         ID = 0;
                     PL.Member_Type entry = new PL.Member_Type
                     {
-                        Member_Type_ID = ID,
-                        Member_Type_Desc =Desc
+                        MemberType_ID = ID,
+                        MemberTypeDescription = Desc
                     };
 
                     dc.Member_Type.Add(entry);
@@ -52,7 +52,7 @@ namespace CC.Connections.BL
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invaild");
 
-                    dc.Member_Type.Remove(dc.Member_Type.Where(c => c.Member_Type_ID == ID).FirstOrDefault());
+                    dc.Member_Type.Remove(dc.Member_Type.Where(c => c.MemberType_ID == ID).FirstOrDefault());
                     return dc.SaveChanges();
                 }
             }
@@ -69,8 +69,8 @@ namespace CC.Connections.BL
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invaild");
 
-                    PL.Member_Type entry = dc.Member_Type.Where(c => c.Member_Type_ID == this.ID).FirstOrDefault();
-                    entry.Member_Type_Desc = Desc;
+                    PL.Member_Type entry = dc.Member_Type.Where(c => c.MemberType_ID == this.ID).FirstOrDefault();
+                    entry.MemberTypeDescription = Desc;
 
                     return dc.SaveChanges();
                 }
@@ -86,11 +86,11 @@ namespace CC.Connections.BL
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invaild");
 
-                    PL.Member_Type entry = dc.Member_Type.FirstOrDefault(c => c.Member_Type_ID == this.ID);
+                    PL.Member_Type entry = dc.Member_Type.FirstOrDefault(c => c.MemberType_ID == this.ID);
                     if (entry == null)
                         throw new Exception("Genre does not exist");
 
-                    Desc = entry.Member_Type_Desc;
+                    Desc = entry.MemberTypeDescription;
                 }
             }
             catch (Exception e)

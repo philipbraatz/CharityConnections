@@ -11,9 +11,9 @@ namespace CC.Connections.BL
     //  .1 hour
     public class Password
     {
-        public int ID { get; set; }
+        public string email { get; set; }
         private string hash;
-        public string Hash
+        public string Pass
         {
             //returns hashed password
             get { return hash; }
@@ -29,46 +29,55 @@ namespace CC.Connections.BL
         }
 
         public Password() { }
-        //new password
-        public Password(string password)
+        //existing
+        public Password(string email, bool load = true)
+        {
+            this.email = email;
+            loadId();
+        }
+
+        private void loadId()
         {
             try
             {
                 using (DBconnections dc = new DBconnections())
                 {
-                    try
-                    {
-                        ID = dc.Log_in.Max(m => m.Log_in_ID)+1;//unique id
-                    }
-                    catch
-                    {
-                        ID = 0;
-                    }
+                    //if (this.ID == Guid.Empty)
+                    //    throw new Exception("ID is invaild");
+
+                    PL.Log_in entry = dc.Log_in.FirstOrDefault(c => c.ContactInfoEmail == this.email);
+                    if (entry == null)
+                        throw new Exception("Genre does not exist");
+
+                    this.hash = entry.LogInPassword;
                 }
-                Hash = password;//auto hashs password
             }
             catch (Exception e)
-            {throw e;}
+            { throw e; }
         }
-        //existing
-        public Password(int id, string hash)
+
+        //new
+        public Password(string email, string password, bool hashed = false)
         {
-            ID = id;
-            this.hash = hash;
+            this.email = email;
+            if (hashed)
+                this.hash = password;
+            else
+                this.Pass = password;
         }
 
         internal void Insert(DBconnections dc, int iD)
         {
-            if (dc.Log_in.ToList().Count > 0)
-                ID = dc.Log_in.Max(c => c.Log_in_ID) + 1;
-            else
-                ID = 0;
-            
+            //if (dc.Log_in.ToList().Count > 0)
+            //    email = (int)dc.Log_in.Max(c => c.LogInMember_ID) + 1;
+            //else
+            //    email = 0;
+
             PL.Log_in entry = new PL.Log_in
             {
-                Log_in_ID = ID,
-                MemeberID = iD,
-                Password = hash
+                ContactInfoEmail = email,
+                LogInMember_ID = iD,
+                LogInPassword = hash
             };
             dc.Log_in.Add(entry);
             dc.SaveChanges();
@@ -76,13 +85,13 @@ namespace CC.Connections.BL
 
         internal void Delete(DBconnections dc, int iD)
         {
-            dc.Log_in.Remove(dc.Log_in.Where(c => c.MemeberID== ID).FirstOrDefault());
+            dc.Log_in.Remove(dc.Log_in.Where(c => c.ContactInfoEmail == email).FirstOrDefault());
         }
 
         internal void Update(DBconnections dc, int iD)
         {
-            PL.Log_in entry = dc.Log_in.Where(c => c.MemeberID== this.ID).FirstOrDefault();
-            entry.Password = hash;
+            PL.Log_in entry = dc.Log_in.Where(c => c.ContactInfoEmail == this.email).FirstOrDefault();
+            entry.LogInPassword = hash;
         }
     }
 }

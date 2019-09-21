@@ -38,31 +38,29 @@ public partial class DBconnections : DbContext
 
     public virtual DbSet<Charity> Charities { get; set; }
 
-    public virtual DbSet<CharityEvent> CharityEvents { get; set; }
+    public virtual DbSet<Charity_Event> Charity_Event { get; set; }
 
     public virtual DbSet<Contact_Info> Contact_Info { get; set; }
 
-    public virtual DbSet<Event_Requirements> Event_Requirements { get; set; }
+    public virtual DbSet<Event_Attendance> Event_Attendance { get; set; }
 
     public virtual DbSet<Helping_Action> Helping_Action { get; set; }
 
+    public virtual DbSet<Location> Locations { get; set; }
+
     public virtual DbSet<Log_in> Log_in { get; set; }
-
-    public virtual DbSet<Member_Action> Member_Action { get; set; }
-
-    public virtual DbSet<Member_Categories> Member_Categories { get; set; }
-
-    public virtual DbSet<Member_Charities> Member_Charities { get; set; }
-
-    public virtual DbSet<Member_Type> Member_Type { get; set; }
 
     public virtual DbSet<Member> Members { get; set; }
 
-    public virtual DbSet<NeedsRequirement> NeedsRequirements { get; set; }
+    public virtual DbSet<Member_Action> Member_Action { get; set; }
 
-    public virtual DbSet<Role> Roles { get; set; }
+    public virtual DbSet<Member_Type> Member_Type { get; set; }
 
     public virtual DbSet<Preference> Preferences { get; set; }
+
+    public virtual DbSet<Preferred_Category> Preferred_Category { get; set; }
+
+    public virtual DbSet<Preferred_Charity> Preferred_Charity { get; set; }
 
 }
 

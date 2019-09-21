@@ -25,6 +25,7 @@ namespace CC.Connections.BL
         public Helping_Action(int member_Action_Action_ID)
         {
             this.ID = member_Action_Action_ID;
+            LoadId();
         }
 
         internal bool InsertMember(DBconnections dc, int id)
@@ -35,16 +36,16 @@ namespace CC.Connections.BL
                 Insert();
 
             if (dc.Member_Action.ToList().Count >0)
-                ID = (int)dc.Member_Action.Max(c => c.Member_Action_Member_ID) + 1;//unique id
+                ID = (int)dc.Member_Action.Max(c => c.MemberActionMember_ID) + 1;//unique id
             else
                 ID = 0;
 
             //TODO check if new category or new member first
             Member_Action entry = new Member_Action
             {
-                Member_Action_ID =ID,
-                Member_Action_Member_ID = id,//member
-                Member_Action_Action_ID = ID//action
+                MemberAction_ID =ID,
+                MemberActionMember_ID = id,//member
+                MemberActionAction_ID = ID//action
             };
 
             dc.Member_Action.Add(entry);
@@ -59,27 +60,28 @@ namespace CC.Connections.BL
 
         private bool MemberExists(DBconnections dc, int id)
         {
-            return dc.Member_Action.Where(c => c.Member_Action_ID == ID && c.Member_Action_Member_ID == id).FirstOrDefault() != null;
+            return dc.Member_Action.Where(c => c.MemberActionAction_ID == ID && c.MemberActionMember_ID == id).FirstOrDefault() != null;
         }
 
         //TODO test methods
         internal void DeleteMember(DBconnections dc, int id)
         {
-            var entryList = dc.Member_Action.Where(c => c.Member_Action_Member_ID == id);
+            var entryList = dc.Member_Action.Where(c => c.MemberActionMember_ID == id);
             foreach (var entry in entryList)
                 dc.Member_Action.Remove(entry);
         }
 
+        //TODO think how this would happen
         internal void UpdateMember(DBconnections dc, int id)
         {
-            dc.Member_Action.Where(c => c.Member_Action_Member_ID == id)
-                .ToList().ForEach(c => c.Member_Action_Member_ID = ID);//might not work
+            dc.Member_Action.Where(c => c.MemberActionAction_ID == id)
+                .ToList().ForEach(c => c.MemberActionMember_ID = ID);//might not work
         }
 
         internal static List<Helping_Action> LoadMembersList(DBconnections dc, int member_ID)
         {
             List<Helping_Action> retList = new List<Helping_Action>();
-            dc.Member_Action.Where(c => c.Member_Action_Member_ID == member_ID).ToList().ForEach(c => retList.Add(new Helping_Action((int)c.Member_Action_Action_ID)));
+            dc.Member_Action.Where(c => c.MemberActionMember_ID == member_ID).ToList().ForEach(c => retList.Add(new Helping_Action((int)c.MemberActionAction_ID)));
             return retList;
         }
 
@@ -98,8 +100,8 @@ namespace CC.Connections.BL
                     PL.Helping_Action entry = new PL.Helping_Action
                     {
                         Helping_Action_ID =ID,
-                        Helping_Action_Desc = this.Action,
-                        Helping_Action_CatID = this.category.ID
+                        HelpingActionDescription = this.Action,
+                        HelpingActionCategory_ID = this.category.ID
                     };
 
                     dc.Helping_Action.Add(entry);
@@ -135,8 +137,8 @@ namespace CC.Connections.BL
                     //    throw new Exception("ID is invaild");
 
                     PL.Helping_Action entry = dc.Helping_Action.Where(c => c.Helping_Action_ID == this.ID).FirstOrDefault();
-                    entry.Helping_Action_Desc = Action;
-                    entry.Helping_Action_CatID = category.ID;
+                    entry.HelpingActionDescription = Action;
+                    entry.HelpingActionCategory_ID = category.ID;
 
                     return dc.SaveChanges();
                 }
@@ -156,8 +158,8 @@ namespace CC.Connections.BL
                     if (entry == null)
                         throw new Exception("Genre does not exist");
 
-                    Action = entry.Helping_Action_Desc;
-                    category = new Category((int)entry.Helping_Action_CatID);
+                    Action = entry.HelpingActionDescription;
+                    category = new Category((int)entry.HelpingActionCategory_ID);
                 }
             }
             catch (Exception e)

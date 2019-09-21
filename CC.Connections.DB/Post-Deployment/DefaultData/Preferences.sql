@@ -1,5 +1,5 @@
 ﻿BEGIN
-	INSERT INTO Preferences(Preference_Id, Distance)
+	INSERT INTO Preferences(Preference_ID, Distance)
 	VALUES
 	(1, ''),
 	(2, ''),
