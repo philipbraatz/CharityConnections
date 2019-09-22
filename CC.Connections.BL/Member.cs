@@ -28,18 +28,57 @@ namespace CC.Connections.BL
         {
             Clear();
         }
-        public Member(int memberID)
+        //new
+        public Member(string contactEmail,string password ="",bool hashed =false)
         {
             //get ID and password from other tables
             try
             {
                 using (DBconnections dc = new DBconnections())
                 {
-                    PL.Member mID = dc.Members.Where(c => c.Member_ID == memberID).FirstOrDefault();
-                    if(mID == null)
-                        throw new Exception("Contact_ID is null and cannot be loaded");
-                    ID = (int)mID.Member_ID;
-                    this.LoadId();
+                    Clear();
+                    PL.Contact_Info cID = dc.Contact_Info.Where(c => c.ContactInfo_Email == contactEmail).FirstOrDefault();
+                    PL.Member mID;
+                    if (cID != null)
+                    {
+                        mID = dc.Members.Where(c => c.MemberContact_ID == cID.Contact_Info_ID).FirstOrDefault();
+                        if (mID != null)
+                            ID = mID.Member_ID;
+                    }
+                    Contact.Email = contactEmail;
+                    if (password != string.Empty)
+                        Password = new Password(contactEmail, password, hashed);//standard
+                    else
+                        Password = new Password(contactEmail,false);//new
+                    //else
+                    //    throw new Exception("Contact_ID is null and cannot be loaded");
+
+                    //this.LoadId();
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+        //load
+        public Member(string email)
+        {
+            //get ID and password from other tables
+            try
+            {
+                using (DBconnections dc = new DBconnections())
+                {
+                    Clear();
+                    PL.Contact_Info cID = dc.Contact_Info.Where(c => c.ContactInfo_Email == email).FirstOrDefault();
+                    if (cID == null)
+                        throw new Exception("email is null and cannot be loaded");
+                    //else
+                    //{
+                    //    PL.Member mID = dc.Members.Where(c => c.MemberContact_ID == cID.Contact_Info_ID).FirstOrDefault();
+                    //    ID = (int)mID.Member_ID;
+                    //}
+                    this.LoadId(email);
                 }
             }
             catch (Exception e)
@@ -58,9 +97,10 @@ namespace CC.Connections.BL
             Member_Type = new Member_Type();
             //Role = new Role();
             Pref = new Preference();
+            
         }
 
-        public int Insert()
+        public int Insert() 
         {
             try
             {
@@ -109,7 +149,7 @@ namespace CC.Connections.BL
                     //    throw new Exception("ID is invaild");
 
                     Contact.Delete();
-                    Password.Delete(dc, ID);
+                    Password.Delete(dc);
                     Pref.Delete();
                     foreach (var cat in Prefered_Categories)
                         cat.DeleteMember(dc, ID);
@@ -137,7 +177,7 @@ namespace CC.Connections.BL
 
                     PL.Member entry = dc.Members.Where(c => c.Member_ID == this.ID).FirstOrDefault();
                     Contact.Update();
-                    Password.Update(dc, ID);
+                    Password.Update(dc);
                     Pref.Update();
                     foreach (var cat in Prefered_Categories)
                         cat.UpdateMember(dc, ID);
@@ -151,7 +191,7 @@ namespace CC.Connections.BL
             }
             catch (Exception e) { throw e; }
         }
-        public void LoadId()
+        public void LoadId(string email)
         {
             try
             {
@@ -162,7 +202,7 @@ namespace CC.Connections.BL
 
                     PL.Member entry = dc.Members.Where(c => c.Member_ID == this.ID).FirstOrDefault();
                     this.ID = entry.Member_ID;
-                    this.Contact = new ContactInfo(entry.MemberContact_ID);
+                    this.Contact = new ContactInfo(email);
 
                     PL.Log_in login = dc.Log_in.FirstOrDefault(c => c.LogInMember_ID == this.ID);
                     this.Password = new Password(login.ContactInfoEmail,login.LogInPassword,true);
@@ -223,7 +263,7 @@ namespace CC.Connections.BL
                     dc.Members.ToList().ForEach(c => this.Add(new Member
                     {
                         ID = c.Member_ID,
-                        Contact = new ContactInfo(c.MemberContact_ID),
+                        Contact = ContactInfo.fromNumID(c.MemberContact_ID),//TODO convert to email instantiation
                         Pref = new Preference((int)c.MemberPreference_ID),
                         Password = new Password(
                             dc.Log_in.FirstOrDefault(d => d.LogInMember_ID == c.Member_ID).ContactInfoEmail,

@@ -33,7 +33,8 @@ namespace CC.Connections.BL
         public Password(string email, bool load = true)
         {
             this.email = email;
-            loadId();
+            if(load)
+                loadId();
         }
 
         private void loadId()
@@ -47,9 +48,10 @@ namespace CC.Connections.BL
 
                     PL.Log_in entry = dc.Log_in.FirstOrDefault(c => c.ContactInfoEmail == this.email);
                     if (entry == null)
-                        throw new Exception("Genre does not exist");
+                        throw new Exception("Log_in does not exist");
 
                     this.hash = entry.LogInPassword;
+                    this.email = entry.ContactInfoEmail;
                 }
             }
             catch (Exception e)
@@ -83,12 +85,12 @@ namespace CC.Connections.BL
             dc.SaveChanges();
         }
 
-        internal void Delete(DBconnections dc, int iD)
+        internal void Delete(DBconnections dc)
         {
             dc.Log_in.Remove(dc.Log_in.Where(c => c.ContactInfoEmail == email).FirstOrDefault());
         }
 
-        internal void Update(DBconnections dc, int iD)
+        internal void Update(DBconnections dc)
         {
             PL.Log_in entry = dc.Log_in.Where(c => c.ContactInfoEmail == this.email).FirstOrDefault();
             entry.LogInPassword = hash;

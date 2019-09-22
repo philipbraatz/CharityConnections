@@ -163,7 +163,7 @@ namespace CC.Connections.BL
 
                     PL.Category entry = dc.Categories.FirstOrDefault(c => c.Category_ID == this.ID);
                     if (entry == null)
-                        throw new Exception("Genre does not exist");
+                        throw new Exception("Category does not exist");
 
                     Desc = entry.Category_Desc;
                 }

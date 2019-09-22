@@ -89,7 +89,7 @@
 //
 //                    PL.Role entry = dc.Roles.FirstOrDefault(c => c.Role_ID == this.ID);
 //                    if (entry == null)
-//                        throw new Exception("Genre does not exist");
+//                        throw new Exception("Role does not exist");
 //
 //                    Description = entry.Role_desc;
 //                }

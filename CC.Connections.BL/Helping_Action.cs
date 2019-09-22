@@ -156,7 +156,7 @@ namespace CC.Connections.BL
 
                     PL.Helping_Action entry = dc.Helping_Action.FirstOrDefault(c => c.Helping_Action_ID == this.ID);
                     if (entry == null)
-                        throw new Exception("Genre does not exist");
+                        throw new Exception("Helping_Action does not exist");
 
                     Action = entry.HelpingActionDescription;
                     category = new Category((int)entry.HelpingActionCategory_ID);

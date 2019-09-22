@@ -89,7 +89,7 @@ namespace CC.Connections.BL
 
                     PL.Preference entry = dc.Preferences.FirstOrDefault(c => c.Preference_ID == this.ID);
                     if (entry == null)
-                        throw new Exception("Genre does not exist");
+                        throw new Exception("Preference does not exist");
 
                     distance = (double)entry.Distance;
                 }

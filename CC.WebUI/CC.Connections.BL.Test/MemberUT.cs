@@ -7,12 +7,15 @@ namespace CC.Connections.BL.Test
     //NOTE PB:
     //  1 hour writing
     //  2.75 hours debugging
+    //  2 hours updating to new database
+    //  1 hour on insert
+    //  2 hours on load
     [TestClass]
     public class MemberUT
     {
 
         public Member test;
-        public int testingID;
+        public string testingID = "test@test.com";
         public const string VALUE1 = "test";
         public const string VALUE2 = "updated";
         public const int INT1 = -7;
@@ -21,14 +24,13 @@ namespace CC.Connections.BL.Test
         [TestMethod]
         public void Insert()
         {
-            Member newt = new Member();
+            Member newt = new Member(testingID, VALUE1);
             newt.Contact.Phone = "1234567";
             newt.Contact.FirstName = VALUE1;
             newt.Contact.LastName = VALUE2;
             newt.helping_Action_List.Add(new Helping_Action {category =new Category {Desc =VALUE1 } });
             newt.helping_Action_List.Add(new Helping_Action { Action = VALUE1 });
             newt.Member_Type.Desc = VALUE1;
-            newt.Password.Pass = VALUE1;
             newt.Pref.distance = INT1;
             newt.Prefered_Categories.Add(new Category {Desc = VALUE1 });
 
@@ -37,7 +39,6 @@ namespace CC.Connections.BL.Test
             //newt.Prefered_Charity_ID_List.Add(loadChar[0].ID);
 
             newt.Insert();
-            testingID = newt.ID;
         }
 
         [TestMethod]
@@ -78,10 +79,11 @@ namespace CC.Connections.BL.Test
             updated.Pref.distance = INT2;
             updated.Prefered_Categories[0].Desc = VALUE2;
             //updated.Prefered_Charity_ID_List.Clear();
-            updated.Update();//update database
 
-            updated = new Member { ID = testingID };//clear
-            updated.LoadId();//load again
+            updated.Update();//update database
+            updated =null;//clear
+
+            updated.LoadId(testingID);//load again
 
             Assert.IsTrue(updated.Contact.LastName == VALUE2);
             Assert.IsTrue(updated.helping_Action_List[0].Action == VALUE2);

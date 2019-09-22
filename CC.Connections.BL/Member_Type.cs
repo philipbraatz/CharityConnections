@@ -88,7 +88,7 @@ namespace CC.Connections.BL
 
                     PL.Member_Type entry = dc.Member_Type.FirstOrDefault(c => c.MemberType_ID == this.ID);
                     if (entry == null)
-                        throw new Exception("Genre does not exist");
+                        throw new Exception("Member_Type does not exist");
 
                     Desc = entry.MemberTypeDescription;
                 }

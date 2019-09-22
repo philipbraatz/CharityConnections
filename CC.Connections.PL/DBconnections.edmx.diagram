@@ -9,17 +9,17 @@
         <EntityTypeShape EntityType="charityconnectionsDBModel.Category" Width="1.5" PointX="2.75" PointY="3.75" />
         <EntityTypeShape EntityType="charityconnectionsDBModel.Charity" Width="1.5" PointX="4.75" PointY="3.75" />
         <EntityTypeShape EntityType="charityconnectionsDBModel.Charity_Event" Width="1.5" PointX="6.75" PointY="0.75" />
-        <EntityTypeShape EntityType="charityconnectionsDBModel.Contact_Info" Width="1.5" PointX="0.75" PointY="6.75" />
+        <EntityTypeShape EntityType="charityconnectionsDBModel.Contact_Info" Width="2" PointX="0.75" PointY="6.75" />
         <EntityTypeShape EntityType="charityconnectionsDBModel.Event_Attendance" Width="1.5" PointX="6.75" PointY="4.75" />
         <EntityTypeShape EntityType="charityconnectionsDBModel.Helping_Action" Width="1.5" PointX="0.75" PointY="0.875" />
-        <EntityTypeShape EntityType="charityconnectionsDBModel.Location" Width="1.5" PointX="2.75" PointY="7.75" />
+        <EntityTypeShape EntityType="charityconnectionsDBModel.Location" Width="1.5" PointX="3" PointY="7.75" />
         <EntityTypeShape EntityType="charityconnectionsDBModel.Log_in" Width="1.5" PointX="4.75" PointY="7.75" />
-        <EntityTypeShape EntityType="charityconnectionsDBModel.Member" Width="1.5" PointX="6.75" PointY="7.75" />
+        <EntityTypeShape EntityType="charityconnectionsDBModel.Member" Width="1.875" PointX="6.75" PointY="7.75" />
         <EntityTypeShape EntityType="charityconnectionsDBModel.Member_Action" Width="1.5" PointX="3" PointY="0.875" />
         <EntityTypeShape EntityType="charityconnectionsDBModel.Member_Type" Width="1.5" PointX="8.75" PointY="0.75" />
         <EntityTypeShape EntityType="charityconnectionsDBModel.Preference" Width="1.5" PointX="8.75" PointY="3.75" />
-        <EntityTypeShape EntityType="charityconnectionsDBModel.Preferred_Category" Width="1.5" PointX="8.75" PointY="6.75" />
-        <EntityTypeShape EntityType="charityconnectionsDBModel.Preferred_Charity" Width="1.5" PointX="8.75" PointY="9.75" />
+        <EntityTypeShape EntityType="charityconnectionsDBModel.Preferred_Category" Width="2.375" PointX="8.75" PointY="6.75" />
+        <EntityTypeShape EntityType="charityconnectionsDBModel.Preferred_Charity" Width="1.875" PointX="8.75" PointY="9.75" />
         <AssociationConnector Association="charityconnectionsDBModel.FK__Member_Ac__Membe__19DFD96B" />
       </Diagram>
     </edmx:Diagrams>

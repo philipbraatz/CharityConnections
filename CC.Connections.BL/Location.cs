@@ -11,6 +11,10 @@ namespace CC.Connections.BL
     {
         private int? location_ID;
 
+        public Location()
+        {
+        }
+
         public Location(int? location_ID)
         {
             this.location_ID = location_ID;

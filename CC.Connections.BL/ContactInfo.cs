@@ -1,10 +1,8 @@
-﻿using System;
+﻿using CC.Connections.PL;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CC.Connections.PL;
 
 namespace CC.Connections.BL
 {
@@ -27,18 +25,28 @@ namespace CC.Connections.BL
         public Location Location { get; set; }
         public DateTime BirthDate { get; set; }
 
-        public ContactInfo(){ }
+        public ContactInfo(){ clear(); }
+
+        private void clear()
+        {
+            Email =string.Empty;
+            FirstName = string.Empty;
+            LastName = string.Empty;
+            Phone = string.Empty;
+            Location = new Location();
+        }
+
         public ContactInfo(string email)
         {
             Email = email;
             LoadId();
         }
-
-        public ContactInfo(int? contactID)
-        {
-            this.ID = (int)contactID;
-            LoadId();
-        }
+        
+        //public ContactInfo(int? contactID)
+        //{
+        //    this.ID = (int)contactID;
+        //    LoadId();
+        //}
 
         //public ContactInfo(string email,string firstname,string lastname,
         //    string address, string city, string state,string zip,
@@ -134,9 +142,11 @@ namespace CC.Connections.BL
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invaild");
 
+                    if (this.Email == string.Empty)
+                        throw new Exception("Email is not set");
                     PL.Contact_Info entry = dc.Contact_Info.FirstOrDefault(c => c.ContactInfo_Email == this.Email);
                     if (entry == null)
-                        throw new Exception("Genre does not exist");
+                        throw new Exception("Contact_Info does not exist: Key '" + this.Email + "'"); ;
 
                     this.Email = entry.ContactInfo_Email;
                     this.FirstName = entry.ContactInfo_FName;
@@ -144,6 +154,37 @@ namespace CC.Connections.BL
                     this.Location = new Location(entry.Location_ID);
                     this.Phone = entry.ContactInfo_Phone;
                     this.BirthDate = (DateTime)entry.DateOfBirth;
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        //TODO depreciate
+        internal static ContactInfo fromNumID(int? memberContact_ID)
+        {
+            try
+            {
+                using (DBconnections dc = new DBconnections())
+                {
+                    //if (this.ID == Guid.Empty)
+                    //    throw new Exception("ID is invaild");
+                    ContactInfo ret = new ContactInfo();
+                    if (ret.Email == string.Empty)
+                        throw new Exception("Email is not set");
+                    PL.Contact_Info entry = dc.Contact_Info.FirstOrDefault(c => c.Contact_Info_ID == memberContact_ID);
+                    if (entry == null)
+                        throw new Exception("Contact_Info does not exist: Key '" + ret.Email + "'"); ;
+
+                    ret.Email = entry.ContactInfo_Email;
+                    ret.FirstName = entry.ContactInfo_FName;
+                    ret.LastName = entry.ContactInfo_LName;
+                    ret.Location = new Location(entry.Location_ID);
+                    ret.Phone = entry.ContactInfo_Phone;
+                    ret.BirthDate = (DateTime)entry.DateOfBirth;
+                    return ret;
                 }
             }
             catch (Exception e)
