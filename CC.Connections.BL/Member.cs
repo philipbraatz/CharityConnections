@@ -215,10 +215,12 @@ namespace CC.Connections.BL
                         throw new Exception("Contact info " + email + " does not have a Member associated with it");
 
                     PL.Log_in login = dc.Log_in.FirstOrDefault(c => c.LogInMember_ID == this.ID);
-                    if (login != null)
+                    if (login == null)
                         throw new Exception("Log in does not exist for Member with email "+email);
-                    ///Good Member, Good Contact_Info, Good Log_In
 
+
+                    ///all good Login in related values
+                    
                     this.Contact = new ContactInfo(email);
 
                     this.Password = new Password(login.ContactInfoEmail, login.LogInPassword, true);

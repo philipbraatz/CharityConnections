@@ -1,9 +1,9 @@
 ﻿CREATE TABLE [dbo].[Location] (
     [Location_ID]        INT        NOT NULL,
-    [ContactInfoAddress] NCHAR (50) NULL,
-    [ContactInfoCity]    NCHAR (25) NULL,
-    [ContactInfoState]   NCHAR (25) NULL,
-    [ContactInfoZip]     NCHAR (10) NULL,
+    [ContactInfoAddress] nvarchar (50) NULL,
+    [ContactInfoCity]    nvarchar (25) NULL,
+    [ContactInfoState]   nvarchar (25) NULL,
+    [ContactInfoZip]     nvarchar (10) NULL,
     PRIMARY KEY CLUSTERED ([Location_ID] ASC)
 );
 
