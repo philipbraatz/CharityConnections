@@ -22,6 +22,7 @@ namespace CC.Connections.BL
         //depreciated
         //public Role Role { get; set; }
         public Preference Pref { get; set; }
+        public Location Location { get; set; }
 
         //required for login controller
         public Member()
@@ -97,6 +98,7 @@ namespace CC.Connections.BL
             Member_Type = new Member_Type();
             //Role = new Role();
             Pref = new Preference();
+            Location = new Location();
             
         }
 
@@ -127,6 +129,7 @@ namespace CC.Connections.BL
                     Contact.Insert();
                     Password.Insert(dc,ID);
                     Pref.Insert();
+                    Location.Insert();
                     foreach (var cat in Prefered_Categories)
                         cat.InsertMember(dc, ID);
                     foreach (var act in helping_Action_List)
@@ -151,6 +154,7 @@ namespace CC.Connections.BL
                     Contact.Delete();
                     Password.Delete(dc);
                     Pref.Delete();
+                    Location.Delete();
                     foreach (var cat in Prefered_Categories)
                         cat.DeleteMember(dc, ID);
                     foreach (var act in helping_Action_List)
@@ -179,6 +183,7 @@ namespace CC.Connections.BL
                     Contact.Update();
                     Password.Update(dc);
                     Pref.Update();
+                    Location.Update();
                     foreach (var cat in Prefered_Categories)
                         cat.UpdateMember(dc, ID);
                     foreach (var act in helping_Action_List)
@@ -199,22 +204,36 @@ namespace CC.Connections.BL
                 {
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invaild");
-
-                    PL.Member entry = dc.Members.Where(c => c.Member_ID == this.ID).FirstOrDefault();
-                    this.ID = entry.Member_ID;
-                    this.Contact = new ContactInfo(email);
+                    PL.Contact_Info cID = dc.Contact_Info.Where(c => c.ContactInfo_Email == email).FirstOrDefault();
+                    if (cID == null)
+                        throw new Exception("Contact info with email " + email + " does not exist");
+                    
+                    PL.Member entry = dc.Members.Where(c => c.MemberContact_ID == cID.Contact_Info_ID).FirstOrDefault();
+                    if (entry != null)
+                        this.ID = entry.Member_ID;
+                    else
+                        throw new Exception("Contact info " + email + " does not have a Member associated with it");
 
                     PL.Log_in login = dc.Log_in.FirstOrDefault(c => c.LogInMember_ID == this.ID);
-                    this.Password = new Password(login.ContactInfoEmail,login.LogInPassword,true);
+                    if (login != null)
+                        throw new Exception("Log in does not exist for Member with email "+email);
+                    ///Good Member, Good Contact_Info, Good Log_In
+
+                    this.Contact = new ContactInfo(email);
+
+                    this.Password = new Password(login.ContactInfoEmail, login.LogInPassword, true);
 
                     if (entry.MemberPreference_ID == null)
                         throw new Exception("Preference ID is null and cannot be loaded");
                     this.Pref = new Preference((int)entry.MemberPreference_ID);
                     this.Member_Type = new Member_Type((int)entry.MemberType_ID);
+                    this.Location = new Location((int)entry.Location_ID);
 
-                    this.Prefered_Categories = Category.LoadMembersList(dc,entry.Member_ID);
-                    helping_Action_List = Helping_Action.LoadMembersList(dc,entry.Member_ID);
+                    this.Prefered_Categories = Category.LoadMembersList(dc, entry.Member_ID);
+                    helping_Action_List = Helping_Action.LoadMembersList(dc, entry.Member_ID);
                     //this.Prefered_Charity_ID_List = Charity.LoadMembersIdList(dc,entry.Member_ID);//TODO impliment charities
+
+                        
                 }
             }
             catch (Exception e)
@@ -265,6 +284,7 @@ namespace CC.Connections.BL
                         ID = c.Member_ID,
                         Contact = ContactInfo.fromNumID(c.MemberContact_ID),//TODO convert to email instantiation
                         Pref = new Preference((int)c.MemberPreference_ID),
+                                                Location = new Location(c.Location_ID),
                         Password = new Password(
                             dc.Log_in.FirstOrDefault(d => d.LogInMember_ID == c.Member_ID).ContactInfoEmail,
                             dc.Log_in.FirstOrDefault(d => d.LogInMember_ID == c.Member_ID).LogInPassword,

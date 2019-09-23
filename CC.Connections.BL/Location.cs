@@ -35,5 +35,20 @@ namespace CC.Connections.BL
             //"825 Pilgrim Way, Green Bay, WI"
             get { return Address + " ," + City + " ," + State; }
         }
+
+        internal void Insert()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void Delete()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void Update()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
