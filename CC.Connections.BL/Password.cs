@@ -1,6 +1,7 @@
 ﻿using CC.Connections.PL;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,8 +12,10 @@ namespace CC.Connections.BL
     //  .1 hour
     public class Password
     {
+        [DisplayName("Email")]
         public string email { get; set; }
         private string hash;
+        [DisplayName("Password")]
         public string Pass
         {
             //returns hashed password
@@ -99,6 +102,30 @@ namespace CC.Connections.BL
             PL.Log_in entry = dc.Log_in.Where(c => c.ContactInfoEmail == this.email).FirstOrDefault();
             entry.LogInPassword = hash;
             dc.SaveChanges();
+        }
+
+        public bool Login()
+        {
+            try
+            {
+                if (String.IsNullOrEmpty(email))
+                    throw new Exception("Email must be set");//no userId
+                else if (String.IsNullOrEmpty(hash))
+                    throw new Exception("Password must be set");//no UserPass
+                else
+                {
+                    using (DBconnections dc = new DBconnections())
+                    {
+                        PL.Log_in entry = dc.Log_in.FirstOrDefault(u => u.ContactInfoEmail == this.email);
+                        if (entry == null)
+                            return false;
+                        else
+                            return entry.LogInPassword == hash;//success if match
+                    }
+                }
+            }
+            catch (Exception e)
+            { throw e; }
         }
     }
 }
