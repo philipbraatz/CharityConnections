@@ -197,9 +197,9 @@
             <End Role="Member_Action" EntitySet="Member_Action" />
           </AssociationSet>
           <EntitySet Name="Charities" EntityType="charityconnectionsDBModel.Charity" />
-          <EntitySet Name="Contact_Info" EntityType="charityconnectionsDBModel.Contact_Info" />
           <EntitySet Name="Log_in" EntityType="charityconnectionsDBModel.Log_in" />
           <EntitySet Name="Member_Type" EntityType="charityconnectionsDBModel.Member_Type" />
+          <EntitySet Name="Contact_Info" EntityType="charityconnectionsDBModel.Contact_Info" />
         </EntityContainer>
         <EntityType Name="C__RefactorLog">
           <Key>
@@ -326,18 +326,6 @@
           <Property Name="Location_ID" Type="Int32" />
           <Property Name="Charity_Requirements" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="Contact_Info">
-          <Key>
-            <PropertyRef Name="Contact_Info_ID" />
-          </Key>
-          <Property Name="Contact_Info_ID" Type="Int32" Nullable="false" />
-          <Property Name="ContactInfo_FName" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
-          <Property Name="ContactInfo_LName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ContactInfo_Phone" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
-          <Property Name="ContactInfo_Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Location_ID" Type="Int32" />
-          <Property Name="DateOfBirth" Type="DateTime" Precision="0" />
-        </EntityType>
         <EntityType Name="Log_in">
           <Key>
             <PropertyRef Name="ContactInfoEmail" />
@@ -352,6 +340,18 @@
           </Key>
           <Property Name="MemberType_ID" Type="Int32" Nullable="false" />
           <Property Name="MemberTypeDescription" Type="String" MaxLength="75" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Contact_Info">
+          <Key>
+            <PropertyRef Name="Contact_Info_ID" />
+          </Key>
+          <Property Name="Contact_Info_ID" Type="Int32" Nullable="false" />
+          <Property Name="ContactInfo_FName" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="ContactInfo_LName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ContactInfo_Phone" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="ContactInfo_Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Location_ID" Type="Int32" />
+          <Property Name="DateOfBirth" Type="DateTime" Precision="0" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -482,19 +482,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Contact_Info">
-            <EntityTypeMapping TypeName="charityconnectionsDBModel.Contact_Info">
-              <MappingFragment StoreEntitySet="Contact_Info">
-                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
-                <ScalarProperty Name="Location_ID" ColumnName="Location_ID" />
-                <ScalarProperty Name="ContactInfo_Email" ColumnName="ContactInfo_Email" />
-                <ScalarProperty Name="ContactInfo_Phone" ColumnName="ContactInfo_Phone" />
-                <ScalarProperty Name="ContactInfo_LName" ColumnName="ContactInfo_LName" />
-                <ScalarProperty Name="ContactInfo_FName" ColumnName="ContactInfo_FName" />
-                <ScalarProperty Name="Contact_Info_ID" ColumnName="Contact_Info_ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Log_in">
             <EntityTypeMapping TypeName="charityconnectionsDBModel.Log_in">
               <MappingFragment StoreEntitySet="Log_in">
@@ -509,6 +496,19 @@
               <MappingFragment StoreEntitySet="Member_Type">
                 <ScalarProperty Name="MemberTypeDescription" ColumnName="MemberTypeDescription" />
                 <ScalarProperty Name="MemberType_ID" ColumnName="MemberType_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Contact_Info">
+            <EntityTypeMapping TypeName="charityconnectionsDBModel.Contact_Info">
+              <MappingFragment StoreEntitySet="Contact_Info">
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="Location_ID" ColumnName="Location_ID" />
+                <ScalarProperty Name="ContactInfo_Email" ColumnName="ContactInfo_Email" />
+                <ScalarProperty Name="ContactInfo_Phone" ColumnName="ContactInfo_Phone" />
+                <ScalarProperty Name="ContactInfo_LName" ColumnName="ContactInfo_LName" />
+                <ScalarProperty Name="ContactInfo_FName" ColumnName="ContactInfo_FName" />
+                <ScalarProperty Name="Contact_Info_ID" ColumnName="Contact_Info_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
