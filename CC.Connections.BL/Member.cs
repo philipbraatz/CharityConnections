@@ -251,31 +251,6 @@ namespace CC.Connections.BL
                 throw e;
             }
         }
-
-        public bool Login()
-        {
-            try
-            {
-                if (String.IsNullOrEmpty(Contact.Email))
-                    throw new Exception("Email must be set");//no userId
-                else if (String.IsNullOrEmpty(Password.Pass))
-                    throw new Exception("Password must be set");//no UserPass
-                else
-                {
-                    using (DBconnections dc = new DBconnections())
-                    {
-                        PL.Log_in entry = dc.Log_in.FirstOrDefault(u => u.LogInMember_ID == this.ID);
-
-                        if (entry == null)
-                            return false;
-                        else
-                            return entry.LogInPassword == Password.Pass;//success if match
-                    }
-                }
-            }
-            catch (Exception e)
-            {throw e;}
-        }
     }
 
     public class MemberList
