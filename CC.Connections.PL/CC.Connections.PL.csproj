@@ -54,7 +54,13 @@
     <Compile Include="Category.cs">
       <DependentUpon>DBconnections.tt</DependentUpon>
     </Compile>
+    <Compile Include="Charity.cs">
+      <DependentUpon>DBconnections.tt</DependentUpon>
+    </Compile>
     <Compile Include="Charity_Event.cs">
+      <DependentUpon>DBconnections.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Contact_Info.cs">
       <DependentUpon>DBconnections.tt</DependentUpon>
     </Compile>
     <Compile Include="C__RefactorLog.cs">
@@ -84,10 +90,16 @@
     <Compile Include="Location.cs">
       <DependentUpon>DBconnections.tt</DependentUpon>
     </Compile>
+    <Compile Include="Log_in.cs">
+      <DependentUpon>DBconnections.tt</DependentUpon>
+    </Compile>
     <Compile Include="Member.cs">
       <DependentUpon>DBconnections.tt</DependentUpon>
     </Compile>
     <Compile Include="Member_Action.cs">
+      <DependentUpon>DBconnections.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Member_Type.cs">
       <DependentUpon>DBconnections.tt</DependentUpon>
     </Compile>
     <Compile Include="Preference.cs">

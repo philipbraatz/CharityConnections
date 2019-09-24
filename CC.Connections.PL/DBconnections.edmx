@@ -18,6 +18,21 @@
           <Property Name="Category_ID" Type="int" Nullable="false" />
           <Property Name="Category_Desc" Type="nvarchar" MaxLength="70" />
         </EntityType>
+        <EntityType Name="Charity">
+          <Key>
+            <PropertyRef Name="Charity_ID" />
+          </Key>
+          <Property Name="Charity_ID" Type="int" Nullable="false" />
+          <Property Name="Charity_Contact_ID" Type="int" />
+          <Property Name="Charity_EIN" Type="nvarchar" MaxLength="50" />
+          <Property Name="Charity_Deductibility" Type="bit" />
+          <Property Name="Charity_URL" Type="nvarchar" MaxLength="75" />
+          <Property Name="Charity_Cause" Type="nvarchar" MaxLength="50" />
+          <Property Name="Charity_Email" Type="nvarchar" MaxLength="75" />
+          <Property Name="Charity_Category_ID" Type="int" />
+          <Property Name="Location_ID" Type="int" />
+          <Property Name="Charity_Requirements" Type="nvarchar" MaxLength="500" />
+        </EntityType>
         <EntityType Name="Charity_Event">
           <Key>
             <PropertyRef Name="CharityEvent_ID" />
@@ -32,6 +47,18 @@
           <Property Name="CharityEventTime" Type="datetime" />
           <Property Name="CharityEventStatus" Type="nvarchar" MaxLength="10" />
           <Property Name="CharityEventRequirements" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="Contact_Info">
+          <Key>
+            <PropertyRef Name="Contact_Info_ID" />
+          </Key>
+          <Property Name="Contact_Info_ID" Type="int" Nullable="false" />
+          <Property Name="ContactInfo_FName" Type="nvarchar" MaxLength="25" />
+          <Property Name="ContactInfo_LName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ContactInfo_Phone" Type="nvarchar" MaxLength="12" />
+          <Property Name="ContactInfo_Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="Location_ID" Type="int" />
+          <Property Name="DateOfBirth" Type="date" />
         </EntityType>
         <EntityType Name="Event_Attendance">
           <Key>
@@ -60,6 +87,14 @@
           <Property Name="ContactInfoState" Type="nvarchar" MaxLength="25" />
           <Property Name="ContactInfoZip" Type="nvarchar" MaxLength="10" />
         </EntityType>
+        <EntityType Name="Log_in">
+          <Key>
+            <PropertyRef Name="ContactInfoEmail" />
+          </Key>
+          <Property Name="ContactInfoEmail" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LogInMember_ID" Type="int" />
+          <Property Name="LogInPassword" Type="nvarchar" MaxLength="150" />
+        </EntityType>
         <EntityType Name="Member">
           <Key>
             <PropertyRef Name="Member_ID" />
@@ -77,6 +112,13 @@
           <Property Name="MemberAction_ID" Type="int" Nullable="false" />
           <Property Name="MemberActionMember_ID" Type="int" />
           <Property Name="MemberActionAction_ID" Type="int" />
+        </EntityType>
+        <EntityType Name="Member_Type">
+          <Key>
+            <PropertyRef Name="MemberType_ID" />
+          </Key>
+          <Property Name="MemberType_ID" Type="int" Nullable="false" />
+          <Property Name="MemberTypeDescription" Type="nvarchar" MaxLength="75" />
         </EntityType>
         <EntityType Name="Preference">
           <Key>
@@ -116,12 +158,16 @@
         <EntityContainer Name="charityconnectionsDBModelStoreContainer">
           <EntitySet Name="__RefactorLog" EntityType="Self.__RefactorLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Charity" EntityType="Self.Charity" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Charity_Event" EntityType="Self.Charity_Event" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Contact_Info" EntityType="Self.Contact_Info" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Event_Attendance" EntityType="Self.Event_Attendance" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Helping_Action" EntityType="Self.Helping_Action" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Log_in" EntityType="Self.Log_in" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Member" EntityType="Self.Member" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Member_Action" EntityType="Self.Member_Action" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Member_Type" EntityType="Self.Member_Type" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Preference" EntityType="Self.Preference" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Preferred_Category" EntityType="Self.Preferred_Category" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Preferred_Charity" EntityType="Self.Preferred_Charity" Schema="dbo" store:Type="Tables" />
@@ -150,6 +196,10 @@
             <End Role="Helping_Action" EntitySet="Helping_Action" />
             <End Role="Member_Action" EntitySet="Member_Action" />
           </AssociationSet>
+          <EntitySet Name="Charities" EntityType="charityconnectionsDBModel.Charity" />
+          <EntitySet Name="Contact_Info" EntityType="charityconnectionsDBModel.Contact_Info" />
+          <EntitySet Name="Log_in" EntityType="charityconnectionsDBModel.Log_in" />
+          <EntitySet Name="Member_Type" EntityType="charityconnectionsDBModel.Member_Type" />
         </EntityContainer>
         <EntityType Name="C__RefactorLog">
           <Key>
@@ -261,6 +311,48 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Charity">
+          <Key>
+            <PropertyRef Name="Charity_ID" />
+          </Key>
+          <Property Name="Charity_ID" Type="Int32" Nullable="false" />
+          <Property Name="Charity_Contact_ID" Type="Int32" />
+          <Property Name="Charity_EIN" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Charity_Deductibility" Type="Boolean" />
+          <Property Name="Charity_URL" Type="String" MaxLength="75" FixedLength="false" Unicode="true" />
+          <Property Name="Charity_Cause" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Charity_Email" Type="String" MaxLength="75" FixedLength="false" Unicode="true" />
+          <Property Name="Charity_Category_ID" Type="Int32" />
+          <Property Name="Location_ID" Type="Int32" />
+          <Property Name="Charity_Requirements" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Contact_Info">
+          <Key>
+            <PropertyRef Name="Contact_Info_ID" />
+          </Key>
+          <Property Name="Contact_Info_ID" Type="Int32" Nullable="false" />
+          <Property Name="ContactInfo_FName" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="ContactInfo_LName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ContactInfo_Phone" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="ContactInfo_Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Location_ID" Type="Int32" />
+          <Property Name="DateOfBirth" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="Log_in">
+          <Key>
+            <PropertyRef Name="ContactInfoEmail" />
+          </Key>
+          <Property Name="ContactInfoEmail" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LogInMember_ID" Type="Int32" />
+          <Property Name="LogInPassword" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Member_Type">
+          <Key>
+            <PropertyRef Name="MemberType_ID" />
+          </Key>
+          <Property Name="MemberType_ID" Type="Int32" Nullable="false" />
+          <Property Name="MemberTypeDescription" Type="String" MaxLength="75" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -371,6 +463,52 @@
                 <ScalarProperty Name="Charity_ID" ColumnName="Charity_ID" />
                 <ScalarProperty Name="Member_ID" ColumnName="Member_ID" />
                 <ScalarProperty Name="MemberCharity_ID" ColumnName="MemberCharity_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Charities">
+            <EntityTypeMapping TypeName="charityconnectionsDBModel.Charity">
+              <MappingFragment StoreEntitySet="Charity">
+                <ScalarProperty Name="Charity_Requirements" ColumnName="Charity_Requirements" />
+                <ScalarProperty Name="Location_ID" ColumnName="Location_ID" />
+                <ScalarProperty Name="Charity_Category_ID" ColumnName="Charity_Category_ID" />
+                <ScalarProperty Name="Charity_Email" ColumnName="Charity_Email" />
+                <ScalarProperty Name="Charity_Cause" ColumnName="Charity_Cause" />
+                <ScalarProperty Name="Charity_URL" ColumnName="Charity_URL" />
+                <ScalarProperty Name="Charity_Deductibility" ColumnName="Charity_Deductibility" />
+                <ScalarProperty Name="Charity_EIN" ColumnName="Charity_EIN" />
+                <ScalarProperty Name="Charity_Contact_ID" ColumnName="Charity_Contact_ID" />
+                <ScalarProperty Name="Charity_ID" ColumnName="Charity_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Contact_Info">
+            <EntityTypeMapping TypeName="charityconnectionsDBModel.Contact_Info">
+              <MappingFragment StoreEntitySet="Contact_Info">
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="Location_ID" ColumnName="Location_ID" />
+                <ScalarProperty Name="ContactInfo_Email" ColumnName="ContactInfo_Email" />
+                <ScalarProperty Name="ContactInfo_Phone" ColumnName="ContactInfo_Phone" />
+                <ScalarProperty Name="ContactInfo_LName" ColumnName="ContactInfo_LName" />
+                <ScalarProperty Name="ContactInfo_FName" ColumnName="ContactInfo_FName" />
+                <ScalarProperty Name="Contact_Info_ID" ColumnName="Contact_Info_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Log_in">
+            <EntityTypeMapping TypeName="charityconnectionsDBModel.Log_in">
+              <MappingFragment StoreEntitySet="Log_in">
+                <ScalarProperty Name="LogInPassword" ColumnName="LogInPassword" />
+                <ScalarProperty Name="LogInMember_ID" ColumnName="LogInMember_ID" />
+                <ScalarProperty Name="ContactInfoEmail" ColumnName="ContactInfoEmail" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Member_Type">
+            <EntityTypeMapping TypeName="charityconnectionsDBModel.Member_Type">
+              <MappingFragment StoreEntitySet="Member_Type">
+                <ScalarProperty Name="MemberTypeDescription" ColumnName="MemberTypeDescription" />
+                <ScalarProperty Name="MemberType_ID" ColumnName="MemberType_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

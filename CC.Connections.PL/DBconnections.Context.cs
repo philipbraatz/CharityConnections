@@ -54,6 +54,14 @@ public partial class DBconnections : DbContext
 
     public virtual DbSet<Preferred_Charity> Preferred_Charity { get; set; }
 
+    public virtual DbSet<Charity> Charities { get; set; }
+
+    public virtual DbSet<Contact_Info> Contact_Info { get; set; }
+
+    public virtual DbSet<Log_in> Log_in { get; set; }
+
+    public virtual DbSet<Member_Type> Member_Type { get; set; }
+
 }
 
 }
