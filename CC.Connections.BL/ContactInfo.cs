@@ -21,8 +21,6 @@ namespace CC.Connections.BL
         {
             get { return FirstName + " " + LastName; }
         }
-        [DisplayName("Location")]
-        public Location Location { get; set; }
         public DateTime BirthDate { get; set; }
 
         public ContactInfo(){ clear(); }
@@ -33,7 +31,6 @@ namespace CC.Connections.BL
             FirstName = string.Empty;
             LastName = string.Empty;
             Phone = string.Empty;
-            Location = new Location();
         }
 
         public ContactInfo(string email)
@@ -83,7 +80,6 @@ namespace CC.Connections.BL
                         ContactInfo_Email = Email,
                         ContactInfo_FName = this.FirstName,
                         ContactInfo_LName =this.LastName,
-                        Location_ID =this.Location.ID,
                         ContactInfo_Phone =this.Phone,
                         DateOfBirth =this.BirthDate
                     };
@@ -126,7 +122,6 @@ namespace CC.Connections.BL
                     entry.ContactInfo_Email = Email;
                     entry.ContactInfo_FName = this.FirstName;
                     entry.ContactInfo_LName = this.LastName;
-                    entry.Location_ID = this.Location.ID;
                     entry.ContactInfo_Phone = this.Phone;
                     entry.DateOfBirth = this.BirthDate;
 
@@ -154,7 +149,6 @@ namespace CC.Connections.BL
                     this.Email = entry.ContactInfo_Email;
                     this.FirstName = entry.ContactInfo_FName;
                     this.LastName = entry.ContactInfo_LName;
-                    this.Location = new Location((int)entry.Location_ID);
                     this.Phone = entry.ContactInfo_Phone;
                     this.BirthDate = (DateTime)entry.DateOfBirth;
                 }
@@ -182,7 +176,6 @@ namespace CC.Connections.BL
                     ret.Email = entry.ContactInfo_Email;
                     ret.FirstName = entry.ContactInfo_FName;
                     ret.LastName = entry.ContactInfo_LName;
-                    ret.Location = new Location((int)entry.Location_ID);
                     ret.Phone = entry.ContactInfo_Phone;
                     ret.BirthDate = (DateTime)entry.DateOfBirth;
                     return ret;

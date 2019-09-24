@@ -129,7 +129,7 @@ namespace CC.Connections.BL
             catch (Exception e) { throw e; }
         }
 
-        public void LoadPreferences(int memberID)
+        public CategoryList LoadPreferences(int memberID)
         {
             try
             {
@@ -139,6 +139,7 @@ namespace CC.Connections.BL
                         dc.Preferred_Category.Where(d => d.MemberCat_Member_ID == memberID).ToList().ForEach(c =>
                              this.Add(new Category((int)c.MemberCat_Category_ID)));
                 }
+                return this;
             }
             catch (Exception e) { throw e; }
         }
@@ -151,6 +152,7 @@ namespace CC.Connections.BL
                 MemberCat_Member_ID =memberID,
                 MemberCat_Category_ID = categoryID
                 });
+                this.Add(new Category(categoryID));
             }
         }
 
@@ -158,19 +160,29 @@ namespace CC.Connections.BL
         {
             using (DBconnections dc = new DBconnections())
             {
-                dc.Preferred_Category.Remove(new Preferred_Category
-                {
-                    PreferredCategory_ID = dc.Preferred_Category.Max(c => c.PreferredCategory_ID),
-                    MemberCat_Member_ID = memberID,
-                    MemberCat_Category_ID = categoryID
-                });
+                dc.Preferred_Category.Remove(dc.Preferred_Category.Where(
+                    c=>c.MemberCat_Member_ID ==memberID &&
+                    c.MemberCat_Category_ID ==categoryID).FirstOrDefault());
+                this.Remove(new Category(categoryID));
             }
+        }
+        public void UpdateCategory(Category cat, string description)
+        {
+            Category cthis =this.Where(c => c.ID == cat.ID).FirstOrDefault();
+            cthis.Desc = description;
+            cthis.Update();
+
+        }
+        public void UpdateCategory(int catID,string description)
+        {
+            Category cthis = this.Where(c => c.ID == catID).FirstOrDefault();
+            cthis.Desc = description;
+            cthis.Update();
         }
 
         private bool MemberExists(DBconnections dc, int member_ID)
         {
-            return dc.Preferred_Category.Where(c => c.MemberCat_Member_ID == member_ID &&
-                                                c.MemberCat_Category_ID == ID
+            return dc.Preferred_Category.Where(c => c.MemberCat_Member_ID == member_ID
             ).FirstOrDefault() != null;
         }
     }
