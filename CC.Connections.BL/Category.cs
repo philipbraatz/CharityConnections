@@ -71,6 +71,7 @@ namespace CC.Connections.BL
                 return false;
             if (!Exists(dc))//add missing
                 Insert();
+            Update();//could replace values for everyone, maybe do this better
             dc.Preferred_Category.Where(c => c.MemberCat_Member_ID == id).ToList().ForEach(c => c.MemberCat_Category_ID = ID);//might not work
             return true;
         }

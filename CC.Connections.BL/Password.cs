@@ -68,12 +68,14 @@ namespace CC.Connections.BL
                 this.Pass = password;
         }
 
-        internal void Insert(DBconnections dc, int iD)
+        internal bool Insert(DBconnections dc, int iD)
         {
             //if (dc.Log_in.ToList().Count > 0)
             //    email = (int)dc.Log_in.Max(c => c.LogInMember_ID) + 1;
             //else
             //    email = 0;
+            if (dc.Log_in.Where(c => c.ContactInfoEmail == email).FirstOrDefault() != null)
+                return false;//already exists
 
             PL.Log_in entry = new PL.Log_in
             {
@@ -83,17 +85,20 @@ namespace CC.Connections.BL
             };
             dc.Log_in.Add(entry);
             dc.SaveChanges();
+            return true;//added
         }
 
         internal void Delete(DBconnections dc)
         {
             dc.Log_in.Remove(dc.Log_in.Where(c => c.ContactInfoEmail == email).FirstOrDefault());
+            dc.SaveChanges();
         }
 
         internal void Update(DBconnections dc)
         {
             PL.Log_in entry = dc.Log_in.Where(c => c.ContactInfoEmail == this.email).FirstOrDefault();
             entry.LogInPassword = hash;
+            dc.SaveChanges();
         }
     }
 }

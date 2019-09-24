@@ -39,7 +39,8 @@ namespace CC.Connections.BL
                     };
 
                     dc.Preferences.Add(entry);
-                    return dc.SaveChanges();
+                    dc.SaveChanges();
+                    return ID;
                 }
             }
             catch (Exception e) { throw e; }

@@ -36,9 +36,10 @@ namespace CC.Connections.BL
             get { return Address + " ," + City + " ," + State; }
         }
 
-        internal void Insert()
+        internal int Insert()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            return -1;
         }
 
         internal void Delete()

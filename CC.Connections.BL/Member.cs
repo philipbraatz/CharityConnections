@@ -24,6 +24,11 @@ namespace CC.Connections.BL
         public Preference Pref { get; set; }
         public Location Location { get; set; }
 
+        internal static bool Exists(DBconnections dc, int id)
+        {
+            return dc.Members.Where(c => c.Member_ID== id).FirstOrDefault() != null;
+        }
+
         //required for login controller
         public Member()
         {
@@ -73,7 +78,7 @@ namespace CC.Connections.BL
                     Clear();
                     PL.Contact_Info cID = dc.Contact_Info.Where(c => c.ContactInfo_Email == email).FirstOrDefault();
                     if (cID == null)
-                        throw new Exception("email is null and cannot be loaded");
+                        throw new Exception("email "+email+" does not have a contact info");
                     //else
                     //{
                     //    PL.Member mID = dc.Members.Where(c => c.MemberContact_ID == cID.Contact_Info_ID).FirstOrDefault();
@@ -115,21 +120,22 @@ namespace CC.Connections.BL
                     else
                         ID = 0;
 
-
+                    Contact.ID = Contact.Insert();
+                    Pref.ID = Pref.Insert();
+                    Member_Type.ID = Member_Type.Insert();
+                    Location.ID = Location.Insert();
                     PL.Member entry = new PL.Member
                     {
                         Member_ID = ID,
                         MemberContact_ID = Contact.ID,
                         //Role_ID = Role.ID,
                         MemberType_ID =Member_Type.ID,
-                        MemberPreference_ID = Pref.ID
+                        MemberPreference_ID = Pref.ID,
+                        Location_ID =Location.ID
                     };
                     dc.Members.Add(entry);//adding prior to everything else
 
-                    Contact.Insert();
                     Password.Insert(dc,ID);
-                    Pref.Insert();
-                    Location.Insert();
                     foreach (var cat in Prefered_Categories)
                         cat.InsertMember(dc, ID);
                     foreach (var act in helping_Action_List)
@@ -151,10 +157,10 @@ namespace CC.Connections.BL
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invaild");
 
-                    Contact.Delete();
                     Password.Delete(dc);
                     Pref.Delete();
-                    Location.Delete();
+                    Contact.Delete();
+                    //Location.Delete();//TODO impliment
                     foreach (var cat in Prefered_Categories)
                         cat.DeleteMember(dc, ID);
                     foreach (var act in helping_Action_List)
@@ -162,6 +168,8 @@ namespace CC.Connections.BL
                     foreach (int char_ID in Prefered_Charity_ID_List)
                         Charity.InsertMember(dc, ID, char_ID);//Maybe put in Member class
                     //dc.Roles.Remove(dc.Roles.Where(c => c.Role_ID == ID).FirstOrDefault());
+
+                    dc.Members.Remove(dc.Members.Where(c => c.Member_ID == ID).FirstOrDefault());
 
                     return dc.SaveChanges();
                 }
@@ -183,7 +191,8 @@ namespace CC.Connections.BL
                     Contact.Update();
                     Password.Update(dc);
                     Pref.Update();
-                    Location.Update();
+                    Member_Type.Update();
+                    //Location.Update();//TODO impliment
                     foreach (var cat in Prefered_Categories)
                         cat.UpdateMember(dc, ID);
                     foreach (var act in helping_Action_List)
@@ -229,7 +238,7 @@ namespace CC.Connections.BL
                         throw new Exception("Preference ID is null and cannot be loaded");
                     this.Pref = new Preference((int)entry.MemberPreference_ID);
                     this.Member_Type = new Member_Type((int)entry.MemberType_ID);
-                    this.Location = new Location((int)entry.Location_ID);
+                    //this.Location = new Location((int)entry.Location_ID);//TODO impliment
 
                     this.Prefered_Categories = Category.LoadMembersList(dc, entry.Member_ID);
                     helping_Action_List = Helping_Action.LoadMembersList(dc, entry.Member_ID);
@@ -249,9 +258,9 @@ namespace CC.Connections.BL
             try
             {
                 if (String.IsNullOrEmpty(Contact.Email))
-                    throw new Exception("email must be set");//no userId
+                    throw new Exception("Email must be set");//no userId
                 else if (String.IsNullOrEmpty(Password.Pass))
-                    throw new Exception("password must be set");//no UserPass
+                    throw new Exception("Password must be set");//no UserPass
                 else
                 {
                     using (DBconnections dc = new DBconnections())
@@ -279,23 +288,22 @@ namespace CC.Connections.BL
             {
                 using (DBconnections dc = new DBconnections())
                 {
-                    //if (entry.Preference_ID == null)
-                    //    throw new Exception("Preference ID is null and cannot be loaded");
-                    dc.Members.ToList().ForEach(c => this.Add(new Member
-                    {
-                        ID = c.Member_ID,
-                        Contact = ContactInfo.fromNumID(c.MemberContact_ID),//TODO convert to email instantiation
-                        Pref = new Preference((int)c.MemberPreference_ID),
-                                                Location = new Location(c.Location_ID),
-                        Password = new Password(
-                            dc.Log_in.FirstOrDefault(d => d.LogInMember_ID == c.Member_ID).ContactInfoEmail,
-                            dc.Log_in.FirstOrDefault(d => d.LogInMember_ID == c.Member_ID).LogInPassword,
-                            true),
-                        Prefered_Categories = Category.LoadMembersList(dc,c.Member_ID),
-                        helping_Action_List = Helping_Action.LoadMembersList(dc,c.Member_ID),
-                        //Prefered_Charity_ID_List = Charity.LoadMembersIdList(dc,c.Member_ID),
-                        Member_Type = new Member_Type(c.Member_ID)
-                    }));
+                    if(dc.Members.ToList().Count !=0)
+                        dc.Members.ToList().ForEach(c => this.Add(new Member
+                        {
+                            ID = c.Member_ID,
+                            Contact = ContactInfo.fromNumID(c.MemberContact_ID),//TODO convert to email instantiation
+                            Pref = new Preference((int)c.MemberPreference_ID),
+                            //Location = new Location(c.Location_ID),//TODO impliment
+                            Password = new Password(
+                                dc.Log_in.FirstOrDefault(d => d.LogInMember_ID == c.Member_ID).ContactInfoEmail,
+                                dc.Log_in.FirstOrDefault(d => d.LogInMember_ID == c.Member_ID).LogInPassword,
+                                true),
+                            Prefered_Categories = Category.LoadMembersList(dc,c.Member_ID),
+                            helping_Action_List = Helping_Action.LoadMembersList(dc,c.Member_ID),
+                            //Prefered_Charity_ID_List = Charity.LoadMembersIdList(dc,c.Member_ID),
+                            Member_Type = new Member_Type(c.Member_ID)
+                        }));
                 }
             }
             catch (Exception e) { throw e; }

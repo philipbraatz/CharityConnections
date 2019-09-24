@@ -15,6 +15,7 @@ namespace CC.Connections.BL
         public Member_Type(int id)
         {
             this.ID = id;
+            LoadId();
         }
 
         public Member_Type() { }
@@ -38,7 +39,8 @@ namespace CC.Connections.BL
                     };
 
                     dc.Member_Type.Add(entry);
-                    return dc.SaveChanges();
+                    dc.SaveChanges();
+                    return ID;
                 }
             }
             catch (Exception e) { throw e; }

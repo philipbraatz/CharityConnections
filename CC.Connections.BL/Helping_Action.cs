@@ -30,20 +30,26 @@ namespace CC.Connections.BL
 
         internal bool InsertMember(DBconnections dc, int id)
         {
+            //Error checking
             if (MemberExists(dc, id))//dont add existing
                 return false;
             if (!Exists(dc))//add missing
                 Insert();
+            if(!Member.Exists(dc,id))
+                throw new Exception("Member of id "+id+" does not exist");
+            if (this.Action == string.Empty)
+                throw new Exception("Helping Action description can not be empty");
 
+            //new ID
+            int ma_ID;
             if (dc.Member_Action.ToList().Count >0)
-                ID = (int)dc.Member_Action.Max(c => c.MemberActionMember_ID) + 1;//unique id
+                ma_ID = (int)dc.Member_Action.Max(c => c.MemberActionMember_ID) + 1;//unique id
             else
-                ID = 0;
+                ma_ID = 0;
 
-            //TODO check if new category or new member first
             Member_Action entry = new Member_Action
             {
-                MemberAction_ID =ID,
+                MemberAction_ID = ma_ID,
                 MemberActionMember_ID = id,//member
                 MemberActionAction_ID = ID//action
             };
