@@ -101,7 +101,6 @@ namespace CC.Connections.BL
             Prefered_Charity_ID_List = new List<int>();
             helping_Action_List = new List<Helping_Action>();
             Member_Type = new Member_Type();
-            //Role = new Role();
             Pref = new Preference();
             Location = new Location();
             
@@ -192,7 +191,7 @@ namespace CC.Connections.BL
                     Password.Update(dc);
                     Pref.Update();
                     Member_Type.Update();
-                    //Location.Update();//TODO impliment
+                    Location.Update();
                     foreach (var cat in Prefered_Categories)
                         cat.UpdateMember(dc, ID);
                     foreach (var act in helping_Action_List)
@@ -238,7 +237,7 @@ namespace CC.Connections.BL
                         throw new Exception("Preference ID is null and cannot be loaded");
                     this.Pref = new Preference((int)entry.MemberPreference_ID);
                     this.Member_Type = new Member_Type((int)entry.MemberType_ID);
-                    //this.Location = new Location((int)entry.Location_ID);//TODO impliment
+                    this.Location = new Location((int)entry.Location_ID);
 
                     this.Prefered_Categories = Category.LoadMembersList(dc, entry.Member_ID);
                     helping_Action_List = Helping_Action.LoadMembersList(dc, entry.Member_ID);

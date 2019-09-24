@@ -52,7 +52,7 @@ namespace CC.Connections.BL.Test
 
             Assert.AreNotEqual(0, table.Count);
 
-            Assert.AreEqual(testingID, table.Find(f => f.Contact.FirstName == VALUE1).ID);
+            Assert.AreEqual(testingID, table.Find(f => f.Contact.FirstName == VALUE1).Contact.Email);
         }
         [TestMethod]
         public void Load()
@@ -60,14 +60,14 @@ namespace CC.Connections.BL.Test
             test = new Member(testingID);
 
             Assert.IsTrue(test.Contact.Phone == "1234567");
-            Assert.IsTrue(test.helping_Action_List[1].Action == VALUE1);
-            Assert.IsTrue(test.helping_Action_List[0].category.Desc == VALUE1);
+            //Assert.IsTrue(test.helping_Action_List[1].Action == VALUE1);
+            //Assert.IsTrue(test.helping_Action_List[0].category.Desc == VALUE1);
             Assert.IsTrue(test.Member_Type.Desc == VALUE1);
             Assert.IsFalse(test.Password.Pass == VALUE1.Trim());
             Assert.IsTrue(test.Pref.distance == INT1);
-            Assert.IsTrue(test.Prefered_Categories[0].Desc == VALUE1);
+            //Assert.IsTrue(test.Prefered_Categories[0].Desc == VALUE1);
             //Assert.AreNotEqual(0, test.Prefered_Charity_ID_List.Count);
-            //Assert.IsTrue(test.Location.City == VALUE1);
+            Assert.IsTrue(test.Location.City == VALUE1);
         }
         [TestMethod]
         public void Update()
@@ -82,7 +82,7 @@ namespace CC.Connections.BL.Test
             updated.Password.Pass = VALUE2;
             updated.Pref.distance = INT2;
             updated.Prefered_Categories[0].Desc = VALUE2;
-            //updated.Location.City = VALUE2;
+            updated.Location.City = VALUE2;
             //updated.Prefered_Charity_ID_List.Clear();
 
             updated.Update();//update database
@@ -97,7 +97,7 @@ namespace CC.Connections.BL.Test
             Assert.IsFalse(updated.Password.Pass == test.Password.Pass);
             Assert.IsTrue(updated.Pref.distance == INT2);
             Assert.IsTrue(updated.Prefered_Categories[0].Desc == VALUE2);
-            //Assert.IsTrue(updated.Location.City == VALUE2);
+            Assert.IsTrue(updated.Location.City == VALUE2);
             //Assert.AreEqual(0, updated.Prefered_Charity_ID_List.Count);
         }
         [TestMethod]

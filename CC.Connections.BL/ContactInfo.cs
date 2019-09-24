@@ -154,7 +154,7 @@ namespace CC.Connections.BL
                     this.Email = entry.ContactInfo_Email;
                     this.FirstName = entry.ContactInfo_FName;
                     this.LastName = entry.ContactInfo_LName;
-                    this.Location = new Location(entry.Location_ID);
+                    this.Location = new Location((int)entry.Location_ID);
                     this.Phone = entry.ContactInfo_Phone;
                     this.BirthDate = (DateTime)entry.DateOfBirth;
                 }
@@ -182,7 +182,7 @@ namespace CC.Connections.BL
                     ret.Email = entry.ContactInfo_Email;
                     ret.FirstName = entry.ContactInfo_FName;
                     ret.LastName = entry.ContactInfo_LName;
-                    ret.Location = new Location(entry.Location_ID);
+                    ret.Location = new Location((int)entry.Location_ID);
                     ret.Phone = entry.ContactInfo_Phone;
                     ret.BirthDate = (DateTime)entry.DateOfBirth;
                     return ret;
