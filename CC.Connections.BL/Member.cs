@@ -15,9 +15,9 @@ namespace CC.Connections.BL
         public int ID { get; set; }
         public ContactInfo Contact { get; set; }
         public Password Password { get; set; }
-        public List<Category> Prefered_Categories { get; set; }
-        public List<int> Prefered_Charity_ID_List { get; set; }
-        public List<Helping_Action> helping_Action_List { get; set; }
+        public CategoryList Prefered_Categories { get; set; }
+        public CharityList Prefered_Charities { get; set; }
+        public Helping_ActionList Prefered_helping_Actions { get; set; }
         public Member_Type Member_Type { get; set; }
         //depreciated
         //public Role Role { get; set; }
@@ -97,9 +97,9 @@ namespace CC.Connections.BL
         {
             Contact = new ContactInfo();
             Password = new Password();
-            Prefered_Categories = new List<Category>();
-            Prefered_Charity_ID_List = new List<int>();
-            helping_Action_List = new List<Helping_Action>();
+            Prefered_Categories = new CategoryList();
+            Prefered_Charities = new CharityList();
+            Prefered_helping_Actions = new Helping_ActionList();
             Member_Type = new Member_Type();
             Pref = new Preference();
             Location = new Location();
@@ -135,12 +135,6 @@ namespace CC.Connections.BL
                     dc.Members.Add(entry);//adding prior to everything else
 
                     Password.Insert(dc,ID);
-                    foreach (var cat in Prefered_Categories)
-                        cat.InsertMember(dc, ID);
-                    foreach (var act in helping_Action_List)
-                        act.InsertMember(dc, ID);
-                    foreach (var char_ID in Prefered_Charity_ID_List)
-                        Charity.InsertMember(dc, ID);
 
                     return dc.SaveChanges();
                 }
@@ -159,13 +153,7 @@ namespace CC.Connections.BL
                     Password.Delete(dc);
                     Pref.Delete();
                     Contact.Delete();
-                    //Location.Delete();//TODO impliment
-                    foreach (var cat in Prefered_Categories)
-                        cat.DeleteMember(dc, ID);
-                    foreach (var act in helping_Action_List)
-                        act.DeleteMember(dc, ID);
-                    foreach (int char_ID in Prefered_Charity_ID_List)
-                        Charity.InsertMember(dc, ID, char_ID);//Maybe put in Member class
+                    Location.Delete();
                     //dc.Roles.Remove(dc.Roles.Where(c => c.Role_ID == ID).FirstOrDefault());
 
                     dc.Members.Remove(dc.Members.Where(c => c.Member_ID == ID).FirstOrDefault());
@@ -192,12 +180,6 @@ namespace CC.Connections.BL
                     Pref.Update();
                     Member_Type.Update();
                     Location.Update();
-                    foreach (var cat in Prefered_Categories)
-                        cat.UpdateMember(dc, ID);
-                    foreach (var act in helping_Action_List)
-                        act.UpdateMember(dc, ID);
-                    foreach (int char_ID in Prefered_Charity_ID_List)
-                        Charity.UpdateMember(dc, ID, char_ID);
 
                     return dc.SaveChanges();
                 }
@@ -239,9 +221,9 @@ namespace CC.Connections.BL
                     this.Member_Type = new Member_Type((int)entry.MemberType_ID);
                     this.Location = new Location((int)entry.Location_ID);
 
-                    this.Prefered_Categories = Category.LoadMembersList(dc, entry.Member_ID);
-                    helping_Action_List = Helping_Action.LoadMembersList(dc, entry.Member_ID);
-                    //this.Prefered_Charity_ID_List = Charity.LoadMembersIdList(dc,entry.Member_ID);//TODO impliment charities
+                    this.Prefered_Categories.LoadPreferences(entry.Member_ID);
+                    this.Prefered_helping_Actions.LoadPreferences(entry.Member_ID);
+                    //this.Prefered_Charities.LoadPreferences( entry.Member_ID);
 
                         
                 }
@@ -250,31 +232,6 @@ namespace CC.Connections.BL
             {
                 throw e;
             }
-        }
-
-        public bool Login()
-        {
-            try
-            {
-                if (String.IsNullOrEmpty(Contact.Email))
-                    throw new Exception("Email must be set");//no userId
-                else if (String.IsNullOrEmpty(Password.Pass))
-                    throw new Exception("Password must be set");//no UserPass
-                else
-                {
-                    using (DBconnections dc = new DBconnections())
-                    {
-                        PL.Log_in entry = dc.Log_in.FirstOrDefault(u => u.LogInMember_ID == this.ID);
-
-                        if (entry == null)
-                            return false;
-                        else
-                            return entry.LogInPassword == Password.Pass;//success if match
-                    }
-                }
-            }
-            catch (Exception e)
-            {throw e;}
         }
     }
 
@@ -298,9 +255,9 @@ namespace CC.Connections.BL
                                 dc.Log_in.FirstOrDefault(d => d.LogInMember_ID == c.Member_ID).ContactInfoEmail,
                                 dc.Log_in.FirstOrDefault(d => d.LogInMember_ID == c.Member_ID).LogInPassword,
                                 true),
-                            Prefered_Categories = Category.LoadMembersList(dc,c.Member_ID),
-                            helping_Action_List = Helping_Action.LoadMembersList(dc,c.Member_ID),
-                            //Prefered_Charity_ID_List = Charity.LoadMembersIdList(dc,c.Member_ID),
+                            Prefered_Categories = new CategoryList().LoadPreferences(c.Member_ID),
+                            Prefered_helping_Actions = new Helping_ActionList().LoadPreferences(c.Member_ID),
+                            //Prefered_Charity_ID_List = Charity.LoadMembersIdList(c.Member_ID),
                             Member_Type = new Member_Type(c.Member_ID)
                         }));
                 }

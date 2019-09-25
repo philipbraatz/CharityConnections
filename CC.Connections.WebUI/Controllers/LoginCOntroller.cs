@@ -10,12 +10,6 @@ namespace CC.Connections.WebUI.Controllers
     public class LoginController : Controller
     {
 
-        public ActionResult Create(string returnurl)
-        {
-            ViewBag.ReturnUrl = returnurl;
-            return View();
-        }
-
         public ActionResult Login(string returnurl)
         {
             ViewBag.ReturnUrl = returnurl;
@@ -31,18 +25,19 @@ namespace CC.Connections.WebUI.Controllers
         public ActionResult Logout()
         {
             //Logged out
-            HttpContext.Session["user"] = null;
+            HttpContext.Session["member"] = null;
             return View();
         }
 
         [HttpPost]
-        public ActionResult Login(Member member, string returnurl)
+        public ActionResult Login(Password pass)
         {
             try
             {
-                if (member.Login())
+                if (pass.Login())
                 {
-                    Session["member"] = member;
+                    Session["member"] = pass;
+                    ViewBag.Message = "You have been logged in";
                     //if (returnurl != null)
                     //    return Redirect(returnurl);
                     //else
@@ -51,13 +46,13 @@ namespace CC.Connections.WebUI.Controllers
                 else
                 {
                     ViewBag.Message = "Incorrect Credentials";
-                    return View(member);
+                    return View(pass);
                 }
             }
             catch (Exception ex)
             {
                 ViewBag.Message = ex.Message;
-                return View(member);
+                return View(pass);
             }
         }
 
@@ -69,8 +64,9 @@ namespace CC.Connections.WebUI.Controllers
         //}
 
         [HttpPost]
-        public ActionResult SignUp()
+        public ActionResult SignUp(ContactInfo contact)
         {
+            //TODO
             return RedirectToAction("Index", "Home");
         }
     }

@@ -12,11 +12,11 @@ namespace CC.Connections.BL.Test
     //  2 hours on load
     //  .5 hours on delete
     [TestClass]
-    public class MemberUT
+    public class Helping_ActionUT
     {
 
-        public Member test;
-        public string testingID = "test@test.com";
+        public Helping_Action test;
+        public const int testingID = -3;
         public const string VALUE1 = "test";
         public const string VALUE2 = "updated";
         public const int INT1 = -7;
@@ -25,13 +25,16 @@ namespace CC.Connections.BL.Test
         [TestMethod]
         public void Insert()
         {
-            Member newt = new Member(testingID, VALUE1);
-            newt.Contact.Phone = "1234567";
-            newt.Contact.FirstName = VALUE1;
+            CategoryList cl = new CategoryList();
+            cl.LoadAll();
+
+            Helping_Action newt = new Helping_Action(testingID);
+            newt.Action = VALUE1;
+            newt.category =
             newt.Contact.LastName = VALUE2;
-            newt.Prefered_helping_Actions.Add(new Helping_Action {
+            newt.helping_Action_List.Add(new Helping_Action {
                 category =new Category {Desc =VALUE1 }, Action = VALUE2 });
-            newt.Prefered_helping_Actions.Add(new Helping_Action { Action = VALUE1 });
+            newt.helping_Action_List.Add(new Helping_Action { Action = VALUE1 });
             newt.Member_Type.Desc = VALUE1;
             newt.Pref.distance = INT1;
             newt.Prefered_Categories.Add(new Category {Desc = VALUE1 });
@@ -75,8 +78,8 @@ namespace CC.Connections.BL.Test
             test = new Member(testingID);
             Member updated = new Member(testingID);
             updated.Contact.LastName = VALUE2;
-            updated.Prefered_helping_Actions[0].Action = VALUE2;
-            updated.Prefered_helping_Actions.Add(new Helping_Action {
+            updated.helping_Action_List[0].Action = VALUE2;
+            updated.helping_Action_List.Add(new Helping_Action {
                 Action =VALUE1,category =new Category { Desc = VALUE2 } });
             updated.Member_Type.Desc = VALUE2;
             updated.Password.Pass = VALUE2;

@@ -125,23 +125,23 @@
     <Folder Include="dbo\Tables\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Post-Deployment\DefaultData\Categories.sql" />
+    <None Include="Post-Deployment\DefaultData\Category.sql" />
     <None Include="Post-Deployment\DefaultData\Charity.sql" />
     <None Include="Post-Deployment\DefaultData\CharityEvents.sql" />
+    <None Include="Post-Deployment\DefaultData\Location.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CC.Connections.DB.publish.xml" />
     <None Include="Post-Deployment\DefaultData\ContactInfo.sql" />
-    <None Include="Post-Deployment\DefaultData\EventRequirements.sql" />
+    <None Include="Post-Deployment\DefaultData\EventAttendance.sql" />
     <None Include="Post-Deployment\DefaultData\HelpingActions.sql" />
     <None Include="Post-Deployment\DefaultData\Login.sql" />
-    <None Include="Post-Deployment\DefaultData\MemberCharities.sql" />
+    <None Include="Post-Deployment\DefaultData\MemberAction.sql" />
     <None Include="Post-Deployment\DefaultData\MemberType.sql" />
-    <None Include="Post-Deployment\DefaultData\MemberCategories.sql" />
-    <None Include="Post-Deployment\DefaultData\Members.sql" />
-    <None Include="Post-Deployment\DefaultData\NeedsRequirements.sql" />
+    <None Include="Post-Deployment\DefaultData\Member.sql" />
+    <None Include="Post-Deployment\DefaultData\PreferredCategory.sql" />
     <None Include="Post-Deployment\DefaultData\Preferences.sql" />
-    <None Include="Post-Deployment\DefaultData\Roles.sql" />
+    <None Include="Post-Deployment\DefaultData\PreferredCharity.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="CC.Connections.DB.refactorlog" />
