@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CC.Connections.BL;
+using System.Linq;
 
 namespace CC.Connections.BL.Test
 {
@@ -14,32 +15,43 @@ namespace CC.Connections.BL.Test
     [TestClass]
     public class CategoryUT
     {
+        public CategoryList allTable;
 
-        public Member test;
-        public string testingID = "test@test.com";
-        public const string VALUE1 = "test";
-        public const string VALUE2 = "updated";
-        public const int INT1 = -7;
-        public const int INT2 = -22;
+        public Category test;
+        public string memberEmail = "test@test.com";
+        public const string INSERT_1 = "test for categories";
+        public const string INSERT_2 = "updated for categories";
+        public const string UPDATE_1 = "oven for categories";
+        public const string UPDATE_2 = "toaster for categories";
+
+        //in the real code you would already have the description ID you want
+        //so you would not need to find the matching discription
+        private int getID_fromDesc(string desc)
+        {
+            if (allTable == null)
+                allTable = new BL.CategoryList();
+            allTable.LoadList();
+
+            Category cat = allTable.Where(c => c.Desc == desc).FirstOrDefault();
+            if (cat == null)
+                Assert.Fail();
+            return cat.ID;
+        }
 
         [TestMethod]
         public void Insert()
         {
-            Member newt = new Member(testingID, VALUE1);
-            newt.Contact.Phone = "1234567";
-            newt.Contact.FirstName = VALUE1;
-            newt.Contact.LastName = VALUE2;
-            newt.helping_Action_List.Add(new Helping_Action {
-                category =new Category {Desc =VALUE1 }, Action = VALUE2 });
-            newt.helping_Action_List.Add(new Helping_Action { Action = VALUE1 });
-            newt.Member_Type.Desc = VALUE1;
-            newt.Pref.distance = INT1;
-            newt.Prefered_Categories.Add(new Category {Desc = VALUE1 });
-            newt.Location.City = VALUE1;
+            Category newt = new Category
+            {
+                Desc = INSERT_1
+            };
 
-            //CharityList loadChar = new CharityList();
-            //loadChar.load();
-            //newt.Prefered_Charity_ID_List.Add(loadChar[0].ID);
+            newt.Insert();
+
+            newt = new Category
+            {
+                Desc = UPDATE_1
+            };
 
             newt.Insert();
         }
@@ -47,69 +59,120 @@ namespace CC.Connections.BL.Test
         [TestMethod]
         public void LoadAll()
         {
-            MemberList table = new MemberList();
+            CategoryList table = new BL.CategoryList();
             table.LoadList();
 
             Assert.AreNotEqual(0, table.Count);
 
-            Assert.AreEqual(testingID, table.Find(f => f.Contact.FirstName == VALUE1).Contact.Email);
+            Assert.IsNotNull(table.Where(f => f.Desc == INSERT_1));
+        }
+
+        [TestMethod]
+        public void insertPreferences_AndLoad()
+        {
+            Member mtest = new Member(memberEmail);//get a member id
+            CategoryList table = new BL.CategoryList();
+
+            table.LoadPreferences(mtest.ID);
+            Assert.AreEqual(0, table.Count);//make sure its empty
+
+            CategoryList allTable = new BL.CategoryList();
+            allTable.LoadList();
+
+            table.AddPreference(getID_fromDesc(INSERT_1));//add a category ID
+            table.AddPreference(getID_fromDesc(UPDATE_1));//add a category ID
+
+            //compare to all
+
+            Assert.AreEqual(2, table.Count);
+            Assert.IsTrue(allTable.Count >= table.Count);//test table should be a subset of all table
+            
+            //LOAD test
+            table.Clear();
+            table.LoadPreferences(mtest.ID);
+
+            Assert.AreEqual(2, table.Count);
+        }
+
+        [TestMethod]
+        public void Update()
+        {
+            if (allTable == null)
+                allTable = new BL.CategoryList();
+            allTable.LoadList();
+            int tableCount = allTable.Count;
+
+            test = new Category(getID_fromDesc(INSERT_1));
+            Category updated = new Category(getID_fromDesc(INSERT_1))
+            {
+                Desc = INSERT_2
+            };
+            updated.Update();//update database
+
+            //update both categories
+            updated = new Category(getID_fromDesc(UPDATE_1))
+            {
+                Desc = UPDATE_2
+            };
+            updated.Update();//update database
+
+            updated = null;//clear
+            updated = new Category(getID_fromDesc(UPDATE_2));//load again with new value
+            Assert.IsTrue(updated.Desc == UPDATE_2);
+            allTable.LoadList();
+            Assert.AreEqual(tableCount,allTable.Count);//count unchanged
+        }
+
+        /// <summary>
+        /// CAll after Update
+        /// </summary>
+        [TestMethod]
+        public void removePreferences()
+        {
+            Member mtest = new Member(memberEmail);
+            CategoryList table = new BL.CategoryList();
+
+            CategoryList allTable = new BL.CategoryList();
+            allTable.LoadList();
+
+            table.LoadPreferences(mtest.ID);
+            Assert.AreEqual(2, table.Count);
+
+            table.DeletePreference(getID_fromDesc(INSERT_2));
+            Assert.AreEqual(1, table.Count);
+
+            table.DeletePreference(getID_fromDesc(UPDATE_2));
+            Assert.AreEqual(0, table.Count);
+
+            //CLEAR
+            table.Clear();
+            table.LoadPreferences(mtest.ID);
+            Assert.AreEqual(0, table.Count);
+
         }
         [TestMethod]
         public void Load()
         {
-            test = new Member(testingID);
+            CategoryList allTable = new BL.CategoryList();
+            allTable.LoadList();
 
-            Assert.IsTrue(test.Contact.Phone == "1234567");
-            //Assert.IsTrue(test.helping_Action_List[1].Action == VALUE1);
-            //Assert.IsTrue(test.helping_Action_List[0].category.Desc == VALUE1);
-            Assert.IsTrue(test.Member_Type.Desc == VALUE1);
-            Assert.IsFalse(test.Password.Pass == VALUE1.Trim());
-            Assert.IsTrue(test.Pref.distance == INT1);
-            //Assert.IsTrue(test.Prefered_Categories[0].Desc == VALUE1);
-            //Assert.AreNotEqual(0, test.Prefered_Charity_ID_List.Count);
-            Assert.IsTrue(test.Location.City == VALUE1);
+            test = new Category(getID_fromDesc(INSERT_1));
+
+            Assert.IsTrue(test.Desc ==INSERT_1);
         }
-        [TestMethod]
-        public void Update()
-        {
-            test = new Member(testingID);
-            Member updated = new Member(testingID);
-            updated.Contact.LastName = VALUE2;
-            updated.helping_Action_List[0].Action = VALUE2;
-            updated.helping_Action_List.Add(new Helping_Action {
-                Action =VALUE1,category =new Category { Desc = VALUE2 } });
-            updated.Member_Type.Desc = VALUE2;
-            updated.Password.Pass = VALUE2;
-            updated.Pref.distance = INT2;
-            updated.Prefered_Categories[0].Desc = VALUE2;
-            updated.Location.City = VALUE2;
-            //updated.Prefered_Charity_ID_List.Clear();
-
-            updated.Update();//update database
-            updated = null;//clear
-            updated = new Member(testingID);//load again
-
-            Assert.IsTrue(updated.Contact.LastName == VALUE2);
-            //TODO fix helping action
-            //Assert.IsTrue(updated.helping_Action_List[0].Action == VALUE2);
-            //Assert.IsTrue(updated.helping_Action_List[1].category.Desc == VALUE2);
-            Assert.IsTrue(updated.Member_Type.Desc == VALUE2);
-            Assert.IsFalse(updated.Password.Pass == test.Password.Pass);
-            Assert.IsTrue(updated.Pref.distance == INT2);
-            Assert.IsTrue(updated.Prefered_Categories[0].Desc == VALUE2);
-            Assert.IsTrue(updated.Location.City == VALUE2);
-            //Assert.AreEqual(0, updated.Prefered_Charity_ID_List.Count);
-        }
+        
         [TestMethod]
         public void Delete()
         {
-            test = new Member(testingID);
+            test = new Category(getID_fromDesc(INSERT_2));
             test.Delete();//delete
+            test = new Category(getID_fromDesc(UPDATE_2));
+            test.Delete();//delete both to avoid testing overflow
 
-            MemberList table = new MemberList();
+            CategoryList table = new CategoryList();
             table.LoadList();//load updated table
 
-            Assert.IsNull(table.Find(f => f.Contact.FirstName == VALUE1));//may need to test for different nonexistant value
+            Assert.IsNull(table.Find(f => f.ID == getID_fromDesc(INSERT_2)));//may need to test for different nonexistant value
         }
     }
 }

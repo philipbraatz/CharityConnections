@@ -28,68 +28,11 @@ namespace CC.Connections.BL
             LoadId();
         }
 
-        internal bool InsertMember(DBconnections dc, int id)
-        {
-            //Error checking
-            if (MemberExists(dc, id))//dont add existing
-                return false;
-            if (!Exists(dc))//add missing
-                Insert();
-            if(!Member.Exists(dc,id))
-                throw new Exception("Member of id "+id+" does not exist");
-            if (this.Action == string.Empty)
-                throw new Exception("Helping Action description can not be empty");
-
-            //new ID
-            int ma_ID;
-            if (dc.Member_Action.ToList().Count >0)
-                ma_ID = (int)dc.Member_Action.Max(c => c.MemberActionMember_ID) + 1;//unique id
-            else
-                ma_ID = 0;
-
-            Member_Action entry = new Member_Action
-            {
-                MemberAction_ID = ma_ID,
-                MemberActionMember_ID = id,//member
-                MemberActionAction_ID = ID//action
-            };
-
-            dc.Member_Action.Add(entry);
-            dc.SaveChanges();
-            return true;
-        }
-
         private bool Exists(DBconnections dc)
         {
             return dc.Helping_Action.Where(c => c.Helping_Action_ID == ID).FirstOrDefault() != null;
         }
 
-        private bool MemberExists(DBconnections dc, int id)
-        {
-            return dc.Member_Action.Where(c => c.MemberActionAction_ID == ID && c.MemberActionMember_ID == id).FirstOrDefault() != null;
-        }
-
-        //TODO test methods
-        internal void DeleteMember(DBconnections dc, int id)
-        {
-            var entryList = dc.Member_Action.Where(c => c.MemberActionMember_ID == id);
-            foreach (var entry in entryList)
-                dc.Member_Action.Remove(entry);
-        }
-
-        //TODO think how this would happen
-        internal void UpdateMember(DBconnections dc, int id)
-        {
-            dc.Member_Action.Where(c => c.MemberActionAction_ID == id)
-                .ToList().ForEach(c => c.MemberActionMember_ID = ID);//might not work
-        }
-
-        internal static List<Helping_Action> LoadMembersList(DBconnections dc, int member_ID)
-        {
-            List<Helping_Action> retList = new List<Helping_Action>();
-            dc.Member_Action.Where(c => c.MemberActionMember_ID == member_ID).ToList().ForEach(c => retList.Add(new Helping_Action((int)c.MemberActionAction_ID)));
-            return retList;
-        }
 
         public int Insert()
         {
@@ -172,6 +115,119 @@ namespace CC.Connections.BL
             {
                 throw e;
             }
+        }
+
+        internal static bool Exists(DBconnections dc,int actionID)
+        {
+            return dc.Helping_Action.Where(c => c.Helping_Action_ID == actionID).FirstOrDefault() != null;
+        }
+    }
+
+    public class Helping_ActionList
+        : List<Helping_Action>
+    {
+        //only used for preference lists
+        int? member_ID { get; set; }
+
+        private const string PREFERENCE_LOAD_ERROR = "Preferences not loaded, please loadPrefences with a Member ID";
+        public void LoadList()
+        {
+            try
+            {
+                this.Clear();
+                using (DBconnections dc = new DBconnections())
+                {
+                    if (dc.Helping_Action.ToList().Count != 0)
+                        dc.Helping_Action.ToList().ForEach(c => this.Add(new Helping_Action
+                        {
+                            ID = c.Helping_Action_ID,
+                            Action = c.HelpingActionDescription,
+                            category = new Category((int)c.HelpingActionCategory_ID)
+                        }));
+                }
+            }
+            catch (Exception e) { throw e; }
+        }
+
+        public Helping_ActionList LoadPreferences(int memberID)
+        {
+            try
+            {
+                this.Clear();
+                member_ID = (int?)memberID;
+                using (DBconnections dc = new DBconnections())
+                {
+                    if (!MemberExists(dc, memberID))
+                        throw new Exception("Member ID: "+ memberID + "does not exist");
+
+                    if (dc.Member_Action.ToList().Count != 0)
+                        dc.Member_Action.Where(d => d.MemberActionMember_ID == memberID).ToList().ForEach(c =>
+                             this.Add(new Helping_Action((int)c.MemberActionAction_ID)));
+                }
+                return this;
+            }
+            catch (Exception e) { throw e; }
+        }
+        public void AddPreference(int actionID)
+        {
+            if (member_ID == null)
+                throw new Exception(PREFERENCE_LOAD_ERROR);
+
+            using (DBconnections dc = new DBconnections())
+            {
+                if (!Helping_Action.Exists(dc, actionID))
+                    throw new Exception("Helping Action ID: "+actionID+" does not exist");
+
+                dc.Member_Action.Add(new Member_Action
+                {
+                    MemberAction_ID = dc.Member_Action.Max(c => c.MemberAction_ID),
+                    MemberActionAction_ID = actionID,
+                    MemberActionMember_ID = member_ID
+                });
+                this.Add(new Helping_Action(actionID));
+            }
+        }
+
+        public void DeletePreference(int actionID)
+        {
+            if (member_ID == null)
+                throw new Exception(PREFERENCE_LOAD_ERROR);
+
+            using (DBconnections dc = new DBconnections())
+            {
+                if (!Helping_Action.Exists(dc, actionID))
+                    throw new Exception("Helping Action ID: " + actionID + " does not exist");
+
+                dc.Member_Action.Remove(dc.Member_Action.Where(
+                    c => c.MemberActionMember_ID == member_ID &&
+                    c.MemberActionAction_ID == actionID).FirstOrDefault());
+                this.Remove(new Helping_Action(actionID));
+            }
+        }
+        //public void UpdateCategory(Category cat, string description)
+        //{
+        //    Category cthis = this.Where(c => c.ID == cat.ID).FirstOrDefault();
+        //    cthis.Desc = description;
+        //    cthis.Update();
+        //
+        //}
+        //public void UpdateCategory(int catID, string description)
+        //{
+        //    Category cthis = this.Where(c => c.ID == catID).FirstOrDefault();
+        //    cthis.Desc = description;
+        //    cthis.Update();
+        //}
+
+        private bool MemberExists(DBconnections dc, int? member_ID)
+        {
+            return dc.Member_Action.Where(c => c.MemberActionMember_ID == member_ID
+            ).FirstOrDefault() != null;
+        }
+
+        public new void Clear()
+        {
+            base.Clear();
+            member_ID = null;
         }
     }
 }
