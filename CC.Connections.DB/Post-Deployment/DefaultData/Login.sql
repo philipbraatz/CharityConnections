@@ -1,7 +1,7 @@
 ﻿BEGIN
-	INSERT INTO Log_in(Log_in_ID, MemeberID, Password)
+	INSERT INTO Log_in(LogInPassword, LogInMember_ID, ContactInfoEmail)
 	VALUES
-	(1, 1, 'P@$$Word'),
-	(2, 2, 'ABadPassword'),
-	(3, 'IGiveUp')
+	('test', 1, 'test@gmail.com'),
+	('test2', 2, 'test@gmail.com'),
+	('test3', 3, 'test@gmail.com')
 END

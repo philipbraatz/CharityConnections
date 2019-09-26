@@ -8,18 +8,19 @@ Post-Deployment Script Template
  Example:      :setvar TableName MyTable							
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
+*/
 
-:r .\DefaultData\Categories.sql
-:r .\DefaultData\Charity.sql
+/*:r .\DefaultData\Category.sql*/
+/*:r .\DefaultData\Charity.sq*/
 :r .\DefaultData\CharityEvents.sql
 :r .\DefaultData\ContactInfo.sql
-:r .\DefaultData\EventRequirements.sql
+:r .\DefaultData\EventAttendance.sql
 :r .\DefaultData\HelpingActions.sql
+:r .\DefaultData\Location.sql
 :r .\DefaultData\Login.sql
-:r .\DefaultData\MemberCategories.sql
-:r .\DefaultData\MemberCharities.sql
-:r .\DefaultData\Members.sql
+:r .\DefaultData\Member.sql
+:r .\DefaultData\MemberAction.sql
 :r .\DefaultData\MemberType.sql
-:r .\DefaultData\NeedsRequirements.sql
 :r .\DefaultData\Preferences.sql
-:r .\DefaultData\Roles.sql*/
+:r .\DefaultData\PreferredCategory.sql
+:r .\DefaultData\PreferredCharity.sql
