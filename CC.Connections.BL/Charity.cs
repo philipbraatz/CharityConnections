@@ -39,5 +39,10 @@ namespace CC.Connections.BL
         {
             throw new NotImplementedException();
         }
+
+        internal void DeleteAllPreferences()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -55,6 +55,8 @@ namespace CC.Connections.BL
                     //    throw new Exception("ID is invaild");
 
                     dc.Member_Type.Remove(dc.Member_Type.Where(c => c.MemberType_ID == ID).FirstOrDefault());
+
+                    this.Desc = string.Empty;
                     return dc.SaveChanges();
                 }
             }

@@ -78,7 +78,7 @@ namespace CC.Connections.BL
                     Clear();
                     PL.Contact_Info cID = dc.Contact_Info.Where(c => c.ContactInfo_Email == email).FirstOrDefault();
                     if (cID == null)
-                        throw new Exception("email "+email+" does not have a contact info");
+                        throw new Exception("Email "+email+" does not have a contact info");
                     //else
                     //{
                     //    PL.Member mID = dc.Members.Where(c => c.MemberContact_ID == cID.Contact_Info_ID).FirstOrDefault();
@@ -103,7 +103,11 @@ namespace CC.Connections.BL
             Member_Type = new Member_Type();
             Pref = new Preference();
             Location = new Location();
-            
+
+            //sets id of preferences
+            Prefered_Categories.LoadPreferences(ID);
+            Prefered_helping_Actions.LoadPreferences(ID);
+            //Prefered_Charities.LoadPreferences(ID);
         }
 
         public int Insert() 
@@ -136,6 +140,8 @@ namespace CC.Connections.BL
 
                     Password.Insert(dc,ID);
 
+                    //do not handle member preference lists here
+
                     return dc.SaveChanges();
                 }
             }
@@ -158,6 +164,11 @@ namespace CC.Connections.BL
 
                     dc.Members.Remove(dc.Members.Where(c => c.Member_ID == ID).FirstOrDefault());
 
+                    Prefered_Categories.DeleteAllPreferences();
+                    //Prefered_Charities.DeleteAllPreferences();
+                    Prefered_helping_Actions.DeleteAllPreferences();
+
+                    Clear();
                     return dc.SaveChanges();
                 }
             }
@@ -180,6 +191,8 @@ namespace CC.Connections.BL
                     Pref.Update();
                     Member_Type.Update();
                     Location.Update();
+
+                    //do not handle member preference lists here
 
                     return dc.SaveChanges();
                 }
@@ -204,13 +217,14 @@ namespace CC.Connections.BL
                     else
                         throw new Exception("Contact info " + email + " does not have a Member associated with it");
 
-                    PL.Log_in login = dc.Log_in.FirstOrDefault(c => c.LogInMember_ID == this.ID);
+                    PL.Log_in login = dc.Log_in.FirstOrDefault(c => c.ContactInfoEmail == email);
                     if (login == null)
                         throw new Exception("Log in does not exist for Member with email "+email);
 
 
                     ///all good Login in related values
-                    
+                    Clear();//make sure fields are created
+
                     this.Contact = new ContactInfo(email);
 
                     this.Password = new Password(login.ContactInfoEmail, login.LogInPassword, true);

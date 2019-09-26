@@ -113,7 +113,7 @@ namespace CC.Connections.BL
     public class CategoryList
         : List<Category>
     {
-        int? member_ID { get; set; }//only used for preferences
+        private int? member_ID { get; set; }//only used for preferences
         private const string PREFERENCE_LOAD_ERROR = "Preferences not loaded, please loadPrefences with a Member ID";
         public void LoadList()
         {
@@ -138,12 +138,12 @@ namespace CC.Connections.BL
             try
             {
                 this.Clear();
-                member_ID = memberID;
+                member_ID = (int?)memberID;
                 using (DBconnections dc = new DBconnections())
                 {
                     if (dc.Categories.ToList().Count != 0)
                         dc.Preferred_Category.Where(d => d.MemberCat_Member_ID == memberID).ToList().ForEach(c =>
-                             this.Add(new Category((int)c.MemberCat_Category_ID)));
+                             this.Add(new Category((int)c.MemberCat_Category_ID),true));
                 }
                 return this;
             }
@@ -156,16 +156,19 @@ namespace CC.Connections.BL
 
             using (DBconnections dc = new DBconnections())
             {
-                this.Clear();
+                if (!Helping_Action.Exists(dc, categoryID))
+                    throw new Exception("Category ID: " + categoryID + " does not exist");
+
                 int newID = 0;
                 if (dc.Preferred_Category.ToList().Count != 0)
                     newID = dc.Preferred_Category.Max(c => c.PreferredCategory_ID)+1;
+
                 dc.Preferred_Category.Add(new Preferred_Category {
                 PreferredCategory_ID = newID,
                 MemberCat_Member_ID = member_ID,
                 MemberCat_Category_ID = categoryID
                 });
-                this.Add(new Category(categoryID));
+                this.Add(new Category(categoryID),true);
                 dc.SaveChanges();
             }
         }
@@ -184,10 +187,25 @@ namespace CC.Connections.BL
                     dc.Preferred_Category.Remove(prefCat);
                 else
                     throw new Exception("Prefferred_Category category "+categoryID+" does not exist for Member "+member_ID);
-                this.Remove(this.Where(c => c.ID == categoryID).FirstOrDefault()) ;
+                this.Remove(this.Where(c => c.ID == categoryID).FirstOrDefault(),true);
                 dc.SaveChanges();
             }
         }
+
+        internal void DeleteAllPreferences()
+        {
+            if (member_ID == null)
+                throw new Exception(PREFERENCE_LOAD_ERROR);
+
+            using (DBconnections dc = new DBconnections())
+            {
+                dc.Preferred_Category.RemoveRange(dc.Preferred_Category.Where(c => 
+                c.MemberCat_Member_ID == member_ID).ToList());
+                this.Clear();
+                dc.SaveChanges();
+            }
+        }
+
         public void UpdateCategory(Category cat, string description)
         {
             Category cthis =this.Where(c => c.ID == cat.ID).FirstOrDefault();
@@ -212,6 +230,32 @@ namespace CC.Connections.BL
         {
             base.Clear();
             member_ID = null;
+        }
+        
+        //Calls base method for interal use
+        //could be replaced with base.Add()
+        private void Add(Category item,bool overrideMethod =true)
+        {
+            base.Add(item);
+        }
+        private void Remove(Category item, bool overrideMethod = true)
+        {
+            base.Remove(item);
+        }
+
+        //public Add and Remove list
+        //could get confused with preference list because this is shared
+        public new void Add(Category item)
+        {
+            if (member_ID != null)
+                throw new Exception("Currently being used as a preference list. Please use AddPrefrence instead");
+            base.Add(item);
+        }
+        public new void Remove(Category item)
+        {
+            if (member_ID != null)
+                throw new Exception("Currently being used as a preference list. Please use DeletePrefrence instead");
+            base.Remove(item);
         }
     }
 }

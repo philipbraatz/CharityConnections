@@ -9,6 +9,7 @@ namespace CC.Connections.BL
 {
     //NOTE PB:
     // 20 min CRUD and Member Crud
+    // 30 min on test insert
     public class Helping_Action
     {
         public int ID { get; set; }
@@ -108,7 +109,15 @@ namespace CC.Connections.BL
                         throw new Exception("Helping_Action does not exist");
 
                     Action = entry.HelpingActionDescription;
-                    category = new Category((int)entry.HelpingActionCategory_ID);
+                    try
+                    {
+                        category = new Category((int)entry.HelpingActionCategory_ID);
+                    }
+                    catch(Exception)
+                    {
+                        throw new Exception("Helping Action ID: "+entry.Helping_Action_ID+" with Category ID"+
+                                            entry.HelpingActionCategory_ID+". Category does not exist");
+                    }
                 }
             }
             catch (Exception e)
@@ -157,17 +166,32 @@ namespace CC.Connections.BL
                 member_ID = (int?)memberID;
                 using (DBconnections dc = new DBconnections())
                 {
-                    if (!MemberExists(dc, memberID))
-                        throw new Exception("Member ID: "+ memberID + "does not exist");
+                    //if (!MemberExists(dc, memberID))
+                    //    throw new Exception("Member ID: "+ memberID + " does not have any Actions");
 
                     if (dc.Member_Action.ToList().Count != 0)
                         dc.Member_Action.Where(d => d.MemberActionMember_ID == memberID).ToList().ForEach(c =>
-                             this.Add(new Helping_Action((int)c.MemberActionAction_ID)));
+                             this.Add(new Helping_Action((int)c.MemberActionAction_ID),true));
                 }
                 return this;
             }
             catch (Exception e) { throw e; }
         }
+
+        internal void DeleteAllPreferences()
+        {
+            if (member_ID == null)
+                throw new Exception(PREFERENCE_LOAD_ERROR);
+
+            using (DBconnections dc = new DBconnections())
+            {
+                dc.Member_Action.RemoveRange(dc.Member_Action.Where(c =>
+                c.MemberActionMember_ID == member_ID).ToList());
+                this.Clear();
+                dc.SaveChanges();
+            }
+        }
+
         public void AddPreference(int actionID)
         {
             if (member_ID == null)
@@ -178,13 +202,17 @@ namespace CC.Connections.BL
                 if (!Helping_Action.Exists(dc, actionID))
                     throw new Exception("Helping Action ID: "+actionID+" does not exist");
 
+                int memAct_ID =0;
+                if (dc.Member_Action.ToList().Count != 0)
+                    memAct_ID = dc.Member_Action.Max(c => c.MemberAction_ID);
+
                 dc.Member_Action.Add(new Member_Action
                 {
-                    MemberAction_ID = dc.Member_Action.Max(c => c.MemberAction_ID),
+                    MemberAction_ID = memAct_ID,
                     MemberActionAction_ID = actionID,
                     MemberActionMember_ID = member_ID
                 });
-                this.Add(new Helping_Action(actionID));
+                this.Add(new Helping_Action(actionID),true);
             }
         }
 
@@ -201,7 +229,7 @@ namespace CC.Connections.BL
                 dc.Member_Action.Remove(dc.Member_Action.Where(
                     c => c.MemberActionMember_ID == member_ID &&
                     c.MemberActionAction_ID == actionID).FirstOrDefault());
-                this.Remove(new Helping_Action(actionID));
+                this.Remove(new Helping_Action(actionID),true);
             }
         }
         //public void UpdateCategory(Category cat, string description)
@@ -228,6 +256,27 @@ namespace CC.Connections.BL
         {
             base.Clear();
             member_ID = null;
+        }
+
+        private void Add(Helping_Action item, bool overrideMethod = true)
+        {
+            base.Add(item);
+        }
+        private void Remove(Helping_Action item, bool overrideMethod = true)
+        {
+            base.Remove(item);
+        }
+        public new void Add(Helping_Action item)
+        {
+            if (member_ID != null)
+                throw new Exception("Currently being used as a prefrence list. Please use AddPrefrence instead");
+            base.Add(item);
+        }
+        public new void Remove(Helping_Action item)
+        {
+            if (member_ID != null)
+                throw new Exception("Currently being used as a prefrence list. Please use DeletePrefrence instead");
+            base.Remove(item);
         }
     }
 }

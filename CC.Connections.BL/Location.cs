@@ -75,6 +75,10 @@ namespace CC.Connections.BL
                     //    throw new Exception("Email is invaild");
 
                     dc.Locations.Remove(dc.Locations.Where(c => c.Location_ID == ID).FirstOrDefault());
+                    this.Address = string.Empty;
+                    this.City = string.Empty;
+                    this.State = string.Empty;
+                    this.Zip = string.Empty;
                     return dc.SaveChanges();
                 }
             }

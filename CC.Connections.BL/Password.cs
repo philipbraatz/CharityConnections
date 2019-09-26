@@ -94,6 +94,8 @@ namespace CC.Connections.BL
         internal void Delete(DBconnections dc)
         {
             dc.Log_in.Remove(dc.Log_in.Where(c => c.ContactInfoEmail == email).FirstOrDefault());
+            this.email = string.Empty;
+            this.hash = string.Empty;
             dc.SaveChanges();
         }
 

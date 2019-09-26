@@ -55,6 +55,7 @@ namespace CC.Connections.BL
                     //    throw new Exception("ID is invaild");
 
                     dc.Preferences.Remove(dc.Preferences.Where(c => c.Preference_ID == ID).FirstOrDefault());
+                    this.distance = 0;
                     return dc.SaveChanges();
                 }
             }

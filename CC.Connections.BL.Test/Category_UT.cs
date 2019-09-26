@@ -6,12 +6,7 @@ using System.Linq;
 namespace CC.Connections.BL.Test
 {
     //NOTE PB:
-    //  1 hour writing
-    //  2.75 hours debugging
-    //  2 hours updating to new database
-    //  1 hour on insert
-    //  2 hours on load
-    //  .5 hours on delete
+    //  3.5 hours
     [TestClass]
     public class CategoryUT
     {

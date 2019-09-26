@@ -67,8 +67,9 @@ namespace CC.Connections.BL
                     throw new Exception("Email cannot be empty");
                 using (DBconnections dc = new DBconnections())
                 {
+                    //Member already exists
                     if (dc.Contact_Info.Where(c => c.ContactInfo_Email == Email).Count() != 0)
-                        throw new Exception(Email + " is already in use, please use a different one");
+                        throw new Exception("Email "+Email + " is already in use, please use a different one");
                     if (dc.Contact_Info.ToList().Count > 0)
                         ID = dc.Contact_Info.Max(c => c.Contact_Info_ID) + 1;//unique id
                     else
@@ -144,7 +145,7 @@ namespace CC.Connections.BL
                         throw new Exception("Email is not set");
                     PL.Contact_Info entry = dc.Contact_Info.FirstOrDefault(c => c.ContactInfo_Email == this.Email);
                     if (entry == null)
-                        throw new Exception("Contact_Info does not exist: Key '" + this.Email + "'"); ;
+                        throw new Exception("Contact_Info does not exist: Email " + this.Email ) ;
 
                     this.Email = entry.ContactInfo_Email;
                     this.FirstName = entry.ContactInfo_FName;
@@ -171,7 +172,7 @@ namespace CC.Connections.BL
                     ContactInfo ret = new ContactInfo();
                     PL.Contact_Info entry = dc.Contact_Info.FirstOrDefault(c => c.Contact_Info_ID == memberContact_ID);
                     if (entry == null)
-                        throw new Exception("Contact_Info does not exist: Key '" + ret.Email + "'"); ;
+                        throw new Exception("Contact Info does not exist: Email '" + ret.Email + "'"); ;
 
                     ret.Email = entry.ContactInfo_Email;
                     ret.FirstName = entry.ContactInfo_FName;
