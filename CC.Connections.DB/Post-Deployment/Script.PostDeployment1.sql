@@ -10,8 +10,8 @@ Post-Deployment Script Template
 --------------------------------------------------------------------------------------
 */
 
-/*:r .\DefaultData\Category.sql*/
-/*:r .\DefaultData\Charity.sq*/
+:r .\DefaultData\Category.sql
+:r .\DefaultData\Charity.sql
 :r .\DefaultData\CharityEvents.sql
 :r .\DefaultData\ContactInfo.sql
 :r .\DefaultData\EventAttendance.sql

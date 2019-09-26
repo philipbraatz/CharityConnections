@@ -1,5 +1,5 @@
 ﻿BEGIN
-	INSERT INTO Member_Type(MemberType_ID, Member_Type_Desc)
+	INSERT INTO Member_Type(MemberType_ID, MemberTypeDescription)
 	VALUES
 	(1, 'Volunteer'),
 	(2, 'Charity'),

@@ -1,5 +1,5 @@
 ﻿BEGIN
-	INSERT INTO Helping_Action(Helping_Action_ID, Helping_Action_Desc, Helping_Action_CatID)
+	INSERT INTO Helping_Action(Helping_Action_ID, HelpingActionDescription, HelpingActionCategory_ID)
 	VALUES
 	(1, 'HelpingAction1', 1),
 	(2, 'HelpingAction2', 2),
