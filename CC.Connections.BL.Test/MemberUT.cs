@@ -25,18 +25,23 @@ namespace CC.Connections.BL.Test
         public const string VALUE2 = "updated";
         public const int INT1 = -7;
         public const int INT2 = -22;
+
         public const int CATEGORY_ID = -1;
-        public const int ACTION_ID = -1;
+        public const int ACTION1 = -1;
+        public const int ACTION2 = -2;
+        public const int GUEST_ID = 3;
 
 
         [TestMethod]
         public void Insert()
         {
-            Member newt = new Member(testingID, VALUE1);
-            newt.Contact.Phone = "1234567";
-            newt.Contact.FirstName = VALUE1;
-            newt.Contact.LastName = VALUE2;
-            newt.Prefered_helping_Actions.AddPreference(ACTION_ID);
+            Member newt = new Member(testingID, VALUE1, GUEST_ID)
+            {
+                Phone = "1234567",
+                FirstName = VALUE1,
+                LastName = VALUE2
+            };
+            newt.Prefered_helping_Actions.AddPreference(ACTION1);
             newt.Member_Type.Desc = VALUE1;
             newt.Pref.distance = INT1;
             newt.Prefered_Categories.AddPreference(CATEGORY_ID);
@@ -57,20 +62,18 @@ namespace CC.Connections.BL.Test
 
             Assert.AreNotEqual(0, table.Count);
 
-            Assert.AreEqual(testingID, table.Find(f => f.Contact.FirstName == VALUE1).Contact.Email);
+            Assert.AreEqual(testingID, table.Find(f => f.FirstName == VALUE1).Email);
         }
         [TestMethod]
         public void Load()
         {
             test = new Member(testingID);
 
-            Assert.IsTrue(test.Contact.Phone == "1234567");
-            //Assert.IsTrue(test.helping_Action_List[1].Action == VALUE1);
-            //Assert.IsTrue(test.helping_Action_List[0].category.Desc == VALUE1);
-            Assert.IsTrue(test.Member_Type.Desc == VALUE1);
+            Assert.IsTrue(test.Phone == "1234567");
             Assert.IsFalse(test.Password.Pass == VALUE1.Trim());
             Assert.IsTrue(test.Pref.distance == INT1);
 
+            Assert.IsTrue(test.Prefered_helping_Actions.Count > 0);
             Assert.IsTrue(test.Prefered_Categories.Count >0);
             Assert.IsTrue(test.Prefered_Categories[0].Desc == VALUE1);
             //Assert.AreNotEqual(0, test.Prefered_Charity_ID_List.Count);
@@ -80,9 +83,11 @@ namespace CC.Connections.BL.Test
         public void Update()
         {
             test = new Member(testingID);
-            Member updated = new Member(testingID);
-            updated.Contact.LastName = VALUE2;
-            updated.Member_Type.Desc = VALUE2;
+            Member updated = new Member(testingID)
+            {
+                LastName = VALUE2
+            };
+            //updated.Member_Type.Desc = VALUE2;
             updated.Password.Pass = VALUE2;
             updated.Pref.distance = INT2;
             updated.Location.City = VALUE2;
@@ -92,8 +97,8 @@ namespace CC.Connections.BL.Test
             updated = null;//clear
             updated = new Member(testingID);//load again
 
-            Assert.IsTrue(updated.Contact.LastName == VALUE2);
-            Assert.IsTrue(updated.Member_Type.Desc == VALUE2);
+            Assert.IsTrue(updated.LastName == VALUE2);
+            //Assert.IsTrue(updated.Member_Type.Desc == VALUE2);
             Assert.IsFalse(updated.Password.Pass == test.Password.Pass);
             Assert.IsTrue(updated.Pref.distance == INT2);
             Assert.IsTrue(updated.Location.City == VALUE2);
@@ -107,7 +112,7 @@ namespace CC.Connections.BL.Test
             MemberList table = new MemberList();
             table.LoadList();//load updated table
 
-            Assert.IsNull(table.Find(f => f.Contact.FirstName == VALUE1));
+            Assert.IsNull(table.Find(f => f.FirstName == VALUE1));
             //TODO check that users prefrences are gone
         }
     }

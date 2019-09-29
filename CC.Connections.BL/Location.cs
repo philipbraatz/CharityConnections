@@ -10,7 +10,6 @@ namespace CC.Connections.BL
 {
     public class Location
     {
-
         public int ID { get; internal set; }
         [DisplayName("Address")]
         public string Address { get; set; }

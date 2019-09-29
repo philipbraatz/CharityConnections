@@ -3,5 +3,5 @@
 	VALUES
 	(1, 'Volunteer'),
 	(2, 'Charity'),
-	(3, 'idk')
+	(3, 'Guest')
 END

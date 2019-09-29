@@ -8,7 +8,7 @@ namespace CC.Connections.BL
 {
     public class ContactInfo
     {
-        public int ID { get; set; }
+        public int contact_ID { get; set; }
         [DisplayName("Email")]
         public string Email { get; set; }
         [DisplayName("First Name")]
@@ -23,9 +23,9 @@ namespace CC.Connections.BL
         }
         public DateTime BirthDate { get; set; }
 
-        public ContactInfo(){ clear(); }
+        public ContactInfo(){ Clear(); }
 
-        private void clear()
+        protected void Clear()
         {
             Email =string.Empty;
             FirstName = string.Empty;
@@ -71,13 +71,13 @@ namespace CC.Connections.BL
                     if (dc.Contact_Info.Where(c => c.ContactInfo_Email == Email).Count() != 0)
                         throw new Exception("Email "+Email + " is already in use, please use a different one");
                     if (dc.Contact_Info.ToList().Count > 0)
-                        ID = dc.Contact_Info.Max(c => c.Contact_Info_ID) + 1;//unique id
+                        contact_ID = dc.Contact_Info.Max(c => c.Contact_Info_ID) + 1;//unique id
                     else
-                        ID = 0;
+                        contact_ID = 0;
 
                     PL.Contact_Info entry = new PL.Contact_Info
                     {
-                        Contact_Info_ID = ID,
+                        Contact_Info_ID = contact_ID,
                         ContactInfo_Email = Email,
                         ContactInfo_FName = this.FirstName,
                         ContactInfo_LName =this.LastName,
@@ -87,7 +87,7 @@ namespace CC.Connections.BL
 
                     dc.Contact_Info.Add(entry);
                     dc.SaveChanges();
-                    return ID;
+                    return contact_ID;
                 }
             }
             catch (Exception e) { throw e; }
@@ -132,6 +132,13 @@ namespace CC.Connections.BL
             catch (Exception e) { throw e; }
         }
 
+        //sets email then loads
+        public void LoadId(string email)
+        {
+            this.Email = email;
+            LoadId();
+        }
+        //loads from pre-set email
         public void LoadId()
         {
             try
@@ -146,7 +153,7 @@ namespace CC.Connections.BL
                     PL.Contact_Info entry = dc.Contact_Info.FirstOrDefault(c => c.ContactInfo_Email == this.Email);
                     if (entry == null)
                         throw new Exception("Contact_Info does not exist: Email " + this.Email ) ;
-
+                    this.contact_ID = entry.Contact_Info_ID;
                     this.Email = entry.ContactInfo_Email;
                     this.FirstName = entry.ContactInfo_FName;
                     this.LastName = entry.ContactInfo_LName;

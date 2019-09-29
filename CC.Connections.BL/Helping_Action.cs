@@ -204,7 +204,7 @@ namespace CC.Connections.BL
 
                 int memAct_ID =0;
                 if (dc.Member_Action.ToList().Count != 0)
-                    memAct_ID = dc.Member_Action.Max(c => c.MemberAction_ID);
+                    memAct_ID = dc.Member_Action.Max(c => c.MemberAction_ID)+1;
 
                 dc.Member_Action.Add(new Member_Action
                 {
@@ -212,6 +212,7 @@ namespace CC.Connections.BL
                     MemberActionAction_ID = actionID,
                     MemberActionMember_ID = member_ID
                 });
+                dc.SaveChanges();
                 this.Add(new Helping_Action(actionID),true);
             }
         }
@@ -229,6 +230,7 @@ namespace CC.Connections.BL
                 dc.Member_Action.Remove(dc.Member_Action.Where(
                     c => c.MemberActionMember_ID == member_ID &&
                     c.MemberActionAction_ID == actionID).FirstOrDefault());
+                dc.SaveChanges();
                 this.Remove(new Helping_Action(actionID),true);
             }
         }

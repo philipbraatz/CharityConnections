@@ -6,6 +6,9 @@ namespace CC.Connections.BL
 {
     //NOTE PB:
     // .25 hours
+
+    //only developers should be inserting, updating and deleting type
+    //The 2 main types are volunteer and charity
     public class Member_Type
     {
 
@@ -92,7 +95,7 @@ namespace CC.Connections.BL
 
                     PL.Member_Type entry = dc.Member_Type.FirstOrDefault(c => c.MemberType_ID == this.ID);
                     if (entry == null)
-                        throw new Exception("Member_Type does not exist");
+                        throw new Exception("Member Type does not exist: ID = "+this.ID);
 
                     Desc = entry.MemberTypeDescription;
                 }
