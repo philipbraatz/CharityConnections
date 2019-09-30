@@ -9,6 +9,7 @@ namespace CC.Connections.BL
 {
     //NOTE PB:
     //  .5 hours CRUD and Member CRUD
+    //  .5 member list add fix
     public class Category
     {
 

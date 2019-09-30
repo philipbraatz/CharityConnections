@@ -10,6 +10,7 @@ namespace CC.Connections.BL
     //NOTE PB:
     // 20 min CRUD and Member Crud
     // 30 min on test insert
+    // 30 min list add fix
     public class Helping_Action
     {
         public int ID { get; set; }

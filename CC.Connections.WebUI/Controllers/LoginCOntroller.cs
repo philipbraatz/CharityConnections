@@ -10,33 +10,37 @@ namespace CC.Connections.WebUI.Controllers
     public class LoginController : Controller
     {
 
-        public ActionResult Login(string returnurl)
+        public ActionResult LoginView(string returnurl)
         {
             ViewBag.ReturnUrl = returnurl;
             return View();
         }
 
-        public ActionResult SignUp(string returnurl)
+        public ActionResult SignUpView(string returnurl)
         {
             ViewBag.ReturnUrl = returnurl;
             return View();
         }
 
-        public ActionResult Logout()
+        public ActionResult LogoutView()
         {
+            if (HttpContext.Session["member"] == null)
+                ViewBag.Message = "You are not signed in yet";
+            else
+                ViewBag.Message = "You have signed out";
             //Logged out
             HttpContext.Session["member"] = null;
             return View();
         }
 
         [HttpPost]
-        public ActionResult Login(Password pass)
+        public ActionResult LoginView(Password passValue)
         {
             try
             {
-                if (pass.Login())
+                if (passValue.Login())
                 {
-                    Session["member"] = pass;
+                    Session["member"] = passValue;
                     ViewBag.Message = "You have been logged in";
                     //if (returnurl != null)
                     //    return Redirect(returnurl);
@@ -46,13 +50,13 @@ namespace CC.Connections.WebUI.Controllers
                 else
                 {
                     ViewBag.Message = "Incorrect Credentials";
-                    return View(pass);
+                    return View(passValue);
                 }
             }
             catch (Exception ex)
             {
                 ViewBag.Message = ex.Message;
-                return View(pass);
+                return View(passValue);
             }
         }
 
@@ -64,7 +68,7 @@ namespace CC.Connections.WebUI.Controllers
         //}
 
         [HttpPost]
-        public ActionResult SignUp(ContactInfo contact)
+        public ActionResult SignUpView(ContactInfo contact)
         {
             //TODO
             return RedirectToAction("Index", "Home");
