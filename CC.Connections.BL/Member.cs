@@ -109,7 +109,6 @@ namespace CC.Connections.BL
                 throw e;
             }
         }
-
         //only clears MEMBER values
         private new void Clear()
         {

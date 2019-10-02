@@ -21,6 +21,7 @@ namespace CC.Connections.BL
         {
             get { return FirstName + " " + LastName; }
         }
+        [DisplayName("Birth Date")]
         public DateTime BirthDate { get; set; }
 
         public ContactInfo(){ Clear(); }

@@ -71,6 +71,7 @@ namespace CC.Connections.WebUI.Controllers
         public ActionResult SignUpView(ContactInfo contact)
         {
             //TODO
+            Session["member"] = contact;
             return RedirectToAction("Index", "Home");
         }
     }
