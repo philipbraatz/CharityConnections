@@ -6,6 +6,7 @@
 }
 
 <h2>Login</h2>
+<h2>@ViewBag.Message</h2>
 
 
 @using (Html.BeginForm())
@@ -35,10 +36,10 @@
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Login" class="btn btn-default btn-primary btn-lg" />
                 <div>
-                    @Html.ActionLink("Sign Up", "SignUp", "Login")
+                    @Html.ActionLink("Sign Up", "SignUpView", "Login")
                 </div>
                 <div>
-                    @Html.ActionLink("Forgot Password", "ForgotPassword", "Login")
+                    @Html.ActionLink("Forgot Password", "ForgotPasswordView", "Login")
                 </div>
             </div>
         </div>

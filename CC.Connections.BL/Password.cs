@@ -39,6 +39,15 @@ namespace CC.Connections.BL
             if(load)
                 loadId();
         }
+        //new
+        public Password(string email, string password, bool hashed = false)
+        {
+            this.email = email;
+            if (hashed)
+                this.hash = password;
+            else
+                this.Pass = password;
+        }
 
         private void loadId()
         {
@@ -61,15 +70,6 @@ namespace CC.Connections.BL
             { throw e; }
         }
 
-        //new
-        public Password(string email, string password, bool hashed = false)
-        {
-            this.email = email;
-            if (hashed)
-                this.hash = password;
-            else
-                this.Pass = password;
-        }
 
         internal bool Insert(DBconnections dc, int iD)
         {

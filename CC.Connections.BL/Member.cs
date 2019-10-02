@@ -255,7 +255,7 @@ namespace CC.Connections.BL
         }
 
         //loads contact info only
-        internal new static Member fromNumID(int? memberContact_ID)
+        internal new static Member loadContactInfo(int? memberContact_ID)
         {
             ContactInfo info = ContactInfo.fromNumID(memberContact_ID);
             return new Member
@@ -266,6 +266,16 @@ namespace CC.Connections.BL
                 Phone = info.Phone,
                 BirthDate = info.BirthDate
             };
+        }
+
+        //sets contact info only
+        public void setContactInfo(ContactInfo contact)
+        {
+            Email = contact.Email;
+            FirstName = contact.FirstName;
+            LastName = contact.LastName;
+            Phone = contact.Phone;
+            BirthDate = contact.BirthDate;
         }
     }
 
@@ -281,7 +291,7 @@ namespace CC.Connections.BL
                     if (dc.Members.ToList().Count != 0)
                         dc.Members.ToList().ForEach(c =>
                         {
-                            Member newMem = Member.fromNumID(c.MemberContact_ID);
+                            Member newMem = Member.loadContactInfo(c.MemberContact_ID);
                             newMem.ID = c.Member_ID;
                             newMem.Pref = new Preference((int)c.MemberPreference_ID);
                             newMem.Password = new Password(
