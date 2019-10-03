@@ -71,7 +71,7 @@ namespace CC.Connections.WebUI.Controllers
         [HttpPost]
         public ActionResult SignUpView(ContactInfoSignup con)
         {
-            Member newMember = new Member(con.Email, con.password.Pass, 1,true);
+            Member newMember = new Member(con.ContactInfo_Email, con.password.Pass, 1,true);
             newMember.setContactInfo((ContactInfo)con);
             newMember.Insert();
 

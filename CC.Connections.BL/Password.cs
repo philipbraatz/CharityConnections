@@ -8,8 +8,6 @@ using System.Threading.Tasks;
 
 namespace CC.Connections.BL
 {
-    //NOTE PB: 
-    //  .1 hour
     public class Password
     {
         [DisplayName("Email")]

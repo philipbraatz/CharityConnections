@@ -7,10 +7,6 @@ using CC.Connections.PL;
 
 namespace CC.Connections.BL
 {
-    //NOTE PB:
-    // 20 min CRUD and Member Crud
-    // 30 min on test insert
-    // 30 min list add fix
     public class Helping_Action
     {
         public int ID { get; set; }
@@ -24,10 +20,10 @@ namespace CC.Connections.BL
             Action = string.Empty;
             category = new Category();
         }
-        public Helping_Action(int member_Action_Action_ID)
+        public Helping_Action(int member_Action_Action_ID,bool debug =false)
         {
             this.ID = member_Action_Action_ID;
-            LoadId();
+            LoadId(debug);
         }
 
         private bool Exists(DBconnections dc)
@@ -52,7 +48,7 @@ namespace CC.Connections.BL
                     {
                         Helping_Action_ID =ID,
                         HelpingActionDescription = this.Action,
-                        HelpingActionCategory_ID = this.category.ID
+                        HelpingActionCategory_ID = this.category.Category_ID
                     };
 
                     dc.Helping_Action.Add(entry);
@@ -89,14 +85,14 @@ namespace CC.Connections.BL
 
                     PL.Helping_Action entry = dc.Helping_Action.Where(c => c.Helping_Action_ID == this.ID).FirstOrDefault();
                     entry.HelpingActionDescription = Action;
-                    entry.HelpingActionCategory_ID = category.ID;
+                    entry.HelpingActionCategory_ID = category.Category_ID;
 
                     return dc.SaveChanges();
                 }
             }
             catch (Exception e) { throw e; }
         }
-        public void LoadId()
+        public void LoadId(bool debug =false)
         {
             try
             {
@@ -112,7 +108,7 @@ namespace CC.Connections.BL
                     Action = entry.HelpingActionDescription;
                     try
                     {
-                        category = new Category((int)entry.HelpingActionCategory_ID);
+                        category = new Category((int)entry.HelpingActionCategory_ID,debug);
                     }
                     catch(Exception)
                     {
@@ -159,7 +155,7 @@ namespace CC.Connections.BL
             catch (Exception e) { throw e; }
         }
 
-        public Helping_ActionList LoadPreferences(int memberID)
+        public Helping_ActionList LoadPreferences(int memberID,bool debug =false)
         {
             try
             {
@@ -172,7 +168,7 @@ namespace CC.Connections.BL
 
                     if (dc.Member_Action.ToList().Count != 0)
                         dc.Member_Action.Where(d => d.MemberActionMember_ID == memberID).ToList().ForEach(c =>
-                             this.Add(new Helping_Action((int)c.MemberActionAction_ID),true));
+                             this.Add(new Helping_Action((int)c.MemberActionAction_ID),debug));
                 }
                 return this;
             }
@@ -193,7 +189,7 @@ namespace CC.Connections.BL
             }
         }
 
-        public void AddPreference(int actionID)
+        public void AddPreference(int actionID,bool debug =false)
         {
             if (member_ID == null)
                 throw new Exception(PREFERENCE_LOAD_ERROR);

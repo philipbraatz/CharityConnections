@@ -7,9 +7,6 @@ using CC.Connections.PL;
 
 namespace CC.Connections.BL
 {
-    //NOTE: PB 1.5 hours CRUD
-    //      2 creating links to classes
-    //      15 min load all
     public class Member : ContactInfo
     {
         public int ID { get; set; }
@@ -35,7 +32,7 @@ namespace CC.Connections.BL
         }
         //new member, member_type is hardcoded as guess
         //DOES NOT try to LOAD from database
-        public Member(string contactEmail, string password="", int member_type=3, bool hashed = false)
+        public Member(string contactEmail, string password="", int member_type=3, bool hashed = false, bool debug = false)
         {
             //get ID and password from other tables
             try
@@ -60,7 +57,7 @@ namespace CC.Connections.BL
                             ID = mID.Member_ID;
                     }
 
-                    this.Email = contactEmail;
+                    this.ContactInfo_Email = contactEmail;
                     if (password != string.Empty)
                         Password = new Password(contactEmail, password, hashed);//standard
                     else
@@ -70,8 +67,8 @@ namespace CC.Connections.BL
 
                     //will LOAD nothing if NEW ID but will SET preference ID
                     //needed for adding and removing items
-                    Prefered_helping_Actions.LoadPreferences(ID);
-                    Prefered_Categories.LoadPreferences(ID);
+                    Prefered_helping_Actions.LoadPreferences(ID,debug);
+                    Prefered_Categories.LoadPreferences(ID, debug);
                     //Prefered_Charities.LoadPreferences(ID);
 
                 ///STOPPED HERE -----------------------------
@@ -135,17 +132,17 @@ namespace CC.Connections.BL
                     if(dc.Members.Where(c=>c.Member_ID ==ID) != null)
                             ID = dc.Members.Max(c => c.Member_ID) + 1;//unique id
 
-                    Pref.ID = Pref.Insert();
+                    Pref.Preference_ID = Pref.Insert();
                     //Member_Type.ID = Member_Type.Insert();
-                    Location.ID = Location.Insert();
+                    Location.Location_ID = Location.Insert();
                     PL.Member entry = new PL.Member
                     {
                         Member_ID = ID,
-                        MemberContact_ID = contact_ID,
+                        MemberContact_ID = Contact_Info_ID,
                         //Role_ID = Role.ID,
-                        MemberType_ID = Member_Type.ID,
-                        MemberPreference_ID = Pref.ID,
-                        Location_ID = Location.ID
+                        MemberType_ID = Member_Type.MemberType_ID,
+                        MemberPreference_ID = Pref.Preference_ID,
+                        Location_ID = Location.Location_ID
                     };
                     dc.Members.Add(entry);//adding prior to everything else
 
@@ -221,7 +218,7 @@ namespace CC.Connections.BL
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invaild");
 
-                    PL.Member entry = dc.Members.Where(c => c.MemberContact_ID == this.contact_ID).FirstOrDefault();
+                    PL.Member entry = dc.Members.Where(c => c.MemberContact_ID == this.Contact_Info_ID).FirstOrDefault();
                     if (entry != null)
                         this.ID = entry.Member_ID;
                     else
@@ -255,27 +252,27 @@ namespace CC.Connections.BL
         }
 
         //loads contact info only
-        internal new static Member loadContactInfo(int? memberContact_ID)
+        internal static Member loadContactInfo(int? memberContact_ID)
         {
             ContactInfo info = ContactInfo.fromNumID(memberContact_ID);
             return new Member
             {
-                Email = info.Email,
-                FirstName = info.FirstName,
-                LastName = info.LastName,
-                Phone = info.Phone,
-                BirthDate = info.BirthDate
+                ContactInfo_Email = info.ContactInfo_Email,
+                ContactInfo_FName = info.ContactInfo_FName,
+                ContactInfo_LName = info.ContactInfo_LName,
+                ContactInfo_Phone = info.ContactInfo_Phone,
+                DateOfBirth = info.DateOfBirth
             };
         }
 
         //sets contact info only
         public void setContactInfo(ContactInfo contact)
         {
-            Email = contact.Email;
-            FirstName = contact.FirstName;
-            LastName = contact.LastName;
-            Phone = contact.Phone;
-            BirthDate = contact.BirthDate;
+            ContactInfo_Email = contact.ContactInfo_Email;
+            ContactInfo_FName = contact.ContactInfo_FName;
+            ContactInfo_LName = contact.ContactInfo_LName;
+            ContactInfo_Phone = contact.ContactInfo_Phone;
+            DateOfBirth = contact.DateOfBirth;
         }
     }
 
