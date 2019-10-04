@@ -32,11 +32,6 @@ namespace CC.Connections.BL
 
         protected void Clear()
         {
-            foreach (var item in collection)
-            {
-
-            }
-
             ContactInfo_Email =string.Empty;
             ContactInfo_FName = string.Empty;
             ContactInfo_LName = string.Empty;

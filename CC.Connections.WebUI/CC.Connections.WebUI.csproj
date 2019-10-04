@@ -200,6 +200,10 @@
       <Project>{f4cc55d1-6ba6-4aa9-8ff6-d245f1b64101}</Project>
       <Name>CC.Connections.BL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CC.Connections.PL\CC.Connections.PL.csproj">
+      <Project>{754D3507-7B50-49B2-BC6B-2881CD7A2084}</Project>
+      <Name>CC.Connections.PL</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,39 +8,50 @@ using CC.Connections.PL;
 
 namespace CC.Connections.BL
 {
-    interface CRUDclass { }
+    interface Icrud<T>{
+        void Clear(DbSet<T> table);
+        bool Exists(DBconnections dc);
+        void LoadId();
+        int Insert();
+        int Delete();
+        int Update();
+    }
 
-    class CategoryCRUD : PL.Category
+    interface IcrudList
     {
-        protected bool Exists(DBconnections dc)
+        void LoadAll();
+    }
+
+    class Category2 : PL.Category, Icrud
+    {
+        public void Clear()
         {
-            return dc.Categories.Where(c => c.Category_ID == Category_ID).FirstOrDefault() != null;
+            throw new NotImplementedException();
+        }
+
+        public int Delete()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Exists(DBconnections dc)
+        {
+            throw new NotImplementedException();
         }
 
         public int Insert()
         {
-            try
-            {
-                //if (Description == string.Empty)
-                //    throw new Exception("Description cannot be empty");
-                using (DBconnections dc = new DBconnections())
-                {
-                    if (dc.Categories.ToList().Count > 0)
-                        Category_ID = dc.Categories.Max(c => c.Category_ID) + 1;//unique id
-                    else
-                        Category_ID = 0;
+            throw new NotImplementedException();
+        }
 
-                    PL.Category entry = new PL.Category
-                    {
-                        Category_ID = Category_ID,
-                        Category_Desc = this.Category_Desc
-                    };
+        public void LoadId()
+        {
+            throw new NotImplementedException();
+        }
 
-                    dc.Categories.Add(entry);
-                    return dc.SaveChanges();
-                }
-            }
-            catch (Exception e) { throw e; }
+        public int Update()
+        {
+            throw new NotImplementedException();
         }
     }
 }

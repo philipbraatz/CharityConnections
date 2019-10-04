@@ -6,6 +6,7 @@ namespace CC.Connections.BL
 {
     public class Preference : PL.Preference
     {
+        public new double Distance { get; set; }
 
         public Preference(int ID)
         {
@@ -45,7 +46,7 @@ namespace CC.Connections.BL
                     //    throw new Exception("ID is invaild");
 
                     dc.Preferences.Remove(dc.Preferences.Where(c => c.Preference_ID == Preference_ID).FirstOrDefault());
-                    this.Distance = null;
+                    this.Distance = 0;
                     return dc.SaveChanges();
                 }
             }
@@ -63,7 +64,7 @@ namespace CC.Connections.BL
                     //    throw new Exception("ID is invaild");
 
                     PL.Preference entry = dc.Preferences.Where(c => c.Preference_ID == this.Preference_ID).FirstOrDefault();
-                    entry.Distance = Distance;
+                    entry.Distance = (decimal)Distance;
 
                     return dc.SaveChanges();
                 }
@@ -83,7 +84,7 @@ namespace CC.Connections.BL
                     if (entry == null)
                         throw new Exception("Preference does not exist");
 
-                    Distance = entry.Distance;
+                    Distance = (double)entry.Distance;
                 }
             }
             catch (Exception e)

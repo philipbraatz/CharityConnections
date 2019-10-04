@@ -10,7 +10,7 @@ namespace CC.Connections.BL
     public class Member_Type : PL.Member_Type
     {
         [DisplayName("Description")]
-        public string MemberTypeDescription { get; set; }
+        public new string MemberTypeDescription { get; set; }
 
         public Member_Type(int id)
         {
