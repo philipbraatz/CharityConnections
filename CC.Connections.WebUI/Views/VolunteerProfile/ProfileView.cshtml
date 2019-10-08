@@ -1,0 +1,8 @@
+﻿@model CC.Connections.BL.ContactInfo
+
+@Html.ActionLink("Profile", "ProfileView", new { id = User.Identity.Name })
+
+Full Name: @Model.FullName <br />
+Email: @Model.ContactInfo_Email<br />
+Phone: @Model.ContactInfo_Phone<br />
+DOB: @Model.DateOfBirth<br />
