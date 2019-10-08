@@ -136,7 +136,7 @@ namespace CC.Connections.BL
                     this.Deductibility = entry.Charity_Deductibility.Value;
                     this.URL = entry.Charity_URL;
                     this.Cause = entry.Charity_Cause;
-                    this.Email = entry.Charity_Email;
+                    this.ContactInfo_Email = entry.Charity_Email;
                     this.Category_ID = entry.Charity_Category_ID.Value;
                     this.LocationID = entry.Location_ID.Value;
                     this.Requirements = entry.Charity_Requirements;
@@ -170,12 +170,12 @@ namespace CC.Connections.BL
                         PL.Charity entry = new PL.Charity
                         {
                             Charity_ID = ID,
-                            Charity_Contact_ID = contact_ID,
+                            Charity_Contact_ID = Contact_ID,
                             Charity_EIN = EIN,
                             Charity_Deductibility = Deductibility,
                             Charity_URL = URL,
                             Charity_Cause = Cause,
-                            Charity_Email = Email,
+                            Charity_Email = ContactInfo_Email,
                             Charity_Category_ID = Category_ID,
                             Location_ID = LocationID,
                             Charity_Requirements = Requirements
@@ -237,7 +237,7 @@ namespace CC.Connections.BL
                     retChar.Contact_ID = entryCharity.Charity_Contact_ID.Value;
                     retChar.Deductibility = entryCharity.Charity_Deductibility.Value;
                     retChar.EIN = entryCharity.Charity_EIN;
-                    retChar.Email = entryCharity.Charity_Email;
+                    retChar.ContactInfo_Email = entryCharity.Charity_Email;
                     retChar.LocationID = entryCharity.Location_ID.Value;
                     retChar.URL = entryCharity.Charity_URL;
                     retChar.Requirements = entryCharity.Charity_Requirements;
@@ -270,7 +270,7 @@ namespace CC.Connections.BL
                             Charity newCharity = Charity.fromCharityID(c.Charity_ID);
                             newCharity.ID = c.Charity_ID;
                             newCharity.EIN = c.Charity_EIN;
-                            newCharity.Email = c.Charity_Email;
+                            newCharity.ContactInfo_Email = c.Charity_Email;
                             newCharity.URL = c.Charity_URL;
                             if (c.Charity_Deductibility == false)
                             {
