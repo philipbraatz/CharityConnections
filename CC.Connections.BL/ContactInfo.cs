@@ -6,36 +6,41 @@ using System.Linq;
 
 namespace CC.Connections.BL
 {
-    public class ContactInfo
+    public class ContactInfo : PL.Contact_Info
     {
-        public int contact_ID { get; set; }
         [DisplayName("Email")]
-        public string Email { get; set; }
+        public new string ContactInfo_Email { get; set; }
         [DisplayName("First Name")]
-        public string FirstName { get; set; }
+        public new string ContactInfo_FName { get; set; }
         [DisplayName("Last Name")]
-        public string LastName { get; set; }
-        public string Phone { get; set; }
+        public new string ContactInfo_LName { get; set; }
+        [DisplayName("Phone #")]
+        public new string ContactInfo_Phone { get; set; }
+        [DisplayName("Birth Date")]
+        public new DateTime DateOfBirth { get; set; }
+
+        //New values
+
         [DisplayName("Name")]
         public string FullName
         {
-            get { return FirstName + " " + LastName; }
+            get { return ContactInfo_FName + " " + ContactInfo_LName; }
         }
-        public DateTime BirthDate { get; set; }
+
 
         public ContactInfo(){ Clear(); }
 
         protected void Clear()
         {
-            Email =string.Empty;
-            FirstName = string.Empty;
-            LastName = string.Empty;
-            Phone = string.Empty;
+            ContactInfo_Email =string.Empty;
+            ContactInfo_FName = string.Empty;
+            ContactInfo_LName = string.Empty;
+            ContactInfo_Phone = string.Empty;
         }
 
         public ContactInfo(string email)
         {
-            Email = email;
+            ContactInfo_Email = email;
             LoadId();
         }
         
@@ -63,31 +68,21 @@ namespace CC.Connections.BL
         {
             try
             {
-                if (Email == string.Empty)
+                if (ContactInfo_Email == string.Empty)
                     throw new Exception("Email cannot be empty");
                 using (DBconnections dc = new DBconnections())
                 {
                     //Member already exists
-                    if (dc.Contact_Info.Where(c => c.ContactInfo_Email == Email).Count() != 0)
-                        throw new Exception("Email "+Email + " is already in use, please use a different one");
+                    if (dc.Contact_Info.Where(c => c.ContactInfo_Email == ContactInfo_Email).Count() != 0)
+                        throw new Exception("Email "+ContactInfo_Email + " is already in use, please use a different one");
                     if (dc.Contact_Info.ToList().Count > 0)
-                        contact_ID = dc.Contact_Info.Max(c => c.Contact_Info_ID) + 1;//unique id
+                        Contact_Info_ID = dc.Contact_Info.Max(c => c.Contact_Info_ID) + 1;//unique id
                     else
-                        contact_ID = 0;
+                        Contact_Info_ID = 0;
 
-                    PL.Contact_Info entry = new PL.Contact_Info
-                    {
-                        Contact_Info_ID = contact_ID,
-                        ContactInfo_Email = Email,
-                        ContactInfo_FName = this.FirstName,
-                        ContactInfo_LName =this.LastName,
-                        ContactInfo_Phone =this.Phone,
-                        DateOfBirth =this.BirthDate
-                    };
-
-                    dc.Contact_Info.Add(entry);
+                    dc.Contact_Info.Add(this);
                     dc.SaveChanges();
-                    return contact_ID;
+                    return Contact_Info_ID;
                 }
             }
             catch (Exception e) { throw e; }
@@ -98,10 +93,10 @@ namespace CC.Connections.BL
             {
                 using (DBconnections dc = new DBconnections())
                 {
-                    if (this.Email == string.Empty)
+                    if (this.ContactInfo_Email == string.Empty)
                         throw new Exception("Email is invaild");
 
-                    dc.Contact_Info.Remove(dc.Contact_Info.Where(c => c.ContactInfo_Email == Email).FirstOrDefault());
+                    dc.Contact_Info.Remove(this);
                     return dc.SaveChanges();
                 }
             }
@@ -112,19 +107,19 @@ namespace CC.Connections.BL
         {
             try
             {
-                if (Email == string.Empty)
+                if (ContactInfo_Email == string.Empty)
                     throw new Exception("Description cannot be empty");
                 using (DBconnections dc = new DBconnections())
                 {
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invaild");
 
-                    PL.Contact_Info entry = dc.Contact_Info.Where(c => c.ContactInfo_Email == this.Email).FirstOrDefault();
-                    entry.ContactInfo_Email = Email;
-                    entry.ContactInfo_FName = this.FirstName;
-                    entry.ContactInfo_LName = this.LastName;
-                    entry.ContactInfo_Phone = this.Phone;
-                    entry.DateOfBirth = this.BirthDate;
+                    PL.Contact_Info entry = dc.Contact_Info.Where(c => c.ContactInfo_Email == this.ContactInfo_Email).FirstOrDefault();
+                    entry.ContactInfo_Email = ContactInfo_Email;
+                    entry.ContactInfo_FName = this.ContactInfo_FName;
+                    entry.ContactInfo_LName = this.ContactInfo_LName;
+                    entry.ContactInfo_Phone = this.ContactInfo_Phone;
+                    entry.DateOfBirth       = this.DateOfBirth;
 
                     return dc.SaveChanges();
                 }
@@ -135,7 +130,7 @@ namespace CC.Connections.BL
         //sets email then loads
         public void LoadId(string email)
         {
-            this.Email = email;
+            this.ContactInfo_Email = email;
             LoadId();
         }
         //loads from pre-set email
@@ -148,17 +143,17 @@ namespace CC.Connections.BL
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invaild");
 
-                    if (this.Email == string.Empty)
+                    if (this.ContactInfo_Email == string.Empty)
                         throw new Exception("Email is not set");
-                    PL.Contact_Info entry = dc.Contact_Info.FirstOrDefault(c => c.ContactInfo_Email == this.Email);
+                    PL.Contact_Info entry = dc.Contact_Info.FirstOrDefault(c => c.ContactInfo_Email == this.ContactInfo_Email);
                     if (entry == null)
-                        throw new Exception("Contact_Info does not exist: Email " + this.Email ) ;
-                    this.contact_ID = entry.Contact_Info_ID;
-                    this.Email = entry.ContactInfo_Email;
-                    this.FirstName = entry.ContactInfo_FName;
-                    this.LastName = entry.ContactInfo_LName;
-                    this.Phone = entry.ContactInfo_Phone;
-                    this.BirthDate = (DateTime)entry.DateOfBirth;
+                        throw new Exception("Contact_Info does not exist: Email " + this.ContactInfo_Email ) ;
+                    this.Contact_Info_ID    = entry.Contact_Info_ID;
+                    this.ContactInfo_Email  = entry.ContactInfo_Email;
+                    this.ContactInfo_FName  = entry.ContactInfo_FName;
+                    this.ContactInfo_LName  = entry.ContactInfo_LName;
+                    this.ContactInfo_Phone  = entry.ContactInfo_Phone;
+                    this.DateOfBirth        = (DateTime)entry.DateOfBirth;
                 }
             }
             catch (Exception e)
@@ -179,14 +174,8 @@ namespace CC.Connections.BL
                     ContactInfo ret = new ContactInfo();
                     PL.Contact_Info entry = dc.Contact_Info.FirstOrDefault(c => c.Contact_Info_ID == memberContact_ID);
                     if (entry == null)
-                        throw new Exception("Contact Info does not exist: Email '" + ret.Email + "'"); ;
-
-                    ret.Email = entry.ContactInfo_Email;
-                    ret.FirstName = entry.ContactInfo_FName;
-                    ret.LastName = entry.ContactInfo_LName;
-                    ret.Phone = entry.ContactInfo_Phone;
-                    ret.BirthDate = (DateTime)entry.DateOfBirth;
-                    return ret;
+                        throw new Exception("Contact Info does not exist: Email '" + entry.ContactInfo_Email + "'");
+                    return (ContactInfo)entry;
                 }
             }
             catch (Exception e)
@@ -207,11 +196,11 @@ namespace CC.Connections.BL
                 {
                     dc.Contact_Info.ToList().ForEach(c => this.Add(new ContactInfo
                     {
-                        Email = c.ContactInfo_Email,
-                        FirstName = c.ContactInfo_FName,
-                        LastName = c.ContactInfo_LName,
-                        Phone = c.ContactInfo_Phone,
-                        BirthDate =(DateTime)c.DateOfBirth
+                        ContactInfo_Email = c.ContactInfo_Email,
+                        ContactInfo_FName = c.ContactInfo_FName,
+                        ContactInfo_LName = c.ContactInfo_LName,
+                        ContactInfo_Phone = c.ContactInfo_Phone,
+                        DateOfBirth       = (DateTime)c.DateOfBirth
                 }));
                 }
             }

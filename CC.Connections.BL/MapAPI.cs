@@ -51,6 +51,7 @@ namespace CC.Connections.BL
                         new StringContent(jsonRequestBody, Encoding.UTF8, "application/json")).Result//HttpResponseMessage
                     .Content.ReadAsStringAsync().Result//to string result
             );
+            client.Dispose();
             return (double)responseObject.route.distance;
         }
 

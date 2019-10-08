@@ -4,37 +4,39 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Charity Connections</title>
+    <link runat="server" rel="shortcut icon" href="~/favicon.png" type="image/x-icon"/>
+    <link runat="server" rel=" icon" href="~/favicon.png" type="image/svg"/>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>                   
                 </button>
                 @Html.ActionLink("Charity Connections", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Find Volunteer Opportunities", "FindVolunteerOpportunities", "Home")</li>
+            <div class="navbar-collapse collapse" id="navbarColor03">
+                <ul class="nav navbar-nav mr-auto">
+                    <li class="nav-item">@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li class="nav-item">@Html.ActionLink("Find Volunteer Opportunities", "FindVolunteerOpportunities", "Home")</li>
                     <!--    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>-->
-                    <li>@Html.ActionLink("Sign-Up", "SignupView", "Login")</li>
-                    <li>@Html.ActionLink("Login", "LoginView", "Login")</li>
-                    <li>@Html.ActionLink("Logout", "logoutView", "Login")</li>
+                    <li class="nav-item">@Html.ActionLink("Sign Up", "SignupView", "Login")</li>
+                    <li class="nav-item">@Html.ActionLink("Login", "LoginView", "Login")</li>
+                    <li class="nav-item">@Html.ActionLink("Logout", "logoutView", "Login")</li>
                 </ul>
             </div>
         </div>
-    </div>
+    </nav>
     <div class="container body-content">
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - Charity Connections</p>
+            <p>Disclaimer: We do not facilitate the donation or transfer of funds though this website. You must contact independent charity group to donate.</p>
         </footer>
     </div>
 

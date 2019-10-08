@@ -1,23 +1,20 @@
 ﻿using System;
 using System.Linq;
 using CC.Connections.PL;
+using System.ComponentModel;
 
 namespace CC.Connections.BL
 {
-    //NOTE PB:
-    // .25 hours
-
     //only developers should be inserting, updating and deleting type
     //The 2 main types are volunteer and charity
-    public class Member_Type
+    public class Member_Type : PL.Member_Type
     {
-
-        public int ID { get; set; }
-        public string Desc { get; set; }
+        [DisplayName("Description")]
+        public new string MemberTypeDescription { get; set; }
 
         public Member_Type(int id)
         {
-            this.ID = id;
+            this.MemberType_ID = id;
             LoadId();
         }
 
@@ -32,18 +29,18 @@ namespace CC.Connections.BL
                 using (DBconnections dc = new DBconnections())
                 {
                     if (dc.Member_Type.ToList().Count > 0)
-                        ID = dc.Member_Type.Max(c => c.MemberType_ID) + 1;//unique id
+                        MemberType_ID = dc.Member_Type.Max(c => c.MemberType_ID) + 1;//unique id
                     else
-                        ID = 0;
+                        MemberType_ID = 0;
                     PL.Member_Type entry = new PL.Member_Type
                     {
-                        MemberType_ID = ID,
-                        MemberTypeDescription = Desc
+                        MemberType_ID = MemberType_ID,
+                        MemberTypeDescription = MemberTypeDescription
                     };
 
                     dc.Member_Type.Add(entry);
                     dc.SaveChanges();
-                    return ID;
+                    return MemberType_ID;
                 }
             }
             catch (Exception e) { throw e; }
@@ -57,9 +54,9 @@ namespace CC.Connections.BL
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invaild");
 
-                    dc.Member_Type.Remove(dc.Member_Type.Where(c => c.MemberType_ID == ID).FirstOrDefault());
+                    dc.Member_Type.Remove(dc.Member_Type.Where(c => c.MemberType_ID == MemberType_ID).FirstOrDefault());
 
-                    this.Desc = string.Empty;
+                    this.MemberTypeDescription = string.Empty;
                     return dc.SaveChanges();
                 }
             }
@@ -76,8 +73,8 @@ namespace CC.Connections.BL
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invaild");
 
-                    PL.Member_Type entry = dc.Member_Type.Where(c => c.MemberType_ID == this.ID).FirstOrDefault();
-                    entry.MemberTypeDescription = Desc;
+                    PL.Member_Type entry = dc.Member_Type.Where(c => c.MemberType_ID == this.MemberType_ID).FirstOrDefault();
+                    entry.MemberTypeDescription = MemberTypeDescription;
 
                     return dc.SaveChanges();
                 }
@@ -93,11 +90,11 @@ namespace CC.Connections.BL
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invaild");
 
-                    PL.Member_Type entry = dc.Member_Type.FirstOrDefault(c => c.MemberType_ID == this.ID);
+                    PL.Member_Type entry = dc.Member_Type.FirstOrDefault(c => c.MemberType_ID == this.MemberType_ID);
                     if (entry == null)
-                        throw new Exception("Member Type does not exist: ID = "+this.ID);
+                        throw new Exception("Member Type does not exist: ID = "+this.MemberType_ID);
 
-                    Desc = entry.MemberTypeDescription;
+                    MemberTypeDescription = entry.MemberTypeDescription;
                 }
             }
             catch (Exception e)

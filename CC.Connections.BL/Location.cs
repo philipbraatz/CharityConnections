@@ -8,28 +8,27 @@ using System.Threading.Tasks;
 
 namespace CC.Connections.BL
 {
-    public class Location
+    public class Location : PL.Location
     {
-        public int ID { get; internal set; }
         [DisplayName("Address")]
-        public string Address { get; set; }
+        public new string ContactInfoAddress { get; set; }
         [DisplayName("City")]
-        public string City { get; set; }
+        public new string ContactInfoCity { get; set; }
         [DisplayName("State")]
-        public string State { get; set; }
+        public new string ContactInfoState { get; set; }
         [DisplayName("Zip")]
-        public string Zip { get; set; }
+        public new string ContactInfoZip { get; set; }
         [DisplayName("Location")]
         public string Full_Location
         {
             //"825 Pilgrim Way, Green Bay, WI"
-            get { return Address + " ," + City + " ," + State; }
+            get { return ContactInfoAddress + " ," + ContactInfoCity + " ," + ContactInfoState; }
         }
 
         public Location() { }
         public Location(int location_ID)
         {
-            this.ID = location_ID;
+            this.Location_ID = location_ID;
             LoadId();
         }
 
@@ -44,22 +43,22 @@ namespace CC.Connections.BL
                     //if (dc.Locations.Where(c => c.Location_ID == ID).Count() != 0)
                     //    throw new Exception(Email + " is already in use, please use a different one");
                     if (dc.Locations.ToList().Count > 0)
-                        ID = dc.Locations.Max(c => c.Location_ID) + 1;//unique id
+                        Location_ID = dc.Locations.Max(c => c.Location_ID) + 1;//unique id
                     else
-                        ID = 0;
+                        Location_ID = 0;
 
                     PL.Location entry = new PL.Location
                     {
-                        Location_ID = ID,
-                        ContactInfoAddress = Address,
-                        ContactInfoCity = City,
-                        ContactInfoState = State,
-                        ContactInfoZip = Zip
+                        Location_ID = Location_ID,
+                        ContactInfoAddress = ContactInfoAddress,
+                        ContactInfoCity = ContactInfoCity,
+                        ContactInfoState = ContactInfoState,
+                        ContactInfoZip = ContactInfoZip
                     };
 
                     dc.Locations.Add(entry);
                     dc.SaveChanges();
-                    return ID;
+                    return Location_ID;
                 }
             }
             catch (Exception e) { throw e; }
@@ -73,11 +72,11 @@ namespace CC.Connections.BL
                     //if (this.ID == string.Empty)
                     //    throw new Exception("Email is invaild");
 
-                    dc.Locations.Remove(dc.Locations.Where(c => c.Location_ID == ID).FirstOrDefault());
-                    this.Address = string.Empty;
-                    this.City = string.Empty;
-                    this.State = string.Empty;
-                    this.Zip = string.Empty;
+                    dc.Locations.Remove(dc.Locations.Where(c => c.Location_ID == Location_ID).FirstOrDefault());
+                    this.ContactInfoAddress = string.Empty;
+                    this.ContactInfoCity = string.Empty;
+                    this.ContactInfoState = string.Empty;
+                    this.ContactInfoZip = string.Empty;
                     return dc.SaveChanges();
                 }
             }
@@ -95,12 +94,12 @@ namespace CC.Connections.BL
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invaild");
 
-                    PL.Location entry = dc.Locations.Where(c => c.Location_ID == this.ID).FirstOrDefault();
-                    entry.Location_ID = ID;
-                    entry.ContactInfoAddress = Address;
-                    entry.ContactInfoCity = City;
-                    entry.ContactInfoState = State;
-                    entry.ContactInfoZip = Zip;
+                    PL.Location entry = dc.Locations.Where(c => c.Location_ID == this.Location_ID).FirstOrDefault();
+                    entry.Location_ID = Location_ID;
+                    entry.ContactInfoAddress = ContactInfoAddress;
+                    entry.ContactInfoCity = ContactInfoCity;
+                    entry.ContactInfoState = ContactInfoState;
+                    entry.ContactInfoZip = ContactInfoZip;
 
                     return dc.SaveChanges();
                 }
@@ -116,15 +115,15 @@ namespace CC.Connections.BL
                 {
                     //if (this.Email == string.Empty)
                     //    throw new Exception("Email is not set");
-                    PL.Location entry = dc.Locations.FirstOrDefault(c => c.Location_ID == this.ID);
+                    PL.Location entry = dc.Locations.FirstOrDefault(c => c.Location_ID == this.Location_ID);
                     if (entry == null)
-                        throw new Exception("Location does not exist: Key '" + this.ID + "'"); ;
+                        throw new Exception("Location does not exist: Key '" + this.Location_ID + "'"); ;
 
-                    ID = (int)entry.Location_ID;
-                    Address = entry.ContactInfoAddress;
-                    City = entry.ContactInfoCity;
-                    State = entry.ContactInfoState;
-                    Zip = entry.ContactInfoZip;        
+                    Location_ID = (int)entry.Location_ID;
+                    ContactInfoAddress = entry.ContactInfoAddress;
+                    ContactInfoCity = entry.ContactInfoCity;
+                    ContactInfoState = entry.ContactInfoState;
+                    ContactInfoZip = entry.ContactInfoZip;        
                 }
             }
             catch (Exception e)
@@ -155,11 +154,11 @@ namespace CC.Connections.BL
                 {
                     dc.Locations.ToList().ForEach(c => this.Add(new Location
                     {
-                        ID = (int)c.Location_ID,
-                        Address = c.ContactInfoAddress,
-                        City = c.ContactInfoCity,
-                        State = c.ContactInfoState,
-                        Zip = c.ContactInfoZip,
+                        Location_ID = (int)c.Location_ID,
+                        ContactInfoAddress = c.ContactInfoAddress,
+                        ContactInfoCity = c.ContactInfoCity,
+                        ContactInfoState = c.ContactInfoState,
+                        ContactInfoZip = c.ContactInfoZip,
                 }));
                 }
             }

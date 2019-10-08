@@ -4,29 +4,32 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CC.Connections.PL;
+using System.Diagnostics;
+using System.ComponentModel;
 
 namespace CC.Connections.BL
 {
-    //NOTE PB:
-    //  .5 hours CRUD and Member CRUD
-    //  .5 member list add fix
-    public class Category
+    public class Category : PL.Category
     {
+        //You have to redeclare the varible to give it a display name
+        [DisplayName("Description")]
+        public new string Category_Desc { get; set; }
 
         public Category() { }
         public Category(int memberCat_ID)
         {
-            this.ID = memberCat_ID;
+            this.Category_ID = memberCat_ID;
             LoadId();
         }
-
-        public int ID { get; set; }
-        public string Desc { get; set; }
-        public int Count { get; set; }
+        public Category(int memberCat_ID,bool debug)
+        {
+            this.Category_ID = memberCat_ID;
+            LoadId(debug);
+        }
 
         private bool Exists(DBconnections dc)
         {
-            return dc.Categories.Where(c => c.Category_ID == ID).FirstOrDefault() != null;
+            return dc.Categories.Where(c => c.Category_ID == Category_ID).FirstOrDefault() != null;
         }
 
         public int Insert()
@@ -38,17 +41,11 @@ namespace CC.Connections.BL
                 using (DBconnections dc = new DBconnections())
                 {
                     if (dc.Categories.ToList().Count > 0)
-                        ID = dc.Categories.Max(c => c.Category_ID) + 1;//unique id
+                        Category_ID = dc.Categories.Max(c => c.Category_ID) + 1;//unique id
                     else
-                        ID = 0;
+                        Category_ID = 0;
 
-                    PL.Category entry = new PL.Category
-                    {
-                        Category_ID = ID,
-                        Category_Desc = this.Desc
-                    };
-
-                    dc.Categories.Add(entry);
+                    dc.Categories.Add(this);
                     return dc.SaveChanges();
                 }
             }
@@ -63,7 +60,7 @@ namespace CC.Connections.BL
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invaild");
 
-                    dc.Categories.Remove(dc.Categories.Where(c => c.Category_ID == ID).FirstOrDefault());
+                    dc.Categories.Remove(this);
                     return dc.SaveChanges();
                 }
             }
@@ -80,15 +77,15 @@ namespace CC.Connections.BL
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invaild");
 
-                    PL.Category entry = dc.Categories.Where(c => c.Category_ID == this.ID).FirstOrDefault();
-                    entry.Category_Desc = Desc;
+                    PL.Category entry = dc.Categories.Where(c => c.Category_ID == this.Category_ID).FirstOrDefault();
+                    entry.Category_Desc = Category_Desc;
 
                     return dc.SaveChanges();
                 }
             }
             catch (Exception e) { throw e; }
         }
-        public void LoadId()
+        public void LoadId(bool debug =false)
         {
             try
             {
@@ -97,11 +94,17 @@ namespace CC.Connections.BL
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invaild");
 
-                    PL.Category entry = dc.Categories.FirstOrDefault(c => c.Category_ID == this.ID);
+                    PL.Category entry = dc.Categories.FirstOrDefault(c => c.Category_ID == this.Category_ID);
                     if (entry == null)
-                        throw new Exception("Category does not exist ID: "+ID);
+                        if (!debug)
+                            throw new Exception("Category does not exist ID: " + Category_ID);
+                        else
+                        {
+                            Debug.WriteLine("Category does not exist ID: " + Category_ID);
+                            entry = new PL.Category { Category_ID = Category_ID, Category_Desc = "DEBUG: not found"};
+                        }
 
-                    Desc = entry.Category_Desc;
+                    Category_Desc = entry.Category_Desc;
                 }
             }
             catch (Exception e)
@@ -124,17 +127,13 @@ namespace CC.Connections.BL
                 using (DBconnections dc = new DBconnections())
                 {
                     if (dc.Categories.ToList().Count != 0)
-                        dc.Categories.ToList().ForEach(c => this.Add(new Category
-                        {
-                            ID = c.Category_ID,
-                            Desc = c.Category_Desc
-                        }));
+                        dc.Categories.ToList().ForEach(c => this.Add((Category)c));
                 }
             }
             catch (Exception e) { throw e; }
         }
 
-        public CategoryList LoadPreferences(int memberID)
+        public CategoryList LoadPreferences(int memberID,bool debug =false)
         {
             try
             {
@@ -144,22 +143,19 @@ namespace CC.Connections.BL
                 {
                     if (dc.Categories.ToList().Count != 0)
                         dc.Preferred_Category.Where(d => d.MemberCat_Member_ID == memberID).ToList().ForEach(c =>
-                             this.Add(new Category((int)c.MemberCat_Category_ID),true));
+                             this.Add(new Category((int)c.MemberCat_Category_ID, debug),true));
                 }
                 return this;
             }
             catch (Exception e) { throw e; }
         }
-        public void AddPreference(int categoryID)
+        public void AddPreference(int categoryID,bool debug =false)
         {
             if (member_ID == null)
                 throw new Exception(PREFERENCE_LOAD_ERROR);
 
             using (DBconnections dc = new DBconnections())
             {
-                if (!Helping_Action.Exists(dc, categoryID))
-                    throw new Exception("Category ID: " + categoryID + " does not exist");
-
                 int newID = 0;
                 if (dc.Preferred_Category.ToList().Count != 0)
                     newID = dc.Preferred_Category.Max(c => c.PreferredCategory_ID)+1;
@@ -186,9 +182,9 @@ namespace CC.Connections.BL
                     c.MemberCat_Category_ID == categoryID).FirstOrDefault();
                 if (prefCat != null)
                     dc.Preferred_Category.Remove(prefCat);
-                else
-                    throw new Exception("Prefferred_Category category "+categoryID+" does not exist for Member "+member_ID);
-                this.Remove(this.Where(c => c.ID == categoryID).FirstOrDefault(),true);
+                else//TODO FIX
+                    categoryID= categoryID;//throw new Exception("Prefferred_Category category "+categoryID+" does not exist for Member "+member_ID);
+                this.Remove(this.Where(c => c.Category_ID == categoryID).FirstOrDefault(),true);
                 dc.SaveChanges();
             }
         }
@@ -209,21 +205,20 @@ namespace CC.Connections.BL
 
         public void UpdateCategory(Category cat, string description)
         {
-            Category cthis =this.Where(c => c.ID == cat.ID).FirstOrDefault();
-            cthis.Desc = description;
-            cthis.Update();
+            UpdateCategory(cat.Category_ID, description);
 
         }
         public void UpdateCategory(int catID,string description)
         {
-            Category cthis = this.Where(c => c.ID == catID).FirstOrDefault();
-            cthis.Desc = description;
+            Category cthis = this.Where(c => c.Category_ID == catID).FirstOrDefault();
+            cthis.Category_Desc = description;
             cthis.Update();
         }
 
         private bool MemberExists(DBconnections dc, int member_ID)
         {
-            return dc.Preferred_Category.Where(c => c.MemberCat_Member_ID == member_ID
+            return dc.Preferred_Category.Where(c => 
+                c.MemberCat_Member_ID == member_ID
             ).FirstOrDefault() != null;
         }
 

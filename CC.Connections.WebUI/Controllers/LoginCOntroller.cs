@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using CC.Connections.BL;
+using CC.Connections.WebUI.Model;
 
 namespace CC.Connections.WebUI.Controllers
 {
@@ -19,7 +20,7 @@ namespace CC.Connections.WebUI.Controllers
         public ActionResult SignUpView(string returnurl)
         {
             ViewBag.ReturnUrl = returnurl;
-            return View();
+            return View(new ContactInfoSignup());
         }
 
         public ActionResult LogoutView()
@@ -68,9 +69,13 @@ namespace CC.Connections.WebUI.Controllers
         //}
 
         [HttpPost]
-        public ActionResult SignUpView(ContactInfo contact)
+        public ActionResult SignUpView(ContactInfoSignup con)
         {
-            //TODO
+            Member newMember = new Member(con.ContactInfo_Email, con.password.Pass, 1,true);
+            newMember.setContactInfo((ContactInfo)con);
+            newMember.Insert();
+
+            Session["member"] = newMember.Password;
             return RedirectToAction("Index", "Home");
         }
     }
