@@ -21,7 +21,6 @@ namespace CC.Connections.PL
         public Nullable<int> CharityEventContactInfo_ID { get; set; }
         public Nullable<System.DateTime> CharityEventStartDate { get; set; }
         public Nullable<System.DateTime> CharityEventEndDate { get; set; }
-        public Nullable<System.DateTime> CharityEventTime { get; set; }
         public string CharityEventStatus { get; set; }
         public string CharityEventRequirements { get; set; }
     }

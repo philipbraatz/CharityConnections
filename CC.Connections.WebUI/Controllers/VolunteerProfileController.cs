@@ -13,10 +13,10 @@ namespace CC.Connections.WebUI.Controllers
         public ActionResult ProfileView(string id)
         {
             ViewBag.ReturnUrl = id;
-            ContactInfo c = new ContactInfo();
+            BLContactInfo c = new BLContactInfo();
             Password p = (Password)Session["member"];
 
-            return View(new ContactInfo(p.email));
+            return View(new BLContactInfo(p.email));
         }
 
 
