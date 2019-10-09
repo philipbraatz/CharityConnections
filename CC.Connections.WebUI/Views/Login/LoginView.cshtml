@@ -4,6 +4,8 @@
     ViewBag.Title = "Login";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<br/>
+<br/>
 
 <h2>Login</h2>
 <h2>@ViewBag.Message</h2>
@@ -21,12 +23,13 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.email, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                 
             </div>
         </div>
-
-        <div class="form-group">
+        <!--I cannot get the password input to look like the email text input box. WHY????-->
+        <div class="form-group">            
             @Html.LabelFor(model => model.Pass, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
+            <div class="col-md-10">              
                 @Html.PasswordFor(model => model.Pass, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.Pass, "", new { @class = "text-danger" })
             </div>
@@ -34,13 +37,28 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Login" class="btn btn-default btn-primary btn-lg" />
+                <input type="submit" value="Login" class="btn btn-outline-secondary" />
+                <br />
+                <br />
+                <br />
+
                 <div>
                     @Html.ActionLink("Sign Up", "SignUpView", "Login")
                 </div>
+                <br />
                 <div>
-                    @Html.ActionLink("Forgot Password", "ForgotPasswordView", "Login")
+                    @Html.ActionLink("Forgot Password ?", "ForgotPasswordView", "Login")
                 </div>
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
             </div>
         </div>
     </div>
