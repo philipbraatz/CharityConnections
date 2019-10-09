@@ -1,0 +1,40 @@
+﻿@model Telerik.Web.Mvc.GridModel<SubscriberModel>
+
+
+
+<div class="pageContainer">
+
+    @Html.Partial("_Breadcrumb", "Subscribers")
+
+
+
+    @(Html.Telerik().Grid<SubscriberModel>()
+          .Name("categories")
+          .BindTo(Model.Data)
+          .Columns(columns =>
+          {
+              columns.Bound(x => x.Email).Width(350).Template(x => Html.ActionLink(x.Email, "Edit", "Subscriber", new { id = x.Id }, new { }));
+              columns.Bound(x => x.FullName);
+              columns.Bound(x => x.SubscribeDate);
+              columns.Bound(x => x.IsActive).Centered().Template(item => @Html.SymbolForBool(item.IsActive)).ClientTemplate(@Html.SymbolForBool("Published"));
+              columns.Bound(x => x.Id)
+                      .Template(x => Html.ActionLink("View", "Edit", new { id = x.Id }, new { @class = "t-button" }))
+                      .ClientTemplate("<a href=\"Subscriber/Edit/<#= Id #>\" class=\"t-button\">View</a>")
+                      .Title(String.Empty).Width(100)
+                      .HtmlAttributes(new { align = "right", @class = "omega" });
+          }).Pageable(settings => settings.Total(Model.Total).PageSize(10).Position(GridPagerPosition.Both))
+    )
+
+</div>
+
+
+<div class="pageSide">
+    <ul class="js-scroll-nav duik-content-nav">
+        @*<li class="duik-content-nav__item contents">Actions</li>
+        <li>
+            
+
+        </li>*@
+    </ul>
+</div>
+

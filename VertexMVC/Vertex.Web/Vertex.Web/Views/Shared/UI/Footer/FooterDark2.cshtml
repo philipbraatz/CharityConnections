@@ -1,0 +1,95 @@
+﻿@model Footer
+
+@{
+    string siteName = Setting("general.site.name").Value;
+}
+
+@using (Html.PageWrapContent("footer"))
+{
+    <!-- FOOTER -->
+    <footer class="border-top bg-dark @Model.GetCssClass()" @Model.GetStyle() @Model.GetHtmlAtributes()>
+        <div class="container pt-10 pb-8">
+            <div class="row text-center align-content-center h-100 align-items-center mb-9">
+                <div class="col-md-4">
+                    <div class="clearfix">
+                        <h4 class="fs-28 text-white font-weight-normal">Newsletter</h4>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <form action="/Page/Subscribe" class="input-glass rounded-0" data-ajax="true" data-ajax-method="POST" data-ajax-mode="replace" data-ajax-update="#divResult3" id="form0" method="post" role="form">
+                        @Html.AntiForgeryToken()
+                        <div class="form-row align-content-center">
+                            <div class="col-md-9 ml-auto mb-4 mb-md-0">
+                                <div class="input-group input-group-lg">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                                    </div>
+                                    <input type="email" name="Email" id="Email" class="form-control pl-0" placeholder="Email Address">
+                                </div>
+                                <div id="divResult3"></div>
+                            </div>
+                            <div class="col-md-3 mr-auto">
+                                <button type="submit" class="btn btn-block btn-light">Subscribe</button>
+                            </div>
+                        </div> 
+                    </form>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-4">
+                    <h3 class="h6 mb-4 text-white">
+                        About Us
+                    </h3>
+                    <p class="text-white-50">
+                        A small river named daden flows by their place and supplies it with the necessary regelialia.
+                    </p>
+                </div>
+                <div class="col-sm-2">
+                    <h3 class="h6 mb-4 text-white">
+                        Social Media
+                    </h3>
+                    <div class="social social-bg-dark">
+                        <a class="social-facebook m-0" href="@Setting("general.socialmedia.facebook").Value" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a class="social-twitter m-0" href="@Setting("general.socialmedia.twitter").Value" target="_blank"><i class="fab fa-twitter"></i></a>
+                        <a class="social-linkedin m-0" href="@Setting("general.socialmedia.linkedin").Value" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                        <a class="social-instagram m-0" href="@Setting("general.socialmedia.instagram").Value" target="_blank"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <h3 class="h6 mb-4 text-white">
+                        Order Line
+                    </h3>
+                    <span class="label label--sm label--light mb-2"><i class="fas fa-phone fs-11 text-white mr-2"></i> @Setting("general.site.phonenumber").Value</span>
+                </div>
+                <div class="col-sm-4">
+                    <h3 class="h6 mb-4 text-white">
+                        Contact Us
+                    </h3>
+
+                    <address class="text-white-50 fs-14">
+                        @Html.Raw(Setting("general.site.address").Value)
+                        <abbr title="Phone">P:</abbr> @Setting("general.site.phonenumber").Value
+                    </address>
+                    <address class="fs-14">
+                        <strong class="text-white">Support: </strong>
+                        <a class="m-link-light" href="mailto:#">@Setting("general.site.email").Value</a>
+                    </address>
+                </div>
+            </div>
+        </div>
+
+        <!-- Copyright -->
+        <div class="container m-gab-1 border-top-muted">
+
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <p class=" text-white-50"><span class="fs-17">©</span> @DateTime.UtcNow.Year <span class="text-white">@siteName</span>. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+        <!-- End Copyright -->
+    </footer>
+    <!-- END FOOTER -->
+
+}

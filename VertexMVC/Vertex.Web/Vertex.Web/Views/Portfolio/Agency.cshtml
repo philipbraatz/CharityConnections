@@ -1,0 +1,55 @@
+﻿
+@(Html.Vertex().Page()
+        .Title("Agency")
+        .Footer()
+        .Header(header => {
+            header.Transparency(HeaderTransparency.Transparent);
+            header.ShowTopbar(true);
+            header.Nav(DemoMenu.GetDemoMenu());
+            header.TextColor(BootstrapColor.Light);
+        }) 
+)
+
+
+
+@Html.Vertex().Section().Size(SectionSize.Large).Overlay(5).Src("../Content/img/hero/h18.jpg").SectionType(SectionType.ParallaxImage).ContentTemplate(@<text>
+
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-12 text-white text-center">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-center bg-transparent pr-0 pl-0 mb-0">
+                        <li class="breadcrumb-item"><a class="text-white-50" href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a class="text-white-50" href="#">Portfolio</a></li>
+                        <li class="breadcrumb-item active text-white-50 o-6" aria-current="page">Agency</li>
+                    </ol>
+                </nav>
+                <h1 class="fs-50 fw-600">Portfolio Agency View</h1>
+                <p class="lead mb-5">
+                    Join The Ultimate And Awesome Experience
+                </p>
+                <a href="/Contact" class="btn btn-light transition-hover pr-4 pl-4 mr-3">Request Project</a>
+                <a href="/Contact" class="btn btn-outline-light transition-hover pr-4 pl-4">Purchase Now</a>
+
+            </div>
+        </div>
+    </div> 
+
+</text>)
+
+
+
+@Html.Vertex().Section().BgColor(BootstrapColor.Light).ContentTemplate(@<text>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+
+                @Html.Vertex().Portfolio(PortfolioViewName.Agency).ShowCategoryFilter()
+
+            </div>
+        </div>
+    </div>
+
+</text>)
+

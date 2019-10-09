@@ -1,0 +1,1047 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Vertex ASP.NET MVC Documentation</title>
+    <meta name="author" content="ukieweb" />
+    <meta name="keywords" content="404 page, giraffe, css3, template, html5 template" />
+    <meta name="description" content="404 - Page Template" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link rel="shortcut icon" type="image/png" href="assets/img/favicon.png" />
+
+    <!-- CSS Implementing Plugins -->
+    <link rel="stylesheet" href="assets/vendor/font-awesome/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css">
+    <link rel="stylesheet" href="assets/vendor/jquery-ui/themes/base/jquery-ui.min.css">
+    <link rel="stylesheet" href="assets/vendor/prism/prism.css">
+
+    <!-- Google Fonts -->
+    <link href="//fonts.googleapis.com/css?family=Poppins:300,400,500,600" rel="stylesheet">
+
+    <!-- CSS Template -->
+    <link href="assets/vendor/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link href="assets/css/vertex-style.css" rel="stylesheet" />
+    <link href="assets/css/utilities.css" rel="stylesheet" />
+
+</head>
+<body class="bg-white">
+    <!-- Header -->
+    <header class="duik-header">
+
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top bg-white">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse headerContainer" id="navbarTogglerDemo01">
+                <a class="navbar-brand headerLeftColumn border-right" href="#">
+                    <img src="assets/img/logo.png" alt="Docs UI Kit" style="width: 110px;">
+                    <span class="badge badge-primary ml-2">v1.0</span>
+                </a>
+                <ul class="navbar-nav headerInnerWrapper">
+                    <li class="nav-item active">
+                        <a class="nav-link text-primary" href="http://vertexmvc.bootstraptemplates.net/" target="_blank">
+                            <i class="fas fa-eye small mr-sm-1"></i>
+                            <span class="d-none d-lg-inline-block font-weight-medium anim-link-2 anim-link-2-primary"> Live Preview</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-primary pl-4" href="http://vertexmvc.bootstraptemplates.net/Contact" target="_blank">
+                            <i class="fas fa-bug small mr-sm-1"></i>
+                            <span class="d-none d-lg-inline-block anim-link-2 anim-link-2-primary">Report an Issue</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-primary pl-4" href="#">
+                            <i class="fas fa-shopping-basket mr-sm-1"></i>
+                            <span class="d-none d-lg-inline-block anim-link-2 anim-link-2-primary">Buy now</span>
+                        </a>
+                    </li>
+                </ul>
+                <form class="searchInputWrapper form-inline">
+                    <div class="input-group border-0">
+                        <div class="input-group-prepend pl-0">
+                            <div class="input-group-text"> <i class="fas fa-search"></i> </div>
+                        </div>
+                        <input class="js-search border-0 d-none d-md-block form-control mr-auto  pl-md-2" type="text" placeholder="Search..." aria-label="Search..." data-url="assets/include/json/autocomplete-data-for-documentation-search.json">
+                    </div>
+
+                    <!--<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">-->
+                </form>
+            </div>
+        </nav>
+    </header>
+    <!-- End Header -->
+
+    <div class="bodyContent">
+        <div class="wholeContent">
+            <div class="wholeContentBody">
+
+                <!-- Sidebar -->
+                <nav class="bg-light duik-sidebar2 navbar-expand-md contentNavigation">
+                    <div class="d-flex d-md-none justify-content-between mb-5">
+                        <!-- Sidebar Search -->
+                        <form class="col form-inline input-group-sm">
+                            <input class="js-search form-control form-control-sm w-100" type="text" placeholder="Search..." data-url="assets/include/json/autocomplete-data-for-documentation-search.json">
+                        </form>
+                        <!-- End Sidebar Search -->
+                        <!-- Responsive Toggle Button -->
+                        <button class="btn btn-link pl-0" type="button" data-toggle="collapse" data-target="#sidebar-nav" aria-controls="sidebar-nav" aria-expanded="false" aria-label="Toggle navigation">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 30 30" width="30" height="30" focusable="false">
+                                <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="M4 7h22M4 15h22M4 23h22" />
+                            </svg>
+                        </button>
+                        <!-- End Responsive Toggle Button -->
+                    </div>
+
+                    <!-- Sidebar Nav -->
+                    <div class="pageNavigation" id="sidebar-nav">
+                        <div class="js-scrollbar duik-sidebar-sticky">
+                            <h5 class="duik-sidebar__heading">Getting started </h5>
+                            <ul class="duik-sidebar__nav">
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link " href="introduction.html">Introduction</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="setup.html">Setup</a></li>
+                            </ul>
+
+                            <h5 class="duik-sidebar__heading">Core</h5>
+                            <ul class="duik-sidebar__nav">
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="page.html">Page & Settings</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="settings.html">Settings</a></li>
+                                
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="manage.html#file-manager">File Manager</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="manage.html#picture-uploader">Picture Uploader</a></li>
+                            </ul>
+
+                            <h5 class="duik-sidebar__heading">UI Kit</h5>
+                            <ul class="duik-sidebar__nav">
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="accordion.html">Accordion</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="alert.html">Alert</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="badge.html">Badge</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="button.html">Button</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="countup.html">Countup</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="html-editor.html">Html Editor</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link active" href="iconBox.html">IconBox</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="oval-divider.html">Oval Divider</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="popover.html">Popover</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="popup.html">Popup</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="progress.html">Progress</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="badge.html#raiting">Rating</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="slider.html">Slider</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="spinner.html">Spinner</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="tab.html">Tab</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="tooltip.html">Tooltip</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="typing.html">Typing</a></li>
+                            </ul>
+
+                            <h5 class="duik-sidebar__heading">Manage</h5>
+                            <ul class="duik-sidebar__nav">
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="manage.html#blog-post">Blog Post</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="manage.html#portfolio">Portfolio</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="manage.html#client-testimonials">Client & Testimonials</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="manage.html#job">Job</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="manage.html#team-member">Team Member</a></li>
+                            </ul>
+
+                            <h5 class="duik-sidebar__heading">Others</h5>
+                            <ul class="duik-sidebar__nav">
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="changelog.html">Changelog</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- End Sidebar Nav -->
+                </nav>
+                <!-- End Sidebar -->
+
+                <main class="wholeContent">
+                    <div class="wholeContentSticky">
+
+                        <!-- Content -->
+                        <div class="pageContainer border-bottom">
+                            <div class="border-bottom mb-7" id="doc-introduction">
+                                <h1>Icon box</h1>
+                                <p class="lead mb-5">
+                                    Provide contextual feedback messages for typical user actions with the handful of available and flexible alert messages.
+                                </p>
+                            </div>
+
+
+
+
+
+                            <div class="mb-9" id="Default">
+                                <header class="mb-6">
+                                    <h3>Default</h3>
+                                    <hr>
+                                    <p class="lead-1">Use <code>@Html.Vertex().IconBox()</code> method to create a IconBox.</p>
+                                </header>
+
+                                <ul class="nav nav-bordered" id="component-1" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active show" data-toggle="tab" href="#component-1-1" role="tab" aria-controls="component-1-1" aria-selected="true">Preview</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#component-1-2" role="tab" aria-controls="component-1-2" aria-selected="false">ASP.NET MVC</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content mt-4" id="component-1-content">
+                                    <div class="tab-pane fade show active" id="component-1-1" role="tabpanel" aria-labelledby="component-1-1">
+                                        <div class="d-flex pt-4">
+                                            <div class="w-50 pr-4 border-right">
+
+
+
+                                                <div class="position-relative">
+                                                    <div class="">
+                                                        <div class="mb-4">
+                                                            <i class="fas fa-layer-group text-primary fs-50"></i>
+                                                        </div>
+                                                        <div class="media">
+                                                            <div class="media-body">
+
+                                                                <h3 class="h5 mt-0 ">Default Iconbox</h3>
+                                                                <p class=" mb-2">
+                                                                    Sed quis dolor in lacuses ullam corper euis mod necet nibh. Morbi mollis, enim vitae rutrum lacus porttitor.
+                                                                </p>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                            <div class="w-50 pl-4">
+
+
+
+                                                <div class="position-relative">
+                                                    <div class="text-center">
+                                                        <div class="mb-4">
+                                                            <i class="fas fa-layer-group text-primary fs-50"></i>
+                                                        </div>
+                                                        <div class="media">
+                                                            <div class="media-body">
+
+                                                                <h3 class="h5 mt-0 ">Center Align</h3>
+                                                                <p class=" mb-2">
+                                                                    Sed quis dolor in lacuses ullam corper euis mod necet nibh. Morbi mollis, enim vitae rutrum lacus porttitor.
+                                                                </p>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="component-1-2" role="tabpanel" aria-labelledby="component-1-2">
+                                        <pre><code class="language-csharp">@(Html.Vertex().IconBox()
+    .Icon("fas fa-layer-group")
+    .Title("Default Iconbox")
+    .Content("Sed quis dolor in lacuses ullam corper euis mod..."))
+                                
+@(Html.Vertex().IconBox()
+    .Icon("fas fa-layer-group")
+    .Title("Center Align")
+    .Content("Sed quis dolor in lacuses ullam corper euis mod...")
+    .Align(IconBoxAlign.Center))</code>
+                        </pre>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="mb-9" id="IconPosition">
+                                <header class="mb-6">
+                                    <h3>Icon Position</h3>
+                                    <hr>
+                                    <p class="lead-1">
+                                        Use <code>.IconPosition(IconBoxIconPosition iconPosition)</code> method to set icon position. There are three type of icon position <code>Left</code>,
+                                        <code>Center</code> and <code>Right</code>. Default icon positon is <code>IconBoxIconPosition.Left</code>
+                                        <small>You can see on <a href="#Default" class="link-primary">default</a> exemple.</small>
+                                    </p>
+                                </header>
+
+                                <ul class="nav nav-bordered" id="component-2" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active show" data-toggle="tab" href="#component-2-1" role="tab" aria-controls="component-2-1" aria-selected="true">Preview</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#component-2-2" role="tab" aria-controls="component-2-2" aria-selected="false">ASP.NET MVC</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content mt-4" id="component-2-content">
+                                    <div class="tab-pane fade show active" id="component-2-1" role="tabpanel" aria-labelledby="component-2-1">
+                                        <div class="d-flex pt-4">
+                                            <div class="w-50 pr-4 border-right">
+
+
+
+                                                <div class="position-relative">
+                                                    <div class="">
+                                                        <div class="media">
+                                                            <div class="w-60px mr-4">
+                                                                <i class="fas fa-layer-group text-primary fs-45"></i>
+                                                            </div>
+                                                            <div class="media-body">
+
+                                                                <h3 class="h5 mt-0 ">Left Icon Position</h3>
+                                                                <p class=" mb-2">
+                                                                    Sed quis dolor in lacuses ullam corper euis mod necet nibh. Morbi mollis, enim vitae.
+                                                                </p>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                            <div class="w-50 pl-4">
+
+
+
+                                                <div class="position-relative">
+                                                    <div class="text-right">
+                                                        <div class="media">
+                                                            <div class="media-body">
+
+                                                                <h3 class="h5 mt-0 ">Right Icon Position</h3>
+                                                                <p class=" mb-2">
+                                                                    Sed quis dolor in lacuses ullam corper euis mod necet nibh. Morbi mollis, enim vitae.
+                                                                </p>
+
+                                                            </div>
+                                                            <div class="w-60px ml-4">
+                                                                <i class="fas fa-layer-group text-primary fs-45"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="component-2-2" role="tabpanel" aria-labelledby="component-2-2">
+                                        <pre><code class="language-csharp">@(Html.Vertex().IconBox()
+    .Icon("fas fa-layer-group")
+    .IconPosition(IconBoxIconPosition.Left)
+    .Title("Left Icon Position")
+    .Content("Sed quis dolor in lacuses ullam corper euis mod..."))
+                                
+@(Html.Vertex().IconBox()
+    .Icon("fas fa-layer-group")
+    .IconPosition(IconBoxIconPosition.Right)
+    .Align(IconBoxAlign.Right) // All content align
+    .Title("Right Icon Position")
+    .Content("Sed quis dolor in lacuses ullam corper euis mod..."))</code>
+                        </pre>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="mb-9" id="Bordered">
+                                <header class="mb-6">
+                                    <h3>Bordered</h3>
+                                    <hr>
+                                    <p class="lead-1">
+                                        Use <code>.Bordered()</code><i class="small">(+2 overloads)</i> method to use border.
+                                        Other methods are <code>Bordered(BootstrapColor bgColor)</code> and <br> <code>Bordered(BootstrapColor bgColor, OvalDividerType ovalDividerType)</code>
+                                    </p>
+                                </header>
+
+                                <ul class="nav nav-bordered" id="component-3" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active show" data-toggle="tab" href="#component-3-1" role="tab" aria-controls="component-3-1" aria-selected="true">Preview</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#component-3-2" role="tab" aria-controls="component-3-2" aria-selected="false">ASP.NET MVC</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content mt-4" id="component-3-content">
+                                    <div class="tab-pane fade show active" id="component-3-1" role="tabpanel" aria-labelledby="component-3-1">
+                                        <div class="d-flex">
+                                            <div class="w-50 pr-3">
+
+
+
+                                                <div class="position-relative">
+                                                    <div class="border rounded px-6 py-7">
+                                                        <div class="mb-4">
+                                                            <i class="fas fa-layer-group text-primary fs-50"></i>
+                                                        </div>
+                                                        <div class="media">
+                                                            <div class="media-body">
+
+                                                                <h3 class="h5 mt-0 ">Bordered Iconbox</h3>
+                                                                <p class=" mb-2">
+                                                                    Sed quis dolor in lacuses ullam corper euis mod necet nibh. Morbi mollis, enim vitae.
+                                                                </p>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                            <div class="w-50 pl-3">
+
+
+
+                                                <div class="position-relative">
+                                                    <div class="text-center border rounded px-6 py-7">
+                                                        <div class="mb-4">
+                                                            <i class="fas fa-layer-group text-primary fs-50"></i>
+                                                        </div>
+                                                        <div class="media">
+                                                            <div class="media-body">
+
+                                                                <h3 class="h5 mt-0 ">Bordered Iconbox</h3>
+                                                                <p class=" mb-2">
+                                                                    Sed quis dolor in lacuses ullam corper euis mod necet nibh. Morbi mollis, enim vitae.
+                                                                </p>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="component-3-2" role="tabpanel" aria-labelledby="component-3-2">
+                                        <pre><code class="language-csharp">@(Html.Vertex().IconBox()
+    .Icon("fas fa-layer-group") 
+    .Title("Left Icon Position")
+    .Content("Sed quis dolor in lacuses ullam corper euis mod...")
+    .Bordered())
+                                
+@(Html.Vertex().IconBox()
+    .Icon("fas fa-layer-group")
+    .Title("Right Icon Position")
+    .Content("Sed quis dolor in lacuses ullam corper euis mod...")
+    .Bordered()
+    .Align(IconBoxAlign.Right))</code>
+                        </pre>
+                                    </div>
+                                </div>
+
+
+
+
+
+                                <br>
+                                <h5 id="ChangingBgColor" class="mt-6">Changing Bg Color</h5>
+                                <p>
+                                    Use <code>.Bordered(BootstrapColor.Primary)</code> If you look at the second demo, you will see color problem. You can change color of icon, title and content
+                                    by using <code>.TitleColor(BootstrapColor titleColor), .ContentColor(BootstrapColor contentColor), .IconColor(BootstrapColor iconColor) </code>
+                                </p>
+                                <ul class="nav nav-bordered" id="component-4" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active show" data-toggle="tab" href="#component-4-1" role="tab" aria-controls="component-4-1" aria-selected="true">Preview</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#component-4-2" role="tab" aria-controls="component-4-2" aria-selected="false">ASP.NET MVC</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content mt-4" id="component-4-content">
+                                    <div class="tab-pane fade show active" id="component-4-1" role="tabpanel" aria-labelledby="component-4-1">
+                                        <div class="d-flex">
+                                            <div class="w-50 pr-3">
+
+
+
+                                                <div class="position-relative">
+                                                    <div class="border rounded px-6 py-7 bg-light">
+                                                        <div class="mb-4">
+                                                            <i class="fas fa-layer-group text-primary fs-50"></i>
+                                                        </div>
+                                                        <div class="media">
+                                                            <div class="media-body">
+
+                                                                <h3 class="h5 mt-0 ">Light Bg Iconbox</h3>
+                                                                <p class=" mb-2">
+                                                                    Sed quis dolor in lacuses ullam corper euis mod necet nibh. Morbi mollis, enim vitae.
+                                                                </p>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                            <div class="w-50 pl-3">
+
+
+
+                                                <div class="position-relative">
+                                                    <div class="text-center border rounded px-6 py-7 bg-success">
+                                                        <div class="mb-4">
+                                                            <i class="fas fa-layer-group text-primary fs-50"></i>
+                                                        </div>
+                                                        <div class="media">
+                                                            <div class="media-body">
+
+                                                                <h3 class="h5 mt-0 ">Success Bg Iconbox</h3>
+                                                                <p class=" mb-2">
+                                                                    Sed quis dolor in lacuses ullam corper euis mod necet nibh. Morbi mollis, enim vitae.
+                                                                </p>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="component-4-2" role="tabpanel" aria-labelledby="component-4-2">
+                                        <pre><code class="language-csharp">@(Html.Vertex().IconBox()
+    .Icon("fas fa-layer-group") 
+    .Title("Light Bg Iconbox")
+    .Content("Sed quis dolor in lacuses ullam corper euis mod...")
+    .Bordered(bgColor:BootstrapColor.Light))
+                                
+@(Html.Vertex().IconBox()
+    .Icon("fas fa-layer-group")
+    .Title("Success Bg Iconbox")
+    .Content("Sed quis dolor in lacuses ullam corper euis mod...")
+    .Bordered(bgColor:BootstrapColor.Success)
+    .Align(IconBoxAlign.Center))</code>
+                        </pre>
+                                    </div>
+                                </div>
+
+
+
+
+
+
+
+                                <br>
+                                <h5 id="ChangingContentColor" class="mt-6">Changing Title, Content and Icon color</h5>
+                                <p>
+                                    Use <code>.TitleColor(BootstrapColor titleColor)</code> to change title color, <br>
+                                    Use <code>.ContentColor(BootstrapColor contentColor)</code> to change content color, <br>
+                                    Use <code>.IconColor(BootstrapColor iconColor)</code> to change icon color.
+                                </p>
+                                <ul class="nav nav-bordered" id="component-5" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active show" data-toggle="tab" href="#component-5-1" role="tab" aria-controls="component-5-1" aria-selected="true">Preview</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#component-5-2" role="tab" aria-controls="component-5-2" aria-selected="false">ASP.NET MVC</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content mt-4" id="component-5-content">
+                                    <div class="tab-pane fade show active" id="component-5-1" role="tabpanel" aria-labelledby="component-5-1">
+                                        <div class="d-flex">
+                                            <div class="w-50 pr-3">
+
+
+
+                                                <div class="position-relative">
+                                                    <div class="border rounded px-6 py-7 bg-primary">
+                                                        <div class="mb-4">
+                                                            <i class="fas fa-layer-group text-white fs-50"></i>
+                                                        </div>
+                                                        <div class="media">
+                                                            <div class="media-body">
+
+                                                                <h3 class="h5 mt-0 text-white">Light Bg Iconbox</h3>
+                                                                <p class="o-8 text-white mb-2">
+                                                                    Sed quis dolor in lacuses ullam corper euis mod necet nibh. Morbi mollis, enim vitae.
+                                                                </p>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                            <div class="w-50 pl-3">
+
+
+
+                                                <div class="position-relative">
+                                                    <div class="text-center border rounded px-6 py-7 bg-success">
+                                                        <div class="mb-4">
+                                                            <i class="fas fa-layer-group text-white fs-50"></i>
+                                                        </div>
+                                                        <div class="media">
+                                                            <div class="media-body">
+
+                                                                <h3 class="h5 mt-0 text-white">Success Bg Iconbox</h3>
+                                                                <p class="o-8 text-white mb-2">
+                                                                    Sed quis dolor in lacuses ullam corper euis mod necet nibh. Morbi mollis, enim vitae.
+                                                                </p>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="component-5-2" role="tabpanel" aria-labelledby="component-5-2">
+                                        <pre><code class="language-csharp">@(Html.Vertex().IconBox()
+    .Icon("fas fa-layer-group") 
+    .Title("Light Bg Iconbox")
+    .Content("Sed quis dolor in lacuses ullam corper euis mod...")
+    .Bordered(bgColor:BootstrapColor.Primary)
+    .TitleColor(BootstrapColor.White)
+    .ContentColor(BootstrapColor.White)
+    .IconColor(BootstrapColor.White))
+                                
+@(Html.Vertex().IconBox()
+    .Icon("fas fa-layer-group")
+    .Title("Success Bg Iconbox")
+    .Content("Sed quis dolor in lacuses ullam corper euis mod...")
+    .Bordered(bgColor:BootstrapColor.Success)
+    .TitleColor(BootstrapColor.White)
+    .ContentColor(BootstrapColor.White)
+    .IconColor(BootstrapColor.White)
+    .Align(IconBoxAlign.Center))</code>
+                        </pre>
+                                    </div>
+                                </div>
+
+
+
+
+                                <br>
+                                <h5 id="AddingOvalDivider" class="mt-6">Add <a class="link-primary" href="/UIKit/OvalDivider" target="_blank">OvalDivider</a> to Iconbox</h5>
+                                <p> Use <code>.Bordered(BootstrapColor bgColor, OvalDividerType ovalDividerType)</code> method to add divider to icon box. </p>
+                                <ul class="nav nav-bordered" id="component-6" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active show" data-toggle="tab" href="#component-6-1" role="tab" aria-controls="component-6-1" aria-selected="true">Preview</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#component-6-2" role="tab" aria-controls="component-6-2" aria-selected="false">ASP.NET MVC</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content mt-4" id="component-6-content">
+                                    <div class="tab-pane fade show active" id="component-6-1" role="tabpanel" aria-labelledby="component-6-1">
+                                        <div class="d-flex">
+                                            <div class="w-50 pr-3">
+
+
+
+                                                <div class="position-relative">
+                                                    <div class="pb-12 border rounded px-6 py-7 bg-danger pb-11">
+                                                        <div class="mb-4">
+                                                            <i class="fas fa-layer-group text-white fs-50"></i>
+                                                        </div>
+                                                        <div class="media">
+                                                            <div class="media-body">
+
+                                                                <h3 class="h5 mt-0 text-white">Light Bg Iconbox</h3>
+                                                                <p class="o-8 text-white mb-2">
+                                                                    Sed quis dolor in lacuses ullam corper euis mod necet nibh. Morbi mollis, enim vitae.
+                                                                </p>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="oval-divider--bottom oval-divider--1"></div>
+                                                </div>
+
+
+                                            </div>
+                                            <div class="w-50 pl-3">
+
+
+
+                                                <div class="position-relative">
+                                                    <div class="text-center border rounded px-6 py-7 bg-secondary pb-11">
+                                                        <div class="mb-4">
+                                                            <i class="fas fa-layer-group text-white fs-50"></i>
+                                                        </div>
+                                                        <div class="media">
+                                                            <div class="media-body">
+
+                                                                <h3 class="h5 mt-0 text-white">Success Bg Iconbox</h3>
+                                                                <p class="o-8 text-white mb-2">
+                                                                    Sed quis dolor in lacuses ullam corper euis mod necet nibh. Morbi mollis, enim vitae.
+                                                                </p>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="oval-divider--bottom oval-divider--10"></div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="component-6-2" role="tabpanel" aria-labelledby="component-6-2">
+                                        <pre><code class="language-csharp">@(Html.Vertex().IconBox()
+    .Icon("fas fa-layer-group") 
+    .Title("Light Bg Iconbox")
+    .Content("Sed quis dolor in lacuses ullam corper euis mod...")
+    .Bordered(BootstrapColor.Danger, OvalDividerType.Divider1)
+    .TitleColor(BootstrapColor.White)
+    .ContentColor(BootstrapColor.White)
+    .IconColor(BootstrapColor.White))
+                                
+@(Html.Vertex().IconBox()
+    .Icon("fas fa-layer-group")
+    .Title("Success Bg Iconbox")
+    .Content("Sed quis dolor in lacuses ullam corper euis mod...")
+    .Bordered(BootstrapColor.Secondary, OvalDividerType.Divider10)
+    .TitleColor(BootstrapColor.White)
+    .ContentColor(BootstrapColor.White)
+    .IconColor(BootstrapColor.White)
+    .Align(IconBoxAlign.Center))</code>
+                        </pre>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+
+
+
+
+
+                            <div class="mb-9" id="ActionLink">
+                                <header class="mb-6">
+                                    <h3>Action Link</h3>
+                                    <hr>
+                                    <p class="lead-1">Use <code>.ActionLink(string linkText, string actionName, string controllerName)</code> method to create a action link.</p>
+                                </header>
+
+                                <ul class="nav nav-bordered" id="component-7" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active show" data-toggle="tab" href="#component-7-1" role="tab" aria-controls="component-7-1" aria-selected="true">Preview</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#component-7-2" role="tab" aria-controls="component-7-2" aria-selected="false">ASP.NET MVC</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content mt-4" id="component-7-content">
+                                    <div class="tab-pane fade show active" id="component-7-1" role="tabpanel" aria-labelledby="component-7-1">
+                                        <div class="d-flex">
+                                            <div class="w-50 pr-3 mt-4">
+
+
+
+                                                <div class="position-relative">
+                                                    <div class="">
+                                                        <div class="mb-4">
+                                                            <i class="fas fa-layer-group text-primary fs-50"></i>
+                                                        </div>
+                                                        <div class="media">
+                                                            <div class="media-body">
+
+                                                                <h3 class="h5 mt-0 ">Action Link Iconbox</h3>
+                                                                <p class=" mb-2">
+                                                                    Sed quis dolor in lacuses ullam corper euis mod necet nibh. Morbi mollis, enim vitae.
+                                                                </p>
+
+                                                                <a href="/" class="link-primary">
+                                                                    Explore now<span class="fas fa-angle-right align-middle ml-2 fs-13"></span>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                            <div class="w-50 pl-3">
+
+
+
+                                                <div class="position-relative">
+                                                    <div class="text-center transition-hover hover-shadow-4 border rounded px-6 py-7">
+                                                        <div class="mb-4">
+                                                            <i class="fas fa-layer-group text-success fs-50"></i>
+                                                        </div>
+                                                        <div class="media">
+                                                            <div class="media-body">
+
+                                                                <h3 class="h5 mt-0 ">Action Link Iconbox</h3>
+                                                                <p class=" mb-2">
+                                                                    Sed quis dolor in lacuses ullam corper euis mod necet nibh. Morbi mollis, enim vitae.
+                                                                </p>
+
+                                                                <a href="/Home/Index2" class="link-success">
+                                                                    Explore now<span class="fas fa-angle-right align-middle ml-2 fs-13"></span>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="component-7-2" role="tabpanel" aria-labelledby="component-7-2">
+                                        <pre><code class="language-csharp">@(Html.Vertex().IconBox()
+      .Icon("fas fa-layer-group")
+      .Title("Action Link Iconbox")
+      .Content("Sed quis dolor in lacuses ullam corper euis mod necet nibh..")
+      .ActionLink("Explore now", "Index", "Home"))
+                                
+@(Html.Vertex().IconBox()
+      .Icon("fas fa-layer-group")
+      .Title("Action Link Iconbox")
+      .Content("Sed quis dolor in lacuses ullam corper euis mod necet nibh..")
+      .Bordered()
+      .Align(IconBoxAlign.Center)
+      .TransitionHover().HoverShadow()
+      .IconColor(BootstrapColor.Success)
+      .ActionLink("Explore now", "Index2", "Home"))</code>
+                        </pre>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+                            <div class="mb-9" id="Others">
+                                <header class="mb-6">
+                                    <h3>Others</h3>
+                                    <hr>
+                                    <p class="lead-1">Use <code>.TransitionHover()</code> method to create a IconBox.</p>
+                                </header>
+
+                                <ul class="nav nav-bordered" id="component-8" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active show" data-toggle="tab" href="#component-8-1" role="tab" aria-controls="component-8-1" aria-selected="true">Preview</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#component-8-2" role="tab" aria-controls="component-8-2" aria-selected="false">ASP.NET MVC</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content mt-4" id="component-8-content">
+                                    <div class="tab-pane fade show active" id="component-8-1" role="tabpanel" aria-labelledby="component-8-1">
+                                        <div class="d-flex">
+                                            <div class="w-50 pr-3">
+
+
+
+                                                <div class="position-relative">
+                                                    <div class="transition-hover border rounded px-6 py-7">
+                                                        <div class="mb-4">
+                                                            <i class="fas fa-layer-group text-primary fs-50"></i>
+                                                        </div>
+                                                        <div class="media">
+                                                            <div class="media-body">
+
+                                                                <h3 class="h5 mt-0 ">Bordered Iconbox</h3>
+                                                                <p class=" mb-2">
+                                                                    Sed quis dolor in lacuses ullam corper euis mod necet nibh. Morbi mollis, enim vitae.
+                                                                </p>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                            <div class="w-50 pl-3">
+
+
+
+                                                <div class="position-relative">
+                                                    <div class="text-center transition-hover hover-shadow-4 border rounded px-6 py-7">
+                                                        <div class="mb-4">
+                                                            <i class="fas fa-layer-group text-primary fs-50"></i>
+                                                        </div>
+                                                        <div class="media">
+                                                            <div class="media-body">
+
+                                                                <h3 class="h5 mt-0 ">Bordered Iconbox</h3>
+                                                                <p class=" mb-2">
+                                                                    Sed quis dolor in lacuses ullam corper euis mod necet nibh. Morbi mollis, enim vitae.
+                                                                </p>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="component-8-2" role="tabpanel" aria-labelledby="component-8-2">
+                                        <pre><code class="language-csharp">@(Html.Vertex().IconBox()
+    .Icon("fas fa-layer-group")
+    .Title("Bordered Iconbox")
+    .Content("Sed quis dolor in lacuses ullam corper euis mod necet nibh. Morbi mollis, enim vitae.")
+    .Bordered().TransitionHover())
+                                
+@(Html.Vertex().IconBox()
+    .Icon("fas fa-layer-group")
+    .Bordered()
+    .Align(IconBoxAlign.Center)
+    .Title("Bordered Iconbox")
+    .Content("Sed quis dolor in lacuses ullam corper euis mod necet nibh. Morbi mollis, enim vitae.")
+    .TransitionHover().HoverShadow())</code>
+                        </pre>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+
+
+
+
+
+                            <div id="doc-methods" class="mb-7">
+                                <h2 class="h4">Methods <a class="js-anchor-link duik-anchorjs-link" href="#doc-methods" aria-label="Anchor" data-anchorjs-icon="#"></a></h2>
+                                <p>Alerts are available for any length of text, as well as an optional dismiss button</p>
+
+                                <div class="my-4">
+                                    <table class="table table-bordered bg-white">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:35%">Method</th>
+                                                <th>Description</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td> <p><code class="highlighter-rouge">.Method(bool value)</code></p> </td>
+                                                <td>Comming soon.</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <!-- End Content -->
+                        <!-- Content Nav -->
+                        <div class="pageSide">
+
+                            <ul class="js-scroll-nav duik-content-nav">
+                                <li class="duik-content-nav__item contents">Contents</li>
+                                <li class="duik-content-nav__item"><a href="#Default">Default</a> </li>
+                                <li class="duik-content-nav__item"><a href="#IconPosition">Icon Position</a> </li>
+                                <li class="duik-content-nav__item">
+                                    <a href="#important-globals">Bordered</a>
+                                    <ul class="m-0">
+                                        <li class="duik-content-nav__item"><a href="#ChangingBgColor">Changing Bg Color</a></li>
+                                        <li class="duik-content-nav__item"><a href="#ChangingContentColor">Changing Content Color</a></li>
+                                        <li class="duik-content-nav__item"><a href="#AddingOvalDivider">Adding Oval Divider</a></li>
+                                    </ul>
+                                </li>
+                                <li class="duik-content-nav__item"><a href="#ActionLink">Action Link</a> </li>
+                                <li class="duik-content-nav__item"><a href="#Others">Others</a> </li>
+                                <li class="duik-content-nav__item"><a href="#doc-methods">Methods</a></li>
+                            </ul>
+                        </div>
+                        <!-- End Content Nav -->
+                    </div>
+
+                    <!-- Footer -->
+                    <footer class="small py-4">
+                        <div class="row">
+                            <!-- Copyright -->
+                            <div class="col-md-6 text-center text-dark text-md-left mb-3 mb-md-0">
+                                &copy; 2019 <a class="text-dark" href="http://bootstraptemplates.net/">BootstrapTemplates.Net</a>. All Rights Reserved.
+                            </div>
+                            <!-- End Copyright -->
+                            <!-- Social Icons -->
+                            <div class="col-md-6 col-xl-4 align-self-center">
+                                <ul class="list-inline text-center text-md-right mb-0">
+                                    <li class="list-inline-item mx-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="Github">
+                                        <a class="text-dark" target="_blank" href="https://www.github.com/bootstraptemplates.net">
+                                            <i class="fab fa-github"></i>
+                                        </a>
+                                    </li>
+                                    <li class="list-inline-item mx-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="Facebook">
+                                        <a class="text-dark" target="_blank" href="https://www.facebook.com/bootstraptemplates.net">
+                                            <i class="fab fa-facebook"></i>
+                                        </a>
+                                    </li>
+                                    <li class="list-inline-item mx-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="Instagram">
+                                        <a class="text-dark" target="_blank" href="https://www.instagram.com/bootstraptemplates.net">
+                                            <i class="fab fa-instagram"></i>
+                                        </a>
+                                    </li>
+                                    <li class="list-inline-item mx-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="Twitter">
+                                        <a class="text-dark" target="_blank" href="https://www.twitter.com/bootstraptemplates.net">
+                                            <i class="fab fa-twitter"></i>
+                                        </a>
+                                    </li>
+                                    <li class="list-inline-item ml-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="Dribbble">
+                                        <a class="text-dark" target="_blank" href="https://www.dribbble.com/bootstraptemplates.net">
+                                            <i class="fab fa-dribbble"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- End Social Icons -->
+                        </div>
+                    </footer>
+                    <!-- End Footer -->
+                </main>
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Go to Top -->
+    <a class="js-go-to duik-go-to" href="javascript:;">
+        <span class="fa fa-arrow-up duik-go-to__inner"></span>
+    </a>
+    <!-- End Go to Top -->
+    <!-- JS Global Compulsory -->
+    <script src="assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="assets/vendor/jquery-migrate/dist/jquery-migrate.min.js"></script>
+    <script src="assets/vendor/popper.js/dist/umd/popper.min.js"></script>
+    <script src="assets/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <!-- JS Implementing Plugins -->
+    <script src="assets/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="assets/vendor/jquery-ui/jquery-ui.core.min.js"></script>
+    <script src="assets/vendor/jquery-ui/ui/widgets/menu.js"></script>
+    <script src="assets/vendor/jquery-ui/ui/widgets/mouse.js"></script>
+    <script src="assets/vendor/jquery-ui/ui/widgets/autocomplete.js"></script>
+    <script src="assets/vendor/prism/prism.js"></script>
+
+    <!-- JS -->
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/autocomplete.js"></script>
+    <script src="assets/js/custom-scrollbar.js"></script>
+</body>
+</html>

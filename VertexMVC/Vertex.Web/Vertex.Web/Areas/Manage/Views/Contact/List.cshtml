@@ -1,0 +1,36 @@
+﻿@model Telerik.Web.Mvc.GridModel<ContactManageModel>
+
+
+<div class="pageContainer">
+
+    @Html.Partial("_Breadcrumb", "Contacts")
+
+
+    @(Html.Telerik().Grid<ContactManageModel>()
+          .Name("categories")
+          .BindTo(Model.Data)
+          .Columns(columns =>
+          {
+              columns.Bound(x => x.Email).Width(275).Template(x => Html.ActionLink(x.Email, "Edit", "Contact", new { id = x.Id }, new { }));
+              columns.Bound(x => x.FullName).Width(200);
+              columns.Bound(x => x.Date);
+              columns.Bound(x => x.IsRead).Centered().Template(item => @Html.SymbolForBool(item.IsRead)).ClientTemplate(@Html.SymbolForBool("Published"));
+              columns.Bound(x => x.Id)
+                      .Template(x => Html.ActionLink("Read", "Edit", new { id = x.Id }, new { @class = "t-button" }))
+                      .ClientTemplate("<a href=\"Contact/Edit/<#= Id #>\" class=\"t-button\">Read</a>")
+                      .Title(String.Empty).Width(100)
+                      .HtmlAttributes(new { align = "right", @class = "omega" });
+          }).Pageable(settings => settings.Total(Model.Total).PageSize(10).Position(GridPagerPosition.Both))
+    )
+
+</div>
+
+
+<div class="pageSide">
+    <ul class="js-scroll-nav duik-content-nav">
+     
+
+
+    </ul>
+</div>
+

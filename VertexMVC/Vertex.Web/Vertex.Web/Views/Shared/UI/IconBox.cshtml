@@ -1,0 +1,123 @@
+﻿@model IconBox
+
+@{
+    string iconColorCssClass = string.Format("text-{0}", Model.IconColor.ToCssClass());
+    string linkColorCssClass = string.Format("link-{0}", Model.IconColor.ToCssClass());
+
+    string titleColorCssClass = string.Empty;
+    if (Model.TitleColor.HasValue)
+    {
+        titleColorCssClass = string.Format("text-{0}", Model.TitleColor.Value.ToCssClass());
+    }
+
+    string contentColorCssClass = string.Empty;
+    if (Model.ContentColor.HasValue)
+    {
+        // o-9 = opacity:0.9;
+        contentColorCssClass = string.Format("o-8 text-{0}", Model.ContentColor.Value.ToCssClass());
+    }
+}
+
+
+<div class="position-relative">
+    <div class="@Model.GetCssClass()" @Model.GetHtmlAtributes()>
+        @if ((Model.Icon.HasValue() || Model.SvgIcon.HasValue()) && Model.IconPosition == IconBoxIconPosition.Top)
+        {
+            if (Model.ShapeIcon)
+            {
+                <div class="d-inline-block position-relative mb-3">
+                    <i class="@Model.Icon @iconColorCssClass fs-40 shape-icon"> </i>
+                    <img src="/Content/img/base/icon_shape.png" />
+                </div>
+            }
+            else
+            {
+                if (Model.Icon.HasValue())
+                {
+                    <div class="mb-4">
+                        <i class="@Model.Icon @iconColorCssClass fs-50"></i>
+                    </div>
+                }
+                else if (Model.SvgIcon.HasValue())
+                {
+                    <img class="icon icon-lg @iconColorCssClass.Replace("text", "bg") mb-3 pb-2" src="@Model.SvgIcon" alt="Icon" data-inject-svg />
+                }
+            }
+        }
+        <div class="media">
+            @if ((Model.Icon.HasValue() || Model.SvgIcon.HasValue()) && Model.IconPosition == IconBoxIconPosition.Left)
+            {
+                if (Model.ShapeIcon)
+                {
+                    <div class="d-inline-block position-relative mr-4">
+                        <i class="@Model.Icon @iconColorCssClass fs-40 shape-icon"> </i>
+                        <img src="/Content/img/base/icon_shape.png" />
+                    </div>
+                }
+                else
+                {
+                    if (Model.Icon.HasValue())
+                    {
+                        <div class="w-60px mr-4">
+                            <i class="@Model.Icon @iconColorCssClass fs-45"></i>
+                        </div>
+                    }
+                    else if (Model.SvgIcon.HasValue())
+                    {
+                        <div class="w-60px mr-4">
+                            <img class="icon icon-lg @iconColorCssClass.Replace("text", "bg") mb-2 pb-2" src="@Model.SvgIcon" alt="Icon" data-inject-svg />
+                        </div>
+                    }
+                }
+            }
+            <div class="media-body">
+                @if (Model.SubTitle.HasValue())
+                {
+                    <p class="@titleColorCssClass o-8">@Model.SubTitle</p>
+                }
+
+                <h3 class="h5 mt-0 @titleColorCssClass">@Html.Raw(Model.Title)</h3>
+                <p class="@contentColorCssClass mb-2">
+                    @Html.Raw(Model.Content)
+                </p>
+
+                @if (Model.ActionName.HasValue() && Model.LinkText.HasValue() && Model.ControllerName.HasValue())
+                {
+                    <a href="@Url.Action(Model.ActionName, Model.ControllerName)" class="anim-link-2 anim-link-2-primary">
+                        @Model.LinkText <img class="icon icon-xs bg-primary" src="~/Content/img/icons/navigation/right-2.svg" alt="Icon" data-inject-svg />
+                    </a>
+                }
+            </div>
+            @if ((Model.Icon.HasValue() || Model.SvgIcon.HasValue()) && Model.IconPosition == IconBoxIconPosition.Right)
+            {
+                if (Model.ShapeIcon)
+                {
+                    <div class="d-inline-block position-relative ml-4">
+                        <i class="@Model.Icon @iconColorCssClass fs-40 shape-icon"> </i>
+                        <img src="/Content/img/base/icon_shape.png" />
+                    </div>
+                }
+                else
+                {
+                    if (Model.Icon.HasValue())
+                    {
+                        <div class="w-60px ml-4">
+                            <i class="@Model.Icon @iconColorCssClass fs-45"></i>
+                        </div>
+                    }
+                    else if (Model.SvgIcon.HasValue())
+                    {
+                        <div class="w-60px mr-4">
+                            <img class="icon icon-lg @iconColorCssClass.Replace("text", "bg") mb-2 pb-2" src="@Model.SvgIcon" alt="Icon" data-inject-svg />
+                        </div>
+                    }
+                }
+            }
+        </div>
+    </div>
+    @if (Model.OvalDividerType.HasValue)
+    {
+        @Html.Vertex().OvalDivider(Model.OvalDividerType.Value)
+    }
+</div>
+

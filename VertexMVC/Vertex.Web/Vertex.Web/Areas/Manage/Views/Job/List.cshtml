@@ -1,0 +1,40 @@
+﻿@model Telerik.Web.Mvc.GridModel<JobModel>
+@using Telerik.Web.Mvc.UI
+
+
+ 
+<div class="pageContainer">
+
+    @Html.Partial("_Breadcrumb", "Jobs")
+
+    @(Html.Telerik().Grid<JobModel>()
+     .Name("JobModel-grid")
+     .BindTo(Model.Data)
+     .Columns(columns =>
+     {
+            columns.Bound(x => x.Title).Width(350).Template(x => Html.ActionLink(x.Title, "Edit", "Job", new { id = x.Id }, new { }));
+            columns.Bound(x => x.CategoryName).Width(120);
+            columns.Bound(x => x.ApplyJobCount).Centered();
+            columns.Bound(x => x.IsActive).Centered().Template(item => @Html.SymbolForBool(item.IsActive)).ClientTemplate(@Html.SymbolForBool("Published"));
+            columns.Bound(x => x.CreateDate);
+         columns.Bound(x => x.Id)
+                            .Template(x => Html.ActionLink("Edit", "JobEdit", new { id = x.Id }, new { @class = "t-button" }))
+                            .ClientTemplate("<a href=\"Job/Edit/<#= Id #>\" class=\"t-button\">Edit</a>")
+                            .Title(String.Empty).Width(100)
+                            .HtmlAttributes(new { align = "right", @class = "omega" });
+     }).Pageable(settings => settings.Total(Model.Total).PageSize(15).Position(GridPagerPosition.Both))
+    )
+
+</div>
+
+
+<div class="pageSide">
+    <ul class="js-scroll-nav duik-content-nav">
+        <li class="duik-content-nav__item contents">Actions</li>
+        <li class="">
+            <a class="btn btn-sleek-primary btn-sm btn-block transition-hover" href="@Url.Action("Create", "Job")">
+                <i class="fa fa-plus mr-1 fs-12"></i> Add New
+            </a>
+        </li>
+    </ul>
+</div>

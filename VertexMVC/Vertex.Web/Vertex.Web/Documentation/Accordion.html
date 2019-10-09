@@ -1,0 +1,487 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Vertex ASP.NET MVC Documentation</title>
+    <meta name="author" content="ukieweb" />
+    <meta name="keywords" content="404 page, giraffe, css3, template, html5 template" />
+    <meta name="description" content="404 - Page Template" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link rel="shortcut icon" type="image/png" href="assets/img/favicon.png" />
+
+    <!-- CSS Implementing Plugins -->
+    <link rel="stylesheet" href="assets/vendor/font-awesome/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css">
+    <link rel="stylesheet" href="assets/vendor/jquery-ui/themes/base/jquery-ui.min.css">
+    <link rel="stylesheet" href="assets/vendor/prism/prism.css">
+
+    <!-- Google Fonts -->
+    <link href="//fonts.googleapis.com/css?family=Poppins:300,400,500,600" rel="stylesheet">
+
+    <!-- CSS Template -->
+    <link href="assets/vendor/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link href="assets/css/vertex-style.css" rel="stylesheet" />
+
+</head>
+<body class="bg-white">
+    <!-- Header -->
+    <header class="duik-header">
+
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top bg-white">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse headerContainer" id="navbarTogglerDemo01">
+                <a class="navbar-brand headerLeftColumn border-right" href="#">
+                    <img src="assets/img/logo.png" alt="Docs UI Kit" style="width: 110px;">
+                    <span class="badge badge-primary ml-2">v1.0</span>
+                </a>
+                <ul class="navbar-nav headerInnerWrapper">
+                    <li class="nav-item active">
+                        <a class="nav-link text-primary" href="http://vertexmvc.bootstraptemplates.net/" target="_blank">
+                            <i class="fas fa-eye small mr-sm-1"></i>
+                            <span class="d-none d-lg-inline-block font-weight-medium anim-link-2 anim-link-2-primary"> Live Preview</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-primary pl-4" href="http://vertexmvc.bootstraptemplates.net/Contact" target="_blank">
+                            <i class="fas fa-bug small mr-sm-1"></i>
+                            <span class="d-none d-lg-inline-block anim-link-2 anim-link-2-primary">Report an Issue</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-primary pl-4" href="#">
+                            <i class="fas fa-shopping-basket mr-sm-1"></i>
+                            <span class="d-none d-lg-inline-block anim-link-2 anim-link-2-primary">Buy now</span>
+                        </a>
+                    </li>
+                </ul>
+                <form class="searchInputWrapper form-inline">
+                    <div class="input-group border-0">
+                        <div class="input-group-prepend pl-0">
+                            <div class="input-group-text"> <i class="fas fa-search"></i> </div>
+                        </div>
+                        <input class="js-search border-0 d-none d-md-block form-control mr-auto  pl-md-2" type="text" placeholder="Search..." aria-label="Search..." data-url="assets/include/json/autocomplete-data-for-documentation-search.json">
+                    </div>
+
+                    <!--<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">-->
+                </form>
+            </div>
+        </nav>
+    </header>
+    <!-- End Header -->
+
+    <div class="bodyContent">
+        <div class="wholeContent">
+            <div class="wholeContentBody">
+                <!-- Sidebar -->
+                <nav class="bg-light duik-sidebar2 navbar-expand-md contentNavigation">
+                    <div class="d-flex d-md-none justify-content-between mb-5">
+                        <!-- Sidebar Search -->
+                        <form class="col form-inline input-group-sm">
+                            <input class="js-search form-control form-control-sm w-100" type="text" placeholder="Search..." data-url="assets/include/json/autocomplete-data-for-documentation-search.json">
+                        </form>
+                        <!-- End Sidebar Search -->
+                        <!-- Responsive Toggle Button -->
+                        <button class="btn btn-link pl-0" type="button" data-toggle="collapse" data-target="#sidebar-nav" aria-controls="sidebar-nav" aria-expanded="false" aria-label="Toggle navigation">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 30 30" width="30" height="30" focusable="false">
+                                <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="M4 7h22M4 15h22M4 23h22" />
+                            </svg>
+                        </button>
+                        <!-- End Responsive Toggle Button -->
+                    </div>
+
+                    <!-- Sidebar Nav -->
+                    <div class="pageNavigation" id="sidebar-nav">
+                        <div class="js-scrollbar duik-sidebar-sticky">
+                            <h5 class="duik-sidebar__heading">Getting started </h5>
+                            <ul class="duik-sidebar__nav">
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="introduction.html">Introduction</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="setup.html">Setup</a></li>
+                            </ul>
+
+                            <h5 class="duik-sidebar__heading">Core</h5>
+                            <ul class="duik-sidebar__nav">
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="page.html">Page & Settings</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="settings.html">Settings</a></li>
+                                
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="manage.html#file-manager">File Manager</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="manage.html#picture-uploader">Picture Uploader</a></li>
+                            </ul>
+
+                            <h5 class="duik-sidebar__heading">UI Kit</h5>
+                            <ul class="duik-sidebar__nav">
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link active" href="accordion.html">Accordion</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="alert.html">Alert</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="badge.html">Badge</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="button.html">Button</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="countup.html">Countup</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="html-editor.html">Html Editor</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="iconBox.html">IconBox</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="oval-divider.html">Oval Divider</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="popover.html">Popover</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="popup.html">Popup</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="progress.html">Progress</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="badge.html#raiting">Rating</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="slider.html">Slider</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="spinner.html">Spinner</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="tab.html">Tab</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="tooltip.html">Tooltip</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="typing.html">Typing</a></li>
+                            </ul>
+
+                            <h5 class="duik-sidebar__heading">Manage</h5>
+                            <ul class="duik-sidebar__nav">
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="manage.html#blog-post">Blog Post</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="manage.html#portfolio">Portfolio</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="manage.html#client-testimonials">Client & Testimonials</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="manage.html#job">Job</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="manage.html#team-member">Team Member</a></li>
+                            </ul>
+
+                            <h5 class="duik-sidebar__heading">Others</h5>
+                            <ul class="duik-sidebar__nav">
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="changelog.html">Changelog</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- End Sidebar Nav -->
+                </nav>
+                <!-- End Sidebar -->
+
+                <main class="wholeContent">
+                    <div class="wholeContentSticky">
+
+                        <!-- Content -->
+                        <div class="pageContainer border-bottom">
+                            <div class="border-bottom mb-7" id="doc-introduction">
+                                <h1>Accordions</h1>
+                                <p class="lead mb-5">
+                                    Toggle the visibility of content across your project with a few classes and our JavaScript plugins.
+                                </p>
+                            </div>
+
+
+                            <div id="doc-default" class="mb-7">
+                                <h2 class="h4">Default <a class="js-anchor-link duik-anchorjs-link" href="#doc-default" aria-label="Anchor" data-anchorjs-icon="#"></a></h2>
+                                <p>Use <code>Html.Vertex().Accordion(...)</code> method to create accordion. </p>
+
+                                <div class="my-5">
+                                    <div class="border rounded">
+                                        <div class="p-4">
+                                            <div class="accordion " id="accourdion-5a02b5df-7836-456d-b1d0-5169c6b4f712">
+                                                <div class="card ">
+                                                    <div class="card-header bg-gray" id="heading-0a69bea3-a32f-40e7-b500-9419f4e37680">
+                                                        <h2 class="fs-16 mb-0 accordion-header">
+                                                            <a class="collapsed d-block text-dark" href="#collapse-0a69bea3-a32f-40e7-b500-9419f4e37680" data-toggle="collapse" data-target="#collapse-0a69bea3-a32f-40e7-b500-9419f4e37680" aria-expanded="false" aria-controls="collapse-0a69bea3-a32f-40e7-b500-9419f4e37680">
+                                                                Accordion header one
+                                                            </a>
+                                                        </h2>
+                                                    </div>
+                                                    <div id="collapse-0a69bea3-a32f-40e7-b500-9419f4e37680" class="collapse " aria-labelledby="heading-0a69bea3-a32f-40e7-b500-9419f4e37680" data-parent="#accourdion-5a02b5df-7836-456d-b1d0-5169c6b4f712">
+                                                        <div class="card-body">
+                                                            <p class="m-0">Accordion content here one</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card ">
+                                                    <div class="card-header bg-gray" id="heading-039743ed-b44f-4b08-8a22-ed7554b6ae9a">
+                                                        <h2 class="fs-16 mb-0 accordion-header">
+                                                            <a class="collapsed d-block text-dark" href="#collapse-039743ed-b44f-4b08-8a22-ed7554b6ae9a" data-toggle="collapse" data-target="#collapse-039743ed-b44f-4b08-8a22-ed7554b6ae9a" aria-expanded="false" aria-controls="collapse-039743ed-b44f-4b08-8a22-ed7554b6ae9a">
+
+                                                                Accordion header two
+                                                            </a>
+                                                        </h2>
+                                                    </div>
+                                                    <div id="collapse-039743ed-b44f-4b08-8a22-ed7554b6ae9a" class="collapse " aria-labelledby="heading-039743ed-b44f-4b08-8a22-ed7554b6ae9a" data-parent="#accourdion-5a02b5df-7836-456d-b1d0-5169c6b4f712">
+                                                        <div class="card-body">
+                                                            <p class="m-0">Accordion content here two</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card ">
+                                                    <div class="card-header bg-gray" id="heading-dc59adae-f89e-404d-b3c2-e1d7ee02e241">
+                                                        <h2 class="fs-16 mb-0 accordion-header">
+                                                            <a class="collapsed d-block text-dark" href="#collapse-dc59adae-f89e-404d-b3c2-e1d7ee02e241" data-toggle="collapse" data-target="#collapse-dc59adae-f89e-404d-b3c2-e1d7ee02e241" aria-expanded="false" aria-controls="collapse-dc59adae-f89e-404d-b3c2-e1d7ee02e241">
+
+                                                                Accordion header three
+                                                            </a>
+                                                        </h2>
+                                                    </div>
+                                                    <div id="collapse-dc59adae-f89e-404d-b3c2-e1d7ee02e241" class="collapse " aria-labelledby="heading-dc59adae-f89e-404d-b3c2-e1d7ee02e241" data-parent="#accourdion-5a02b5df-7836-456d-b1d0-5169c6b4f712">
+                                                        <div class="card-body">
+                                                            <p class="m-0">Accordion content here three</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="bg-light p-4 border-top">
+                                            <pre class="m-0 p-2"><code class="language-csharp">@(Html.Vertex().Accordion(acc => {
+    acc.Add().Title("header one").Content("content here one");
+    acc.Add().Title("header two").Content("content here two");
+    acc.Add().Title("header three").Content("content here three");
+}))</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+                            <div id="doc-expanded-tab" class="mb-7">
+                                <h2 class="h4">Expanded Tab <a class="js-anchor-link duik-anchorjs-link" href="#expanded-tab" aria-label="Anchor" data-anchorjs-icon="#"></a></h2>
+                                <p>Use <code>.Expanded()</code> method to expand accordion. </p>
+
+                                <div class="my-5">
+                                    <div class="border rounded">
+                                        <div class="p-4">
+
+                                            <div class="accordion " id="accourdion-56eef526-7788-4f4e-bddd-0e19c50da4aa">
+                                                <div class="card ">
+                                                    <div class="card-header bg-gray" id="heading-33571e77-2352-41b9-8c85-e840a197626e">
+                                                        <h2 class="fs-16 mb-0 accordion-header">
+                                                            <a class=" d-block text-dark" href="#collapse-33571e77-2352-41b9-8c85-e840a197626e" data-toggle="collapse" data-target="#collapse-33571e77-2352-41b9-8c85-e840a197626e" aria-expanded="true" aria-controls="collapse-33571e77-2352-41b9-8c85-e840a197626e">
+
+                                                                Accordion header one
+                                                            </a>
+                                                        </h2>
+                                                    </div>
+                                                    <div id="collapse-33571e77-2352-41b9-8c85-e840a197626e" class="collapse show" aria-labelledby="heading-33571e77-2352-41b9-8c85-e840a197626e" data-parent="#accourdion-56eef526-7788-4f4e-bddd-0e19c50da4aa">
+                                                        <div class="card-body">
+                                                            <p class="m-0">Accordion content here one</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card ">
+                                                    <div class="card-header bg-gray" id="heading-d6800689-2efa-409f-9ee2-4f0c047f588d">
+                                                        <h2 class="fs-16 mb-0 accordion-header">
+                                                            <a class="collapsed d-block text-dark" href="#collapse-d6800689-2efa-409f-9ee2-4f0c047f588d" data-toggle="collapse" data-target="#collapse-d6800689-2efa-409f-9ee2-4f0c047f588d" aria-expanded="false" aria-controls="collapse-d6800689-2efa-409f-9ee2-4f0c047f588d">
+
+                                                                Accordion header two
+                                                            </a>
+                                                        </h2>
+                                                    </div>
+                                                    <div id="collapse-d6800689-2efa-409f-9ee2-4f0c047f588d" class="collapse " aria-labelledby="heading-d6800689-2efa-409f-9ee2-4f0c047f588d" data-parent="#accourdion-56eef526-7788-4f4e-bddd-0e19c50da4aa">
+                                                        <div class="card-body">
+                                                            <p class="m-0">Accordion content here two</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card ">
+                                                    <div class="card-header bg-gray" id="heading-32b69715-b971-466d-9c12-325e54838b46">
+                                                        <h2 class="fs-16 mb-0 accordion-header">
+                                                            <a class="collapsed d-block text-dark" href="#collapse-32b69715-b971-466d-9c12-325e54838b46" data-toggle="collapse" data-target="#collapse-32b69715-b971-466d-9c12-325e54838b46" aria-expanded="false" aria-controls="collapse-32b69715-b971-466d-9c12-325e54838b46">
+
+                                                                Accordion header three
+                                                            </a>
+                                                        </h2>
+                                                    </div>
+                                                    <div id="collapse-32b69715-b971-466d-9c12-325e54838b46" class="collapse " aria-labelledby="heading-32b69715-b971-466d-9c12-325e54838b46" data-parent="#accourdion-56eef526-7788-4f4e-bddd-0e19c50da4aa">
+                                                        <div class="card-body">
+                                                            <p class="m-0">Accordion content here three</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="bg-light p-4 border-top">
+                                            <pre class="m-0 p-2"><code class="language-csharp">@(Html.Vertex().Accordion(acc => {
+    acc.Add().Title("Accordion header one").Content("Accordion content here one").Expanded();
+    acc.Add().Title("Accordion header two").Content("Accordion content here two");
+    acc.Add().Title("Accordion header three").Content("Accordion content here three");
+}))</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div id="doc-icon" class="mb-7">
+                                <h2 class="h4">Tab Icon <a class="js-anchor-link duik-anchorjs-link" href="#icon" aria-label="Anchor" data-anchorjs-icon="#"></a></h2>
+                                <p>Use <code>.Icon(string icon)</code> method to set icon to accordion. </p>
+
+                                <div class="my-5">
+                                    <div class="border rounded">
+                                        <div class="p-4">
+
+                                            <div class="accordion " id="accourdion-b9ca5844-3660-472a-94b2-4a0523b1c469">
+                                                <div class="card ">
+                                                    <div class="card-header bg-gray" id="heading-49c974f4-70c2-42e0-9171-41c65b4a18b8">
+                                                        <h2 class="fs-16 mb-0 accordion-header">
+                                                            <a class="collapsed d-block text-dark" href="#collapse-49c974f4-70c2-42e0-9171-41c65b4a18b8" data-toggle="collapse" data-target="#collapse-49c974f4-70c2-42e0-9171-41c65b4a18b8" aria-expanded="false" aria-controls="collapse-49c974f4-70c2-42e0-9171-41c65b4a18b8">
+
+                                                                <i class="fas fa-user-edit mr-1 fs-14"></i>
+                                                                Accordion header one
+                                                            </a>
+                                                        </h2>
+                                                    </div>
+                                                    <div id="collapse-49c974f4-70c2-42e0-9171-41c65b4a18b8" class="collapse " aria-labelledby="heading-49c974f4-70c2-42e0-9171-41c65b4a18b8" data-parent="#accourdion-b9ca5844-3660-472a-94b2-4a0523b1c469">
+                                                        <div class="card-body">
+                                                            <p class="m-0">Accordion content here one</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card ">
+                                                    <div class="card-header bg-gray" id="heading-286f08cf-0682-44fd-b8b8-e88fd16ff6ca">
+                                                        <h2 class="fs-16 mb-0 accordion-header">
+                                                            <a class="collapsed d-block text-dark" href="#collapse-286f08cf-0682-44fd-b8b8-e88fd16ff6ca" data-toggle="collapse" data-target="#collapse-286f08cf-0682-44fd-b8b8-e88fd16ff6ca" aria-expanded="false" aria-controls="collapse-286f08cf-0682-44fd-b8b8-e88fd16ff6ca">
+
+                                                                Accordion header two
+                                                            </a>
+                                                        </h2>
+                                                    </div>
+                                                    <div id="collapse-286f08cf-0682-44fd-b8b8-e88fd16ff6ca" class="collapse " aria-labelledby="heading-286f08cf-0682-44fd-b8b8-e88fd16ff6ca" data-parent="#accourdion-b9ca5844-3660-472a-94b2-4a0523b1c469">
+                                                        <div class="card-body">
+                                                            <p class="m-0">Accordion content here two</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card ">
+                                                    <div class="card-header bg-gray" id="heading-ed18987b-6dd8-4243-bc9c-66f1b95f074d">
+                                                        <h2 class="fs-16 mb-0 accordion-header">
+                                                            <a class="collapsed d-block text-dark" href="#collapse-ed18987b-6dd8-4243-bc9c-66f1b95f074d" data-toggle="collapse" data-target="#collapse-ed18987b-6dd8-4243-bc9c-66f1b95f074d" aria-expanded="false" aria-controls="collapse-ed18987b-6dd8-4243-bc9c-66f1b95f074d">
+
+                                                                Accordion header three
+                                                            </a>
+                                                        </h2>
+                                                    </div>
+                                                    <div id="collapse-ed18987b-6dd8-4243-bc9c-66f1b95f074d" class="collapse " aria-labelledby="heading-ed18987b-6dd8-4243-bc9c-66f1b95f074d" data-parent="#accourdion-b9ca5844-3660-472a-94b2-4a0523b1c469">
+                                                        <div class="card-body">
+                                                            <p class="m-0">Accordion content here three</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="bg-light p-4 border-top">
+                                            <pre class="m-0 p-2"><code class="language-csharp">@(Html.Vertex().Accordion(acc => {
+    acc.Add().Title("Accordion header one").Content("Accordion content here one").Icon("fas fa-user-edit");
+    acc.Add().Title("Accordion header two").Content("Accordion content here two");
+    acc.Add().Title("Accordion header three").Content("Accordion content here three");
+}))</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div id="doc-methods" class="mb-7">
+                                <h2 class="h4">Methods <a class="js-anchor-link duik-anchorjs-link" href="#doc-methods" aria-label="Anchor" data-anchorjs-icon="#"></a></h2>
+                                <p>Alerts are available for any length of text, as well as an optional dismiss button</p>
+
+                                <div class="my-4">
+                                    <table class="table table-bordered bg-white">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:35%">Method</th>
+                                                <th>Description</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td> <p><code class="highlighter-rouge">.Method(bool value)</code></p> </td>
+                                                <td>Comming soon.</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <!-- End Content -->
+                        <!-- Content Nav -->
+                        <div class="pageSide">
+                            <ul class="js-scroll-nav duik-content-nav">
+                                <li class="duik-content-nav__item"><a href="#doc-default">Default</a></li>
+                                <li class="duik-content-nav__item"><a href="#doc-expanded-tab">Expanded Tab</a></li>
+                                <li class="duik-content-nav__item"><a href="#doc-icon">Tab Icon</a></li>
+                                <li class="duik-content-nav__item"><a href="#doc-methods">Methods</a></li>
+                            </ul>
+                        </div>
+                        <!-- End Content Nav -->
+
+                    </div>
+
+                    <!-- Footer -->
+                    <footer class="small py-4">
+                        <div class="row">
+                            <!-- Copyright -->
+                            <div class="col-md-6 text-center text-dark text-md-left mb-3 mb-md-0">
+                                &copy; 2019 <a class="text-dark" href="http://bootstraptemplates.net/">BootstrapTemplates.Net</a>. All Rights Reserved.
+                            </div>
+                            <!-- End Copyright -->
+                            <!-- Social Icons -->
+                            <div class="col-md-6 col-xl-4 align-self-center">
+                                <ul class="list-inline text-center text-md-right mb-0">
+                                    <li class="list-inline-item mx-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="Github">
+                                        <a class="text-dark" target="_blank" href="https://www.github.com/bootstraptemplates.net">
+                                            <i class="fab fa-github"></i>
+                                        </a>
+                                    </li>
+                                    <li class="list-inline-item mx-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="Facebook">
+                                        <a class="text-dark" target="_blank" href="https://www.facebook.com/bootstraptemplates.net">
+                                            <i class="fab fa-facebook"></i>
+                                        </a>
+                                    </li>
+                                    <li class="list-inline-item mx-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="Instagram">
+                                        <a class="text-dark" target="_blank" href="https://www.instagram.com/bootstraptemplates.net">
+                                            <i class="fab fa-instagram"></i>
+                                        </a>
+                                    </li>
+                                    <li class="list-inline-item mx-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="Twitter">
+                                        <a class="text-dark" target="_blank" href="https://www.twitter.com/bootstraptemplates.net">
+                                            <i class="fab fa-twitter"></i>
+                                        </a>
+                                    </li>
+                                    <li class="list-inline-item ml-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="Dribbble">
+                                        <a class="text-dark" target="_blank" href="https://www.dribbble.com/bootstraptemplates.net">
+                                            <i class="fab fa-dribbble"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- End Social Icons -->
+                        </div>
+                    </footer>
+                    <!-- End Footer -->
+                </main>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Go to Top -->
+    <a class="js-go-to duik-go-to" href="javascript:;">
+        <span class="fa fa-arrow-up duik-go-to__inner"></span>
+    </a>
+    <!-- End Go to Top -->
+    <!-- JS Global Compulsory -->
+    <script src="assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="assets/vendor/jquery-migrate/dist/jquery-migrate.min.js"></script>
+    <script src="assets/vendor/popper.js/dist/umd/popper.min.js"></script>
+    <script src="assets/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <!-- JS Implementing Plugins -->
+    <script src="assets/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="assets/vendor/jquery-ui/jquery-ui.core.min.js"></script>
+    <script src="assets/vendor/jquery-ui/ui/widgets/menu.js"></script>
+    <script src="assets/vendor/jquery-ui/ui/widgets/mouse.js"></script>
+    <script src="assets/vendor/jquery-ui/ui/widgets/autocomplete.js"></script>
+    <script src="assets/vendor/prism/prism.js"></script>
+
+    <!-- JS -->
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/autocomplete.js"></script>
+    <script src="assets/js/custom-scrollbar.js"></script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+﻿@model ApplyJobModel
+
+@Html.Vertex().Header(settings => {
+    settings.Nav = DemoMenu.GetDemoMenu();
+    settings.ShowTopbar = true;
+}) 
+
+
+@Html.Partial("_CreateOrUpdate", Model) 

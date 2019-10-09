@@ -1,0 +1,42 @@
+﻿@model Telerik.Web.Mvc.GridModel<ApplicationUserModel>
+
+
+<div class="pageContainer">
+
+    @Html.Partial("_Breadcrumb", "Users")
+
+
+    @(Html.Telerik().Grid<ApplicationUserModel>()
+           .Name("user-grid")
+           .BindTo(Model.Data)
+           .Columns(columns =>
+           {
+               columns.Bound(x => x.AvatarUrl).RoundedImage().Centered().Sortable(false).Width(80)
+                    .Template(@<text><img alt="@item.Id" src="@item.AvatarUrl" width="40" /></text>)
+.ClientTemplate("<div class='zoomable-thumb-container'><img alt='<#= Id #>' src='<#= ImageUrl #>' /></div>");
+columns.Bound(x => x.UserName).Width(170).Template(x => Html.ActionLink(x.UserName, "Edit", "User", new { id = x.Id }, new { }));
+columns.Bound(x => x.Email).Width(200);
+columns.Bound(x => x.EmailConfirmed).Centered().Template(item => @Html.SymbolForBool(item.EmailConfirmed)).ClientTemplate(@Html.SymbolForBool("Published"));
+columns.Bound(x => x.IsActive).Centered().Template(item => @Html.SymbolForBool(item.IsActive)).ClientTemplate(@Html.SymbolForBool("Published"));
+columns.Bound(x => x.Id)
+.Template(x => Html.ActionLink("Edit", "Edit", new { id = x.Id }, new { @class = "t-button" }))
+.ClientTemplate("<a href=\"User/Edit/<#= Id #>\" class=\"t-button\">Edit</a>")
+.Title(String.Empty).Width(100)
+.HtmlAttributes(new { align = "right", @class = "omega" });
+}).Pageable(settings => settings.Total(Model.Total).PageSize(10).Position(GridPagerPosition.Both))
+    )
+
+</div>
+
+
+@*<div class="pageSide">
+    <ul class="js-scroll-nav duik-content-nav">
+        <li class="duik-content-nav__item contents">Actions</li>
+        <li class="duik-content-nav__item">
+            <a class="btn btn-sleek-primary btn-sm pl-6 pr-6 transition-hover" href="@Url.Action("Create", "User")">
+                <i class="fa fa-plus mr-1 fs-12"></i> Add New
+            </a>
+        </li>
+    </ul>
+</div>*@
+

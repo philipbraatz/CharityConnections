@@ -1,0 +1,443 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Vertex ASP.NET MVC Documentation</title>
+    <meta name="author" content="ukieweb" />
+    <meta name="keywords" content="404 page, giraffe, css3, template, html5 template" />
+    <meta name="description" content="404 - Page Template" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link rel="shortcut icon" type="image/png" href="assets/img/favicon.png" />
+
+    <!-- CSS Implementing Plugins -->
+    <link rel="stylesheet" href="assets/vendor/font-awesome/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css">
+    <link rel="stylesheet" href="assets/vendor/jquery-ui/themes/base/jquery-ui.min.css">
+    <link rel="stylesheet" href="assets/vendor/prism/prism.css">
+
+    <!-- Google Fonts -->
+    <link href="//fonts.googleapis.com/css?family=Poppins:300,400,500,600" rel="stylesheet">
+
+    <!-- CSS Template -->
+    <link href="assets/vendor/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link href="assets/css/vertex-style.css" rel="stylesheet" />
+
+</head>
+<body class="bg-white">
+    <!-- Header -->
+    <header class="duik-header">
+
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top bg-white">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse headerContainer" id="navbarTogglerDemo01">
+                <a class="navbar-brand headerLeftColumn border-right" href="#">
+                    <img src="assets/img/logo.png" alt="Docs UI Kit" style="width: 110px;">
+                    <span class="badge badge-primary ml-2">v1.0</span>
+                </a>
+                <ul class="navbar-nav headerInnerWrapper">
+                    <li class="nav-item active">
+                        <a class="nav-link text-primary" href="http://vertexmvc.bootstraptemplates.net/" target="_blank">
+                            <i class="fas fa-eye small mr-sm-1"></i>
+                            <span class="d-none d-lg-inline-block font-weight-medium anim-link-2 anim-link-2-primary"> Live Preview</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-primary pl-4" href="http://vertexmvc.bootstraptemplates.net/Contact" target="_blank">
+                            <i class="fas fa-bug small mr-sm-1"></i>
+                            <span class="d-none d-lg-inline-block anim-link-2 anim-link-2-primary">Report an Issue</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-primary pl-4" href="#">
+                            <i class="fas fa-shopping-basket mr-sm-1"></i>
+                            <span class="d-none d-lg-inline-block anim-link-2 anim-link-2-primary">Buy now</span>
+                        </a>
+                    </li>
+                </ul>
+                <form class="searchInputWrapper form-inline">
+                    <div class="input-group border-0">
+                        <div class="input-group-prepend pl-0">
+                            <div class="input-group-text"> <i class="fas fa-search"></i> </div>
+                        </div>
+                        <input class="js-search border-0 d-none d-md-block form-control mr-auto  pl-md-2" type="text" placeholder="Search..." aria-label="Search..." data-url="assets/include/json/autocomplete-data-for-documentation-search.json">
+                    </div>
+
+                    <!--<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">-->
+                </form>
+            </div>
+        </nav>
+    </header>
+    <!-- End Header -->
+
+    <div class="bodyContent">
+        <div class="wholeContent">
+            <div class="wholeContentBody">
+
+                <!-- Sidebar -->
+                <nav class="bg-light duik-sidebar2 navbar-expand-md contentNavigation">
+                    <div class="d-flex d-md-none justify-content-between mb-5">
+                        <!-- Sidebar Search -->
+                        <form class="col form-inline input-group-sm">
+                            <input class="js-search form-control form-control-sm w-100" type="text" placeholder="Search..." data-url="assets/include/json/autocomplete-data-for-documentation-search.json">
+                        </form>
+                        <!-- End Sidebar Search -->
+                        <!-- Responsive Toggle Button -->
+                        <button class="btn btn-link pl-0" type="button" data-toggle="collapse" data-target="#sidebar-nav" aria-controls="sidebar-nav" aria-expanded="false" aria-label="Toggle navigation">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 30 30" width="30" height="30" focusable="false">
+                                <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="M4 7h22M4 15h22M4 23h22" />
+                            </svg>
+                        </button>
+                        <!-- End Responsive Toggle Button -->
+                    </div>
+
+                    <!-- Sidebar Nav -->
+                    <div class="pageNavigation" id="sidebar-nav">
+                        <div class="js-scrollbar duik-sidebar-sticky">
+                            <h5 class="duik-sidebar__heading">Getting started </h5>
+                            <ul class="duik-sidebar__nav">
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link " href="introduction.html">Introduction</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="setup.html">Setup</a></li>
+                            </ul>
+
+                            <h5 class="duik-sidebar__heading">Core</h5>
+                            <ul class="duik-sidebar__nav">
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="page.html">Page & Settings</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="settings.html">Settings</a></li>
+                                
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="manage.html#file-manager">File Manager</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="manage.html#picture-uploader">Picture Uploader</a></li>
+                            </ul>
+
+                            <h5 class="duik-sidebar__heading">UI Kit</h5>
+                            <ul class="duik-sidebar__nav">
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="accordion.html">Accordion</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="alert.html">Alert</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="badge.html">Badge</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="button.html">Button</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="countup.html">Countup</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="html-editor.html">Html Editor</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="iconBox.html">IconBox</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="oval-divider.html">Oval Divider</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="popover.html">Popover</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="popup.html">Popup</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="progress.html">Progress</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="badge.html#raiting">Rating</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="slider.html">Slider</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="spinner.html">Spinner</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link active" href="tab.html">Tab</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="tooltip.html">Tooltip</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="typing.html">Typing</a></li>
+                            </ul>
+
+                            <h5 class="duik-sidebar__heading">Manage</h5>
+                            <ul class="duik-sidebar__nav">
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="manage.html#blog-post">Blog Post</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="manage.html#portfolio">Portfolio</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="manage.html#client-testimonials">Client & Testimonials</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="manage.html#job">Job</a></li>
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="manage.html#team-member">Team Member</a></li>
+                            </ul>
+
+                            <h5 class="duik-sidebar__heading">Others</h5>
+                            <ul class="duik-sidebar__nav">
+                                <li class="duik-sidebar__item"><a class="duik-sidebar__link" href="changelog.html">Changelog</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- End Sidebar Nav -->
+                </nav>
+                <!-- End Sidebar -->
+
+                <main class="wholeContent">
+                    <div class="wholeContentSticky">
+
+                        <!-- Content -->
+                        <div class="pageContainer border-bottom">
+                            <div class="border-bottom mb-7" id="doc-introduction">
+                                <h1>Tabs</h1>
+                                <p class="lead mb-5">
+                                    Documentation and examples for how to use Bootstrap’s included navigation components.
+                                </p>
+                            </div>
+
+                            <div id="doc-default" class="mb-7">
+                                <h2 class="h4">Default <a class="js-anchor-link duik-anchorjs-link" href="#doc-default" aria-label="Anchor" data-anchorjs-icon="#"></a></h2>
+                                <p>Use <code>@Html.Vertex().Tab(Action[TabBuilder] action)</code> method to create tab</p>
+
+                                <div class="my-4">
+                                    <div class="border rounded">
+                                        <div class="p-4">
+                                            <div class="tab-pane fade show active" id="component-1-1" role="tabpanel" aria-labelledby="component-1-1">
+                                                <div>
+                                                    <ul class="nav mb-4 " role="tablist">
+                                                        <li class="nav-item">
+                                                            <a class="nav-link" id="tab-id-443ea9f3-6144-468d-8fe3-6e58b3d287b4" href="#tab-name-670d317f-6155-4747-a670-de0c211cf5da" aria-selected="false" data-toggle="tab" role="tab" aria-controls="tab-name-670d317f-6155-4747-a670-de0c211cf5da">
+                                                                Tab One
+                                                            </a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link active show" id="tab-id-2271525d-081c-4038-850d-57a22b0edc43" href="#tab-name-44f2876e-ad1e-4faf-9353-2ef81deab4e4" aria-selected="true" data-toggle="tab" role="tab" aria-controls="tab-name-44f2876e-ad1e-4faf-9353-2ef81deab4e4">
+                                                                Tab Two
+                                                            </a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link disabled " id="tab-id-898b10e7-9ae9-4107-a550-98ac439b3927" href="#tab-name-eb6a94e8-78ac-4738-aea5-43af2b367151" aria-selected="False" data-toggle="tab" role="tab" aria-controls="tab-name-eb6a94e8-78ac-4738-aea5-43af2b367151" tabindex="-1" aria-disabled="true">
+                                                                Disabled
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+
+                                                    <div class="tab-content">
+                                                        <div class="tab-pane fade" id="tab-name-670d317f-6155-4747-a670-de0c211cf5da" role="tabpanel" aria-labelledby="tab-id-443ea9f3-6144-468d-8fe3-6e58b3d287b4">
+                                                            Content one
+                                                        </div>
+                                                        <div class="tab-pane fade active show" id="tab-name-44f2876e-ad1e-4faf-9353-2ef81deab4e4" role="tabpanel" aria-labelledby="tab-id-2271525d-081c-4038-850d-57a22b0edc43">
+                                                            Content two
+                                                        </div>
+                                                        <div class="tab-pane fade  " id="tab-name-eb6a94e8-78ac-4738-aea5-43af2b367151" role="tabpanel" aria-labelledby="tab-id-898b10e7-9ae9-4107-a550-98ac439b3927">
+                                                            Content three
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="bg-light p-4">
+                                            <pre class="m-0 p-1"><code class="language-csharp">@(Html.Vertex().Tab(tab => {
+    tab.Add().Title("Tab One").Content("Content one").Active();
+    tab.Add().Title("Tab Two").Content("Content two");
+    tab.Add().Title("Disabled").Content("Content three").Disabled();
+})) </code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="doc-horizontal-alignment" class="mb-7">
+                                <h2 class="h4">Horizontal Alignment <a class="js-anchor-link duik-anchorjs-link" href="#doc-horizontal-alignment" aria-label="Anchor" data-anchorjs-icon="#"></a></h2>
+                                <p class="lead-1">use <code>.HorizontalAlignment(TabHorizontalAlignment horizontalAlignment)</code> method to set horizontal alignment.</p>
+
+                                <div class="my-4">
+                                    <div class="border rounded">
+                                        <div class="p-4">
+                                            <div class="tab-pane fade active show" id="component-2-1" role="tabpanel" aria-labelledby="component-2-1">
+                                                <div>
+                                                    <ul class="nav mb-4 justify-content-center" role="tablist">
+                                                        <li class="nav-item">
+                                                            <a class="nav-link" id="tab-id-4ec85b90-8652-47c3-9f53-4da7793e1b17" href="#tab-name-51174d68-bde4-40e5-b2ff-053afd59328e" aria-selected="false" data-toggle="tab" role="tab" aria-controls="tab-name-51174d68-bde4-40e5-b2ff-053afd59328e">
+                                                                Tab One
+                                                            </a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link active show" id="tab-id-0d75a5eb-6cff-4b0a-aa3a-9a073b23b4a0" href="#tab-name-906a210f-c99a-477f-898f-59b73abbffda" aria-selected="true" data-toggle="tab" role="tab" aria-controls="tab-name-906a210f-c99a-477f-898f-59b73abbffda">
+                                                                Tab Two
+                                                            </a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link disabled " id="tab-id-8fd2b937-8311-4b03-8803-a25489c18fa8" href="#tab-name-b3ddf602-18cf-4933-a75a-380cc5f647aa" aria-selected="False" data-toggle="tab" role="tab" aria-controls="tab-name-b3ddf602-18cf-4933-a75a-380cc5f647aa" tabindex="-1" aria-disabled="true">
+                                                                Disabled
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+
+                                                    <div class="tab-content">
+                                                        <div class="tab-pane fade" id="tab-name-51174d68-bde4-40e5-b2ff-053afd59328e" role="tabpanel" aria-labelledby="tab-id-4ec85b90-8652-47c3-9f53-4da7793e1b17">
+                                                            Content one
+                                                        </div>
+                                                        <div class="tab-pane fade active show" id="tab-name-906a210f-c99a-477f-898f-59b73abbffda" role="tabpanel" aria-labelledby="tab-id-0d75a5eb-6cff-4b0a-aa3a-9a073b23b4a0">
+                                                            Content two
+                                                        </div>
+                                                        <div class="tab-pane fade  " id="tab-name-b3ddf602-18cf-4933-a75a-380cc5f647aa" role="tabpanel" aria-labelledby="tab-id-8fd2b937-8311-4b03-8803-a25489c18fa8">
+                                                            Content three
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="bg-light p-4">
+                                            <pre class="m-0 p-1"><code class="language-csharp">@(Html.Vertex().Tab(tab => {
+    tab.Add().Title("Tab One").Content("Content one").Active();
+    tab.Add().Title("Tab Two").Content("Content two");
+    tab.Add().Title("Disabled").Content("Content three").Disabled();
+}).HorizontalAlignment(TabHorizontalAlignment.Center)) </code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div id="doc-pills-nav" class="mb-7">
+                                <h2 class="h4">Pills Nav <a class="js-anchor-link duik-anchorjs-link" href="#doc-pills-nav" aria-label="Anchor" data-anchorjs-icon="#"></a></h2>
+                                <p>use <code>.PillsNav()</code> method to set pills nav.</p>
+
+                                <div class="my-4">
+                                    <div class="border rounded">
+                                        <div class="p-4">
+                                            <div class="tab-pane fade active show" id="component-4-1" role="tabpanel" aria-labelledby="component-4-1">
+                                                <div>
+                                                    <ul class="nav mb-4 nav-pills" role="tablist">
+                                                        <li class="nav-item">
+                                                            <a class="nav-link active show" id="tab-id-f0c531ab-f4a5-4774-97c7-602d7608d7bf" href="#tab-name-667f9ec7-89d0-433c-b0b0-c444098ef208" aria-selected="true" data-toggle="tab" role="tab" aria-controls="tab-name-667f9ec7-89d0-433c-b0b0-c444098ef208">
+                                                                Tab One
+                                                            </a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link" id="tab-id-041d3f7b-1bc6-4374-a8ff-d84bb61c2468" href="#tab-name-313c153f-1c78-4f77-a39f-7489da4ea8cc" aria-selected="false" data-toggle="tab" role="tab" aria-controls="tab-name-313c153f-1c78-4f77-a39f-7489da4ea8cc">
+                                                                Tab Two
+                                                            </a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link disabled " id="tab-id-cc8e36b8-942f-4e9d-86bc-ef59a9c4bff4" href="#tab-name-eddc5b79-07bd-4415-81c1-dd89173ad907" aria-selected="False" data-toggle="tab" role="tab" aria-controls="tab-name-eddc5b79-07bd-4415-81c1-dd89173ad907" tabindex="-1" aria-disabled="true">
+                                                                Disabled
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+
+                                                    <div class="tab-content">
+                                                        <div class="tab-pane fade active show" id="tab-name-667f9ec7-89d0-433c-b0b0-c444098ef208" role="tabpanel" aria-labelledby="tab-id-f0c531ab-f4a5-4774-97c7-602d7608d7bf">
+                                                            Content one
+                                                        </div>
+                                                        <div class="tab-pane fade" id="tab-name-313c153f-1c78-4f77-a39f-7489da4ea8cc" role="tabpanel" aria-labelledby="tab-id-041d3f7b-1bc6-4374-a8ff-d84bb61c2468">
+                                                            Content two
+                                                        </div>
+                                                        <div class="tab-pane fade  " id="tab-name-eddc5b79-07bd-4415-81c1-dd89173ad907" role="tabpanel" aria-labelledby="tab-id-cc8e36b8-942f-4e9d-86bc-ef59a9c4bff4">
+                                                            Content three
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="bg-light p-4">
+                                            <pre class="m-0 p-2"><code class="language-csharp">@(Html.Vertex().Tab(tab => {
+    tab.Add().Title("Tab One").Content("Content one").Active();
+    tab.Add().Title("Tab Two").Content("Content two");
+    tab.Add().Title("Disabled").Content("Content three").Disabled();
+}).PillsNav())</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+                            <div id="doc-methods" class="mb-7">
+                                <h2 class="h4">Methods <a class="js-anchor-link duik-anchorjs-link" href="#doc-methods" aria-label="Anchor" data-anchorjs-icon="#"></a></h2>
+                                <p>Alerts are available for any length of text, as well as an optional dismiss button</p>
+
+                                <div class="my-4">
+                                    <table class="table table-bordered bg-white">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:35%">Method</th>
+                                                <th>Description</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td> <p><code class="highlighter-rouge">.Method(bool value)</code></p> </td>
+                                                <td>Comming soon.</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <!-- End Content -->
+                        <!-- Content Nav -->
+                        <div class="pageSide">
+
+                            <ul class="js-scroll-nav duik-content-nav">
+                                <li class="duik-content-nav__item contents">Contents</li>
+                                <li class="duik-content-nav__item"><a href="#doc-default">Default</a></li>
+                                <li class="duik-content-nav__item"><a href="#doc-horizontal-alignment">Horizontal Alignment</a></li>
+                                <li class="duik-content-nav__item"><a href="#doc-pills-nav">Pills Nav</a></li>
+                                <li class="duik-content-nav__item"><a href="#doc-methods">Methods</a></li>
+                            </ul>
+                        </div>
+                        <!-- End Content Nav -->
+                    </div>
+
+                    <!-- Footer -->
+                    <footer class="small py-4">
+                        <div class="row">
+                            <!-- Copyright -->
+                            <div class="col-md-6 text-center text-dark text-md-left mb-3 mb-md-0">
+                                &copy; 2019 <a class="text-dark" href="http://bootstraptemplates.net/">BootstrapTemplates.Net</a>. All Rights Reserved.
+                            </div>
+                            <!-- End Copyright -->
+                            <!-- Social Icons -->
+                            <div class="col-md-6 col-xl-4 align-self-center">
+                                <ul class="list-inline text-center text-md-right mb-0">
+                                    <li class="list-inline-item mx-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="Github">
+                                        <a class="text-dark" target="_blank" href="https://www.github.com/bootstraptemplates.net">
+                                            <i class="fab fa-github"></i>
+                                        </a>
+                                    </li>
+                                    <li class="list-inline-item mx-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="Facebook">
+                                        <a class="text-dark" target="_blank" href="https://www.facebook.com/bootstraptemplates.net">
+                                            <i class="fab fa-facebook"></i>
+                                        </a>
+                                    </li>
+                                    <li class="list-inline-item mx-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="Instagram">
+                                        <a class="text-dark" target="_blank" href="https://www.instagram.com/bootstraptemplates.net">
+                                            <i class="fab fa-instagram"></i>
+                                        </a>
+                                    </li>
+                                    <li class="list-inline-item mx-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="Twitter">
+                                        <a class="text-dark" target="_blank" href="https://www.twitter.com/bootstraptemplates.net">
+                                            <i class="fab fa-twitter"></i>
+                                        </a>
+                                    </li>
+                                    <li class="list-inline-item ml-2" data-toggle="tooltip" data-placement="top" title="" data-original-title="Dribbble">
+                                        <a class="text-dark" target="_blank" href="https://www.dribbble.com/bootstraptemplates.net">
+                                            <i class="fab fa-dribbble"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- End Social Icons -->
+                        </div>
+                    </footer>
+                    <!-- End Footer -->
+                </main>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Go to Top -->
+    <a class="js-go-to duik-go-to" href="javascript:;">
+        <span class="fa fa-arrow-up duik-go-to__inner"></span>
+    </a>
+    <!-- End Go to Top -->
+    <!-- JS Global Compulsory -->
+    <script src="assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="assets/vendor/jquery-migrate/dist/jquery-migrate.min.js"></script>
+    <script src="assets/vendor/popper.js/dist/umd/popper.min.js"></script>
+    <script src="assets/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <!-- JS Implementing Plugins -->
+    <script src="assets/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="assets/vendor/jquery-ui/jquery-ui.core.min.js"></script>
+    <script src="assets/vendor/jquery-ui/ui/widgets/menu.js"></script>
+    <script src="assets/vendor/jquery-ui/ui/widgets/mouse.js"></script>
+    <script src="assets/vendor/jquery-ui/ui/widgets/autocomplete.js"></script>
+    <script src="assets/vendor/prism/prism.js"></script>
+
+    <!-- JS -->
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/autocomplete.js"></script>
+    <script src="assets/js/custom-scrollbar.js"></script>
+</body>
+</html>

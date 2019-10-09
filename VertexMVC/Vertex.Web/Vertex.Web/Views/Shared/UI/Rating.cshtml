@@ -1,0 +1,48 @@
+﻿@model Rating
+
+ 
+<div class="rating @Model.GetCssClass()" @Model.GetHtmlAtributes()>
+    @switch (Model.Rate)
+    {
+        case RatingRate.One:
+            <label class="fa fa-star"></label>
+            <label class="fa fa-star empty"></label>
+            <label class="fa fa-star empty"></label>
+            <label class="fa fa-star empty"></label>
+            <label class="fa fa-star empty"></label>
+            break;
+        case RatingRate.Two:
+            <label class="fa fa-star"></label>
+            <label class="fa fa-star"></label>
+            <label class="fa fa-star empty"></label>
+            <label class="fa fa-star empty"></label>
+            <label class="fa fa-star empty"></label>
+            break;
+        case RatingRate.Three:
+            <label class="fa fa-star"></label>
+            <label class="fa fa-star"></label>
+            <label class="fa fa-star"></label>
+            <label class="fa fa-star empty"></label>
+            <label class="fa fa-star empty"></label>
+            break;
+        case RatingRate.Four:
+            <label class="fa fa-star"></label>
+            <label class="fa fa-star"></label>
+            <label class="fa fa-star"></label>
+            <label class="fa fa-star"></label>
+            <label class="fa fa-star empty"></label>
+            break;
+        case RatingRate.Five:
+            <label class="fa fa-star"></label>
+            <label class="fa fa-star"></label>
+            <label class="fa fa-star"></label>
+            <label class="fa fa-star"></label>
+            <label class="fa fa-star"></label>
+            break;
+        default:
+            break;
+    }
+</div>
+
+
+
