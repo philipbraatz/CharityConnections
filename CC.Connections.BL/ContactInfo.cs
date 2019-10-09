@@ -6,18 +6,18 @@ using System.Linq;
 
 namespace CC.Connections.BL
 {
-    public class ContactInfo : PL.Contact_Info
+    public class BLContactInfo : PL.Contact_Info
     {
-        [DisplayName("Email")]
-        public new string ContactInfo_Email { get; set; }
-        [DisplayName("First Name")]
-        public new string ContactInfo_FName { get; set; }
-        [DisplayName("Last Name")]
-        public new string ContactInfo_LName { get; set; }
-        [DisplayName("Phone #")]
-        public new string ContactInfo_Phone { get; set; }
-        [DisplayName("Birth Date")]
-        public new DateTime DateOfBirth { get; set; }
+        //[DisplayName("Email")]
+        //public new string ContactInfo_Email { get; set; }
+        //[DisplayName("First Name")]
+        //public new string ContactInfo_FName { get; set; }
+        //[DisplayName("Last Name")]
+        //public new string ContactInfo_LName { get; set; }
+        //[DisplayName("Phone #")]
+        //public new string ContactInfo_Phone { get; set; }
+        //[DisplayName("Birth Date")]
+        //public new DateTime DateOfBirth { get; set; }
 
         //New values
 
@@ -27,8 +27,26 @@ namespace CC.Connections.BL
             get { return ContactInfo_FName + " " + ContactInfo_LName; }
         }
 
-
-        public ContactInfo(){ Clear(); }
+        public BLContactInfo() { Clear(); }
+        public BLContactInfo(string email)
+        {
+            ContactInfo_Email = email;
+            LoadId();
+        }
+        private PL.Contact_Info toPL()
+        {
+            return new Contact_Info
+            {
+                ContactInfo_Email   = ContactInfo_Email,
+                ContactInfo_FName   = ContactInfo_FName,
+                ContactInfo_LName   = ContactInfo_LName,
+                ContactInfo_Phone   = ContactInfo_Phone,
+                Contact_Info_ID     = Contact_Info_ID,
+                DateOfBirth         = DateOfBirth,
+                Location_ID         = Location_ID,
+            };
+            
+        }
 
         protected void Clear()
         {
@@ -38,11 +56,6 @@ namespace CC.Connections.BL
             ContactInfo_Phone = string.Empty;
         }
 
-        public ContactInfo(string email)
-        {
-            ContactInfo_Email = email;
-            LoadId();
-        }
         
         //public ContactInfo(int? contactID)
         //{
@@ -79,8 +92,7 @@ namespace CC.Connections.BL
                         Contact_Info_ID = dc.Contact_Info.Max(c => c.Contact_Info_ID) + 1;//unique id
                     else
                         Contact_Info_ID = 0;
-
-                    dc.Contact_Info.Add(this);
+                    dc.Contact_Info.Add(this.toPL());
                     dc.SaveChanges();
                     return Contact_Info_ID;
                 }
@@ -96,7 +108,7 @@ namespace CC.Connections.BL
                     if (this.ContactInfo_Email == string.Empty)
                         throw new Exception("Email is invaild");
 
-                    dc.Contact_Info.Remove(this);
+                    dc.Contact_Info.Remove(this.toPL());
                     return dc.SaveChanges();
                 }
             }
@@ -163,7 +175,7 @@ namespace CC.Connections.BL
         }
 
         //TODO depreciate
-        internal static ContactInfo fromNumID(int? memberContact_ID)
+        internal static BLContactInfo fromNumID(int? memberContact_ID)
         {
             try
             {
@@ -171,11 +183,11 @@ namespace CC.Connections.BL
                 {
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invaild");
-                    ContactInfo ret = new ContactInfo();
+                    BLContactInfo ret = new BLContactInfo();
                     PL.Contact_Info entry = dc.Contact_Info.FirstOrDefault(c => c.Contact_Info_ID == memberContact_ID);
                     if (entry == null)
                         throw new Exception("Contact Info does not exist: Email '" + entry.ContactInfo_Email + "'");
-                    return (ContactInfo)entry;
+                    return (BLContactInfo)entry;
                 }
             }
             catch (Exception e)
@@ -186,7 +198,7 @@ namespace CC.Connections.BL
     }
 
     public class ContactList
-        : List<ContactInfo>
+        : List<BLContactInfo>
     {
         public void Load()
         {
@@ -194,7 +206,7 @@ namespace CC.Connections.BL
             {
                 using (DBconnections dc = new DBconnections())
                 {
-                    dc.Contact_Info.ToList().ForEach(c => this.Add(new ContactInfo
+                    dc.Contact_Info.ToList().ForEach(c => this.Add(new BLContactInfo
                     {
                         ContactInfo_Email = c.ContactInfo_Email,
                         ContactInfo_FName = c.ContactInfo_FName,

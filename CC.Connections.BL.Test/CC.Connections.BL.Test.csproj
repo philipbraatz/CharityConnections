@@ -60,7 +60,9 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbsCategory_UT.cs" />
     <Compile Include="Category_UT.cs" />
+    <Compile Include="CharityEvent_UT.cs" />
     <Compile Include="Charity_Event_UT.cs" />
     <Compile Include="Charity_UT.cs" />
     <Compile Include="Helping_ActionUT.cs" />

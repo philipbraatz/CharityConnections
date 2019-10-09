@@ -7,18 +7,18 @@ using CC.Connections.PL;
 
 namespace CC.Connections.BL
 {
-    public class Member : ContactInfo
+    public class BLMember : BLContactInfo
     {
         public int ID { get; set; }
         public Password Password { get; set; }
         public CategoryList Prefered_Categories { get; set; }
         public CharityList Prefered_Charities { get; set; }
         public Helping_ActionList Prefered_helping_Actions { get; set; }
-        public Member_Type Member_Type { get; set; }
+        public BLMember_Type Member_Type { get; set; }
         //depreciated
         //public Role Role { get; set; }
-        public Preference Pref { get; set; }
-        public Location Location { get; set; }
+        public BLPreference Pref { get; set; }
+        public BLLocation Location { get; set; }
 
         internal static bool Exists(DBconnections dc, int id)
         {
@@ -26,13 +26,13 @@ namespace CC.Connections.BL
         }
 
         //required for login controller
-        public Member()
+        public BLMember()
         {
             Clear();
         }
         //new member, member_type is hardcoded as guess
         //DOES NOT try to LOAD from database
-        public Member(string contactEmail, string password="", int member_type=3, bool hashed = false, bool debug = false)
+        public BLMember(string contactEmail, string password="", int member_type=3, bool hashed = false, bool debug = false)
         {
             //get ID and password from other tables
             try
@@ -63,7 +63,7 @@ namespace CC.Connections.BL
                     else
                         Password = new Password(contactEmail, false);//new
 
-                    this.Member_Type = new Member_Type(member_type);
+                    this.Member_Type = new BLMember_Type(member_type);
 
                     //will LOAD nothing if NEW ID but will SET preference ID
                     //needed for adding and removing items
@@ -83,7 +83,7 @@ namespace CC.Connections.BL
             }
         }
         //load
-        public Member(string email)
+        public BLMember(string email)
         {
             //get ID and password from other tables
             try
@@ -113,9 +113,9 @@ namespace CC.Connections.BL
             Prefered_Categories = new CategoryList();
             Prefered_Charities = new CharityList();
             Prefered_helping_Actions = new Helping_ActionList();
-            Member_Type = new Member_Type();
-            Pref = new Preference();
-            Location = new Location();
+            Member_Type = new BLMember_Type();
+            Pref = new BLPreference();
+            Location = new BLLocation();
         }
 
         public new int Insert()
@@ -234,9 +234,9 @@ namespace CC.Connections.BL
 
                     if (entry.MemberPreference_ID == null)
                         throw new Exception("Preference ID is null and cannot be loaded");
-                    this.Pref = new Preference((int)entry.MemberPreference_ID);
-                    this.Member_Type = new Member_Type((int)entry.MemberType_ID);
-                    this.Location = new Location((int)entry.Location_ID);
+                    this.Pref = new BLPreference((int)entry.MemberPreference_ID);
+                    this.Member_Type = new BLMember_Type((int)entry.MemberType_ID);
+                    this.Location = new BLLocation((int)entry.Location_ID);
 
                     this.Prefered_Categories.LoadPreferences(entry.Member_ID);
                     this.Prefered_helping_Actions.LoadPreferences(entry.Member_ID);
@@ -252,10 +252,10 @@ namespace CC.Connections.BL
         }
 
         //loads contact info only
-        internal static Member loadContactInfo(int? memberContact_ID)
+        internal static BLMember loadContactInfo(int? memberContact_ID)
         {
-            ContactInfo info = ContactInfo.fromNumID(memberContact_ID);
-            return new Member
+            BLContactInfo info = BLContactInfo.fromNumID(memberContact_ID);
+            return new BLMember
             {
                 ContactInfo_Email = info.ContactInfo_Email,
                 ContactInfo_FName = info.ContactInfo_FName,
@@ -266,7 +266,7 @@ namespace CC.Connections.BL
         }
 
         //sets contact info only
-        public void setContactInfo(ContactInfo contact)
+        public void setContactInfo(BLContactInfo contact)
         {
             ContactInfo_Email = contact.ContactInfo_Email;
             ContactInfo_FName = contact.ContactInfo_FName;
@@ -277,7 +277,7 @@ namespace CC.Connections.BL
     }
 
     public class MemberList
-    : List<Member>
+    : List<BLMember>
     {
         public void LoadList()
         {
@@ -288,17 +288,17 @@ namespace CC.Connections.BL
                     if (dc.Members.ToList().Count != 0)
                         dc.Members.ToList().ForEach(c =>
                         {
-                            Member newMem = Member.loadContactInfo(c.MemberContact_ID);
+                            BLMember newMem = BLMember.loadContactInfo(c.MemberContact_ID);
                             newMem.ID = c.Member_ID;
-                            newMem.Pref = new Preference((int)c.MemberPreference_ID);
+                            newMem.Pref = new BLPreference((int)c.MemberPreference_ID);
                             newMem.Password = new Password(
                                   dc.Log_in.FirstOrDefault(d => d.LogInMember_ID == c.Member_ID).ContactInfoEmail,
                                   dc.Log_in.FirstOrDefault(d => d.LogInMember_ID == c.Member_ID).LogInPassword,
                                   true);
                             newMem.Prefered_Categories = new CategoryList().LoadPreferences(c.Member_ID);
                             newMem.Prefered_helping_Actions = new Helping_ActionList().LoadPreferences(c.Member_ID);
-                            newMem.Member_Type = new Member_Type((int)c.MemberType_ID);
-                            newMem.Location = new Location((int)c.Location_ID);
+                            newMem.Member_Type = new BLMember_Type((int)c.MemberType_ID);
+                            newMem.Location = new BLLocation((int)c.Location_ID);
                             this.Add(newMem);
                         });
                 }

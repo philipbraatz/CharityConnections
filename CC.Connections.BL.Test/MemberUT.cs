@@ -9,7 +9,7 @@ namespace CC.Connections.BL.Test
     public class MemberUT
     {
 
-        public Member test;
+        public BLMember test;
         public string testingID = "test@test.com";
         public const string VALUE1 = "test";
         public const string VALUE2 = "updated";
@@ -25,7 +25,7 @@ namespace CC.Connections.BL.Test
         [TestMethod]
         public void Insert()
         {
-            Member newt = new Member(testingID, VALUE1, GUEST_ID,false,true)
+            BLMember newt = new BLMember(testingID, VALUE1, GUEST_ID,false,true)
             {
                 ContactInfo_Phone = "1234567",
                 ContactInfo_FName = VALUE1,
@@ -57,7 +57,7 @@ namespace CC.Connections.BL.Test
         [TestMethod]
         public void Load()
         {
-            test = new Member(testingID);
+            test = new BLMember(testingID);
 
             Assert.IsTrue(test.ContactInfo_Phone == "1234567");
             Assert.IsFalse(test.Password.Pass == VALUE1.Trim());
@@ -72,8 +72,8 @@ namespace CC.Connections.BL.Test
         [TestMethod]
         public void Update()
         {
-            test = new Member(testingID);
-            Member updated = new Member(testingID)
+            test = new BLMember(testingID);
+            BLMember updated = new BLMember(testingID)
             {
                 ContactInfo_LName = VALUE2
             };
@@ -85,7 +85,7 @@ namespace CC.Connections.BL.Test
 
             updated.Update();//update database
             updated = null;//clear
-            updated = new Member(testingID);//load again
+            updated = new BLMember(testingID);//load again
 
             Assert.IsTrue(updated.ContactInfo_LName == VALUE2);
             //Assert.IsTrue(updated.Member_Type.Desc == VALUE2);
@@ -96,7 +96,7 @@ namespace CC.Connections.BL.Test
         [TestMethod]
         public void Delete()
         {
-            test = new Member(testingID);
+            test = new BLMember(testingID);
             test.Delete();//delete
 
             MemberList table = new MemberList();

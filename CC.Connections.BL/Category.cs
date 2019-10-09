@@ -9,19 +9,19 @@ using System.ComponentModel;
 
 namespace CC.Connections.BL
 {
-    public class Category : PL.Category
+    public class BLCategory : PL.Category
     {
         //You have to redeclare the varible to give it a display name
         [DisplayName("Description")]
         public new string Category_Desc { get; set; }
 
-        public Category() { }
-        public Category(int memberCat_ID)
+        public BLCategory() { }
+        public BLCategory(int memberCat_ID)
         {
             this.Category_ID = memberCat_ID;
             LoadId();
         }
-        public Category(int memberCat_ID,bool debug)
+        public BLCategory(int memberCat_ID,bool debug)
         {
             this.Category_ID = memberCat_ID;
             LoadId(debug);
@@ -45,12 +45,21 @@ namespace CC.Connections.BL
                     else
                         Category_ID = 0;
 
-                    dc.Categories.Add(this);
+                    dc.Categories.Add(this.ToPL());
                     return dc.SaveChanges();
                 }
             }
             catch (Exception e) { throw e; }
         }
+
+        private PL.Category ToPL()
+        {
+            return new PL.Category {
+                Category_Desc =Category_Desc,
+                Category_ID =Category_ID
+            };
+        }
+
         public int Delete()
         {
             try
@@ -60,7 +69,7 @@ namespace CC.Connections.BL
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invaild");
 
-                    dc.Categories.Remove(this);
+                    dc.Categories.Remove(this.ToPL());
                     return dc.SaveChanges();
                 }
             }
@@ -115,7 +124,7 @@ namespace CC.Connections.BL
     }
 
     public class CategoryList
-        : List<Category>
+        : List<BLCategory>
     {
         private int? member_ID { get; set; }//only used for preferences
         private const string PREFERENCE_LOAD_ERROR = "Preferences not loaded, please loadPrefences with a Member ID";
@@ -127,7 +136,7 @@ namespace CC.Connections.BL
                 using (DBconnections dc = new DBconnections())
                 {
                     if (dc.Categories.ToList().Count != 0)
-                        dc.Categories.ToList().ForEach(c => this.Add((Category)c));
+                        dc.Categories.ToList().ForEach(c => this.Add((BLCategory)c));
                 }
             }
             catch (Exception e) { throw e; }
@@ -143,7 +152,7 @@ namespace CC.Connections.BL
                 {
                     if (dc.Categories.ToList().Count != 0)
                         dc.Preferred_Category.Where(d => d.MemberCat_Member_ID == memberID).ToList().ForEach(c =>
-                             this.Add(new Category((int)c.MemberCat_Category_ID, debug),true));
+                             this.Add(new BLCategory((int)c.MemberCat_Category_ID, debug),true));
                 }
                 return this;
             }
@@ -165,7 +174,7 @@ namespace CC.Connections.BL
                 MemberCat_Member_ID = member_ID,
                 MemberCat_Category_ID = categoryID
                 });
-                this.Add(new Category(categoryID),true);
+                this.Add(new BLCategory(categoryID),true);
                 dc.SaveChanges();
             }
         }
@@ -184,7 +193,7 @@ namespace CC.Connections.BL
                     dc.Preferred_Category.Remove(prefCat);
                 else//TODO FIX
                     categoryID= categoryID;//throw new Exception("Prefferred_Category category "+categoryID+" does not exist for Member "+member_ID);
-                this.Remove(this.Where(c => c.Category_ID == categoryID).FirstOrDefault(),true);
+                this.Remove(this.Where(c => c.Category_ID == categoryID).FirstOrDefault(),true);//might need to be casted to PL first
                 dc.SaveChanges();
             }
         }
@@ -203,14 +212,14 @@ namespace CC.Connections.BL
             }
         }
 
-        public void UpdateCategory(Category cat, string description)
+        public void UpdateCategory(BLCategory cat, string description)
         {
             UpdateCategory(cat.Category_ID, description);
 
         }
         public void UpdateCategory(int catID,string description)
         {
-            Category cthis = this.Where(c => c.Category_ID == catID).FirstOrDefault();
+            BLCategory cthis = this.Where(c => c.Category_ID == catID).FirstOrDefault();
             cthis.Category_Desc = description;
             cthis.Update();
         }
@@ -230,24 +239,24 @@ namespace CC.Connections.BL
         
         //Calls base method for interal use
         //could be replaced with base.Add()
-        private void Add(Category item,bool overrideMethod =true)
+        private void Add(BLCategory item,bool overrideMethod =true)
         {
             base.Add(item);
         }
-        private void Remove(Category item, bool overrideMethod = true)
+        private void Remove(BLCategory item, bool overrideMethod = true)
         {
             base.Remove(item);
         }
 
         //public Add and Remove list
         //could get confused with preference list because this is shared
-        public new void Add(Category item)
+        public new void Add(BLCategory item)
         {
             if (member_ID != null)
                 throw new Exception("Currently being used as a preference list. Please use AddPrefrence instead");
             base.Add(item);
         }
-        public new void Remove(Category item)
+        public new void Remove(BLCategory item)
         {
             if (member_ID != null)
                 throw new Exception("Currently being used as a preference list. Please use DeletePrefrence instead");

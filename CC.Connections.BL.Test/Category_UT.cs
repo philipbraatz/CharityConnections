@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CC.Connections.BL;
 using System.Linq;
+using CC.Connections.PL;
 
 namespace CC.Connections.BL.Test
 {
@@ -10,7 +11,7 @@ namespace CC.Connections.BL.Test
     {
         public CategoryList allTable;
 
-        public Category test;
+        public BLCategory test;
         public string memberEmail = "test@test.com";
         public const string INSERT_1 = "test for categories";
         public const string INSERT_2 = "updated for categories";
@@ -25,7 +26,7 @@ namespace CC.Connections.BL.Test
                 allTable = new BL.CategoryList();
             allTable.LoadList();
 
-            Category cat = allTable.Where(c => c.Category_Desc == desc).FirstOrDefault();
+            BLCategory cat = allTable.Where(c => c.Category_Desc == desc).FirstOrDefault();
             if (cat == null)
                 Assert.Fail();
             return cat.Category_ID;
@@ -34,14 +35,14 @@ namespace CC.Connections.BL.Test
         [TestMethod]
         public void Insert()
         {
-            Category newt = new Category
+            BLCategory newt = new BLCategory
             {
                 Category_Desc = INSERT_1
             };
 
             newt.Insert();
 
-            newt = new Category
+            newt = new BLCategory
             {
                 Category_Desc = UPDATE_1
             };
@@ -63,7 +64,7 @@ namespace CC.Connections.BL.Test
         [TestMethod]
         public void insertPreferences_AndLoad()
         {
-            Member mtest = new Member(memberEmail);//get a member id
+            BLMember mtest = new BLMember(memberEmail);//get a member id
             CategoryList table = new BL.CategoryList();
 
             table.LoadPreferences(mtest.ID);
@@ -95,22 +96,22 @@ namespace CC.Connections.BL.Test
             allTable.LoadList();
             int tableCount = allTable.Count;
 
-            test = new Category(getID_fromDesc(INSERT_1));
-            Category updated = new Category(getID_fromDesc(INSERT_1))
+            test = new BLCategory(getID_fromDesc(INSERT_1));
+            BLCategory updated = new BLCategory(getID_fromDesc(INSERT_1))
             {
                 Category_Desc = INSERT_2
             };
             updated.Update();//update database
 
             //update both categories
-            updated = new Category(getID_fromDesc(UPDATE_1))
+            updated = new BLCategory(getID_fromDesc(UPDATE_1))
             {
                 Category_Desc = UPDATE_2
             };
             updated.Update();//update database
 
             updated = null;//clear
-            updated = new Category(getID_fromDesc(UPDATE_2));//load again with new value
+            updated = new BLCategory(getID_fromDesc(UPDATE_2));//load again with new value
             Assert.IsTrue(updated.Category_Desc == UPDATE_2);
             allTable.LoadList();
             Assert.AreEqual(tableCount,allTable.Count);//count unchanged
@@ -122,7 +123,7 @@ namespace CC.Connections.BL.Test
         [TestMethod]
         public void removePreferences()
         {
-            Member mtest = new Member(memberEmail);
+            BLMember mtest = new BLMember(memberEmail);
             CategoryList table = new BL.CategoryList();
 
             CategoryList allTable = new BL.CategoryList();
@@ -149,7 +150,7 @@ namespace CC.Connections.BL.Test
             CategoryList allTable = new BL.CategoryList();
             allTable.LoadList();
 
-            test = new Category(getID_fromDesc(INSERT_1));
+            test = new BLCategory(getID_fromDesc(INSERT_1));
 
             Assert.IsTrue(test.Category_Desc ==INSERT_1);
         }
@@ -157,9 +158,9 @@ namespace CC.Connections.BL.Test
         [TestMethod]
         public void Delete()
         {
-            test = new Category(getID_fromDesc(INSERT_2));
+            test = new BLCategory(getID_fromDesc(INSERT_2));
             test.Delete();//delete
-            test = new Category(getID_fromDesc(UPDATE_2));
+            test = new BLCategory(getID_fromDesc(UPDATE_2));
             test.Delete();//delete both to avoid testing overflow
             
             CategoryList table = new CategoryList();

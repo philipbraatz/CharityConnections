@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CC.Connections.BL
 {
-    public class Location : PL.Location
+    public class BLLocation : PL.Location
     {
         [DisplayName("Address")]
         public new string ContactInfoAddress { get; set; }
@@ -25,8 +25,8 @@ namespace CC.Connections.BL
             get { return ContactInfoAddress + " ," + ContactInfoCity + " ," + ContactInfoState; }
         }
 
-        public Location() { }
-        public Location(int location_ID)
+        public BLLocation() { }
+        public BLLocation(int location_ID)
         {
             this.Location_ID = location_ID;
             LoadId();
@@ -132,19 +132,19 @@ namespace CC.Connections.BL
             }
         }
 
-        public double distanceFrom(Location from)
+        public double distanceFrom(BLLocation from)
         {
             return MapAPI.GetDistanceFromLocations(this.Full_Location,from.Full_Location);
         }
 
-        public static double getDistanceBetween(Location start,Location end)
+        public static double getDistanceBetween(BLLocation start,BLLocation end)
         {
             return MapAPI.GetDistanceFromLocations(start.Full_Location, end.Full_Location);
         }
     }
 
     public class LocationList
-        : List<Location>
+        : List<BLLocation>
     {
         public void Load()
         {
@@ -152,7 +152,7 @@ namespace CC.Connections.BL
             {
                 using (DBconnections dc = new DBconnections())
                 {
-                    dc.Locations.ToList().ForEach(c => this.Add(new Location
+                    dc.Locations.ToList().ForEach(c => this.Add(new BLLocation
                     {
                         Location_ID = (int)c.Location_ID,
                         ContactInfoAddress = c.ContactInfoAddress,

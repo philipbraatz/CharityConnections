@@ -7,18 +7,18 @@ namespace CC.Connections.BL
 {
     //only developers should be inserting, updating and deleting type
     //The 2 main types are volunteer and charity
-    public class Member_Type : PL.Member_Type
+    public class BLMember_Type : PL.Member_Type
     {
         [DisplayName("Description")]
         public new string MemberTypeDescription { get; set; }
 
-        public Member_Type(int id)
+        public BLMember_Type(int id)
         {
             this.MemberType_ID = id;
             LoadId();
         }
 
-        public Member_Type() { }
+        public BLMember_Type() { }
 
         public int Insert()
         {

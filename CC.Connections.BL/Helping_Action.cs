@@ -7,20 +7,20 @@ using CC.Connections.PL;
 
 namespace CC.Connections.BL
 {
-    public class Helping_Action
+    public class BLHelping_Action
     {
         public int ID { get; set; }
-        public Category category { get; set; }
+        public BLCategory category { get; set; }
         //TODO ask team to rename Helping Action Desc to Action
         public string Action { get; set; }
 
-        public Helping_Action(){ Clear(); }
+        public BLHelping_Action(){ Clear(); }
         private void Clear()
         {
             Action = string.Empty;
-            category = new Category();
+            category = new BLCategory();
         }
-        public Helping_Action(int member_Action_Action_ID,bool debug =false)
+        public BLHelping_Action(int member_Action_Action_ID,bool debug =false)
         {
             this.ID = member_Action_Action_ID;
             LoadId(debug);
@@ -108,7 +108,7 @@ namespace CC.Connections.BL
                     Action = entry.HelpingActionDescription;
                     try
                     {
-                        category = new Category((int)entry.HelpingActionCategory_ID,debug);
+                        category = new BLCategory((int)entry.HelpingActionCategory_ID,debug);
                     }
                     catch(Exception)
                     {
@@ -130,7 +130,7 @@ namespace CC.Connections.BL
     }
 
     public class Helping_ActionList
-        : List<Helping_Action>
+        : List<BLHelping_Action>
     {
         //only used for preference lists
         int? member_ID { get; set; }
@@ -144,11 +144,11 @@ namespace CC.Connections.BL
                 using (DBconnections dc = new DBconnections())
                 {
                     if (dc.Helping_Action.ToList().Count != 0)
-                        dc.Helping_Action.ToList().ForEach(c => this.Add(new Helping_Action
+                        dc.Helping_Action.ToList().ForEach(c => this.Add(new BLHelping_Action
                         {
                             ID = c.Helping_Action_ID,
                             Action = c.HelpingActionDescription,
-                            category = new Category((int)c.HelpingActionCategory_ID)
+                            category = new BLCategory((int)c.HelpingActionCategory_ID)
                         }));
                 }
             }
@@ -168,7 +168,7 @@ namespace CC.Connections.BL
 
                     if (dc.Member_Action.ToList().Count != 0)
                         dc.Member_Action.Where(d => d.MemberActionMember_ID == memberID).ToList().ForEach(c =>
-                             this.Add(new Helping_Action((int)c.MemberActionAction_ID),debug));
+                             this.Add(new BLHelping_Action((int)c.MemberActionAction_ID),debug));
                 }
                 return this;
             }
@@ -196,7 +196,7 @@ namespace CC.Connections.BL
 
             using (DBconnections dc = new DBconnections())
             {
-                if (!Helping_Action.Exists(dc, actionID))
+                if (!BLHelping_Action.Exists(dc, actionID))
                     throw new Exception("Helping Action ID: "+actionID+" does not exist");
 
                 int memAct_ID =0;
@@ -210,7 +210,7 @@ namespace CC.Connections.BL
                     MemberActionMember_ID = member_ID
                 });
                 dc.SaveChanges();
-                this.Add(new Helping_Action(actionID),true);
+                this.Add(new BLHelping_Action(actionID),true);
             }
         }
 
@@ -221,14 +221,14 @@ namespace CC.Connections.BL
 
             using (DBconnections dc = new DBconnections())
             {
-                if (!Helping_Action.Exists(dc, actionID))
+                if (!BLHelping_Action.Exists(dc, actionID))
                     throw new Exception("Helping Action ID: " + actionID + " does not exist");
 
                 dc.Member_Action.Remove(dc.Member_Action.Where(
                     c => c.MemberActionMember_ID == member_ID &&
                     c.MemberActionAction_ID == actionID).FirstOrDefault());
                 dc.SaveChanges();
-                this.Remove(new Helping_Action(actionID),true);
+                this.Remove(new BLHelping_Action(actionID),true);
             }
         }
         //public void UpdateCategory(Category cat, string description)
@@ -257,21 +257,21 @@ namespace CC.Connections.BL
             member_ID = null;
         }
 
-        private void Add(Helping_Action item, bool overrideMethod = true)
+        private void Add(BLHelping_Action item, bool overrideMethod = true)
         {
             base.Add(item);
         }
-        private void Remove(Helping_Action item, bool overrideMethod = true)
+        private void Remove(BLHelping_Action item, bool overrideMethod = true)
         {
             base.Remove(item);
         }
-        public new void Add(Helping_Action item)
+        public new void Add(BLHelping_Action item)
         {
             if (member_ID != null)
                 throw new Exception("Currently being used as a prefrence list. Please use AddPrefrence instead");
             base.Add(item);
         }
-        public new void Remove(Helping_Action item)
+        public new void Remove(BLHelping_Action item)
         {
             if (member_ID != null)
                 throw new Exception("Currently being used as a prefrence list. Please use DeletePrefrence instead");

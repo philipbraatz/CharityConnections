@@ -4,17 +4,17 @@ using CC.Connections.PL;
 
 namespace CC.Connections.BL
 {
-    public class Preference : PL.Preference
+    public class BLPreference : PL.Preference
     {
         public new double Distance { get; set; }
 
-        public Preference(int ID)
+        public BLPreference(int ID)
         {
             this.Preference_ID = ID;
             LoadId();
         }
 
-        public Preference(){}
+        public BLPreference(){}
 
         public int Insert()
         {
@@ -29,13 +29,23 @@ namespace CC.Connections.BL
                     else
                         Preference_ID = 0;
 
-                    dc.Preferences.Add(this);
+                    dc.Preferences.Add(this.ToPL());
                     dc.SaveChanges();
                     return Preference_ID;
                 }
             }
             catch (Exception e) { throw e; }
         }
+
+        private PL.Preference ToPL()
+        {
+            return new Preference
+            {
+                Preference_ID =Preference_ID,
+                Distance =(decimal)Distance
+            };
+        }
+
         public int Delete()
         {
             try
