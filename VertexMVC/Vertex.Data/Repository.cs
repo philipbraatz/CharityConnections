@@ -392,7 +392,8 @@ namespace Vertex.Data
             bool oldState = context.AutoDetectChangesEnabled;
 
             context.AutoDetectChangesEnabled = false;
-            var result = Entity.Where(filter).FirstOrDefault();
+            //var result = Entity.Where(filter).FirstOrDefault();
+            T result=null;
             context.AutoDetectChangesEnabled = oldState;
 
             return result;

@@ -38,10 +38,11 @@ namespace Vertex.Service
 
         public IEnumerable<PortfolioCategory> GetActives()
         {
-            return (from c in categoryRepository.Table
-                    where c.IsActive && !c.IsDelete
-                    orderby c.Name
-                    select c).ToList();
+            //return (from c in categoryRepository.Table
+            //        where c.IsActive && !c.IsDelete
+            //        orderby c.Name
+            //        select c).ToList();
+            return new List<PortfolioCategory>();
         }
 
         public IEnumerable<PortfolioCategory> GetCategories()

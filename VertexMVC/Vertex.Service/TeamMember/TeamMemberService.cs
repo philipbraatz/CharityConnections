@@ -48,9 +48,10 @@ namespace Vertex.Service
 
         public IEnumerable<TeamMember> GetTeamMembers()
         {
-            return (from p in teamMemberRepository.Table
-                    orderby p.OrderNo ascending
-                    select p).ToList();
+            //return (from p in teamMemberRepository.Table
+            //        orderby p.OrderNo ascending
+            //        select p).ToList();
+            return new List<TeamMember>();
         }
     }
 }

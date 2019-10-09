@@ -63,13 +63,14 @@ namespace Vertex.Service
 
         public IEnumerable<ClientTestimonials> GetActiveClients()
         {
-            return (from p in testimonialsRepository.Table
-                    where p.IsActive &&
-                            !string.IsNullOrEmpty(p.TypeName) && p.TypeName == ClientTestimonialsType.OnlyClient.ToString() &&
-                            !string.IsNullOrEmpty(p.ClientName) &&
-                            p.ClientLogoId > 0
-                    orderby p.OrderNo ascending
-                    select p).ToList();
+            //return (from p in testimonialsRepository.Table
+            //        where p.IsActive &&
+            //                !string.IsNullOrEmpty(p.TypeName) && p.TypeName == ClientTestimonialsType.OnlyClient.ToString() &&
+            //                !string.IsNullOrEmpty(p.ClientName) &&
+            //                p.ClientLogoId > 0
+            //        orderby p.OrderNo ascending
+            //        select p).ToList();
+            return new List<ClientTestimonials>();
         }
 
         public IEnumerable<ClientTestimonials> GetTestimonials()

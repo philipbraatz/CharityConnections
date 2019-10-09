@@ -44,9 +44,10 @@ namespace Vertex.Service
 
         public IEnumerable<Job> GetJobs()
         {
-            var jobs = (from p in jobRepository.TableNoTracking
-                        orderby p.CreateDateUtc descending
-                        select p).ToList();
+            //var jobs = (from p in jobRepository.TableNoTracking
+            //            orderby p.CreateDateUtc descending
+            //            select p).ToList();
+            var jobs = new List<Job>();
 
             foreach (var job in jobs)
                 this.PrepareJob(job);

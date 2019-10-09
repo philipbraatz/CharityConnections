@@ -47,9 +47,10 @@ namespace Vertex.Service
 
         public IEnumerable<Portfolio> GetPortfolios()
         {
-            var portfolios = (from p in portfolioRepository.TableNoTracking
-                              orderby p.CreateDateUtc descending
-                              select p).ToList();
+            //var portfolios = (from p in portfolioRepository.TableNoTracking
+            //                  orderby p.CreateDateUtc descending
+            //                  select p).ToList();
+            var portfolios = new List<Portfolio>();
 
             foreach (var portfolio in portfolios)
                 this.SetPortfolio(portfolio);
