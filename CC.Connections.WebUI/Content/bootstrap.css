@@ -2750,7 +2750,9 @@ textarea.form-control {
         transition: none;
     }
 }
-
+/******************************************/
+/*Here is BUTTON code for hover  START*/
+/******************************************/
 .btn:hover {
     color: #919aa1;
     text-decoration: none;
@@ -3387,6 +3389,9 @@ input[type="button"].btn-block {
     transition: opacity 0.15s linear;
 }
 
+
+
+
 @media (prefers-reduced-motion: reduce) {
     .fade {
         -webkit-transition: none;
@@ -3778,6 +3783,13 @@ input[type="button"].btn-block {
         clip: rect(0, 0, 0, 0);
         pointer-events: none;
     }
+
+
+/******************************************/
+/*Here is BUTTON code for hover*/
+/******************************************/
+
+
 
 .input-group {
     position: relative;
@@ -4398,6 +4410,12 @@ input[type="button"].btn-block {
     }
 }
 
+/***********************************************/
+/*        NAVIGATION SECTION START             */
+/***********************************************/
+
+
+
 .nav {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -4593,6 +4611,10 @@ input[type="button"].btn-block {
     background: no-repeat center center;
     background-size: 100% 100%;
 }
+
+
+
+
 
 @media (max-width: 575.98px) {
     .navbar-expand-sm > .container,
