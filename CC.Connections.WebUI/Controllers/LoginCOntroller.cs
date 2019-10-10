@@ -14,10 +14,10 @@ namespace CC.Connections.WebUI.Controllers
         public ActionResult LoginView(string returnurl)
         {
             Password c = (Password)Session["member"];
-            
 
-            ViewBag.ReturnUrl = returnurl;
-            return View(new BLContactInfo(c.email));
+            return View();
+            //ViewBag.ReturnUrl = returnurl;
+            //return View(new BLContactInfo(c.email));
         }
 
         public ActionResult SignUpView(string returnurl)
