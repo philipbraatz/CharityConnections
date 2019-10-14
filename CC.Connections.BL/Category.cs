@@ -4,263 +4,134 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CC.Connections.PL;
-using System.Diagnostics;
 using System.ComponentModel;
 
 namespace CC.Connections.BL
 {
-    public class BLCategory : PL.Category
+    //2 hours
+    public class AbsCategory : ColumnEntry<PL.Category>
     {
-        //You have to redeclare the varible to give it a display name
-        [DisplayName("Description")]
-        public new string Category_Desc { get; set; }
+        //Parameters
 
-        public BLCategory() { }
-        public BLCategory(int memberCat_ID)
+        //id
+        public new int ID
         {
-            this.Category_ID = memberCat_ID;
+            get { return (int)base.ID; }
+            set { base.ID = value; }
+        }
+
+        //other parameters from PL.Category
+        [DisplayName("Description")]
+        //must be the same name as the PL class
+        public string Category_Desc
+        {
+            get { return (string)base.getProperty("Category_Desc"); }
+            set { setProperty("Category_Desc", value); }
+        }
+
+        public AbsCategory() :
+            base(new PL.Category()){ }
+        public AbsCategory(PL.Category entry) :
+            base(entry) { }
+        public AbsCategory(int id) :
+            base(new DBconnections().Categories, id)
+        {
+            Clear();
+            ID = id;
             LoadId();
         }
-        public BLCategory(int memberCat_ID,bool debug)
-        {
-            this.Category_ID = memberCat_ID;
-            LoadId(debug);
-        }
+        //turns a PL class into a BL equivelent example: 
+        //Category pl = new Category();
+        //...
+        //AbsCategory bl = (AbsCategory)pl
+        public static implicit operator AbsCategory(PL.Category entry)
+        {return new AbsCategory(entry);}
 
-        private bool Exists(DBconnections dc)
-        {
-            return dc.Categories.Where(c => c.Category_ID == Category_ID).FirstOrDefault() != null;
-        }
-
-        public int Insert()
-        {
-            try
-            {
-                //if (Description == string.Empty)
-                //    throw new Exception("Description cannot be empty");
-                using (DBconnections dc = new DBconnections())
-                {
-                    if (dc.Categories.ToList().Count > 0)
-                        Category_ID = dc.Categories.Max(c => c.Category_ID) + 1;//unique id
-                    else
-                        Category_ID = 0;
-
-                    dc.Categories.Add(this.ToPL());
-                    return dc.SaveChanges();
-                }
+        public void LoadId(){
+            using (DBconnections dc = new DBconnections()){
+                base.LoadId(dc.Categories);
             }
-            catch (Exception e) { throw e; }
         }
-
-        private PL.Category ToPL()
-        {
-            return new PL.Category {
-                Category_Desc =Category_Desc,
-                Category_ID =Category_ID
-            };
-        }
-
-        public int Delete()
-        {
-            try
-            {
-                using (DBconnections dc = new DBconnections())
-                {
-                    //if (this.ID == Guid.Empty)
-                    //    throw new Exception("ID is invaild");
-
-                    dc.Categories.Remove(this.ToPL());
-                    return dc.SaveChanges();
-                }
+        public int Insert() {
+            using (DBconnections dc = new DBconnections()){
+                return base.Insert(dc, dc.Categories);
             }
-            catch (Exception e) { throw e; }
         }
         public int Update()
         {
-            try
+            using (DBconnections dc = new DBconnections())
             {
-                //if (Description == string.Empty)
-                //    throw new Exception("Description cannot be empty");
-                using (DBconnections dc = new DBconnections())
-                {
-                    //if (this.ID == Guid.Empty)
-                    //    throw new Exception("ID is invaild");
-
-                    PL.Category entry = dc.Categories.Where(c => c.Category_ID == this.Category_ID).FirstOrDefault();
-                    entry.Category_Desc = Category_Desc;
-
-                    return dc.SaveChanges();
-                }
+                return base.Update(dc, dc.Categories);
             }
-            catch (Exception e) { throw e; }
         }
-        public void LoadId(bool debug =false)
+        public int Delete()
         {
-            try
+            using (DBconnections dc = new DBconnections())
             {
-                using (DBconnections dc = new DBconnections())
-                {
-                    //if (this.ID == Guid.Empty)
-                    //    throw new Exception("ID is invaild");
-
-                    PL.Category entry = dc.Categories.FirstOrDefault(c => c.Category_ID == this.Category_ID);
-                    if (entry == null)
-                        if (!debug)
-                            throw new Exception("Category does not exist ID: " + Category_ID);
-                        else
-                        {
-                            Debug.WriteLine("Category does not exist ID: " + Category_ID);
-                            entry = new PL.Category { Category_ID = Category_ID, Category_Desc = "DEBUG: not found"};
-                        }
-
-                    Category_Desc = entry.Category_Desc;
-                }
-            }
-            catch (Exception e)
-            {
-                throw e;
+                //dc.Categories.Remove(this);
+                //return dc.SaveChanges();
+                return base.Delete(dc, dc.Categories);
             }
         }
     }
 
-    public class CategoryList
-        : List<BLCategory>
+    public class AbsCategoryList : AbsList<AbsCategory, Category>
     {
-        private int? member_ID { get; set; }//only used for preferences
-        private const string PREFERENCE_LOAD_ERROR = "Preferences not loaded, please loadPrefences with a Member ID";
-        public void LoadList()
+        public new void LoadAll()
         {
-            try
-            {
-                this.Clear();
-                using (DBconnections dc = new DBconnections())
-                {
-                    if (dc.Categories.ToList().Count != 0)
-                        dc.Categories.ToList().ForEach(c => this.Add((BLCategory)c));
-                }
-            }
-            catch (Exception e) { throw e; }
-        }
-
-        public CategoryList LoadPreferences(int memberID,bool debug =false)
-        {
-            try
-            {
-                this.Clear();
-                member_ID = (int?)memberID;
-                using (DBconnections dc = new DBconnections())
-                {
-                    if (dc.Categories.ToList().Count != 0)
-                        dc.Preferred_Category.Where(d => d.MemberCat_Member_ID == memberID).ToList().ForEach(c =>
-                             this.Add(new BLCategory((int)c.MemberCat_Category_ID, debug),true));
-                }
-                return this;
-            }
-            catch (Exception e) { throw e; }
-        }
-        public void AddPreference(int categoryID,bool debug =false)
-        {
-            if (member_ID == null)
-                throw new Exception(PREFERENCE_LOAD_ERROR);
-
             using (DBconnections dc = new DBconnections())
             {
-                int newID = 0;
-                if (dc.Preferred_Category.ToList().Count != 0)
-                    newID = dc.Preferred_Category.Max(c => c.PreferredCategory_ID)+1;
-
-                dc.Preferred_Category.Add(new Preferred_Category {
-                PreferredCategory_ID = newID,
-                MemberCat_Member_ID = member_ID,
-                MemberCat_Category_ID = categoryID
-                });
-                this.Add(new BLCategory(categoryID),true);
-                dc.SaveChanges();
+                //base.LoadAll(dc.Categories);
+                foreach (var c in dc.Categories.ToList())
+                    base.Add(new AbsCategory(c));
             }
         }
-
-        public void DeletePreference( int categoryID)
+    }
+    public class AbsCategoryPreferences : AbsListJoin<AbsCategory, Category, Preferred_Category>
+    {
+        int memberID
         {
-            if (member_ID == null)
-                throw new Exception(PREFERENCE_LOAD_ERROR);
+            get { return (int)joinGrouping_ID; }
+            set { joinGrouping_ID = value; }
+        }
 
-            using (DBconnections dc = new DBconnections())
-            {
-                PL.Preferred_Category prefCat = dc.Preferred_Category.Where(
-                    c => c.MemberCat_Member_ID == member_ID &&
-                    c.MemberCat_Category_ID == categoryID).FirstOrDefault();
-                if (prefCat != null)
-                    dc.Preferred_Category.Remove(prefCat);
-                else//TODO FIX
-                    categoryID= categoryID;//throw new Exception("Prefferred_Category category "+categoryID+" does not exist for Member "+member_ID);
-                this.Remove(this.Where(c => c.Category_ID == categoryID).FirstOrDefault(),true);//might need to be casted to PL first
-                dc.SaveChanges();
+
+        public AbsCategoryPreferences(int member_id)
+            : base("MemberCat_Category_ID",member_id, "MemberCat_Member_ID")
+        {
+            Preferred_Category c = new Preferred_Category { MemberCat_Member_ID = member_id };
+            base.joinGrouping_ID = c.MemberCat_Member_ID;
+        }
+
+        public new void LoadPreferences()
+        { LoadPreferences((int)base.joinGrouping_ID); }
+        public new void LoadPreferences(int member_id){
+            using (DBconnections dc = new DBconnections()){
+                memberID = member_id;
+                if (dc.Categories.ToList().Count != 0)
+                    dc.Preferred_Category
+                        .Where(c => c.MemberCat_Member_ID == memberID).ToList()
+                        .ForEach(b => base.Add(new AbsCategory(dc.Categories
+                            .Where(d =>
+                                d.Category_ID == b.MemberCat_Category_ID
+                            ).FirstOrDefault()))
+                        );
             }
         }
-
-        internal void DeleteAllPreferences()
-        {
-            if (member_ID == null)
-                throw new Exception(PREFERENCE_LOAD_ERROR);
-
-            using (DBconnections dc = new DBconnections())
-            {
-                dc.Preferred_Category.RemoveRange(dc.Preferred_Category.Where(c => 
-                c.MemberCat_Member_ID == member_ID).ToList());
-                this.Clear();
-                dc.SaveChanges();
+        public new void DeleteAllPreferences(){
+            using (DBconnections dc = new DBconnections()){
+                base.DeleteAllPreferences(dc, dc.Preferred_Category);
             }
         }
-
-        public void UpdateCategory(BLCategory cat, string description)
-        {
-            UpdateCategory(cat.Category_ID, description);
-
+        public new void Add(AbsCategory category){
+            using (DBconnections dc = new DBconnections()){
+                base.Add(dc, dc.Preferred_Category,new Preferred_Category(), category);
+            }
         }
-        public void UpdateCategory(int catID,string description)
-        {
-            BLCategory cthis = this.Where(c => c.Category_ID == catID).FirstOrDefault();
-            cthis.Category_Desc = description;
-            cthis.Update();
-        }
-
-        private bool MemberExists(DBconnections dc, int member_ID)
-        {
-            return dc.Preferred_Category.Where(c => 
-                c.MemberCat_Member_ID == member_ID
-            ).FirstOrDefault() != null;
-        }
-
-        public new void Clear()
-        {
-            base.Clear();
-            member_ID = null;
-        }
-        
-        //Calls base method for interal use
-        //could be replaced with base.Add()
-        private void Add(BLCategory item,bool overrideMethod =true)
-        {
-            base.Add(item);
-        }
-        private void Remove(BLCategory item, bool overrideMethod = true)
-        {
-            base.Remove(item);
-        }
-
-        //public Add and Remove list
-        //could get confused with preference list because this is shared
-        public new void Add(BLCategory item)
-        {
-            if (member_ID != null)
-                throw new Exception("Currently being used as a preference list. Please use AddPrefrence instead");
-            base.Add(item);
-        }
-        public new void Remove(BLCategory item)
-        {
-            if (member_ID != null)
-                throw new Exception("Currently being used as a preference list. Please use DeletePrefrence instead");
-            base.Remove(item);
+        public new void Remove(AbsCategory category){
+            using (DBconnections dc = new DBconnections()){
+                base.Remove(dc, dc.Preferred_Category,category);
+            }
         }
     }
 }

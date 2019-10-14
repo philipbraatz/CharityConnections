@@ -55,7 +55,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractColumn.cs" />
     <Compile Include="Category.cs" />
+    <Compile Include="CharityEvent.cs" />
+    <Compile Include="AbstractionCRUD.cs" />
     <Compile Include="Charity.cs" />
     <Compile Include="ContactInfo.cs" />
     <Compile Include="Helping_Action.cs" />
@@ -71,7 +74,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Role.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

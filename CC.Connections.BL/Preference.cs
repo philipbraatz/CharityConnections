@@ -4,102 +4,68 @@ using CC.Connections.PL;
 
 namespace CC.Connections.BL
 {
-    public class BLPreference : PL.Preference
+    public class AbsPreference : ColumnEntry<PL.Preference>
     {
-        public new double Distance { get; set; }
-
-        public BLPreference(int ID)
+        //id
+        public new int ID
         {
-            this.Preference_ID = ID;
+            get { return (int)base.ID; }
+            set { base.ID = value; }
+        }
+        public new decimal Distance {
+            get { return (decimal)base.getProperty("Distance"); }
+            set { setProperty("Distance", value); }
+        }
+
+        public AbsPreference() :
+            base(new PL.Preference()) { }
+        public AbsPreference(PL.Preference entry) :
+            base(entry){ }
+        public AbsPreference(int id) :
+            base(new DBconnections().Preferences, id)
+        {
+            Clear();
+            ID = id;
             LoadId();
         }
+        public static implicit operator AbsPreference(PL.Preference entry)
+        { return new AbsPreference(entry); }
 
-        public BLPreference(){}
-
-        public int Insert()
-        {
-            try
-            {
-                //if (Description == string.Empty)
-                //    throw new Exception("Description cannot be empty");
-                using (DBconnections dc = new DBconnections())
-                {
-                    if (dc.Preferences.ToList().Count > 0)
-                        Preference_ID = dc.Preferences.Max(c => c.Preference_ID) + 1;//unique id
-                    else
-                        Preference_ID = 0;
-
-                    dc.Preferences.Add(this.ToPL());
-                    dc.SaveChanges();
-                    return Preference_ID;
-                }
+        public void LoadId(){
+            using (DBconnections dc = new DBconnections()){
+                base.LoadId(dc.Preferences);
             }
-            catch (Exception e) { throw e; }
         }
-
-        private PL.Preference ToPL()
-        {
-            return new Preference
-            {
-                Preference_ID =Preference_ID,
-                Distance =(decimal)Distance
-            };
-        }
-
-        public int Delete()
-        {
-            try
-            {
-                using (DBconnections dc = new DBconnections())
-                {
-                    //if (this.ID == Guid.Empty)
-                    //    throw new Exception("ID is invaild");
-
-                    dc.Preferences.Remove(dc.Preferences.Where(c => c.Preference_ID == Preference_ID).FirstOrDefault());
-                    this.Distance = 0;
-                    return dc.SaveChanges();
-                }
+        public int Insert() {
+            using (DBconnections dc = new DBconnections()) {
+                return base.Insert(dc, dc.Preferences);
             }
-            catch (Exception e) { throw e; }
         }
         public int Update()
         {
-            try
+            using (DBconnections dc = new DBconnections())
             {
-                //if (Description == string.Empty)
-                //    throw new Exception("Description cannot be empty");
-                using (DBconnections dc = new DBconnections())
-                {
-                    //if (this.ID == Guid.Empty)
-                    //    throw new Exception("ID is invaild");
-
-                    PL.Preference entry = dc.Preferences.Where(c => c.Preference_ID == this.Preference_ID).FirstOrDefault();
-                    entry.Distance = (decimal)Distance;
-
-                    return dc.SaveChanges();
-                }
+                return base.Update(dc, dc.Preferences);
             }
-            catch (Exception e) { throw e; }
         }
-        public void LoadId()
+        public int Delete()
         {
-            try
+            using (DBconnections dc = new DBconnections())
             {
-                using (DBconnections dc = new DBconnections())
-                {
-                    //if (this.ID == Guid.Empty)
-                    //    throw new Exception("ID is invaild");
-
-                    PL.Preference entry = dc.Preferences.FirstOrDefault(c => c.Preference_ID == this.Preference_ID);
-                    if (entry == null)
-                        throw new Exception("Preference does not exist");
-
-                    Distance = (double)entry.Distance;
-                }
+                //dc.Preferences.Remove(this);
+                //return dc.SaveChanges();
+                return base.Delete(dc, dc.Preferences);
             }
-            catch (Exception e)
+        }
+    }
+
+    public class AbsPreferenceList : AbsList<AbsPreference, Preference>
+    {
+        public new void LoadAll()
+        {
+            using (DBconnections dc = new DBconnections())
             {
-                throw e;
+                base.LoadAll(dc.Preferences);
             }
         }
     }

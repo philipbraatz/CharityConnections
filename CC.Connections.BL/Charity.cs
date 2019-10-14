@@ -12,7 +12,7 @@ using System.ComponentModel;
 
 namespace CC.Connections.BL
 {
-    public class Charity : BLContactInfo
+    public class Charity : AbsContactInfo
     {
         public int ID { get; set; }
         public int Contact_ID { get; set; }

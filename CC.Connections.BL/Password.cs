@@ -58,10 +58,9 @@ namespace CC.Connections.BL
 
                     PL.Log_in entry = dc.Log_in.FirstOrDefault(c => c.ContactInfoEmail == this.email);
                     if (entry == null)
-                        throw new Exception("Log_in does not exist");
+                        throw new Exception("Log_in "+ this.email + " does not exist");
 
                     this.hash = entry.LogInPassword;
-                    this.email = entry.ContactInfoEmail;
                 }
             }
             catch (Exception e)

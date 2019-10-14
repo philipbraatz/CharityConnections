@@ -8,16 +8,34 @@ using System.Threading.Tasks;
 
 namespace CC.Connections.BL
 {
-    public class BLLocation : PL.Location
+    public class AbsLocation : ColumnEntry<PL.Location>
     {
+        //id
+        public new int ID
+        {
+            get { return (int)base.ID; }
+            set { base.ID = value; }
+        }
         [DisplayName("Address")]
-        public new string ContactInfoAddress { get; set; }
+        public new string ContactInfoAddress {
+            get { return (string)base.getProperty("ContactInfoAddress"); }
+            set { setProperty("ContactInfoAddress", value); }
+        }
         [DisplayName("City")]
-        public new string ContactInfoCity { get; set; }
+        public new string ContactInfoCity {
+            get { return (string)base.getProperty("ContactInfoCity"); }
+            set { setProperty("ContactInfoCity", value); }
+        }
         [DisplayName("State")]
-        public new string ContactInfoState { get; set; }
+        public new string ContactInfoState {
+            get { return (string)base.getProperty("ContactInfoState"); }
+            set { setProperty("ContactInfoState", value); }
+        }
         [DisplayName("Zip")]
-        public new string ContactInfoZip { get; set; }
+        public new string ContactInfoZip {
+                        get { return (string)base.getProperty("ContactInfoZip"); }
+            set { setProperty("ContactInfoZip", value); }
+        }
         [DisplayName("Location")]
         public string Full_Location
         {
@@ -25,144 +43,60 @@ namespace CC.Connections.BL
             get { return ContactInfoAddress + " ," + ContactInfoCity + " ," + ContactInfoState; }
         }
 
-        public BLLocation() { }
-        public BLLocation(int location_ID)
+        public AbsLocation() :
+            base(new Location()){ }
+        public AbsLocation(PL.Location entry) :
+            base(entry)
+        { }
+        public AbsLocation(int id) :
+            base(new DBconnections().Locations,id)
         {
-            this.Location_ID = location_ID;
+            Clear();
+            ID = id;
             LoadId();
         }
 
-        public int Insert()
-        {
-            try
-            {
-                //if (Email == string.Empty)
-                //    throw new Exception("Email cannot be empty");
-                using (DBconnections dc = new DBconnections())
-                {
-                    //if (dc.Locations.Where(c => c.Location_ID == ID).Count() != 0)
-                    //    throw new Exception(Email + " is already in use, please use a different one");
-                    if (dc.Locations.ToList().Count > 0)
-                        Location_ID = dc.Locations.Max(c => c.Location_ID) + 1;//unique id
-                    else
-                        Location_ID = 0;
+        public static implicit operator AbsLocation(PL.Location entry)
+        { return new AbsLocation(entry); }
 
-                    PL.Location entry = new PL.Location
-                    {
-                        Location_ID = Location_ID,
-                        ContactInfoAddress = ContactInfoAddress,
-                        ContactInfoCity = ContactInfoCity,
-                        ContactInfoState = ContactInfoState,
-                        ContactInfoZip = ContactInfoZip
-                    };
+        public int Insert(){
+            using (DBconnections dc = new DBconnections()){
+                return base.Insert(dc, dc.Locations);
+        }}
+        public int Delete(){
+            using (DBconnections dc = new DBconnections()){
+                return base.Delete(dc, dc.Locations);
+        }}
 
-                    dc.Locations.Add(entry);
-                    dc.SaveChanges();
-                    return Location_ID;
-                }
-            }
-            catch (Exception e) { throw e; }
-        }
-        public int Delete()
-        {
-            try
-            {
-                using (DBconnections dc = new DBconnections())
-                {
-                    //if (this.ID == string.Empty)
-                    //    throw new Exception("Email is invaild");
+        public int Update(){
+            using (DBconnections dc = new DBconnections()){
+                return base.Update(dc, dc.Locations);
+        }}
 
-                    dc.Locations.Remove(dc.Locations.Where(c => c.Location_ID == Location_ID).FirstOrDefault());
-                    this.ContactInfoAddress = string.Empty;
-                    this.ContactInfoCity = string.Empty;
-                    this.ContactInfoState = string.Empty;
-                    this.ContactInfoZip = string.Empty;
-                    return dc.SaveChanges();
-                }
-            }
-            catch (Exception e) { throw e; }
-        }
+        public void LoadId() {
+            using (DBconnections dc = new DBconnections()){
+                base.LoadId(dc.Locations);
+        }}
 
-        public int Update()
-        {
-            try
-            {
-                //if (Email == string.Empty)
-                //    throw new Exception("Description cannot be empty");
-                using (DBconnections dc = new DBconnections())
-                {
-                    //if (this.ID == Guid.Empty)
-                    //    throw new Exception("ID is invaild");
-
-                    PL.Location entry = dc.Locations.Where(c => c.Location_ID == this.Location_ID).FirstOrDefault();
-                    entry.Location_ID = Location_ID;
-                    entry.ContactInfoAddress = ContactInfoAddress;
-                    entry.ContactInfoCity = ContactInfoCity;
-                    entry.ContactInfoState = ContactInfoState;
-                    entry.ContactInfoZip = ContactInfoZip;
-
-                    return dc.SaveChanges();
-                }
-            }
-            catch (Exception e) { throw e; }
-        }
-
-        public void LoadId()
-        {
-            try
-            {
-                using (DBconnections dc = new DBconnections())
-                {
-                    //if (this.Email == string.Empty)
-                    //    throw new Exception("Email is not set");
-                    PL.Location entry = dc.Locations.FirstOrDefault(c => c.Location_ID == this.Location_ID);
-                    if (entry == null)
-                        throw new Exception("Location does not exist: Key '" + this.Location_ID + "'"); ;
-
-                    Location_ID = (int)entry.Location_ID;
-                    ContactInfoAddress = entry.ContactInfoAddress;
-                    ContactInfoCity = entry.ContactInfoCity;
-                    ContactInfoState = entry.ContactInfoState;
-                    ContactInfoZip = entry.ContactInfoZip;        
-                }
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
-        public double distanceFrom(BLLocation from)
+        public double distanceFrom(AbsLocation from)
         {
             return MapAPI.GetDistanceFromLocations(this.Full_Location,from.Full_Location);
         }
 
-        public static double getDistanceBetween(BLLocation start,BLLocation end)
+        public static double getDistanceBetween(AbsLocation start,AbsLocation end)
         {
             return MapAPI.GetDistanceFromLocations(start.Full_Location, end.Full_Location);
         }
     }
 
-    public class LocationList
-        : List<BLLocation>
+    public class AbsLocationList : AbsList<AbsLocation, Location>
     {
-        public void Load()
+        public new void LoadAll()
         {
-            try
+            using (DBconnections dc = new DBconnections())
             {
-                using (DBconnections dc = new DBconnections())
-                {
-                    dc.Locations.ToList().ForEach(c => this.Add(new BLLocation
-                    {
-                        Location_ID = (int)c.Location_ID,
-                        ContactInfoAddress = c.ContactInfoAddress,
-                        ContactInfoCity = c.ContactInfoCity,
-                        ContactInfoState = c.ContactInfoState,
-                        ContactInfoZip = c.ContactInfoZip,
-                }));
-                }
+                base.LoadAll(dc.Locations);
             }
-            catch (Exception e) { throw e; }
         }
-    }
+    } 
 }
