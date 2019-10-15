@@ -28,7 +28,10 @@ namespace CC.Connections.BL
         public int LocationID { get; set; }
         [DisplayName("Charities Requirements")]
         public string Requirements { get; set; }
-        
+        [DisplayName("Charity Email")]
+        public string Ch_Email { get; set; }
+        public Password Password { get; set; }
+
         public string ContactName;
         public string CategoryName;
         public string LocationZip;
@@ -48,6 +51,7 @@ namespace CC.Connections.BL
         private new void Clear()
         {
             Contact_ID = 0;
+            Ch_Email = string.Empty;
             EIN = string.Empty;
             Deductibility = false;
             URL = string.Empty;
@@ -59,6 +63,65 @@ namespace CC.Connections.BL
             CategoryName = string.Empty;
             LocationZip = string.Empty;
             LocationCityState = string.Empty;
+        }
+
+        public void ChMember(string chEmail, string password = "", int member_type = 2, bool hashed = false, bool debug = false)
+        {
+            //get ID and password from other tables
+            try
+            {
+                using (DBconnections dc = new DBconnections())
+                {
+                    Clear();
+
+                    //set new id for prefered lists
+                    if (dc.Charities.ToList().Count > 0)
+                        ID = dc.Charities.Max(c => c.Charity_ID) + 1;
+                    else
+                        ID = 0;//first entry                    
+
+                    //try to load existing ID
+                    PL.Charity chID = dc.Charities.Where(ch => ch.Charity_Email == chEmail).FirstOrDefault();
+                    PL.Charity chMID;
+                    if (chID != null)
+                    {
+                        chMID = dc.Charities.Where(c => c.Charity_ID == chID.Charity_ID).FirstOrDefault();
+                        if (chMID != null)
+                            ID = chMID.Charity_ID;
+                    }
+
+                    this.Ch_Email = chEmail;
+                    if (password != string.Empty)
+                        Password = new Password(chEmail, password, hashed); //standard
+                    else
+                        Password = new Password(chEmail, false); //new      
+                    
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public void ChMember(string email)
+        {
+            //get ID and password from other tables
+            try
+            {
+                using (DBconnections dc = new DBconnections())
+                {
+                    PL.Charity chID = dc.Charities.Where(ch => ch.Charity_Email == Ch_Email).FirstOrDefault();
+                    if (chID == null)
+                        throw new Exception("Email " + email + " does not have a charity info");
+                    
+                    this.LoadId(email);
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public void LoadContactName(int contactID)
