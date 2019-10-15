@@ -6,7 +6,7 @@ using CC.Connections.BL;
 
 namespace CC.Connections.WebUI.Model
 {
-    public class ContactInfoSignup : BLContactInfo
+    public class ContactInfoSignup : AbsContactInfo
     {
         public Password password { get; set; }
         //maybe add location 

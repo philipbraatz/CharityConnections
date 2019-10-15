@@ -14,10 +14,13 @@ namespace CC.Connections.WebUI.Controllers
         public ActionResult LoginView(string returnurl)
         {
             Password c = (Password)Session["member"];
-
-            return View();
+            if (c != null)
+                return View(c);
+            else
+                return View();
+            //return View();
             //ViewBag.ReturnUrl = returnurl;
-            //return View(new BLContactInfo(c.email));
+
         }
 
         public ActionResult SignUpView(string returnurl)
@@ -25,7 +28,7 @@ namespace CC.Connections.WebUI.Controllers
             ViewBag.ReturnUrl = returnurl;
             return View(new ContactInfoSignup());
         }
-
+        
         public ActionResult LogoutView()
         {
             if (HttpContext.Session["member"] == null)
@@ -75,7 +78,7 @@ namespace CC.Connections.WebUI.Controllers
         public ActionResult SignUpView(ContactInfoSignup con)
         {
             BLMember newMember = new BLMember(con.ContactInfo_Email, con.password.Pass, 1,true);
-            newMember.setContactInfo((BLContactInfo)con);
+            newMember.setContactInfo((AbsContactInfo)con);
             newMember.Insert();
 
             Session["member"] = newMember.Password;

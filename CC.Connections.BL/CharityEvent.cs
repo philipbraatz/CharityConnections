@@ -7,12 +7,12 @@ using CC.Connections.PL;
 
 namespace CC.Connections.BL
 {
-    public class CharityEvent : BLContactInfo
+    public class CharityEvent : AbsContactInfo
     {
         public int Event_ID { get; set; }
         public int Charity_ID { get; set; }//only the id 
         public string CharityEventName { get; set; }
-        public BLLocation location { get; set; }
+        public AbsLocation location { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string CharityEventStatus { get; set; }
@@ -20,12 +20,26 @@ namespace CC.Connections.BL
 
 
         public CharityEvent() { }
-        public CharityEvent(int charity_ID)
+        public CharityEvent(Contact_Info contact)
         {
-            this.Event_ID = charity_ID;
+            base.ContactInfo_Email = contact.ContactInfo_Email;
+            base.ContactInfo_FName = contact.ContactInfo_FName;
+            base.contact_ID = contact.Contact_Info_ID;
+            base.ContactInfo_LName = contact.ContactInfo_LName;
+            base.ContactInfo_Phone = contact.ContactInfo_Phone;
+            base.DateOfBirth = (DateTime)contact.DateOfBirth;
+        }
+        public CharityEvent(int charity_event_ID)
+        {
+            this.Event_ID = charity_event_ID;
             LoadId();
         }
 
+        public static implicit operator CharityEvent(PL.Charity_Event entry)
+        { return new CharityEvent(entry.CharityEvent_ID); }
+
+        //public static implicit operator CharityEvent(PL.Charity entry)
+        //{ return new CharityEvent(entry.Charity_Contact_ID); }
         public static bool Exists(DBconnections dc, int eventID)
         {
             return dc.Charity_Event.Where(c => c.CharityEventCharity_ID == eventID).FirstOrDefault() != null;
@@ -47,8 +61,8 @@ namespace CC.Connections.BL
                     dc.Charity_Event.Add(new Charity_Event{
                         CharityEvent_ID = this.Event_ID,
                         CharityEventCharity_ID =this.Charity_ID,
-                        CharityEventLocation_ID = this.location.Location_ID,
-                        CharityEventContactInfo_ID = this.Contact_Info_ID,
+                        CharityEventLocation_ID = this.location.ID,
+                        CharityEventContactInfo_ID = this.contact_ID,
                         CharityEventStartDate = this.StartDate,
                         CharityEventEndDate = this.EndDate,
                         CharityEventStatus = this.CharityEventStatus,
@@ -145,7 +159,7 @@ namespace CC.Connections.BL
                         {
                             Event_ID = c.CharityEvent_ID,
                             Charity_ID = (int)c.CharityEventCharity_ID,
-                            Contact_Info_ID = (int)c.CharityEventContactInfo_ID
+                            contact_ID = (int)c.CharityEventContactInfo_ID
                         }));
                 }
             }
@@ -168,7 +182,7 @@ namespace CC.Connections.BL
                              this.Add(new CharityEvent {
                                  Event_ID =c.CharityEvent_ID,
                                  Charity_ID = (int)c.CharityEventCharity_ID,
-                                 Contact_Info_ID = (int)c.CharityEventContactInfo_ID,
+                                 contact_ID = (int)c.CharityEventContactInfo_ID,
                                  StartDate = (DateTime)c.CharityEventStartDate,
                                  EndDate = (DateTime)c.CharityEventEndDate,
                                  CharityEventStatus = c.CharityEventStatus,
@@ -210,9 +224,9 @@ namespace CC.Connections.BL
 
                 dc.Charity_Event.Add(new Charity_Event {
                     CharityEventCharity_ID = evnt.Charity_ID,
-                    CharityEventContactInfo_ID =evnt.Contact_Info_ID,
+                    CharityEventContactInfo_ID =evnt.contact_ID,
                     CharityEventEndDate =evnt.EndDate,
-                    CharityEventLocation_ID =evnt.location.Location_ID,
+                    CharityEventLocation_ID =evnt.location.ID,
                     CharityEventName = evnt.CharityEventName,
                     CharityEventRequirements =evnt.CharityEventRequirements,
                     CharityEventStartDate =evnt.StartDate,
@@ -231,8 +245,8 @@ namespace CC.Connections.BL
 
             using (DBconnections dc = new DBconnections())
             {
-                if (!BLHelping_Action.Exists(dc, actionID))
-                    throw new Exception("Helping Action ID: " + actionID + " does not exist");
+                //if (!AbsHelping_Action.Exists(dc, actionID))
+                //    throw new Exception("Helping Action ID: " + actionID + " does not exist");
 
                 dc.Member_Action.Remove(dc.Member_Action.Where(
                     c => c.MemberActionMember_ID == charity_ID &&

@@ -16,9 +16,10 @@ namespace CC.Connections.BL.Test
         public const int INT1 = -7;
         public const int INT2 = -22;
 
-        public const int CATEGORY_ID = -1;
-        public const int ACTION1 = -1;
-        public const int ACTION2 = -2;
+        public const int CATEGORY_ID = 0;
+        public const int ACTION_ID = 0;
+        public const int ACTION1 = 0;
+        public const int ACTION2 = 1;
         public const int GUEST_ID = 3;
 
 
@@ -31,24 +32,27 @@ namespace CC.Connections.BL.Test
                 ContactInfo_FName = VALUE1,
                 ContactInfo_LName = VALUE2
             };
-            newt.Prefered_helping_Actions.AddPreference(ACTION1,true);
             newt.Member_Type.MemberTypeDescription = VALUE1;
             newt.Pref.Distance = INT1;
-            newt.Prefered_Categories.AddPreference(CATEGORY_ID,true);
+
             newt.Location.ContactInfoCity = VALUE1;
+
+            newt.Insert();
 
             //CharityList loadChar = new CharityList();
             //loadChar.load();
             //newt.Prefered_Charity_ID_List.Add(loadChar[0].ID);
 
-            newt.Insert();
+            newt.Prefered_helping_Actions.Add(new AbsHelping_Action(ACTION1));
+            newt.Prefered_Categories.Add(new AbsCategory(CATEGORY_ID));
+            newt.Prefered_helping_Actions.Add(new AbsHelping_Action(ACTION_ID));
         }
 
         [TestMethod]
         public void LoadAll()
         {
             MemberList table = new MemberList();
-            table.LoadList();
+           table.LoadList();
 
             Assert.AreNotEqual(0, table.Count);
 

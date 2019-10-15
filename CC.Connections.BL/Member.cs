@@ -7,18 +7,18 @@ using CC.Connections.PL;
 
 namespace CC.Connections.BL
 {
-    public class BLMember : BLContactInfo
+    public class BLMember : AbsContactInfo
     {
-        public int ID { get; set; }
+        public new int ID { get; set; }
         public Password Password { get; set; }
-        public CategoryList Prefered_Categories { get; set; }
+        public AbsCategoryPreferences Prefered_Categories { get; set; }
         public CharityList Prefered_Charities { get; set; }
-        public Helping_ActionList Prefered_helping_Actions { get; set; }
-        public BLMember_Type Member_Type { get; set; }
+        public AbsMemberActionList Prefered_helping_Actions { get; set; }
+        public AbsMember_Type Member_Type { get; set; }
         //depreciated
         //public Role Role { get; set; }
-        public BLPreference Pref { get; set; }
-        public BLLocation Location { get; set; }
+        public AbsPreference Pref { get; set; }
+        public AbsLocation Location { get; set; }
 
         internal static bool Exists(DBconnections dc, int id)
         {
@@ -29,6 +29,23 @@ namespace CC.Connections.BL
         public BLMember()
         {
             Clear();
+        }
+        public BLMember(Contact_Info entry) :
+            base(entry)
+        { }
+        public BLMember(int member_id,string email,PL.Member entry)
+        {
+            ID = entry.Member_ID;
+            Clear();
+
+            Member_Type = new AbsMember_Type((int)entry.MemberType_ID);
+            Pref = new AbsPreference((int)entry.MemberPreference_ID);
+            Location = new AbsLocation((int)entry.Location_ID);
+            Password = new Password(ContactInfo_Email);
+
+            Prefered_Categories.LoadPreferences(ID);
+            //Prefered_Charities.load();
+            Prefered_helping_Actions.LoadPreferences(ID);
         }
         //new member, member_type is hardcoded as guess
         //DOES NOT try to LOAD from database
@@ -63,16 +80,13 @@ namespace CC.Connections.BL
                     else
                         Password = new Password(contactEmail, false);//new
 
-                    this.Member_Type = new BLMember_Type(member_type);
+                    this.Member_Type = new AbsMember_Type(member_type);
 
                     //will LOAD nothing if NEW ID but will SET preference ID
                     //needed for adding and removing items
-                    Prefered_helping_Actions.LoadPreferences(ID,debug);
-                    Prefered_Categories.LoadPreferences(ID, debug);
+                    Prefered_helping_Actions.LoadPreferences(ID);
+                    Prefered_Categories.LoadPreferences(ID);
                     //Prefered_Charities.LoadPreferences(ID);
-
-                ///STOPPED HERE -----------------------------
-                ///prefered lists cannot be added to without first creating their id!
 
                     //this.LoadId();
                 }
@@ -106,16 +120,22 @@ namespace CC.Connections.BL
                 throw e;
             }
         }
-        //only clears MEMBER values
+
+        //public static implicit operator AbsMember(PL.Member entry)
+        //{
+        //    return new AbsMember(entry);
+        //}
+
+        //only clears BLclass varibles
         private new void Clear()
         {
             Password = new Password();
-            Prefered_Categories = new CategoryList();
+            Prefered_Categories = new AbsCategoryPreferences(ID);
             Prefered_Charities = new CharityList();
-            Prefered_helping_Actions = new Helping_ActionList();
-            Member_Type = new BLMember_Type();
-            Pref = new BLPreference();
-            Location = new BLLocation();
+            Prefered_helping_Actions = new AbsMemberActionList(ID);
+            Member_Type = new AbsMember_Type();
+            Pref = new AbsPreference();
+            Location = new AbsLocation();
         }
 
         public new int Insert()
@@ -132,17 +152,17 @@ namespace CC.Connections.BL
                     if(dc.Members.Where(c=>c.Member_ID ==ID) != null)
                             ID = dc.Members.Max(c => c.Member_ID) + 1;//unique id
 
-                    Pref.Preference_ID = Pref.Insert();
-                    //Member_Type.ID = Member_Type.Insert();
-                    Location.Location_ID = Location.Insert();
+                    Pref.Insert();
+                    //Member_Type.Insert();
+                    Location.Insert();
                     PL.Member entry = new PL.Member
                     {
                         Member_ID = ID,
-                        MemberContact_ID = Contact_Info_ID,
+                        MemberContact_ID = contact_ID,
                         //Role_ID = Role.ID,
-                        MemberType_ID = Member_Type.MemberType_ID,
-                        MemberPreference_ID = Pref.Preference_ID,
-                        Location_ID = Location.Location_ID
+                        MemberType_ID = Member_Type.ID,
+                        MemberPreference_ID = Pref.ID,
+                        Location_ID = Location.ID
                     };
                     dc.Members.Add(entry);//adding prior to everything else
 
@@ -218,7 +238,7 @@ namespace CC.Connections.BL
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invaild");
 
-                    PL.Member entry = dc.Members.Where(c => c.MemberContact_ID == this.Contact_Info_ID).FirstOrDefault();
+                    PL.Member entry = dc.Members.Where(c => c.MemberContact_ID == this.contact_ID).FirstOrDefault();
                     if (entry != null)
                         this.ID = entry.Member_ID;
                     else
@@ -234,9 +254,9 @@ namespace CC.Connections.BL
 
                     if (entry.MemberPreference_ID == null)
                         throw new Exception("Preference ID is null and cannot be loaded");
-                    this.Pref = new BLPreference((int)entry.MemberPreference_ID);
-                    this.Member_Type = new BLMember_Type((int)entry.MemberType_ID);
-                    this.Location = new BLLocation((int)entry.Location_ID);
+                    this.Pref = new AbsPreference((int)entry.MemberPreference_ID);
+                    this.Member_Type = new AbsMember_Type((int)entry.MemberType_ID);
+                    this.Location = new AbsLocation((int)entry.Location_ID);
 
                     this.Prefered_Categories.LoadPreferences(entry.Member_ID);
                     this.Prefered_helping_Actions.LoadPreferences(entry.Member_ID);
@@ -254,7 +274,7 @@ namespace CC.Connections.BL
         //loads contact info only
         internal static BLMember loadContactInfo(int? memberContact_ID)
         {
-            BLContactInfo info = BLContactInfo.fromNumID(memberContact_ID);
+            AbsContactInfo info = AbsContactInfo.fromNumID(memberContact_ID);
             return new BLMember
             {
                 ContactInfo_Email = info.ContactInfo_Email,
@@ -266,7 +286,7 @@ namespace CC.Connections.BL
         }
 
         //sets contact info only
-        public void setContactInfo(BLContactInfo contact)
+        public void setContactInfo(AbsContactInfo contact)
         {
             ContactInfo_Email = contact.ContactInfo_Email;
             ContactInfo_FName = contact.ContactInfo_FName;
@@ -290,15 +310,14 @@ namespace CC.Connections.BL
                         {
                             BLMember newMem = BLMember.loadContactInfo(c.MemberContact_ID);
                             newMem.ID = c.Member_ID;
-                            newMem.Pref = new BLPreference((int)c.MemberPreference_ID);
-                            newMem.Password = new Password(
-                                  dc.Log_in.FirstOrDefault(d => d.LogInMember_ID == c.Member_ID).ContactInfoEmail,
-                                  dc.Log_in.FirstOrDefault(d => d.LogInMember_ID == c.Member_ID).LogInPassword,
-                                  true);
-                            newMem.Prefered_Categories = new CategoryList().LoadPreferences(c.Member_ID);
-                            newMem.Prefered_helping_Actions = new Helping_ActionList().LoadPreferences(c.Member_ID);
-                            newMem.Member_Type = new BLMember_Type((int)c.MemberType_ID);
-                            newMem.Location = new BLLocation((int)c.Location_ID);
+                            newMem.Pref = new AbsPreference((int)c.MemberPreference_ID);
+                            newMem.Password = new Password(newMem.ContactInfo_Email);
+                            newMem.Member_Type = new AbsMember_Type((int)c.MemberType_ID);
+                            newMem.Location = new AbsLocation((int)c.Location_ID);
+
+                            newMem.Prefered_Categories.LoadPreferences(c.Member_ID);
+                            newMem.Prefered_helping_Actions.LoadPreferences(c.Member_ID);
+
                             this.Add(newMem);
                         });
                 }

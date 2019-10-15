@@ -7,99 +7,74 @@ namespace CC.Connections.BL
 {
     //only developers should be inserting, updating and deleting type
     //The 2 main types are volunteer and charity
-    public class BLMember_Type : PL.Member_Type
+    public class AbsMember_Type : ColumnEntry<PL.Member_Type>
     {
-        [DisplayName("Description")]
-        public new string MemberTypeDescription { get; set; }
-
-        public BLMember_Type(int id)
+        //id
+        public new int ID
         {
-            this.MemberType_ID = id;
+            get { return (int)base.ID; }
+            set { base.ID = value; }
+        }
+        [DisplayName("Description")]
+        public new string MemberTypeDescription {
+            get { return (string)base.getProperty("MemberTypeDescription"); }
+            set { setProperty("MemberTypeDescription", value); }
+        }
+
+        public AbsMember_Type(int id) :
+            base(new DBconnections().Member_Type, id)
+        {
+            Clear();
+            ID = id;
             LoadId();
         }
+        public AbsMember_Type(PL.Member_Type entry) :
+            base(entry){ }
+        public AbsMember_Type():
+            base(new Member_Type()){ }
 
-        public BLMember_Type() { }
+        public static implicit operator AbsMember_Type(PL.Member_Type entry)
+        { return new AbsMember_Type(entry); }
 
+        public void LoadId()
+        {
+            using (DBconnections dc = new DBconnections())
+            {
+                base.LoadId(dc.Member_Type);
+            }
+        }
         public int Insert()
         {
-            try
+            using (DBconnections dc = new DBconnections())
             {
-                //if (Description == string.Empty)
-                //    throw new Exception("Description cannot be empty");
-                using (DBconnections dc = new DBconnections())
-                {
-                    if (dc.Member_Type.ToList().Count > 0)
-                        MemberType_ID = dc.Member_Type.Max(c => c.MemberType_ID) + 1;//unique id
-                    else
-                        MemberType_ID = 0;
-                    PL.Member_Type entry = new PL.Member_Type
-                    {
-                        MemberType_ID = MemberType_ID,
-                        MemberTypeDescription = MemberTypeDescription
-                    };
-
-                    dc.Member_Type.Add(entry);
-                    dc.SaveChanges();
-                    return MemberType_ID;
-                }
+                return base.Insert(dc, dc.Member_Type);
             }
-            catch (Exception e) { throw e; }
-        }
-        public int Delete()
-        {
-            try
-            {
-                using (DBconnections dc = new DBconnections())
-                {
-                    //if (this.ID == Guid.Empty)
-                    //    throw new Exception("ID is invaild");
-
-                    dc.Member_Type.Remove(dc.Member_Type.Where(c => c.MemberType_ID == MemberType_ID).FirstOrDefault());
-
-                    this.MemberTypeDescription = string.Empty;
-                    return dc.SaveChanges();
-                }
-            }
-            catch (Exception e) { throw e; }
         }
         public int Update()
         {
-            try
+            using (DBconnections dc = new DBconnections())
             {
-                //if (Description == string.Empty)
-                //    throw new Exception("Description cannot be empty");
-                using (DBconnections dc = new DBconnections())
-                {
-                    //if (this.ID == Guid.Empty)
-                    //    throw new Exception("ID is invaild");
-
-                    PL.Member_Type entry = dc.Member_Type.Where(c => c.MemberType_ID == this.MemberType_ID).FirstOrDefault();
-                    entry.MemberTypeDescription = MemberTypeDescription;
-
-                    return dc.SaveChanges();
-                }
+                return base.Update(dc, dc.Member_Type);
             }
-            catch (Exception e) { throw e; }
         }
-        public void LoadId()
+        public int Delete()
         {
-            try
+            using (DBconnections dc = new DBconnections())
             {
-                using (DBconnections dc = new DBconnections())
-                {
-                    //if (this.ID == Guid.Empty)
-                    //    throw new Exception("ID is invaild");
-
-                    PL.Member_Type entry = dc.Member_Type.FirstOrDefault(c => c.MemberType_ID == this.MemberType_ID);
-                    if (entry == null)
-                        throw new Exception("Member Type does not exist: ID = "+this.MemberType_ID);
-
-                    MemberTypeDescription = entry.MemberTypeDescription;
-                }
+                //dc.Member_Type.Remove(this);
+                //return dc.SaveChanges();
+                return base.Delete(dc, dc.Member_Type);
             }
-            catch (Exception e)
+        }
+    }
+
+    public class AbsMember_TypeList : AbsList<AbsMember_Type, Member_Type>
+    {
+        public new void LoadAll()
+        {
+            using (DBconnections dc = new DBconnections())
             {
-                throw e;
+                base.LoadAll(dc.Member_Type);
             }
         }
     }
