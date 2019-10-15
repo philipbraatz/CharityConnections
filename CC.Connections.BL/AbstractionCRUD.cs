@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CC.Connections.PL;
 using System.Reflection;
+using System.Data.Entity.Core.Metadata.Edm;
+using System.Linq.Expressions;
+using System.Data.Entity.Infrastructure;
+using System.Globalization;
 
 namespace CC.Connections.BL
 {
@@ -37,28 +39,82 @@ namespace CC.Connections.BL
             else
                 throw new Exception(typeof(TEntity) + " does not have the property '" + propertyName + "'");
         }
-        //public static TCrud toBL<TCrud,TEntity>(TEntity entity) 
-        //    where TCrud : ColumnEntry<TEntity>
-        //    where TEntity : class
-        //{
-        //    return (TCrud)entity;
-        //}
 
-        ////not used
-        //private static void createAbstractInstance(object instance, PropertyInfo prop)
-        //{
-        //    string name = prop.Name;
-        //    dynamic propValue = prop.GetValue(instance);
-        //
-        //    Type genericClass = typeof(CellEntry<>);//class you want to create
-        //    Type constructedClass = genericClass.MakeGenericType(prop.PropertyType);
-        //    dynamic created = Activator.CreateInstance(constructedClass,
-        //        name, propValue);//constructer values are optional
-        //    if (created != null)
-        //        columns.Add(created);
-        //    else
-        //        throw new Exception("ColumnEntry<> could not add " + name + "(" + prop.PropertyType + ") : " + propValue);
-        //}
+        // get MaxLength as an extension method to the DbContext
+        public static int? GetMaxLength<T>(this DbContext context, Expression<Func<T, string>> column)
+        {
+            return (int?)context.GetFacets<T>(column)["MaxLength"].Value;
+        }
+
+        // get MaxLength as an extension method to the Facets (I think the extension belongs here)
+        public static int? GetMaxLength(this ReadOnlyMetadataCollection<Facet> facets)
+        {
+            return (int?)facets["MaxLength"].Value;
+        }
+
+        // just for fun: get all the facet values as a Dictionary 
+        public static Dictionary<string, object> AsDictionary(this ReadOnlyMetadataCollection<Facet> facets)
+        {
+            return facets.ToDictionary(o => o.Name, o => o.Value);
+        }
+
+
+        public static ReadOnlyMetadataCollection<Facet> GetFacets<T>(this DbContext context, Expression<Func<T, string>> column)
+        {
+            ReadOnlyMetadataCollection<Facet> result = null;
+
+            var entType = typeof(T);
+            var columnName = ((MemberExpression)column.Body).Member.Name;
+
+            var objectContext = ((IObjectContextAdapter)context).ObjectContext;
+            var test = objectContext.MetadataWorkspace.GetItems(DataSpace.CSpace);
+
+            if (test == null)
+                return null;
+
+            var q = test
+                .Where(m => m.BuiltInTypeKind == BuiltInTypeKind.EntityType)
+                .SelectMany(meta => ((EntityType)meta).Properties
+                .Where(p => p.Name == columnName && p.TypeUsage.EdmType.Name == "String"));
+
+            var queryResult = q.Where(p =>
+            {
+                var match = p.DeclaringType.Name == entType.Name;
+                if (!match)
+                    match = entType.Name == p.DeclaringType.Name;
+
+                return match;
+
+            })
+                .Select(sel => sel)
+                .FirstOrDefault();
+
+            result = queryResult.TypeUsage.Facets;
+
+            return result;
+
+        }
+    }
+
+    public class PropertyDB_Info<TEntity>
+    {
+        public int max { get; private set; }
+        public PropertyInfo p;
+        public PropertyDB_Info(PropertyInfo info, DbContext context, TEntity entity)
+        {
+            p = info;
+            loadPropertyMax(context, entity);
+        }
+        private void loadPropertyMax(DbContext context,TEntity entity)
+        {
+            if (p.Name != "String")
+                max = -1;
+            else
+            {
+                int? nmax = Utils.GetMaxLength<TEntity>(context, (x) => (string)p.GetValue(entity));
+                max = nmax != null ? (int)nmax : -1;
+            }
+        }
     }
     public class ColumnEntry<TEntity> where TEntity : class
     {
@@ -67,15 +123,15 @@ namespace CC.Connections.BL
         //  and the functions should be created without DBconnection and object fields
         protected object ID
         {
-            get { return properties[0].GetValue(instance); }
-            set { properties[0].SetValue(instance, value); }
+            get { return properties[0].p.GetValue(instance); }
+            set { properties[0].p.SetValue(instance, value); }
         }
         //holds actual entry class instance
         //also used to check type
         private TEntity instance;
         //public string name { get { return instance.GetType().Name; } }
         //private int id_col { get; set; }
-        private PropertyInfo[] properties { get; set; }
+        private List<PropertyDB_Info<TEntity>> properties { get; set; }
         //usefull functions
         //Name              - parameter name in code
         //GetValue(dummy)   - actual value
@@ -110,10 +166,10 @@ namespace CC.Connections.BL
         //gets this instance
         protected object getProperty(string propertyName)
         {
-            PropertyInfo prop = properties.Where(c => c.Name == propertyName).FirstOrDefault();
+            PropertyDB_Info<TEntity> prop = properties.Where(c => c.p.Name == propertyName).FirstOrDefault();
             if (prop != null)
             {
-                object ret = prop.GetValue(instance);
+                object ret = prop.p.GetValue(instance);
                 if (ret != null)
                     return ret;
                 else
@@ -124,9 +180,13 @@ namespace CC.Connections.BL
         }
         protected void setProperty(string propertyName, object value)
         {
-            PropertyInfo propinf = properties.Where(c => c.Name == propertyName).FirstOrDefault();
+            PropertyDB_Info<TEntity> propinf = properties.Where(c => c.p.Name == propertyName).FirstOrDefault();
             if (propinf != null)
-                propinf.SetValue(instance, value);
+                if(propinf.p.PropertyType.Name == "String" &&
+                    ((string)value).Length > propinf.max)//get property index equal to current property to compare sized
+                    propinf.p.SetValue(instance, value);
+                else
+                    propinf.p.SetValue(instance, ((string)value).Substring(0, propinf.max-1));//cut of larger values (zero based)
             else
                 throw new Exception(typeof(TEntity) + " does not have a " + propertyName + " property");
         }
@@ -138,14 +198,23 @@ namespace CC.Connections.BL
         public ColumnEntry(TEntity entry)
         {
             Type type = typeof(TEntity);//maybe make property
-            properties = type.GetProperties();
             instance = entry;
+            using (DBconnections dc = new DBconnections())
+            {
+                type.GetProperties().ToList().ForEach(c=> 
+                    properties.Add(new PropertyDB_Info<TEntity>(c,dc,instance)));
+            }
         }
         public ColumnEntry(DbSet<TEntity> table, object id,string load_AlternativeField = "")
         {
             Type type = typeof(TEntity);//maybe make property
-            properties = type.GetProperties();
             instance = table.FirstOrDefault();
+            using (DBconnections dc = new DBconnections())
+            {
+                type.GetProperties().ToList().ForEach(c =>
+                    properties.Add(new PropertyDB_Info<TEntity>(c, dc, instance)));
+            }
+
             LoadId(table, id,load_AlternativeField);
         }
 
@@ -164,7 +233,7 @@ namespace CC.Connections.BL
         public void Clear()
         {
             foreach (var c in properties)
-                setValue(instance, c.Name, default);
+                setValue(instance, c.p.Name, default);
         }
 
         protected int Delete(DBconnections dc, DbSet<TEntity> table)
@@ -173,11 +242,11 @@ namespace CC.Connections.BL
             {
                 foreach (var col in table)
                     //instance = where( entry in the table == this ID)
-                    if (ID.Equals(getValue(col, properties[0].Name)))
+                    if (ID.Equals(getValue(col, properties[0].p.Name)))
                         table.Remove(col);
                 int changes = dc.SaveChanges();
                 if (changes == 0)
-                    throw new Exception("Could not delete value " + properties[0].Name + " = " + properties[0].GetValue(instance));
+                    throw new Exception("Could not delete value " + properties[0].p.Name + " = " + properties[0].p.GetValue(instance));
                 else
                     return dc.SaveChanges();
             }
@@ -187,7 +256,7 @@ namespace CC.Connections.BL
         protected bool Exists(DbSet<TEntity> table)
         {
             foreach (var col in table)
-                if (ID.Equals(getValue(col, properties[0].Name)))
+                if (ID.Equals(getValue(col, properties[0].p.Name)))
                     return true;
             return false;
         }
@@ -198,12 +267,12 @@ namespace CC.Connections.BL
             {
                 List<TEntity> tlist = table.ToList();
                 //get highest integer id
-                if (properties[0].GetValue(instance) is int)//gets type int
+                if (properties[0].p.GetValue(instance) is int)//gets type int
                     if (table.ToList().Count > 0)
                     {
                         //only works when ID is int and database orders
                         TEntity entity = table.ToList().LastOrDefault();
-                        PropertyInfo id_prop = entity.GetType().GetProperty(properties[0].Name, typeof(int));
+                        PropertyInfo id_prop = entity.GetType().GetProperty(properties[0].p.Name, typeof(int));
                         ID = (int)id_prop.GetValue(entity) +1;
 
                         //int max = 0;
@@ -218,7 +287,7 @@ namespace CC.Connections.BL
                     else
                         ID = 0;
                 //check for valid id
-                else if (properties[0].GetValue(instance) is string)// string type
+                else if (properties[0].p.GetValue(instance) is string)// string type
                 {
                     if ((string)ID == string.Empty)
                         throw new Exception("ID cannot be blank");
@@ -238,7 +307,7 @@ namespace CC.Connections.BL
             if (load_AlternativeField == string.Empty)
             {
                 ID = id;
-                LoadId(table, (string)properties[0].Name);
+                LoadId(table, (string)properties[0].p.Name);
             }
             else
             {
@@ -251,14 +320,14 @@ namespace CC.Connections.BL
         private void CleanNulls()
         {
             foreach (var p in properties)
-                if (p.GetValue(instance) == null)
-                    switch (p.Name)
+                if (p.p.GetValue(instance) == null)
+                    switch (p.p.Name)
                     {
                         case "DateOfBirth":
-                            p.SetValue(instance, new DateTime());
+                            p.p.SetValue(instance, new DateTime());
                             break;
                         default:
-                            p.SetValue(instance, default);
+                            p.p.SetValue(instance, default);
                             break;
                     }
         }
@@ -266,7 +335,7 @@ namespace CC.Connections.BL
         protected TEntity LoadId(DbSet<TEntity> table,string propName="_Default")
         {
             if (propName == "_Default")
-                propName = (string)properties[0].Name;
+                propName = (string)properties[0].p.Name;
 
             try
             {
@@ -311,11 +380,11 @@ namespace CC.Connections.BL
                     throw new Exception("ID does not exist in table");
 
                 foreach (var col in table)
-                    if (ID.Equals(getValue(col, properties[0].Name)))
+                    if (ID.Equals(getValue(col, properties[0].p.Name)))
                     {
                         foreach (var c in properties)
-                            setValue(col, c.Name,            //set table column
-                                getValue(instance, c.Name)  //to current instance
+                            setValue(col, c.p.Name,            //set table column
+                                getValue(instance, c.p.Name)  //to current instance
                             );
                     }
                 return dc.SaveChanges();
