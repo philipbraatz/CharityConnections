@@ -62,7 +62,11 @@ namespace CC.Connections.WebUI.Controllers
             }
             catch (Exception ex)
             {
-                ViewBag.Message = ex.Message;
+                if(ex.Message != "The underlying provider failed on Open.")
+                    ViewBag.Message = ex.Message;
+                else
+                    ViewBag.Message = "Unable to process any login's at this time.";//specialized error handler
+
                 return View(passValue);
             }
         }
@@ -77,12 +81,24 @@ namespace CC.Connections.WebUI.Controllers
         [HttpPost]
         public ActionResult SignUpView(ContactInfoSignup con)
         {
-            BLMember newMember = new BLMember(con.ContactInfo_Email, con.password.Pass, 1,true);
-            newMember.setContactInfo((AbsContactInfo)con);
-            newMember.Insert();
+            try
+            {
+                BLMember newMember = new BLMember(con.ContactInfo_Email, con.password.Pass, 1,true);
+                newMember.setContactInfo((AbsContactInfo)con);
+                newMember.Insert();
 
-            Session["member"] = newMember.Password;
-            return RedirectToAction("Index", "Home");
+                Session["member"] = newMember.Password;
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message != "The underlying provider failed on Open.")
+                    ViewBag.Message = ex.Message;
+                else
+                    ViewBag.Message = "Unable to process any sign up's at this time.";//specialized error handler
+
+                return View(con);
+            }
         }
     }
 }
