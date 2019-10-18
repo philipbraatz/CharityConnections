@@ -11,7 +11,7 @@ namespace CC.Connections.BL
 {
     public class AbsLocation : ColumnEntry<PL.Location>
     {
-        public static DBconnections dc = new DBconnections();
+        public static fvtcEntities dc = new fvtcEntities();
 
         //id
         public new int ID
@@ -52,7 +52,7 @@ namespace CC.Connections.BL
             base(entry)
         { }
         public AbsLocation(int id) :
-            base(new DBconnections().Locations,id)
+            base(new fvtcEntities().Locations,id)
         {
             Clear();
             ID = id;

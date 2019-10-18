@@ -6,7 +6,7 @@ namespace CC.Connections.BL
 {
     public class AbsPreference : ColumnEntry<PL.Preference>
     {
-        private static DBconnections dc;
+        private static fvtcEntities dc;
 
         //id
         public new int ID
@@ -24,7 +24,7 @@ namespace CC.Connections.BL
         public AbsPreference(PL.Preference entry) :
             base(entry){ }
         public AbsPreference(int id) :
-            base(new DBconnections().Preferences, id)
+            base(new fvtcEntities().Preferences, id)
         {
             Clear();
             ID = id;

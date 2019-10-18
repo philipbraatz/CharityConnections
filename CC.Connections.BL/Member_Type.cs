@@ -9,7 +9,7 @@ namespace CC.Connections.BL
     //The 2 main types are volunteer and charity
     public class AbsMember_Type : ColumnEntry<PL.Member_Type>
     {
-        private static DBconnections dc;
+        private static fvtcEntities dc;
 
         //id
         public new int ID
@@ -24,7 +24,7 @@ namespace CC.Connections.BL
         }
 
         public AbsMember_Type(int id) :
-            base(new DBconnections().Member_Type, id)
+            base(new fvtcEntities().Member_Type, id)
         {
             Clear();
             ID = id;

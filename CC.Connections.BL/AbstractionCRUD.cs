@@ -202,7 +202,7 @@ namespace CC.Connections.BL
         {
             Type type = typeof(TEntity);//maybe make property
             instance = entry;
-            using (DBconnections dc = new DBconnections())
+            using (fvtcEntities dc = new fvtcEntities())
             {
                 type.GetProperties().ToList().ForEach(c =>
                     {
@@ -220,7 +220,7 @@ namespace CC.Connections.BL
         {
             Type type = typeof(TEntity);//maybe make property
             instance = table.FirstOrDefault();
-            using (DBconnections dc = new DBconnections())
+            using (fvtcEntities dc = new fvtcEntities())
             {
                 if (e.Message != "The underlying provider failed on Open.")
                     throw e;

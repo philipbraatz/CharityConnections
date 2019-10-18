@@ -115,7 +115,7 @@ namespace CC.Connections.BL
                     throw new Exception("Password must be set");//no UserPass
                 else
                 {
-                    using (DBconnections dc = new DBconnections())
+                    using (fvtcEntities dc = new fvtcEntities())
                     {
                         PL.Log_in entry = dc.Log_in.FirstOrDefault(u => u.ContactInfoEmail == this.email);
                         if (entry == null)
@@ -135,7 +135,7 @@ namespace CC.Connections.BL
         public void LoadList()
         {
             try{
-                using (DBconnections dc = new DBconnections()){
+                using (fvtcEntities dc = new fvtcEntities()){
                     if (dc.Log_in.ToList().Count != 0)
                         dc.Log_in.ToList().ForEach(c =>
                             this.Add(new Password(c.ContactInfoEmail, c.LogInPassword, true)));
