@@ -11,6 +11,8 @@ namespace CC.Connections.BL
     //2 hours
     public class AbsCategory : ColumnEntry<PL.Category>
     {
+        private static DBconnections dc = new DBconnections();
+
         //Parameters
 
         //id
@@ -34,8 +36,9 @@ namespace CC.Connections.BL
         public AbsCategory(PL.Category entry) :
             base(entry) { }
         public AbsCategory(int id) :
-            base(new DBconnections().Categories, id)
+            base(dc.Categories, id)
         {
+            dc.Dispose();
             Clear();
             ID = id;
             LoadId();

@@ -182,8 +182,10 @@ namespace CC.Connections.BL
         {
             PropertyDB_Info<TEntity> propinf = properties.Where(c => c.p.Name == propertyName).FirstOrDefault();
             if (propinf != null)
-                if(propinf.p.PropertyType.Name == "String" &&
-                    ((string)value).Length > propinf.max)//get property index equal to current property to compare sized
+                if (propinf.p.PropertyType.Name == "Nullable`1")
+                    propinf.p.SetValue(instance, value);
+                else if (propinf.p.PropertyType.Name == "String" &&
+                         ((string)value).Length > propinf.max)//get property index equal to current property to compare sized
                     propinf.p.SetValue(instance, value);
                 else
                     propinf.p.SetValue(instance, ((string)value).Substring(0, propinf.max-1));//cut of larger values (zero based)
@@ -195,26 +197,39 @@ namespace CC.Connections.BL
         //{
         //    table = tableUsed;
         //}
-        public ColumnEntry(TEntity entry)
+
+        protected void createInstance(TEntity entry)
         {
             Type type = typeof(TEntity);//maybe make property
-            instance = entry;
-            using (DBconnections dc = new DBconnections())
-            {
-                type.GetProperties().ToList().ForEach(c=> 
-                    properties.Add(new PropertyDB_Info<TEntity>(c,dc,instance)));
-            }
-        }
-        public ColumnEntry(DbSet<TEntity> table, object id,string load_AlternativeField = "")
-        {
-            Type type = typeof(TEntity);//maybe make property
-            instance = table.FirstOrDefault();
+            instance = entry ?? throw new Exception(entry.GetType().Name + " could not create an instance because entry was null.");
+            properties = new List<PropertyDB_Info<TEntity>>();
             using (DBconnections dc = new DBconnections())
             {
                 type.GetProperties().ToList().ForEach(c =>
-                    properties.Add(new PropertyDB_Info<TEntity>(c, dc, instance)));
+                    {
+                        PropertyDB_Info<TEntity> test = new PropertyDB_Info<TEntity>(c, dc, instance);
+                        properties.Add(test);
+                    }
+                );
             }
-
+        }
+        public ColumnEntry(TEntity entry)
+        {
+            createInstance(entry);
+        }
+        public ColumnEntry(DbSet<TEntity> table, object id,string load_AlternativeField = "")
+        {
+            try
+            {
+                createInstance(table.FirstOrDefault());
+            }
+            catch (Exception e)
+            {
+                if (e.Message != "The underlying provider failed on Open.")
+                    throw e;
+                else
+                    throw new Exception("Could not connect to database: "+e.InnerException.Message);
+            }
             LoadId(table, id,load_AlternativeField);
         }
 

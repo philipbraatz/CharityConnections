@@ -10,6 +10,8 @@ namespace CC.Connections.BL
     public class AbsHelping_Action
         : ColumnEntry<Helping_Action>
     {
+        private static DBconnections dc;
+
         //id
         public new int ID
         {
@@ -35,7 +37,7 @@ namespace CC.Connections.BL
             base(entry)
         { Clear(); }
         public AbsHelping_Action(int id) :
-            base(new DBconnections().Helping_Action, id)
+            base(dc.Helping_Action, id)
         {
             Clear();
             ID = id;

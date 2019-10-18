@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,8 @@ namespace CC.Connections.BL
 {
     public class AbsLocation : ColumnEntry<PL.Location>
     {
+        public static DBconnections dc = new DBconnections();
+
         //id
         public new int ID
         {
@@ -49,7 +52,7 @@ namespace CC.Connections.BL
             base(entry)
         { }
         public AbsLocation(int id) :
-            base(new DBconnections().Locations,id)
+            base(dc.Locations,id)
         {
             Clear();
             ID = id;
