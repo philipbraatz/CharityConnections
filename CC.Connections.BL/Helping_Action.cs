@@ -17,7 +17,6 @@ namespace CC.Connections.BL
             set { base.ID = value; }
         }
         public AbsCategory category { get; set; }
-        //TODO ask team to rename Helping Action Desc to Action
         public string Action {
             get { return (string)base.getProperty("HelpingActionDescription"); }
             set { setProperty("HelpingActionDescription", value); }
@@ -64,7 +63,6 @@ namespace CC.Connections.BL
     public class AbsHelping_ActionList
         : AbsList<AbsHelping_Action, Helping_Action>
     {
-        //TODO impliment in base class
         public new void LoadAll(){
             using (DBconnections dc = new DBconnections()){
                 //base.LoadAll(dc.Helping_Action);
