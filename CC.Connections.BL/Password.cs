@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 
 namespace CC.Connections.BL
 {
+    //Only to be used inside classes that need passwords
+    //you cannot straight up create a new password without sending it to a classes password
     public class Password
     {
         [DisplayName("Email")]
@@ -113,7 +115,7 @@ namespace CC.Connections.BL
                     throw new Exception("Password must be set");//no UserPass
                 else
                 {
-                    using (fvtcEntities dc = new fvtcEntities())
+                    using (DBconnections dc = new DBconnections())
                     {
                         PL.Log_in entry = dc.Log_in.FirstOrDefault(u => u.ContactInfoEmail == this.email);
                         if (entry == null)
@@ -122,9 +124,23 @@ namespace CC.Connections.BL
                             return entry.LogInPassword == hash;//success if match
                     }
                 }
-            }
-            catch (Exception e)
-            { throw e; }
+            } catch (Exception e){ throw e; }
+        }
+    }
+
+
+    public class PasswordList
+        : List<Password>
+    {
+        public void LoadList()
+        {
+            try{
+                using (DBconnections dc = new DBconnections()){
+                    if (dc.Log_in.ToList().Count != 0)
+                        dc.Log_in.ToList().ForEach(c =>
+                            this.Add(new Password(c.ContactInfoEmail, c.LogInPassword, true)));
+                }
+            } catch (Exception e) { throw e; }
         }
     }
 }

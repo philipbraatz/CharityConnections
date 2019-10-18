@@ -9,6 +9,8 @@ namespace CC.Connections.BL
 {
     public class CharityEvent : AbsContactInfo
     {
+        private static DBconnections dc;
+
         public int Event_ID { get; set; }
         public int Charity_ID { get; set; }//only the id 
         public string CharityEventName { get; set; }

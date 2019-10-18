@@ -9,6 +9,8 @@ namespace CC.Connections.BL
 {
     public class AbsContactInfo : ColumnEntry<PL.Contact_Info>
     {
+        private static DBconnections dc;
+
         //real contact_Info_ID
         public int contact_ID
         {
@@ -74,7 +76,7 @@ namespace CC.Connections.BL
         public AbsContactInfo(PL.Contact_Info entry) :
         base(entry){ }
         public AbsContactInfo(string email) :
-            base(new fvtcEntities().Contact_Info,email, "ContactInfo_Email")
+            base(new DBconnections().Contact_Info,email, "ContactInfo_Email")
         {
             ContactInfo_Email = email;
             LoadId();
