@@ -22,7 +22,7 @@ namespace CC.Connections.BL
         public AbsPreference(PL.Preference entry) :
             base(entry){ }
         public AbsPreference(int id) :
-            base(new DBconnections().Preferences, id)
+            base(new fvtcEntities().Preferences, id)
         {
             Clear();
             ID = id;
@@ -32,25 +32,25 @@ namespace CC.Connections.BL
         { return new AbsPreference(entry); }
 
         public void LoadId(){
-            using (DBconnections dc = new DBconnections()){
+            using (fvtcEntities dc = new fvtcEntities()){
                 base.LoadId(dc.Preferences);
             }
         }
         public int Insert() {
-            using (DBconnections dc = new DBconnections()) {
+            using (fvtcEntities dc = new fvtcEntities()) {
                 return base.Insert(dc, dc.Preferences);
             }
         }
         public int Update()
         {
-            using (DBconnections dc = new DBconnections())
+            using (fvtcEntities dc = new fvtcEntities())
             {
                 return base.Update(dc, dc.Preferences);
             }
         }
         public int Delete()
         {
-            using (DBconnections dc = new DBconnections())
+            using (fvtcEntities dc = new fvtcEntities())
             {
                 //dc.Preferences.Remove(this);
                 //return dc.SaveChanges();
@@ -63,7 +63,7 @@ namespace CC.Connections.BL
     {
         public new void LoadAll()
         {
-            using (DBconnections dc = new DBconnections())
+            using (fvtcEntities dc = new fvtcEntities())
             {
                 base.LoadAll(dc.Preferences);
             }

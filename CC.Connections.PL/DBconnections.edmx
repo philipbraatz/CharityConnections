@@ -4,13 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="charityconnectionsDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="__RefactorLog">
-          <Key>
-            <PropertyRef Name="OperationKey" />
-          </Key>
-          <Property Name="OperationKey" Type="uniqueidentifier" Nullable="false" />
-        </EntityType>
+      <Schema Namespace="fvtcModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Category">
           <Key>
             <PropertyRef Name="Category_ID" />
@@ -56,7 +50,6 @@
           <Property Name="ContactInfo_LName" Type="nvarchar" MaxLength="50" />
           <Property Name="ContactInfo_Phone" Type="nvarchar" MaxLength="12" />
           <Property Name="ContactInfo_Email" Type="nvarchar" MaxLength="50" />
-          <Property Name="Location_ID" Type="int" />
           <Property Name="DateOfBirth" Type="date" />
         </EntityType>
         <EntityType Name="Event_Attendance">
@@ -142,7 +135,7 @@
           <Property Name="Member_ID" Type="int" />
           <Property Name="Charity_ID" Type="int" />
         </EntityType>
-        <Association Name="FK__Member_Ac__Membe__19DFD96B">
+        <Association Name="FK__Member_Ac__Membe__3FD07829">
           <End Role="Helping_Action" Type="Self.Helping_Action" Multiplicity="0..1" />
           <End Role="Member_Action" Type="Self.Member_Action" Multiplicity="*" />
           <ReferentialConstraint>
@@ -154,8 +147,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="charityconnectionsDBModelStoreContainer">
-          <EntitySet Name="__RefactorLog" EntityType="Self.__RefactorLog" Schema="dbo" store:Type="Tables" />
+        <EntityContainer Name="fvtcModelStoreContainer">
           <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Charity" EntityType="Self.Charity" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Charity_Event" EntityType="Self.Charity_Event" Schema="dbo" store:Type="Tables" />
@@ -170,42 +162,16 @@
           <EntitySet Name="Preference" EntityType="Self.Preference" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Preferred_Category" EntityType="Self.Preferred_Category" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Preferred_Charity" EntityType="Self.Preferred_Charity" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Member_Ac__Membe__19DFD96B" Association="Self.FK__Member_Ac__Membe__19DFD96B">
+          <AssociationSet Name="FK__Member_Ac__Membe__3FD07829" Association="Self.FK__Member_Ac__Membe__3FD07829">
             <End Role="Helping_Action" EntitySet="Helping_Action" />
             <End Role="Member_Action" EntitySet="Member_Action" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="charityconnectionsDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="DBconnections" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="C__RefactorLog" EntityType="charityconnectionsDBModel.C__RefactorLog" />
-          <EntitySet Name="Categories" EntityType="charityconnectionsDBModel.Category" />
-          <EntitySet Name="Charities" EntityType="charityconnectionsDBModel.Charity" />
-          <EntitySet Name="Charity_Event" EntityType="charityconnectionsDBModel.Charity_Event" />
-          <EntitySet Name="Contact_Info" EntityType="charityconnectionsDBModel.Contact_Info" />
-          <EntitySet Name="Event_Attendance" EntityType="charityconnectionsDBModel.Event_Attendance" />
-          <EntitySet Name="Helping_Action" EntityType="charityconnectionsDBModel.Helping_Action" />
-          <EntitySet Name="Locations" EntityType="charityconnectionsDBModel.Location" />
-          <EntitySet Name="Log_in" EntityType="charityconnectionsDBModel.Log_in" />
-          <EntitySet Name="Members" EntityType="charityconnectionsDBModel.Member" />
-          <EntitySet Name="Member_Action" EntityType="charityconnectionsDBModel.Member_Action" />
-          <EntitySet Name="Member_Type" EntityType="charityconnectionsDBModel.Member_Type" />
-          <EntitySet Name="Preferences" EntityType="charityconnectionsDBModel.Preference" />
-          <EntitySet Name="Preferred_Category" EntityType="charityconnectionsDBModel.Preferred_Category" />
-          <EntitySet Name="Preferred_Charity" EntityType="charityconnectionsDBModel.Preferred_Charity" />
-          <AssociationSet Name="FK__Member_Ac__Membe__19DFD96B" Association="charityconnectionsDBModel.FK__Member_Ac__Membe__19DFD96B">
-            <End Role="Helping_Action" EntitySet="Helping_Action" />
-            <End Role="Member_Action" EntitySet="Member_Action" />
-          </AssociationSet>
-        </EntityContainer>
-        <EntityType Name="C__RefactorLog">
-          <Key>
-            <PropertyRef Name="OperationKey" />
-          </Key>
-          <Property Name="OperationKey" Type="Guid" Nullable="false" />
-        </EntityType>
+      <Schema Namespace="fvtcModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Category">
           <Key>
             <PropertyRef Name="Category_ID" />
@@ -251,7 +217,6 @@
           <Property Name="ContactInfo_LName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ContactInfo_Phone" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
           <Property Name="ContactInfo_Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Location_ID" Type="Int32" />
           <Property Name="DateOfBirth" Type="DateTime" Precision="0" />
         </EntityType>
         <EntityType Name="Event_Attendance">
@@ -270,7 +235,7 @@
           <Property Name="Helping_Action_ID" Type="Int32" Nullable="false" />
           <Property Name="HelpingActionCategory_ID" Type="Int32" />
           <Property Name="HelpingActionDescription" Type="String" MaxLength="75" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Member_Action" Relationship="charityconnectionsDBModel.FK__Member_Ac__Membe__19DFD96B" FromRole="Helping_Action" ToRole="Member_Action" />
+          <NavigationProperty Name="Member_Action" Relationship="Self.FK__Member_Ac__Membe__3FD07829" FromRole="Helping_Action" ToRole="Member_Action" />
         </EntityType>
         <EntityType Name="Location">
           <Key>
@@ -286,7 +251,7 @@
           <Key>
             <PropertyRef Name="ContactInfoEmail" />
           </Key>
-          <Property Name="ContactInfoEmail" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ContactInfoEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="LogInMember_ID" Type="Int32" />
           <Property Name="LogInPassword" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
         </EntityType>
@@ -307,7 +272,7 @@
           <Property Name="MemberAction_ID" Type="Int32" Nullable="false" />
           <Property Name="MemberActionMember_ID" Type="Int32" />
           <Property Name="MemberActionAction_ID" Type="Int32" />
-          <NavigationProperty Name="Helping_Action" Relationship="charityconnectionsDBModel.FK__Member_Ac__Membe__19DFD96B" FromRole="Member_Action" ToRole="Helping_Action" />
+          <NavigationProperty Name="Helping_Action" Relationship="Self.FK__Member_Ac__Membe__3FD07829" FromRole="Member_Action" ToRole="Helping_Action" />
         </EntityType>
         <EntityType Name="Member_Type">
           <Key>
@@ -339,9 +304,9 @@
           <Property Name="Member_ID" Type="Int32" />
           <Property Name="Charity_ID" Type="Int32" />
         </EntityType>
-        <Association Name="FK__Member_Ac__Membe__19DFD96B">
-          <End Type="charityconnectionsDBModel.Helping_Action" Role="Helping_Action" Multiplicity="0..1" />
-          <End Type="charityconnectionsDBModel.Member_Action" Role="Member_Action" Multiplicity="*" />
+        <Association Name="FK__Member_Ac__Membe__3FD07829">
+          <End Role="Helping_Action" Type="Self.Helping_Action" Multiplicity="0..1" />
+          <End Role="Member_Action" Type="Self.Member_Action" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Helping_Action">
               <PropertyRef Name="Helping_Action_ID" />
@@ -351,161 +316,173 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        </Schema>
+        <EntityContainer Name="fvtcEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Categories" EntityType="Self.Category" />
+          <EntitySet Name="Charities" EntityType="Self.Charity" />
+          <EntitySet Name="Charity_Event" EntityType="Self.Charity_Event" />
+          <EntitySet Name="Contact_Info" EntityType="Self.Contact_Info" />
+          <EntitySet Name="Event_Attendance" EntityType="Self.Event_Attendance" />
+          <EntitySet Name="Helping_Action" EntityType="Self.Helping_Action" />
+          <EntitySet Name="Locations" EntityType="Self.Location" />
+          <EntitySet Name="Log_in" EntityType="Self.Log_in" />
+          <EntitySet Name="Members" EntityType="Self.Member" />
+          <EntitySet Name="Member_Action" EntityType="Self.Member_Action" />
+          <EntitySet Name="Member_Type" EntityType="Self.Member_Type" />
+          <EntitySet Name="Preferences" EntityType="Self.Preference" />
+          <EntitySet Name="Preferred_Category" EntityType="Self.Preferred_Category" />
+          <EntitySet Name="Preferred_Charity" EntityType="Self.Preferred_Charity" />
+          <AssociationSet Name="FK__Member_Ac__Membe__3FD07829" Association="Self.FK__Member_Ac__Membe__3FD07829">
+            <End Role="Helping_Action" EntitySet="Helping_Action" />
+            <End Role="Member_Action" EntitySet="Member_Action" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="charityconnectionsDBModelStoreContainer" CdmEntityContainer="DBconnections">
-          <EntitySetMapping Name="C__RefactorLog">
-            <EntityTypeMapping TypeName="charityconnectionsDBModel.C__RefactorLog">
-              <MappingFragment StoreEntitySet="__RefactorLog">
-                <ScalarProperty Name="OperationKey" ColumnName="OperationKey" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
+        <EntityContainerMapping StorageEntityContainer="fvtcModelStoreContainer" CdmEntityContainer="fvtcEntities">
           <EntitySetMapping Name="Categories">
-            <EntityTypeMapping TypeName="charityconnectionsDBModel.Category">
+            <EntityTypeMapping TypeName="fvtcModel.Category">
               <MappingFragment StoreEntitySet="Category">
-                <ScalarProperty Name="Category_Desc" ColumnName="Category_Desc" />
                 <ScalarProperty Name="Category_ID" ColumnName="Category_ID" />
+                <ScalarProperty Name="Category_Desc" ColumnName="Category_Desc" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Charities">
-            <EntityTypeMapping TypeName="charityconnectionsDBModel.Charity">
+            <EntityTypeMapping TypeName="fvtcModel.Charity">
               <MappingFragment StoreEntitySet="Charity">
-                <ScalarProperty Name="Charity_Requirements" ColumnName="Charity_Requirements" />
-                <ScalarProperty Name="Location_ID" ColumnName="Location_ID" />
-                <ScalarProperty Name="Charity_Category_ID" ColumnName="Charity_Category_ID" />
-                <ScalarProperty Name="Charity_Email" ColumnName="Charity_Email" />
-                <ScalarProperty Name="Charity_Cause" ColumnName="Charity_Cause" />
-                <ScalarProperty Name="Charity_URL" ColumnName="Charity_URL" />
-                <ScalarProperty Name="Charity_Deductibility" ColumnName="Charity_Deductibility" />
-                <ScalarProperty Name="Charity_EIN" ColumnName="Charity_EIN" />
-                <ScalarProperty Name="Charity_Contact_ID" ColumnName="Charity_Contact_ID" />
                 <ScalarProperty Name="Charity_ID" ColumnName="Charity_ID" />
+                <ScalarProperty Name="Charity_Contact_ID" ColumnName="Charity_Contact_ID" />
+                <ScalarProperty Name="Charity_EIN" ColumnName="Charity_EIN" />
+                <ScalarProperty Name="Charity_Deductibility" ColumnName="Charity_Deductibility" />
+                <ScalarProperty Name="Charity_URL" ColumnName="Charity_URL" />
+                <ScalarProperty Name="Charity_Cause" ColumnName="Charity_Cause" />
+                <ScalarProperty Name="Charity_Email" ColumnName="Charity_Email" />
+                <ScalarProperty Name="Charity_Category_ID" ColumnName="Charity_Category_ID" />
+                <ScalarProperty Name="Location_ID" ColumnName="Location_ID" />
+                <ScalarProperty Name="Charity_Requirements" ColumnName="Charity_Requirements" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Charity_Event">
-            <EntityTypeMapping TypeName="charityconnectionsDBModel.Charity_Event">
+            <EntityTypeMapping TypeName="fvtcModel.Charity_Event">
               <MappingFragment StoreEntitySet="Charity_Event">
-                <ScalarProperty Name="CharityEventRequirements" ColumnName="CharityEventRequirements" />
-                <ScalarProperty Name="CharityEventStatus" ColumnName="CharityEventStatus" />
-                <ScalarProperty Name="CharityEventEndDate" ColumnName="CharityEventEndDate" />
-                <ScalarProperty Name="CharityEventStartDate" ColumnName="CharityEventStartDate" />
-                <ScalarProperty Name="CharityEventContactInfo_ID" ColumnName="CharityEventContactInfo_ID" />
-                <ScalarProperty Name="CharityEventCharity_ID" ColumnName="CharityEventCharity_ID" />
-                <ScalarProperty Name="CharityEventLocation_ID" ColumnName="CharityEventLocation_ID" />
-                <ScalarProperty Name="CharityEventName" ColumnName="CharityEventName" />
                 <ScalarProperty Name="CharityEvent_ID" ColumnName="CharityEvent_ID" />
+                <ScalarProperty Name="CharityEventName" ColumnName="CharityEventName" />
+                <ScalarProperty Name="CharityEventLocation_ID" ColumnName="CharityEventLocation_ID" />
+                <ScalarProperty Name="CharityEventCharity_ID" ColumnName="CharityEventCharity_ID" />
+                <ScalarProperty Name="CharityEventContactInfo_ID" ColumnName="CharityEventContactInfo_ID" />
+                <ScalarProperty Name="CharityEventStartDate" ColumnName="CharityEventStartDate" />
+                <ScalarProperty Name="CharityEventEndDate" ColumnName="CharityEventEndDate" />
+                <ScalarProperty Name="CharityEventStatus" ColumnName="CharityEventStatus" />
+                <ScalarProperty Name="CharityEventRequirements" ColumnName="CharityEventRequirements" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Contact_Info">
-            <EntityTypeMapping TypeName="charityconnectionsDBModel.Contact_Info">
+            <EntityTypeMapping TypeName="fvtcModel.Contact_Info">
               <MappingFragment StoreEntitySet="Contact_Info">
-                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
-                <ScalarProperty Name="Location_ID" ColumnName="Location_ID" />
-                <ScalarProperty Name="ContactInfo_Email" ColumnName="ContactInfo_Email" />
-                <ScalarProperty Name="ContactInfo_Phone" ColumnName="ContactInfo_Phone" />
-                <ScalarProperty Name="ContactInfo_LName" ColumnName="ContactInfo_LName" />
-                <ScalarProperty Name="ContactInfo_FName" ColumnName="ContactInfo_FName" />
                 <ScalarProperty Name="Contact_Info_ID" ColumnName="Contact_Info_ID" />
+                <ScalarProperty Name="ContactInfo_FName" ColumnName="ContactInfo_FName" />
+                <ScalarProperty Name="ContactInfo_LName" ColumnName="ContactInfo_LName" />
+                <ScalarProperty Name="ContactInfo_Phone" ColumnName="ContactInfo_Phone" />
+                <ScalarProperty Name="ContactInfo_Email" ColumnName="ContactInfo_Email" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Event_Attendance">
-            <EntityTypeMapping TypeName="charityconnectionsDBModel.Event_Attendance">
+            <EntityTypeMapping TypeName="fvtcModel.Event_Attendance">
               <MappingFragment StoreEntitySet="Event_Attendance">
-                <ScalarProperty Name="Status" ColumnName="Status" />
-                <ScalarProperty Name="Member_ID" ColumnName="Member_ID" />
-                <ScalarProperty Name="Event_ID" ColumnName="Event_ID" />
                 <ScalarProperty Name="EventAttendance_ID" ColumnName="EventAttendance_ID" />
+                <ScalarProperty Name="Event_ID" ColumnName="Event_ID" />
+                <ScalarProperty Name="Member_ID" ColumnName="Member_ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Helping_Action">
-            <EntityTypeMapping TypeName="charityconnectionsDBModel.Helping_Action">
+            <EntityTypeMapping TypeName="fvtcModel.Helping_Action">
               <MappingFragment StoreEntitySet="Helping_Action">
-                <ScalarProperty Name="HelpingActionDescription" ColumnName="HelpingActionDescription" />
-                <ScalarProperty Name="HelpingActionCategory_ID" ColumnName="HelpingActionCategory_ID" />
                 <ScalarProperty Name="Helping_Action_ID" ColumnName="Helping_Action_ID" />
+                <ScalarProperty Name="HelpingActionCategory_ID" ColumnName="HelpingActionCategory_ID" />
+                <ScalarProperty Name="HelpingActionDescription" ColumnName="HelpingActionDescription" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Locations">
-            <EntityTypeMapping TypeName="charityconnectionsDBModel.Location">
+            <EntityTypeMapping TypeName="fvtcModel.Location">
               <MappingFragment StoreEntitySet="Location">
-                <ScalarProperty Name="ContactInfoZip" ColumnName="ContactInfoZip" />
-                <ScalarProperty Name="ContactInfoState" ColumnName="ContactInfoState" />
-                <ScalarProperty Name="ContactInfoCity" ColumnName="ContactInfoCity" />
-                <ScalarProperty Name="ContactInfoAddress" ColumnName="ContactInfoAddress" />
                 <ScalarProperty Name="Location_ID" ColumnName="Location_ID" />
+                <ScalarProperty Name="ContactInfoAddress" ColumnName="ContactInfoAddress" />
+                <ScalarProperty Name="ContactInfoCity" ColumnName="ContactInfoCity" />
+                <ScalarProperty Name="ContactInfoState" ColumnName="ContactInfoState" />
+                <ScalarProperty Name="ContactInfoZip" ColumnName="ContactInfoZip" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Log_in">
-            <EntityTypeMapping TypeName="charityconnectionsDBModel.Log_in">
+            <EntityTypeMapping TypeName="fvtcModel.Log_in">
               <MappingFragment StoreEntitySet="Log_in">
-                <ScalarProperty Name="LogInPassword" ColumnName="LogInPassword" />
-                <ScalarProperty Name="LogInMember_ID" ColumnName="LogInMember_ID" />
                 <ScalarProperty Name="ContactInfoEmail" ColumnName="ContactInfoEmail" />
+                <ScalarProperty Name="LogInMember_ID" ColumnName="LogInMember_ID" />
+                <ScalarProperty Name="LogInPassword" ColumnName="LogInPassword" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Members">
-            <EntityTypeMapping TypeName="charityconnectionsDBModel.Member">
+            <EntityTypeMapping TypeName="fvtcModel.Member">
               <MappingFragment StoreEntitySet="Member">
-                <ScalarProperty Name="Location_ID" ColumnName="Location_ID" />
-                <ScalarProperty Name="MemberType_ID" ColumnName="MemberType_ID" />
-                <ScalarProperty Name="MemberPreference_ID" ColumnName="MemberPreference_ID" />
-                <ScalarProperty Name="MemberContact_ID" ColumnName="MemberContact_ID" />
                 <ScalarProperty Name="Member_ID" ColumnName="Member_ID" />
+                <ScalarProperty Name="MemberContact_ID" ColumnName="MemberContact_ID" />
+                <ScalarProperty Name="MemberPreference_ID" ColumnName="MemberPreference_ID" />
+                <ScalarProperty Name="MemberType_ID" ColumnName="MemberType_ID" />
+                <ScalarProperty Name="Location_ID" ColumnName="Location_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Member_Action">
-            <EntityTypeMapping TypeName="charityconnectionsDBModel.Member_Action">
+            <EntityTypeMapping TypeName="fvtcModel.Member_Action">
               <MappingFragment StoreEntitySet="Member_Action">
-                <ScalarProperty Name="MemberActionAction_ID" ColumnName="MemberActionAction_ID" />
-                <ScalarProperty Name="MemberActionMember_ID" ColumnName="MemberActionMember_ID" />
                 <ScalarProperty Name="MemberAction_ID" ColumnName="MemberAction_ID" />
+                <ScalarProperty Name="MemberActionMember_ID" ColumnName="MemberActionMember_ID" />
+                <ScalarProperty Name="MemberActionAction_ID" ColumnName="MemberActionAction_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Member_Type">
-            <EntityTypeMapping TypeName="charityconnectionsDBModel.Member_Type">
+            <EntityTypeMapping TypeName="fvtcModel.Member_Type">
               <MappingFragment StoreEntitySet="Member_Type">
-                <ScalarProperty Name="MemberTypeDescription" ColumnName="MemberTypeDescription" />
                 <ScalarProperty Name="MemberType_ID" ColumnName="MemberType_ID" />
+                <ScalarProperty Name="MemberTypeDescription" ColumnName="MemberTypeDescription" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Preferences">
-            <EntityTypeMapping TypeName="charityconnectionsDBModel.Preference">
+            <EntityTypeMapping TypeName="fvtcModel.Preference">
               <MappingFragment StoreEntitySet="Preference">
-                <ScalarProperty Name="Distance" ColumnName="Distance" />
                 <ScalarProperty Name="Preference_ID" ColumnName="Preference_ID" />
+                <ScalarProperty Name="Distance" ColumnName="Distance" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Preferred_Category">
-            <EntityTypeMapping TypeName="charityconnectionsDBModel.Preferred_Category">
+            <EntityTypeMapping TypeName="fvtcModel.Preferred_Category">
               <MappingFragment StoreEntitySet="Preferred_Category">
-                <ScalarProperty Name="MemberCat_Member_ID" ColumnName="MemberCat_Member_ID" />
-                <ScalarProperty Name="MemberCat_Category_ID" ColumnName="MemberCat_Category_ID" />
                 <ScalarProperty Name="PreferredCategory_ID" ColumnName="PreferredCategory_ID" />
+                <ScalarProperty Name="MemberCat_Category_ID" ColumnName="MemberCat_Category_ID" />
+                <ScalarProperty Name="MemberCat_Member_ID" ColumnName="MemberCat_Member_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Preferred_Charity">
-            <EntityTypeMapping TypeName="charityconnectionsDBModel.Preferred_Charity">
+            <EntityTypeMapping TypeName="fvtcModel.Preferred_Charity">
               <MappingFragment StoreEntitySet="Preferred_Charity">
-                <ScalarProperty Name="Charity_ID" ColumnName="Charity_ID" />
-                <ScalarProperty Name="Member_ID" ColumnName="Member_ID" />
                 <ScalarProperty Name="MemberCharity_ID" ColumnName="MemberCharity_ID" />
+                <ScalarProperty Name="Member_ID" ColumnName="Member_ID" />
+                <ScalarProperty Name="Charity_ID" ColumnName="Charity_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

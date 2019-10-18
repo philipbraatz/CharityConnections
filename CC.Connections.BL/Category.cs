@@ -34,7 +34,7 @@ namespace CC.Connections.BL
         public AbsCategory(PL.Category entry) :
             base(entry) { }
         public AbsCategory(int id) :
-            base(new DBconnections().Categories, id)
+            base(new fvtcEntities().Categories, id)
         {
             Clear();
             ID = id;
@@ -48,25 +48,25 @@ namespace CC.Connections.BL
         {return new AbsCategory(entry);}
 
         public void LoadId(){
-            using (DBconnections dc = new DBconnections()){
+            using (fvtcEntities dc = new fvtcEntities()){
                 base.LoadId(dc.Categories);
             }
         }
         public int Insert() {
-            using (DBconnections dc = new DBconnections()){
+            using (fvtcEntities dc = new fvtcEntities()){
                 return base.Insert(dc, dc.Categories);
             }
         }
         public int Update()
         {
-            using (DBconnections dc = new DBconnections())
+            using (fvtcEntities dc = new fvtcEntities())
             {
                 return base.Update(dc, dc.Categories);
             }
         }
         public int Delete()
         {
-            using (DBconnections dc = new DBconnections())
+            using (fvtcEntities dc = new fvtcEntities())
             {
                 //dc.Categories.Remove(this);
                 //return dc.SaveChanges();
@@ -79,7 +79,7 @@ namespace CC.Connections.BL
     {
         public new void LoadAll()
         {
-            using (DBconnections dc = new DBconnections())
+            using (fvtcEntities dc = new fvtcEntities())
             {
                 //base.LoadAll(dc.Categories);
                 foreach (var c in dc.Categories.ToList())
@@ -106,7 +106,7 @@ namespace CC.Connections.BL
         public new void LoadPreferences()
         { LoadPreferences((int)base.joinGrouping_ID); }
         public new void LoadPreferences(int member_id){
-            using (DBconnections dc = new DBconnections()){
+            using (fvtcEntities dc = new fvtcEntities()){
                 memberID = member_id;
                 if (dc.Categories.ToList().Count != 0)
                     dc.Preferred_Category
@@ -119,17 +119,17 @@ namespace CC.Connections.BL
             }
         }
         public new void DeleteAllPreferences(){
-            using (DBconnections dc = new DBconnections()){
+            using (fvtcEntities dc = new fvtcEntities()){
                 base.DeleteAllPreferences(dc, dc.Preferred_Category);
             }
         }
         public new void Add(AbsCategory category){
-            using (DBconnections dc = new DBconnections()){
+            using (fvtcEntities dc = new fvtcEntities()){
                 base.Add(dc, dc.Preferred_Category,new Preferred_Category(), category);
             }
         }
         public new void Remove(AbsCategory category){
-            using (DBconnections dc = new DBconnections()){
+            using (fvtcEntities dc = new fvtcEntities()){
                 base.Remove(dc, dc.Preferred_Category,category);
             }
         }

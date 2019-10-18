@@ -13,10 +13,10 @@ namespace CC.Connections.PL
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class DBconnections : DbContext
+    public partial class fvtcEntities : DbContext
     {
-        public DBconnections()
-            : base("name=DBconnections")
+        public fvtcEntities()
+            : base("name=fvtcEntities")
         {
         }
     
@@ -25,7 +25,6 @@ namespace CC.Connections.PL
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<C__RefactorLog> C__RefactorLog { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Charity> Charities { get; set; }
         public virtual DbSet<Charity_Event> Charity_Event { get; set; }

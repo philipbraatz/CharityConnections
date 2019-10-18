@@ -4,23 +4,22 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="49ee8ba6b1ce4b77b2e5edadfebd3e88" Name="Diagram1" ZoomLevel="75">
-        <EntityTypeShape EntityType="charityconnectionsDBModel.C__RefactorLog" Width="1.5" PointX="0.75" PointY="3.75" />
-        <EntityTypeShape EntityType="charityconnectionsDBModel.Category" Width="1.5" PointX="2.75" PointY="3.75" />
-        <EntityTypeShape EntityType="charityconnectionsDBModel.Charity" Width="1.5" PointX="4.75" PointY="3.75" />
-        <EntityTypeShape EntityType="charityconnectionsDBModel.Charity_Event" Width="1.5" PointX="6.75" PointY="0.75" />
-        <EntityTypeShape EntityType="charityconnectionsDBModel.Contact_Info" Width="1.5" PointX="0.75" PointY="6.75" />
-        <EntityTypeShape EntityType="charityconnectionsDBModel.Event_Attendance" Width="1.5" PointX="6.75" PointY="4.75" />
-        <EntityTypeShape EntityType="charityconnectionsDBModel.Helping_Action" Width="1.5" PointX="0.75" PointY="0.875" />
-        <EntityTypeShape EntityType="charityconnectionsDBModel.Location" Width="1.5" PointX="2.75" PointY="7.75" />
-        <EntityTypeShape EntityType="charityconnectionsDBModel.Log_in" Width="1.5" PointX="4.75" PointY="7.75" />
-        <EntityTypeShape EntityType="charityconnectionsDBModel.Member" Width="1.5" PointX="6.75" PointY="7.75" />
-        <EntityTypeShape EntityType="charityconnectionsDBModel.Member_Action" Width="1.5" PointX="3" PointY="0.875" />
-        <EntityTypeShape EntityType="charityconnectionsDBModel.Member_Type" Width="1.5" PointX="8.75" PointY="0.75" />
-        <EntityTypeShape EntityType="charityconnectionsDBModel.Preference" Width="1.5" PointX="8.75" PointY="3.75" />
-        <EntityTypeShape EntityType="charityconnectionsDBModel.Preferred_Category" Width="1.5" PointX="8.75" PointY="6.75" />
-        <EntityTypeShape EntityType="charityconnectionsDBModel.Preferred_Charity" Width="1.5" PointX="8.75" PointY="9.75" />
-        <AssociationConnector Association="charityconnectionsDBModel.FK__Member_Ac__Membe__19DFD96B" />
+      <Diagram DiagramId="0d1da4e7f3a947c7a376dd6cbeb19b60" Name="Diagram1">
+        <EntityTypeShape EntityType="fvtcModel.Category" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="fvtcModel.Charity" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="fvtcModel.Charity_Event" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="fvtcModel.Contact_Info" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="fvtcModel.Event_Attendance" Width="1.5" PointX="6.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="fvtcModel.Helping_Action" Width="1.5" PointX="0.75" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="fvtcModel.Location" Width="1.5" PointX="6.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="fvtcModel.Log_in" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="fvtcModel.Member" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="fvtcModel.Member_Action" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="fvtcModel.Member_Type" Width="1.5" PointX="2.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="fvtcModel.Preference" Width="1.5" PointX="8.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="fvtcModel.Preferred_Category" Width="1.5" PointX="8.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="fvtcModel.Preferred_Charity" Width="1.5" PointX="9.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="fvtcModel.FK__Member_Ac__Membe__3FD07829" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

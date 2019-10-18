@@ -199,7 +199,7 @@ namespace CC.Connections.BL
         {
             Type type = typeof(TEntity);//maybe make property
             instance = entry;
-            using (DBconnections dc = new DBconnections())
+            using (fvtcEntities dc = new fvtcEntities())
             {
                 type.GetProperties().ToList().ForEach(c=> 
                     properties.Add(new PropertyDB_Info<TEntity>(c,dc,instance)));
@@ -209,7 +209,7 @@ namespace CC.Connections.BL
         {
             Type type = typeof(TEntity);//maybe make property
             instance = table.FirstOrDefault();
-            using (DBconnections dc = new DBconnections())
+            using (fvtcEntities dc = new fvtcEntities())
             {
                 type.GetProperties().ToList().ForEach(c =>
                     properties.Add(new PropertyDB_Info<TEntity>(c, dc, instance)));
@@ -236,7 +236,7 @@ namespace CC.Connections.BL
                 setValue(instance, c.p.Name, default);
         }
 
-        protected int Delete(DBconnections dc, DbSet<TEntity> table)
+        protected int Delete(fvtcEntities dc, DbSet<TEntity> table)
         {
             try
             {
@@ -261,7 +261,7 @@ namespace CC.Connections.BL
             return false;
         }
 
-        protected int Insert(DBconnections dc, DbSet<TEntity> table)
+        protected int Insert(fvtcEntities dc, DbSet<TEntity> table)
         {
             try
             {
@@ -372,7 +372,7 @@ namespace CC.Connections.BL
             }
         }
 
-        protected int Update(DBconnections dc, DbSet<TEntity> table)
+        protected int Update(fvtcEntities dc, DbSet<TEntity> table)
         {
             try
             {
@@ -492,7 +492,7 @@ namespace CC.Connections.BL
             //        }
             //    }
         }
-        public void DeleteAllPreferences(DBconnections dc, DbSet<TEntityJoin> join_table)
+        public void DeleteAllPreferences(fvtcEntities dc, DbSet<TEntityJoin> join_table)
         {
             foreach (var col in join_table)
                 if (joinGrouping_ID.Equals(Utils.getValue(col, joinGrouping_ID_name)))
@@ -501,7 +501,7 @@ namespace CC.Connections.BL
             this.Clear();
         }
 
-        public void Add(DBconnections dc, DbSet<TEntityJoin> joinTable, TEntityJoin joinInstance, Tcrud entry)
+        public void Add(fvtcEntities dc, DbSet<TEntityJoin> joinTable, TEntityJoin joinInstance, Tcrud entry)
         {
             if (joinTable_Properties[0].GetValue(joinInstance) is int)//gets type int
             {
@@ -531,7 +531,7 @@ namespace CC.Connections.BL
             dc.SaveChanges();
             base.Add(entry);
         }
-        public void Remove(DBconnections dc, DbSet<TEntityJoin> joinTable, Tcrud entry)
+        public void Remove(fvtcEntities dc, DbSet<TEntityJoin> joinTable, Tcrud entry)
         {
             foreach (var join in joinTable)
             {

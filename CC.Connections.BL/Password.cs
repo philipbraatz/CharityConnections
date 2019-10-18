@@ -51,7 +51,7 @@ namespace CC.Connections.BL
         {
             try
             {
-                using (DBconnections dc = new DBconnections())
+                using (fvtcEntities dc = new fvtcEntities())
                 {
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invaild");
@@ -68,7 +68,7 @@ namespace CC.Connections.BL
         }
 
 
-        internal bool Insert(DBconnections dc, int iD)
+        internal bool Insert(fvtcEntities dc, int iD)
         {
             //if (dc.Log_in.ToList().Count > 0)
             //    email = (int)dc.Log_in.Max(c => c.LogInMember_ID) + 1;
@@ -88,7 +88,7 @@ namespace CC.Connections.BL
             return true;//added
         }
 
-        internal void Delete(DBconnections dc)
+        internal void Delete(fvtcEntities dc)
         {
             dc.Log_in.Remove(dc.Log_in.Where(c => c.ContactInfoEmail == email).FirstOrDefault());
             this.email = string.Empty;
@@ -96,7 +96,7 @@ namespace CC.Connections.BL
             dc.SaveChanges();
         }
 
-        internal void Update(DBconnections dc)
+        internal void Update(fvtcEntities dc)
         {
             PL.Log_in entry = dc.Log_in.Where(c => c.ContactInfoEmail == this.email).FirstOrDefault();
             entry.LogInPassword = hash;
@@ -113,7 +113,7 @@ namespace CC.Connections.BL
                     throw new Exception("Password must be set");//no UserPass
                 else
                 {
-                    using (DBconnections dc = new DBconnections())
+                    using (fvtcEntities dc = new fvtcEntities())
                     {
                         PL.Log_in entry = dc.Log_in.FirstOrDefault(u => u.ContactInfoEmail == this.email);
                         if (entry == null)

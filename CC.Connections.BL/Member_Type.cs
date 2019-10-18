@@ -22,7 +22,7 @@ namespace CC.Connections.BL
         }
 
         public AbsMember_Type(int id) :
-            base(new DBconnections().Member_Type, id)
+            base(new fvtcEntities().Member_Type, id)
         {
             Clear();
             ID = id;
@@ -38,28 +38,28 @@ namespace CC.Connections.BL
 
         public void LoadId()
         {
-            using (DBconnections dc = new DBconnections())
+            using (fvtcEntities dc = new fvtcEntities())
             {
                 base.LoadId(dc.Member_Type);
             }
         }
         public int Insert()
         {
-            using (DBconnections dc = new DBconnections())
+            using (fvtcEntities dc = new fvtcEntities())
             {
                 return base.Insert(dc, dc.Member_Type);
             }
         }
         public int Update()
         {
-            using (DBconnections dc = new DBconnections())
+            using (fvtcEntities dc = new fvtcEntities())
             {
                 return base.Update(dc, dc.Member_Type);
             }
         }
         public int Delete()
         {
-            using (DBconnections dc = new DBconnections())
+            using (fvtcEntities dc = new fvtcEntities())
             {
                 //dc.Member_Type.Remove(this);
                 //return dc.SaveChanges();
@@ -72,7 +72,7 @@ namespace CC.Connections.BL
     {
         public new void LoadAll()
         {
-            using (DBconnections dc = new DBconnections())
+            using (fvtcEntities dc = new fvtcEntities())
             {
                 base.LoadAll(dc.Member_Type);
             }

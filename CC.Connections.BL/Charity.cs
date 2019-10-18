@@ -37,7 +37,7 @@ namespace CC.Connections.BL
         public string LocationZip;
         public string LocationCityState;
 
-        internal static bool Exists(DBconnections dc, int id)
+        internal static bool Exists(fvtcEntities dc, int id)
         {
             return dc.Charities.Where(c => c.Charity_ID == id).FirstOrDefault() != null;
         }
@@ -70,7 +70,7 @@ namespace CC.Connections.BL
             //get ID and password from other tables
             try
             {
-                using (DBconnections dc = new DBconnections())
+                using (fvtcEntities dc = new fvtcEntities())
                 {
                     Clear();
 
@@ -109,7 +109,7 @@ namespace CC.Connections.BL
             //get ID and password from other tables
             try
             {
-                using (DBconnections dc = new DBconnections())
+                using (fvtcEntities dc = new fvtcEntities())
                 {
                     PL.Charity chID = dc.Charities.Where(ch => ch.Charity_Email == Ch_Email).FirstOrDefault();
                     if (chID == null)
@@ -135,7 +135,7 @@ namespace CC.Connections.BL
         {
             try
             {
-                using (DBconnections dc = new DBconnections())
+                using (fvtcEntities dc = new fvtcEntities())
                 {
                     Clear();
 
@@ -158,7 +158,7 @@ namespace CC.Connections.BL
         {
             try
             {
-                using (DBconnections dc = new DBconnections())
+                using (fvtcEntities dc = new fvtcEntities())
                 {
                     Clear();
 
@@ -175,7 +175,7 @@ namespace CC.Connections.BL
         }
 
 
-        internal static List<int> LoadMembersIdList(DBconnections dc, int member_ID)
+        internal static List<int> LoadMembersIdList(fvtcEntities dc, int member_ID)
         {
             throw new NotImplementedException();
         }
@@ -184,7 +184,7 @@ namespace CC.Connections.BL
         {
             try
             {
-                using (DBconnections dc = new DBconnections())
+                using (fvtcEntities dc = new fvtcEntities())
                 {
                     PL.Charity entry = dc.Charities.Where(c => c.Charity_ID == this.ID).FirstOrDefault();
                     if (entry != null)
@@ -224,7 +224,7 @@ namespace CC.Connections.BL
                 {
                     //if (ID == string.Empty)
                     //    throw new Exception("Description cannot be empty");
-                    using (DBconnections dc = new DBconnections())
+                    using (fvtcEntities dc = new fvtcEntities())
                     {
                         //double check ID before insert
                         if (dc.Charities.Where(c => c.Charity_ID == ID) != null)
@@ -256,7 +256,7 @@ namespace CC.Connections.BL
         {
             try
             {           
-                using (DBconnections dc = new DBconnections())
+                using (fvtcEntities dc = new fvtcEntities())
                 {
                     PL.Charity entry = dc.Charities.Where(c => c.Charity_ID == this.ID).FirstOrDefault();
                     base.Update();
@@ -271,7 +271,7 @@ namespace CC.Connections.BL
         {
             try
             {
-                using (DBconnections dc = new DBconnections())
+                using (fvtcEntities dc = new fvtcEntities())
                 {                  
                     base.Delete();
 
@@ -288,7 +288,7 @@ namespace CC.Connections.BL
         {
             try
             {
-                using (DBconnections dc = new DBconnections())
+                using (fvtcEntities dc = new fvtcEntities())
                 {
                     Charity retChar = new Charity();
                     PL.Charity entryCharity = dc.Charities.FirstOrDefault(c => c.Charity_ID == charity_ID);
@@ -325,7 +325,7 @@ namespace CC.Connections.BL
         {
             try
             {
-                using (DBconnections dc = new DBconnections())
+                using (fvtcEntities dc = new fvtcEntities())
                 {
                     if(dc.Charities.ToList().Count != 0)
                         dc.Charities.ToList().ForEach(c =>
