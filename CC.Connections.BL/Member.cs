@@ -20,7 +20,7 @@ namespace CC.Connections.BL
         public AbsPreference Pref { get; set; }
         public AbsLocation Location { get; set; }
 
-        internal static bool Exists(fvtcEntities dc, int id)
+        internal static bool Exists(fvtcEntities1 dc, int id)
         {
             return dc.Members.Where(c => c.Member_ID == id).FirstOrDefault() != null;
         }
@@ -54,7 +54,7 @@ namespace CC.Connections.BL
             //get ID and password from other tables
             try
             {
-                using (fvtcEntities dc = new fvtcEntities())
+                using (fvtcEntities1 dc = new fvtcEntities1())
                 {
                     Clear();
 
@@ -102,7 +102,7 @@ namespace CC.Connections.BL
             //get ID and password from other tables
             try
             {
-                using (fvtcEntities dc = new fvtcEntities())
+                using (fvtcEntities1 dc = new fvtcEntities1())
                 {
                     PL.Contact_Info cID = dc.Contact_Info.Where(c => c.ContactInfo_Email == email).FirstOrDefault();
                     if (cID == null)
@@ -146,7 +146,7 @@ namespace CC.Connections.BL
             {
                 //if (ID == string.Empty)
                 //    throw new Exception("Description cannot be empty");
-                using (fvtcEntities dc = new fvtcEntities())
+                using (fvtcEntities1 dc = new fvtcEntities1())
                 {
                     //double check ID before insert
                     if(dc.Members.Where(c=>c.Member_ID ==ID) != null)
@@ -179,7 +179,7 @@ namespace CC.Connections.BL
         {
             try
             {
-                using (fvtcEntities dc = new fvtcEntities())
+                using (fvtcEntities1 dc = new fvtcEntities1())
                 {
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invaild");
@@ -208,7 +208,7 @@ namespace CC.Connections.BL
             {
                 //if (Description == string.Empty)
                 //    throw new Exception("Description cannot be empty");
-                using (fvtcEntities dc = new fvtcEntities())
+                using (fvtcEntities1 dc = new fvtcEntities1())
                 {
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invaild");
@@ -233,7 +233,7 @@ namespace CC.Connections.BL
 
             try
             {
-                using (fvtcEntities dc = new fvtcEntities())
+                using (fvtcEntities1 dc = new fvtcEntities1())
                 {
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invaild");
@@ -303,7 +303,7 @@ namespace CC.Connections.BL
         {
             try
             {
-                using (fvtcEntities dc = new fvtcEntities())
+                using (fvtcEntities1 dc = new fvtcEntities1())
                 {
                     if (dc.Members.ToList().Count != 0)
                         dc.Members.ToList().ForEach(c =>

@@ -1,0 +1,512 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="fvtcModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Category_ID" />
+          </Key>
+          <Property Name="Category_ID" Type="int" Nullable="false" />
+          <Property Name="Category_Desc" Type="nvarchar" MaxLength="70" />
+        </EntityType>
+        <EntityType Name="Charity">
+          <Key>
+            <PropertyRef Name="Charity_ID" />
+          </Key>
+          <Property Name="Charity_ID" Type="int" Nullable="false" />
+          <Property Name="Charity_Contact_ID" Type="int" />
+          <Property Name="Charity_EIN" Type="nvarchar" MaxLength="50" />
+          <Property Name="Charity_Deductibility" Type="bit" />
+          <Property Name="Charity_URL" Type="nvarchar" MaxLength="75" />
+          <Property Name="Charity_Cause" Type="nvarchar" MaxLength="50" />
+          <Property Name="Charity_Email" Type="nvarchar" MaxLength="75" />
+          <Property Name="Charity_Category_ID" Type="int" />
+          <Property Name="Location_ID" Type="int" />
+          <Property Name="Charity_Requirements" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="Charity_Event">
+          <Key>
+            <PropertyRef Name="CharityEvent_ID" />
+          </Key>
+          <Property Name="CharityEvent_ID" Type="int" Nullable="false" />
+          <Property Name="CharityEventName" Type="nvarchar" MaxLength="75" />
+          <Property Name="CharityEventLocation_ID" Type="int" />
+          <Property Name="CharityEventCharity_ID" Type="int" />
+          <Property Name="CharityEventContactInfo_ID" Type="int" />
+          <Property Name="CharityEventStartDate" Type="datetime" />
+          <Property Name="CharityEventEndDate" Type="datetime" />
+          <Property Name="CharityEventStatus" Type="nvarchar" MaxLength="10" />
+          <Property Name="CharityEventRequirements" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="Contact_Info">
+          <Key>
+            <PropertyRef Name="Contact_Info_ID" />
+          </Key>
+          <Property Name="Contact_Info_ID" Type="int" Nullable="false" />
+          <Property Name="ContactInfo_FName" Type="nvarchar" MaxLength="25" />
+          <Property Name="ContactInfo_LName" Type="nvarchar" MaxLength="50" />
+          <Property Name="ContactInfo_Phone" Type="nvarchar" MaxLength="12" />
+          <Property Name="ContactInfo_Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="DateOfBirth" Type="date" />
+        </EntityType>
+        <EntityType Name="Event_Attendance">
+          <Key>
+            <PropertyRef Name="EventAttendance_ID" />
+          </Key>
+          <Property Name="EventAttendance_ID" Type="int" Nullable="false" />
+          <Property Name="Event_ID" Type="int" />
+          <Property Name="Member_ID" Type="int" />
+          <Property Name="Status" Type="nvarchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Helping_Action">
+          <Key>
+            <PropertyRef Name="Helping_Action_ID" />
+          </Key>
+          <Property Name="Helping_Action_ID" Type="int" Nullable="false" />
+          <Property Name="HelpingActionCategory_ID" Type="int" />
+          <Property Name="HelpingActionDescription" Type="nvarchar" MaxLength="75" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="Location_ID" />
+          </Key>
+          <Property Name="Location_ID" Type="int" Nullable="false" />
+          <Property Name="ContactInfoAddress" Type="nvarchar" MaxLength="50" />
+          <Property Name="ContactInfoCity" Type="nvarchar" MaxLength="25" />
+          <Property Name="ContactInfoState" Type="nvarchar" MaxLength="25" />
+          <Property Name="ContactInfoZip" Type="nvarchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Log_in">
+          <Key>
+            <PropertyRef Name="ContactInfoEmail" />
+          </Key>
+          <Property Name="ContactInfoEmail" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LogInMember_ID" Type="int" />
+          <Property Name="LogInPassword" Type="nvarchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="Member">
+          <Key>
+            <PropertyRef Name="Member_ID" />
+          </Key>
+          <Property Name="Member_ID" Type="int" Nullable="false" />
+          <Property Name="MemberContact_ID" Type="int" />
+          <Property Name="MemberPreference_ID" Type="int" />
+          <Property Name="MemberType_ID" Type="int" />
+          <Property Name="Location_ID" Type="int" />
+        </EntityType>
+        <EntityType Name="Member_Action">
+          <Key>
+            <PropertyRef Name="MemberAction_ID" />
+          </Key>
+          <Property Name="MemberAction_ID" Type="int" Nullable="false" />
+          <Property Name="MemberActionMember_ID" Type="int" />
+          <Property Name="MemberActionAction_ID" Type="int" />
+        </EntityType>
+        <EntityType Name="Member_Type">
+          <Key>
+            <PropertyRef Name="MemberType_ID" />
+          </Key>
+          <Property Name="MemberType_ID" Type="int" Nullable="false" />
+          <Property Name="MemberTypeDescription" Type="nvarchar" MaxLength="75" />
+        </EntityType>
+        <EntityType Name="Preference">
+          <Key>
+            <PropertyRef Name="Preference_ID" />
+          </Key>
+          <Property Name="Preference_ID" Type="int" Nullable="false" />
+          <Property Name="Distance" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="Preferred_Category">
+          <Key>
+            <PropertyRef Name="PreferredCategory_ID" />
+          </Key>
+          <Property Name="PreferredCategory_ID" Type="int" Nullable="false" />
+          <Property Name="MemberCat_Category_ID" Type="int" />
+          <Property Name="MemberCat_Member_ID" Type="int" />
+        </EntityType>
+        <EntityType Name="Preferred_Charity">
+          <Key>
+            <PropertyRef Name="MemberCharity_ID" />
+          </Key>
+          <Property Name="MemberCharity_ID" Type="int" Nullable="false" />
+          <Property Name="Member_ID" Type="int" />
+          <Property Name="Charity_ID" Type="int" />
+        </EntityType>
+        <Association Name="FK__Member_Ac__Membe__3FD07829">
+          <End Role="Helping_Action" Type="Self.Helping_Action" Multiplicity="0..1" />
+          <End Role="Member_Action" Type="Self.Member_Action" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Helping_Action">
+              <PropertyRef Name="Helping_Action_ID" />
+            </Principal>
+            <Dependent Role="Member_Action">
+              <PropertyRef Name="MemberActionAction_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="fvtcModelStoreContainer">
+          <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Charity" EntityType="Self.Charity" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Charity_Event" EntityType="Self.Charity_Event" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Contact_Info" EntityType="Self.Contact_Info" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Event_Attendance" EntityType="Self.Event_Attendance" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Helping_Action" EntityType="Self.Helping_Action" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Location" EntityType="Self.Location" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Log_in" EntityType="Self.Log_in" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Member" EntityType="Self.Member" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Member_Action" EntityType="Self.Member_Action" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Member_Type" EntityType="Self.Member_Type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Preference" EntityType="Self.Preference" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Preferred_Category" EntityType="Self.Preferred_Category" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Preferred_Charity" EntityType="Self.Preferred_Charity" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Member_Ac__Membe__3FD07829" Association="Self.FK__Member_Ac__Membe__3FD07829">
+            <End Role="Helping_Action" EntitySet="Helping_Action" />
+            <End Role="Member_Action" EntitySet="Member_Action" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="fvtcModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Category">
+          <Key>
+            <PropertyRef Name="Category_ID" />
+          </Key>
+          <Property Name="Category_ID" Type="Int32" Nullable="false" />
+          <Property Name="Category_Desc" Type="String" MaxLength="70" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Charity">
+          <Key>
+            <PropertyRef Name="Charity_ID" />
+          </Key>
+          <Property Name="Charity_ID" Type="Int32" Nullable="false" />
+          <Property Name="Charity_Contact_ID" Type="Int32" />
+          <Property Name="Charity_EIN" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Charity_Deductibility" Type="Boolean" />
+          <Property Name="Charity_URL" Type="String" MaxLength="75" FixedLength="false" Unicode="true" />
+          <Property Name="Charity_Cause" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Charity_Email" Type="String" MaxLength="75" FixedLength="false" Unicode="true" />
+          <Property Name="Charity_Category_ID" Type="Int32" />
+          <Property Name="Location_ID" Type="Int32" />
+          <Property Name="Charity_Requirements" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Charity_Event">
+          <Key>
+            <PropertyRef Name="CharityEvent_ID" />
+          </Key>
+          <Property Name="CharityEvent_ID" Type="Int32" Nullable="false" />
+          <Property Name="CharityEventName" Type="String" MaxLength="75" FixedLength="false" Unicode="true" />
+          <Property Name="CharityEventLocation_ID" Type="Int32" />
+          <Property Name="CharityEventCharity_ID" Type="Int32" />
+          <Property Name="CharityEventContactInfo_ID" Type="Int32" />
+          <Property Name="CharityEventStartDate" Type="DateTime" Precision="3" />
+          <Property Name="CharityEventEndDate" Type="DateTime" Precision="3" />
+          <Property Name="CharityEventStatus" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="CharityEventRequirements" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Contact_Info">
+          <Key>
+            <PropertyRef Name="Contact_Info_ID" />
+          </Key>
+          <Property Name="Contact_Info_ID" Type="Int32" Nullable="false" />
+          <Property Name="ContactInfo_FName" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="ContactInfo_LName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ContactInfo_Phone" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
+          <Property Name="ContactInfo_Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DateOfBirth" Type="DateTime" Precision="0" />
+        </EntityType>
+        <EntityType Name="Event_Attendance">
+          <Key>
+            <PropertyRef Name="EventAttendance_ID" />
+          </Key>
+          <Property Name="EventAttendance_ID" Type="Int32" Nullable="false" />
+          <Property Name="Event_ID" Type="Int32" />
+          <Property Name="Member_ID" Type="Int32" />
+          <Property Name="Status" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Helping_Action">
+          <Key>
+            <PropertyRef Name="Helping_Action_ID" />
+          </Key>
+          <Property Name="Helping_Action_ID" Type="Int32" Nullable="false" />
+          <Property Name="HelpingActionCategory_ID" Type="Int32" />
+          <Property Name="HelpingActionDescription" Type="String" MaxLength="75" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Member_Action" Relationship="Self.FK__Member_Ac__Membe__3FD07829" FromRole="Helping_Action" ToRole="Member_Action" />
+        </EntityType>
+        <EntityType Name="Location">
+          <Key>
+            <PropertyRef Name="Location_ID" />
+          </Key>
+          <Property Name="Location_ID" Type="Int32" Nullable="false" />
+          <Property Name="ContactInfoAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ContactInfoCity" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="ContactInfoState" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <Property Name="ContactInfoZip" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Log_in">
+          <Key>
+            <PropertyRef Name="ContactInfoEmail" />
+          </Key>
+          <Property Name="ContactInfoEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LogInMember_ID" Type="Int32" />
+          <Property Name="LogInPassword" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Member">
+          <Key>
+            <PropertyRef Name="Member_ID" />
+          </Key>
+          <Property Name="Member_ID" Type="Int32" Nullable="false" />
+          <Property Name="MemberContact_ID" Type="Int32" />
+          <Property Name="MemberPreference_ID" Type="Int32" />
+          <Property Name="MemberType_ID" Type="Int32" />
+          <Property Name="Location_ID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Member_Action">
+          <Key>
+            <PropertyRef Name="MemberAction_ID" />
+          </Key>
+          <Property Name="MemberAction_ID" Type="Int32" Nullable="false" />
+          <Property Name="MemberActionMember_ID" Type="Int32" />
+          <Property Name="MemberActionAction_ID" Type="Int32" />
+          <NavigationProperty Name="Helping_Action" Relationship="Self.FK__Member_Ac__Membe__3FD07829" FromRole="Member_Action" ToRole="Helping_Action" />
+        </EntityType>
+        <EntityType Name="Member_Type">
+          <Key>
+            <PropertyRef Name="MemberType_ID" />
+          </Key>
+          <Property Name="MemberType_ID" Type="Int32" Nullable="false" />
+          <Property Name="MemberTypeDescription" Type="String" MaxLength="75" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Preference">
+          <Key>
+            <PropertyRef Name="Preference_ID" />
+          </Key>
+          <Property Name="Preference_ID" Type="Int32" Nullable="false" />
+          <Property Name="Distance" Type="Decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="Preferred_Category">
+          <Key>
+            <PropertyRef Name="PreferredCategory_ID" />
+          </Key>
+          <Property Name="PreferredCategory_ID" Type="Int32" Nullable="false" />
+          <Property Name="MemberCat_Category_ID" Type="Int32" />
+          <Property Name="MemberCat_Member_ID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Preferred_Charity">
+          <Key>
+            <PropertyRef Name="MemberCharity_ID" />
+          </Key>
+          <Property Name="MemberCharity_ID" Type="Int32" Nullable="false" />
+          <Property Name="Member_ID" Type="Int32" />
+          <Property Name="Charity_ID" Type="Int32" />
+        </EntityType>
+        <Association Name="FK__Member_Ac__Membe__3FD07829">
+          <End Role="Helping_Action" Type="Self.Helping_Action" Multiplicity="0..1" />
+          <End Role="Member_Action" Type="Self.Member_Action" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Helping_Action">
+              <PropertyRef Name="Helping_Action_ID" />
+            </Principal>
+            <Dependent Role="Member_Action">
+              <PropertyRef Name="MemberActionAction_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="fvtcEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Categories" EntityType="Self.Category" />
+          <EntitySet Name="Charities" EntityType="Self.Charity" />
+          <EntitySet Name="Charity_Event" EntityType="Self.Charity_Event" />
+          <EntitySet Name="Contact_Info" EntityType="Self.Contact_Info" />
+          <EntitySet Name="Event_Attendance" EntityType="Self.Event_Attendance" />
+          <EntitySet Name="Helping_Action" EntityType="Self.Helping_Action" />
+          <EntitySet Name="Locations" EntityType="Self.Location" />
+          <EntitySet Name="Log_in" EntityType="Self.Log_in" />
+          <EntitySet Name="Members" EntityType="Self.Member" />
+          <EntitySet Name="Member_Action" EntityType="Self.Member_Action" />
+          <EntitySet Name="Member_Type" EntityType="Self.Member_Type" />
+          <EntitySet Name="Preferences" EntityType="Self.Preference" />
+          <EntitySet Name="Preferred_Category" EntityType="Self.Preferred_Category" />
+          <EntitySet Name="Preferred_Charity" EntityType="Self.Preferred_Charity" />
+          <AssociationSet Name="FK__Member_Ac__Membe__3FD07829" Association="Self.FK__Member_Ac__Membe__3FD07829">
+            <End Role="Helping_Action" EntitySet="Helping_Action" />
+            <End Role="Member_Action" EntitySet="Member_Action" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="fvtcModelStoreContainer" CdmEntityContainer="fvtcEntities1">
+          <EntitySetMapping Name="Categories">
+            <EntityTypeMapping TypeName="fvtcModel.Category">
+              <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="Category_ID" ColumnName="Category_ID" />
+                <ScalarProperty Name="Category_Desc" ColumnName="Category_Desc" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Charities">
+            <EntityTypeMapping TypeName="fvtcModel.Charity">
+              <MappingFragment StoreEntitySet="Charity">
+                <ScalarProperty Name="Charity_ID" ColumnName="Charity_ID" />
+                <ScalarProperty Name="Charity_Contact_ID" ColumnName="Charity_Contact_ID" />
+                <ScalarProperty Name="Charity_EIN" ColumnName="Charity_EIN" />
+                <ScalarProperty Name="Charity_Deductibility" ColumnName="Charity_Deductibility" />
+                <ScalarProperty Name="Charity_URL" ColumnName="Charity_URL" />
+                <ScalarProperty Name="Charity_Cause" ColumnName="Charity_Cause" />
+                <ScalarProperty Name="Charity_Email" ColumnName="Charity_Email" />
+                <ScalarProperty Name="Charity_Category_ID" ColumnName="Charity_Category_ID" />
+                <ScalarProperty Name="Location_ID" ColumnName="Location_ID" />
+                <ScalarProperty Name="Charity_Requirements" ColumnName="Charity_Requirements" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Charity_Event">
+            <EntityTypeMapping TypeName="fvtcModel.Charity_Event">
+              <MappingFragment StoreEntitySet="Charity_Event">
+                <ScalarProperty Name="CharityEvent_ID" ColumnName="CharityEvent_ID" />
+                <ScalarProperty Name="CharityEventName" ColumnName="CharityEventName" />
+                <ScalarProperty Name="CharityEventLocation_ID" ColumnName="CharityEventLocation_ID" />
+                <ScalarProperty Name="CharityEventCharity_ID" ColumnName="CharityEventCharity_ID" />
+                <ScalarProperty Name="CharityEventContactInfo_ID" ColumnName="CharityEventContactInfo_ID" />
+                <ScalarProperty Name="CharityEventStartDate" ColumnName="CharityEventStartDate" />
+                <ScalarProperty Name="CharityEventEndDate" ColumnName="CharityEventEndDate" />
+                <ScalarProperty Name="CharityEventStatus" ColumnName="CharityEventStatus" />
+                <ScalarProperty Name="CharityEventRequirements" ColumnName="CharityEventRequirements" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Contact_Info">
+            <EntityTypeMapping TypeName="fvtcModel.Contact_Info">
+              <MappingFragment StoreEntitySet="Contact_Info">
+                <ScalarProperty Name="Contact_Info_ID" ColumnName="Contact_Info_ID" />
+                <ScalarProperty Name="ContactInfo_FName" ColumnName="ContactInfo_FName" />
+                <ScalarProperty Name="ContactInfo_LName" ColumnName="ContactInfo_LName" />
+                <ScalarProperty Name="ContactInfo_Phone" ColumnName="ContactInfo_Phone" />
+                <ScalarProperty Name="ContactInfo_Email" ColumnName="ContactInfo_Email" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Event_Attendance">
+            <EntityTypeMapping TypeName="fvtcModel.Event_Attendance">
+              <MappingFragment StoreEntitySet="Event_Attendance">
+                <ScalarProperty Name="EventAttendance_ID" ColumnName="EventAttendance_ID" />
+                <ScalarProperty Name="Event_ID" ColumnName="Event_ID" />
+                <ScalarProperty Name="Member_ID" ColumnName="Member_ID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Helping_Action">
+            <EntityTypeMapping TypeName="fvtcModel.Helping_Action">
+              <MappingFragment StoreEntitySet="Helping_Action">
+                <ScalarProperty Name="Helping_Action_ID" ColumnName="Helping_Action_ID" />
+                <ScalarProperty Name="HelpingActionCategory_ID" ColumnName="HelpingActionCategory_ID" />
+                <ScalarProperty Name="HelpingActionDescription" ColumnName="HelpingActionDescription" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Locations">
+            <EntityTypeMapping TypeName="fvtcModel.Location">
+              <MappingFragment StoreEntitySet="Location">
+                <ScalarProperty Name="Location_ID" ColumnName="Location_ID" />
+                <ScalarProperty Name="ContactInfoAddress" ColumnName="ContactInfoAddress" />
+                <ScalarProperty Name="ContactInfoCity" ColumnName="ContactInfoCity" />
+                <ScalarProperty Name="ContactInfoState" ColumnName="ContactInfoState" />
+                <ScalarProperty Name="ContactInfoZip" ColumnName="ContactInfoZip" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Log_in">
+            <EntityTypeMapping TypeName="fvtcModel.Log_in">
+              <MappingFragment StoreEntitySet="Log_in">
+                <ScalarProperty Name="ContactInfoEmail" ColumnName="ContactInfoEmail" />
+                <ScalarProperty Name="LogInMember_ID" ColumnName="LogInMember_ID" />
+                <ScalarProperty Name="LogInPassword" ColumnName="LogInPassword" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Members">
+            <EntityTypeMapping TypeName="fvtcModel.Member">
+              <MappingFragment StoreEntitySet="Member">
+                <ScalarProperty Name="Member_ID" ColumnName="Member_ID" />
+                <ScalarProperty Name="MemberContact_ID" ColumnName="MemberContact_ID" />
+                <ScalarProperty Name="MemberPreference_ID" ColumnName="MemberPreference_ID" />
+                <ScalarProperty Name="MemberType_ID" ColumnName="MemberType_ID" />
+                <ScalarProperty Name="Location_ID" ColumnName="Location_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Member_Action">
+            <EntityTypeMapping TypeName="fvtcModel.Member_Action">
+              <MappingFragment StoreEntitySet="Member_Action">
+                <ScalarProperty Name="MemberAction_ID" ColumnName="MemberAction_ID" />
+                <ScalarProperty Name="MemberActionMember_ID" ColumnName="MemberActionMember_ID" />
+                <ScalarProperty Name="MemberActionAction_ID" ColumnName="MemberActionAction_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Member_Type">
+            <EntityTypeMapping TypeName="fvtcModel.Member_Type">
+              <MappingFragment StoreEntitySet="Member_Type">
+                <ScalarProperty Name="MemberType_ID" ColumnName="MemberType_ID" />
+                <ScalarProperty Name="MemberTypeDescription" ColumnName="MemberTypeDescription" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Preferences">
+            <EntityTypeMapping TypeName="fvtcModel.Preference">
+              <MappingFragment StoreEntitySet="Preference">
+                <ScalarProperty Name="Preference_ID" ColumnName="Preference_ID" />
+                <ScalarProperty Name="Distance" ColumnName="Distance" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Preferred_Category">
+            <EntityTypeMapping TypeName="fvtcModel.Preferred_Category">
+              <MappingFragment StoreEntitySet="Preferred_Category">
+                <ScalarProperty Name="PreferredCategory_ID" ColumnName="PreferredCategory_ID" />
+                <ScalarProperty Name="MemberCat_Category_ID" ColumnName="MemberCat_Category_ID" />
+                <ScalarProperty Name="MemberCat_Member_ID" ColumnName="MemberCat_Member_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Preferred_Charity">
+            <EntityTypeMapping TypeName="fvtcModel.Preferred_Charity">
+              <MappingFragment StoreEntitySet="Preferred_Charity">
+                <ScalarProperty Name="MemberCharity_ID" ColumnName="MemberCharity_ID" />
+                <ScalarProperty Name="Member_ID" ColumnName="Member_ID" />
+                <ScalarProperty Name="Charity_ID" ColumnName="Charity_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

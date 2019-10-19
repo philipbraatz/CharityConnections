@@ -53,7 +53,7 @@ namespace CC.Connections.BL
         {
             try
             {
-                using (fvtcEntities dc = new fvtcEntities())
+                using (fvtcEntities1 dc = new fvtcEntities1())
                 {
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invaild");
@@ -70,7 +70,7 @@ namespace CC.Connections.BL
         }
 
 
-        internal bool Insert(fvtcEntities dc, int iD)
+        internal bool Insert(fvtcEntities1 dc, int iD)
         {
             //if (dc.Log_in.ToList().Count > 0)
             //    email = (int)dc.Log_in.Max(c => c.LogInMember_ID) + 1;
@@ -90,7 +90,7 @@ namespace CC.Connections.BL
             return true;//added
         }
 
-        internal void Delete(fvtcEntities dc)
+        internal void Delete(fvtcEntities1 dc)
         {
             dc.Log_in.Remove(dc.Log_in.Where(c => c.ContactInfoEmail == email).FirstOrDefault());
             this.email = string.Empty;
@@ -98,7 +98,7 @@ namespace CC.Connections.BL
             dc.SaveChanges();
         }
 
-        internal void Update(fvtcEntities dc)
+        internal void Update(fvtcEntities1 dc)
         {
             PL.Log_in entry = dc.Log_in.Where(c => c.ContactInfoEmail == this.email).FirstOrDefault();
             entry.LogInPassword = hash;
@@ -115,7 +115,7 @@ namespace CC.Connections.BL
                     throw new Exception("Password must be set");//no UserPass
                 else
                 {
-                    using (fvtcEntities dc = new fvtcEntities())
+                    using (fvtcEntities1 dc = new fvtcEntities1())
                     {
                         PL.Log_in entry = dc.Log_in.FirstOrDefault(u => u.ContactInfoEmail == this.email);
                         if (entry == null)
@@ -135,7 +135,7 @@ namespace CC.Connections.BL
         public void LoadList()
         {
             try{
-                using (fvtcEntities dc = new fvtcEntities()){
+                using (fvtcEntities1 dc = new fvtcEntities1()){
                     if (dc.Log_in.ToList().Count != 0)
                         dc.Log_in.ToList().ForEach(c =>
                             this.Add(new Password(c.ContactInfoEmail, c.LogInPassword, true)));

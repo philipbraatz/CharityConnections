@@ -6,7 +6,7 @@ namespace CC.Connections.BL
 {
     public class AbsPreference : ColumnEntry<PL.Preference>
     {
-        private static fvtcEntities dc;
+        private static fvtcEntities1 dc;
 
         //id
         public new int ID
@@ -24,7 +24,7 @@ namespace CC.Connections.BL
         public AbsPreference(PL.Preference entry) :
             base(entry){ }
         public AbsPreference(int id) :
-            base(new fvtcEntities().Preferences, id)
+            base(new fvtcEntities1().Preferences, id)
         {
             Clear();
             ID = id;
@@ -34,25 +34,25 @@ namespace CC.Connections.BL
         { return new AbsPreference(entry); }
 
         public void LoadId(){
-            using (fvtcEntities dc = new fvtcEntities()){
+            using (fvtcEntities1 dc = new fvtcEntities1()){
                 base.LoadId(dc.Preferences);
             }
         }
         public int Insert() {
-            using (fvtcEntities dc = new fvtcEntities()) {
+            using (fvtcEntities1 dc = new fvtcEntities1()) {
                 return base.Insert(dc, dc.Preferences);
             }
         }
         public int Update()
         {
-            using (fvtcEntities dc = new fvtcEntities())
+            using (fvtcEntities1 dc = new fvtcEntities1())
             {
                 return base.Update(dc, dc.Preferences);
             }
         }
         public int Delete()
         {
-            using (fvtcEntities dc = new fvtcEntities())
+            using (fvtcEntities1 dc = new fvtcEntities1())
             {
                 //dc.Preferences.Remove(this);
                 //return dc.SaveChanges();
@@ -65,7 +65,7 @@ namespace CC.Connections.BL
     {
         public new void LoadAll()
         {
-            using (fvtcEntities dc = new fvtcEntities())
+            using (fvtcEntities1 dc = new fvtcEntities1())
             {
                 base.LoadAll(dc.Preferences);
             }

@@ -202,7 +202,7 @@ namespace CC.Connections.BL
         {
             Type type = typeof(TEntity);//maybe make property
             instance = entry;
-            using (fvtcEntities dc = new fvtcEntities())
+            using (fvtcEntities1 dc = new fvtcEntities1())
             {
                 type.GetProperties().ToList().ForEach(c =>
                     {
@@ -218,14 +218,16 @@ namespace CC.Connections.BL
         }
         public ColumnEntry(DbSet<TEntity> table, object id,string load_AlternativeField = "")
         {
-            Type type = typeof(TEntity);//maybe make property
-            instance = table.FirstOrDefault();
-            using (fvtcEntities dc = new fvtcEntities())
+            try
+            {
+                createInstance(table.FirstOrDefault());
+            }
+            catch (Exception e)
             {
                 if (e.Message != "The underlying provider failed on Open.")
                     throw e;
                 else
-                    throw new Exception("Could not connect to database: "+e.InnerException.Message);
+                    throw new Exception("Could not connect to database: " + e.InnerException.Message);
             }
             LoadId(table, id,load_AlternativeField);
         }
@@ -248,7 +250,7 @@ namespace CC.Connections.BL
                 setValue(instance, c.p.Name, default);
         }
 
-        protected int Delete(fvtcEntities dc, DbSet<TEntity> table)
+        protected int Delete(fvtcEntities1 dc, DbSet<TEntity> table)
         {
             try
             {
@@ -273,7 +275,7 @@ namespace CC.Connections.BL
             return false;
         }
 
-        protected int Insert(fvtcEntities dc, DbSet<TEntity> table)
+        protected int Insert(fvtcEntities1 dc, DbSet<TEntity> table)
         {
             try
             {
@@ -384,7 +386,7 @@ namespace CC.Connections.BL
             }
         }
 
-        protected int Update(fvtcEntities dc, DbSet<TEntity> table)
+        protected int Update(fvtcEntities1 dc, DbSet<TEntity> table)
         {
             try
             {
@@ -504,7 +506,7 @@ namespace CC.Connections.BL
             //        }
             //    }
         }
-        public void DeleteAllPreferences(fvtcEntities dc, DbSet<TEntityJoin> join_table)
+        public void DeleteAllPreferences(fvtcEntities1 dc, DbSet<TEntityJoin> join_table)
         {
             foreach (var col in join_table)
                 if (joinGrouping_ID.Equals(Utils.getValue(col, joinGrouping_ID_name)))
@@ -513,7 +515,7 @@ namespace CC.Connections.BL
             this.Clear();
         }
 
-        public void Add(fvtcEntities dc, DbSet<TEntityJoin> joinTable, TEntityJoin joinInstance, Tcrud entry)
+        public void Add(fvtcEntities1 dc, DbSet<TEntityJoin> joinTable, TEntityJoin joinInstance, Tcrud entry)
         {
             if (joinTable_Properties[0].GetValue(joinInstance) is int)//gets type int
             {
@@ -543,7 +545,7 @@ namespace CC.Connections.BL
             dc.SaveChanges();
             base.Add(entry);
         }
-        public void Remove(fvtcEntities dc, DbSet<TEntityJoin> joinTable, Tcrud entry)
+        public void Remove(fvtcEntities1 dc, DbSet<TEntityJoin> joinTable, Tcrud entry)
         {
             foreach (var join in joinTable)
             {

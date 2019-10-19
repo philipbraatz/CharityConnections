@@ -9,7 +9,7 @@ namespace CC.Connections.BL
 {
     public class AbsContactInfo : ColumnEntry<PL.Contact_Info>
     {
-        private static fvtcEntities dc;
+        private static fvtcEntities1 dc;
 
         //real contact_Info_ID
         public int contact_ID
@@ -76,7 +76,7 @@ namespace CC.Connections.BL
         public AbsContactInfo(PL.Contact_Info entry) :
         base(entry){ }
         public AbsContactInfo(string email) :
-            base(new fvtcEntities().Contact_Info,email, "ContactInfo_Email")
+            base(new fvtcEntities1().Contact_Info,email, "ContactInfo_Email")
         {
             ContactInfo_Email = email;
             LoadId();
@@ -93,7 +93,7 @@ namespace CC.Connections.BL
             try
             {
                 emailEmptyCheck();
-                using (fvtcEntities dc = new fvtcEntities()){
+                using (fvtcEntities1 dc = new fvtcEntities1()){
                     return base.Insert(dc,dc.Contact_Info);
                 }
             }
@@ -104,7 +104,7 @@ namespace CC.Connections.BL
             try
             {
                 emailEmptyCheck();
-                using (fvtcEntities dc = new fvtcEntities()){
+                using (fvtcEntities1 dc = new fvtcEntities1()){
                     return base.Delete(dc,dc.Contact_Info);
                 }
             }
@@ -116,7 +116,7 @@ namespace CC.Connections.BL
             try
             {
                 emailEmptyCheck();
-                using (fvtcEntities dc = new fvtcEntities()){
+                using (fvtcEntities1 dc = new fvtcEntities1()){
                     return base.Update(dc, dc.Contact_Info);
                 }
             }
@@ -135,7 +135,7 @@ namespace CC.Connections.BL
             try
             {
                 emailEmptyCheck();
-                using (fvtcEntities dc = new fvtcEntities())
+                using (fvtcEntities1 dc = new fvtcEntities1())
                 {
                     PL.Contact_Info entry = dc.Contact_Info.FirstOrDefault(c =>
                         c.ContactInfo_Email == this.ContactInfo_Email);
@@ -151,7 +151,7 @@ namespace CC.Connections.BL
         internal static AbsContactInfo fromNumID(int? memberContact_ID)
         {
             try{
-                using (fvtcEntities dc = new fvtcEntities()){
+                using (fvtcEntities1 dc = new fvtcEntities1()){
                     AbsContactInfo entry = new AbsContactInfo();
                     entry.LoadId(dc.Contact_Info,memberContact_ID);
                     return entry;
@@ -164,7 +164,7 @@ namespace CC.Connections.BL
     public class AbsContactList : AbsList<AbsContactInfo, Contact_Info>
     {
         public new void LoadAll(){
-            using (fvtcEntities dc = new fvtcEntities()){
+            using (fvtcEntities1 dc = new fvtcEntities1()){
                 base.LoadAll(dc.Contact_Info);
             }
         }
