@@ -182,8 +182,10 @@ namespace CC.Connections.BL
         {
             PropertyDB_Info<TEntity> propinf = properties.Where(c => c.p.Name == propertyName).FirstOrDefault();
             if (propinf != null)
-                if(propinf.p.PropertyType.Name == "String" &&
-                    ((string)value).Length > propinf.max)//get property index equal to current property to compare sized
+                if (propinf.p.PropertyType.Name == "Nullable`1")
+                    propinf.p.SetValue(instance, value);
+                else if (propinf.p.PropertyType.Name == "String" &&
+                         ((string)value).Length > propinf.max)//get property index equal to current property to compare sized
                     propinf.p.SetValue(instance, value);
                 else
                     propinf.p.SetValue(instance, ((string)value).Substring(0, propinf.max-1));//cut of larger values (zero based)
@@ -195,26 +197,38 @@ namespace CC.Connections.BL
         //{
         //    table = tableUsed;
         //}
-        public ColumnEntry(TEntity entry)
+
+        protected void createInstance(TEntity entry)
         {
             Type type = typeof(TEntity);//maybe make property
             instance = entry;
-            using (DBconnections dc = new DBconnections())
+            using (fvtcEntities1 dc = new fvtcEntities1())
             {
-                type.GetProperties().ToList().ForEach(c=> 
-                    properties.Add(new PropertyDB_Info<TEntity>(c,dc,instance)));
+                type.GetProperties().ToList().ForEach(c =>
+                    {
+                        PropertyDB_Info<TEntity> test = new PropertyDB_Info<TEntity>(c, dc, instance);
+                        properties.Add(test);
+                    }
+                );
             }
+        }
+        public ColumnEntry(TEntity entry)
+        {
+            createInstance(entry);
         }
         public ColumnEntry(DbSet<TEntity> table, object id,string load_AlternativeField = "")
         {
-            Type type = typeof(TEntity);//maybe make property
-            instance = table.FirstOrDefault();
-            using (DBconnections dc = new DBconnections())
+            try
             {
-                type.GetProperties().ToList().ForEach(c =>
-                    properties.Add(new PropertyDB_Info<TEntity>(c, dc, instance)));
+                createInstance(table.FirstOrDefault());
             }
-
+            catch (Exception e)
+            {
+                if (e.Message != "The underlying provider failed on Open.")
+                    throw e;
+                else
+                    throw new Exception("Could not connect to database: " + e.InnerException.Message);
+            }
             LoadId(table, id,load_AlternativeField);
         }
 
@@ -236,7 +250,7 @@ namespace CC.Connections.BL
                 setValue(instance, c.p.Name, default);
         }
 
-        protected int Delete(DBconnections dc, DbSet<TEntity> table)
+        protected int Delete(fvtcEntities1 dc, DbSet<TEntity> table)
         {
             try
             {
@@ -261,7 +275,7 @@ namespace CC.Connections.BL
             return false;
         }
 
-        protected int Insert(DBconnections dc, DbSet<TEntity> table)
+        protected int Insert(fvtcEntities1 dc, DbSet<TEntity> table)
         {
             try
             {
@@ -372,7 +386,7 @@ namespace CC.Connections.BL
             }
         }
 
-        protected int Update(DBconnections dc, DbSet<TEntity> table)
+        protected int Update(fvtcEntities1 dc, DbSet<TEntity> table)
         {
             try
             {
@@ -492,7 +506,7 @@ namespace CC.Connections.BL
             //        }
             //    }
         }
-        public void DeleteAllPreferences(DBconnections dc, DbSet<TEntityJoin> join_table)
+        public void DeleteAllPreferences(fvtcEntities1 dc, DbSet<TEntityJoin> join_table)
         {
             foreach (var col in join_table)
                 if (joinGrouping_ID.Equals(Utils.getValue(col, joinGrouping_ID_name)))
@@ -501,7 +515,7 @@ namespace CC.Connections.BL
             this.Clear();
         }
 
-        public void Add(DBconnections dc, DbSet<TEntityJoin> joinTable, TEntityJoin joinInstance, Tcrud entry)
+        public void Add(fvtcEntities1 dc, DbSet<TEntityJoin> joinTable, TEntityJoin joinInstance, Tcrud entry)
         {
             if (joinTable_Properties[0].GetValue(joinInstance) is int)//gets type int
             {
@@ -531,7 +545,7 @@ namespace CC.Connections.BL
             dc.SaveChanges();
             base.Add(entry);
         }
-        public void Remove(DBconnections dc, DbSet<TEntityJoin> joinTable, Tcrud entry)
+        public void Remove(fvtcEntities1 dc, DbSet<TEntityJoin> joinTable, Tcrud entry)
         {
             foreach (var join in joinTable)
             {

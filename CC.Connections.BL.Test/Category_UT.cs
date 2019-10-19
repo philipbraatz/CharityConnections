@@ -7,7 +7,7 @@ using CC.Connections.PL;
 namespace CC.Connections.BL.Test
 {
     [TestClass]
-    public class AbsCategoryUT
+    public class CategoryUT
     {
         public AbsCategoryList allTable;
 

@@ -316,7 +316,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="fvtcEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="fvtcEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Categories" EntityType="Self.Category" />
           <EntitySet Name="Charities" EntityType="Self.Charity" />
           <EntitySet Name="Charity_Event" EntityType="Self.Charity_Event" />
@@ -341,7 +341,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="fvtcModelStoreContainer" CdmEntityContainer="fvtcEntities">
+        <EntityContainerMapping StorageEntityContainer="fvtcModelStoreContainer" CdmEntityContainer="fvtcEntities1">
           <EntitySetMapping Name="Categories">
             <EntityTypeMapping TypeName="fvtcModel.Category">
               <MappingFragment StoreEntitySet="Category">

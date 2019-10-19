@@ -13,10 +13,10 @@ namespace CC.Connections.PL
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class fvtcEntities : DbContext
+    public partial class fvtcEntities1 : DbContext
     {
-        public fvtcEntities()
-            : base("name=fvtcEntities")
+        public fvtcEntities1()
+            : base("name=fvtcEntities1")
         {
         }
     

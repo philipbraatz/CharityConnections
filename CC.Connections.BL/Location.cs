@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,8 @@ namespace CC.Connections.BL
 {
     public class AbsLocation : ColumnEntry<PL.Location>
     {
+        public static fvtcEntities1 dc = new fvtcEntities1();
+
         //id
         public new int ID
         {
@@ -49,7 +52,7 @@ namespace CC.Connections.BL
             base(entry)
         { }
         public AbsLocation(int id) :
-            base(new DBconnections().Locations,id)
+            base(new fvtcEntities1().Locations,id)
         {
             Clear();
             ID = id;
@@ -60,21 +63,21 @@ namespace CC.Connections.BL
         { return new AbsLocation(entry); }
 
         public int Insert(){
-            using (DBconnections dc = new DBconnections()){
+            using (fvtcEntities1 dc = new fvtcEntities1()){
                 return base.Insert(dc, dc.Locations);
         }}
         public int Delete(){
-            using (DBconnections dc = new DBconnections()){
+            using (fvtcEntities1 dc = new fvtcEntities1()){
                 return base.Delete(dc, dc.Locations);
         }}
 
         public int Update(){
-            using (DBconnections dc = new DBconnections()){
+            using (fvtcEntities1 dc = new fvtcEntities1()){
                 return base.Update(dc, dc.Locations);
         }}
 
         public void LoadId() {
-            using (DBconnections dc = new DBconnections()){
+            using (fvtcEntities1 dc = new fvtcEntities1()){
                 base.LoadId(dc.Locations);
         }}
 
@@ -93,7 +96,7 @@ namespace CC.Connections.BL
     {
         public new void LoadAll()
         {
-            using (DBconnections dc = new DBconnections())
+            using (fvtcEntities1 dc = new fvtcEntities1())
             {
                 base.LoadAll(dc.Locations);
             }

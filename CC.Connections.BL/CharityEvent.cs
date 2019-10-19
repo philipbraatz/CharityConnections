@@ -9,6 +9,8 @@ namespace CC.Connections.BL
 {
     public class CharityEvent : AbsContactInfo
     {
+        private static fvtcEntities1 dc;
+
         public int Event_ID { get; set; }
         public int Charity_ID { get; set; }//only the id 
         public string CharityEventName { get; set; }
@@ -40,7 +42,7 @@ namespace CC.Connections.BL
 
         //public static implicit operator CharityEvent(PL.Charity entry)
         //{ return new CharityEvent(entry.Charity_Contact_ID); }
-        public static bool Exists(DBconnections dc, int eventID)
+        public static bool Exists(fvtcEntities1 dc, int eventID)
         {
             return dc.Charity_Event.Where(c => c.CharityEventCharity_ID == eventID).FirstOrDefault() != null;
         }
@@ -51,7 +53,7 @@ namespace CC.Connections.BL
             {
                 //if (Description == string.Empty)
                 //    throw new Exception("Description cannot be empty");
-                using (DBconnections dc = new DBconnections())
+                using (fvtcEntities1 dc = new fvtcEntities1())
                 {
                     if (dc.Charity_Event.ToList().Count > 0)
                         Event_ID = (int)dc.Charity_Event.Max(c => c.CharityEventCharity_ID) + 1;//unique id
@@ -77,7 +79,7 @@ namespace CC.Connections.BL
         {
             try
             {
-                using (DBconnections dc = new DBconnections())
+                using (fvtcEntities1 dc = new fvtcEntities1())
                 {
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invaild");
@@ -94,7 +96,7 @@ namespace CC.Connections.BL
             {
                 //if (Description == string.Empty)
                 //    throw new Exception("Description cannot be empty");
-                using (DBconnections dc = new DBconnections())
+                using (fvtcEntities1 dc = new fvtcEntities1())
                 {
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invaild");
@@ -115,7 +117,7 @@ namespace CC.Connections.BL
         {
             try
             {
-                using (DBconnections dc = new DBconnections())
+                using (fvtcEntities1 dc = new fvtcEntities1())
                 {
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invaild");
@@ -152,7 +154,7 @@ namespace CC.Connections.BL
             try
             {
                 this.Clear();
-                using (DBconnections dc = new DBconnections())
+                using (fvtcEntities1 dc = new fvtcEntities1())
                 {
                     if (dc.Charity_Event.ToList().Count != 0)
                         dc.Charity_Event.ToList().ForEach(c => this.Add(new BL.CharityEvent
@@ -172,7 +174,7 @@ namespace CC.Connections.BL
             {
                 this.Clear();
                 charity_ID = (int?)charityID;
-                using (DBconnections dc = new DBconnections())
+                using (fvtcEntities1 dc = new fvtcEntities1())
                 {
                     //if (!MemberExists(dc, memberID))
                     //    throw new Exception("Member ID: "+ memberID + " does not have any Actions");
@@ -199,7 +201,7 @@ namespace CC.Connections.BL
             if (charity_ID == null)
                 throw new Exception(Event_LOAD_ERROR);
 
-            using (DBconnections dc = new DBconnections())
+            using (fvtcEntities1 dc = new fvtcEntities1())
             {
                 dc.Charity_Event.RemoveRange(dc.Charity_Event.Where(c =>
                 c.CharityEventCharity_ID == charity_ID).ToList());
@@ -213,7 +215,7 @@ namespace CC.Connections.BL
             if (charity_ID == null)
                 throw new Exception(Event_LOAD_ERROR);
 
-            using (DBconnections dc = new DBconnections())
+            using (fvtcEntities1 dc = new fvtcEntities1())
             {
                 if (!CharityEvent.Exists(dc, evnt.Event_ID))
                     throw new Exception("Event ID: " + evnt.Event_ID + " does not exist");
@@ -243,7 +245,7 @@ namespace CC.Connections.BL
             if (charity_ID == null)
                 throw new Exception(Event_LOAD_ERROR);
 
-            using (DBconnections dc = new DBconnections())
+            using (fvtcEntities1 dc = new fvtcEntities1())
             {
                 //if (!AbsHelping_Action.Exists(dc, actionID))
                 //    throw new Exception("Helping Action ID: " + actionID + " does not exist");
@@ -269,7 +271,7 @@ namespace CC.Connections.BL
         //    cthis.Update();
         //}
 
-        private bool MemberExists(DBconnections dc, int? member_ID)
+        private bool MemberExists(fvtcEntities1 dc, int? member_ID)
         {
             return dc.Member_Action.Where(c => c.MemberActionMember_ID == member_ID
             ).FirstOrDefault() != null;

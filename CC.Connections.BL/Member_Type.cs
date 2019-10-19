@@ -9,6 +9,8 @@ namespace CC.Connections.BL
     //The 2 main types are volunteer and charity
     public class AbsMember_Type : ColumnEntry<PL.Member_Type>
     {
+        private static fvtcEntities1 dc;
+
         //id
         public new int ID
         {
@@ -22,7 +24,7 @@ namespace CC.Connections.BL
         }
 
         public AbsMember_Type(int id) :
-            base(new DBconnections().Member_Type, id)
+            base(new fvtcEntities1().Member_Type, id)
         {
             Clear();
             ID = id;
@@ -38,28 +40,28 @@ namespace CC.Connections.BL
 
         public void LoadId()
         {
-            using (DBconnections dc = new DBconnections())
+            using (fvtcEntities1 dc = new fvtcEntities1())
             {
                 base.LoadId(dc.Member_Type);
             }
         }
         public int Insert()
         {
-            using (DBconnections dc = new DBconnections())
+            using (fvtcEntities1 dc = new fvtcEntities1())
             {
                 return base.Insert(dc, dc.Member_Type);
             }
         }
         public int Update()
         {
-            using (DBconnections dc = new DBconnections())
+            using (fvtcEntities1 dc = new fvtcEntities1())
             {
                 return base.Update(dc, dc.Member_Type);
             }
         }
         public int Delete()
         {
-            using (DBconnections dc = new DBconnections())
+            using (fvtcEntities1 dc = new fvtcEntities1())
             {
                 //dc.Member_Type.Remove(this);
                 //return dc.SaveChanges();
@@ -72,7 +74,7 @@ namespace CC.Connections.BL
     {
         public new void LoadAll()
         {
-            using (DBconnections dc = new DBconnections())
+            using (fvtcEntities1 dc = new fvtcEntities1())
             {
                 base.LoadAll(dc.Member_Type);
             }

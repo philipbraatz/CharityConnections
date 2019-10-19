@@ -19,7 +19,6 @@ namespace CC.Connections.PL
         public string ContactInfo_LName { get; set; }
         public string ContactInfo_Phone { get; set; }
         public string ContactInfo_Email { get; set; }
-        public Nullable<int> Location_ID { get; set; }
         public Nullable<System.DateTime> DateOfBirth { get; set; }
     }
 }

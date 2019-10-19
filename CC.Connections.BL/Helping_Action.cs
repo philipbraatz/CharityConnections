@@ -10,6 +10,8 @@ namespace CC.Connections.BL
     public class AbsHelping_Action
         : ColumnEntry<Helping_Action>
     {
+        private static fvtcEntities1 dc;
+
         //id
         public new int ID
         {
@@ -35,7 +37,7 @@ namespace CC.Connections.BL
             base(entry)
         { Clear(); }
         public AbsHelping_Action(int id) :
-            base(new DBconnections().Helping_Action, id)
+            base(new fvtcEntities1().Helping_Action, id)
         {
             Clear();
             ID = id;
@@ -43,19 +45,19 @@ namespace CC.Connections.BL
         }
 
         public void LoadId(){
-            using (DBconnections dc = new DBconnections()){
+            using (fvtcEntities1 dc = new fvtcEntities1()){
                 base.LoadId(dc.Helping_Action);
         }}
         public int Insert(){
-            using (DBconnections dc = new DBconnections()){
+            using (fvtcEntities1 dc = new fvtcEntities1()){
                 return base.Insert(dc, dc.Helping_Action);
         }}
         public int Update(){
-            using (DBconnections dc = new DBconnections()){
+            using (fvtcEntities1 dc = new fvtcEntities1()){
                 return base.Update(dc, dc.Helping_Action);
         }}
         public int Delete(){
-            using (DBconnections dc = new DBconnections()){
+            using (fvtcEntities1 dc = new fvtcEntities1()){
                 return base.Delete(dc, dc.Helping_Action);
         }}
     }
@@ -64,7 +66,7 @@ namespace CC.Connections.BL
         : AbsList<AbsHelping_Action, Helping_Action>
     {
         public new void LoadAll(){
-            using (DBconnections dc = new DBconnections()){
+            using (fvtcEntities1 dc = new fvtcEntities1()){
                 //base.LoadAll(dc.Helping_Action);
                 foreach (var c in dc.Helping_Action.ToList())
                     base.Add(new AbsHelping_Action(c));
@@ -89,7 +91,7 @@ namespace CC.Connections.BL
 
         
         public new void LoadPreferences(int member_id){
-            using (DBconnections dc = new DBconnections()){
+            using (fvtcEntities1 dc = new fvtcEntities1()){
                 //base.LoadWithJoin(dc.Helping_Action, dc.Member_Action,
                 //                  new Member_Action { MemberActionMember_ID = member_id }.MemberActionMember_ID);
                 memberID = member_id;
@@ -108,17 +110,17 @@ namespace CC.Connections.BL
             }
         }
         public new void DeleteAllPreferences(){
-            using (DBconnections dc = new DBconnections()){
+            using (fvtcEntities1 dc = new fvtcEntities1()){
                 base.DeleteAllPreferences(dc, dc.Member_Action);
             }
         }
         public new void Add(AbsHelping_Action Helping_Action){
-            using (DBconnections dc = new DBconnections()){
+            using (fvtcEntities1 dc = new fvtcEntities1()){
                 base.Add(dc, dc.Member_Action, new Member_Action(), Helping_Action);
             }
         }
         public new void Remove(AbsHelping_Action Helping_Action){
-            using (DBconnections dc = new DBconnections()){
+            using (fvtcEntities1 dc = new fvtcEntities1()){
                 base.Remove(dc, dc.Member_Action, Helping_Action);
             }
         }
