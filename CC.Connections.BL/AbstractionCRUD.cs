@@ -202,6 +202,7 @@ namespace CC.Connections.BL
         {
             Type type = typeof(TEntity);//maybe make property
             instance = entry;
+            properties = new List<PropertyDB_Info<TEntity>>();
             using (fvtcEntities1 dc = new fvtcEntities1())
             {
                 type.GetProperties().ToList().ForEach(c =>
