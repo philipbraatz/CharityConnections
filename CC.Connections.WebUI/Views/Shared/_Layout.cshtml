@@ -11,11 +11,11 @@
 
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-fixed-top">
+    <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>                   
+                    <span class="navbar-toggler-icon"></span>
                 </button>
                 @Html.ActionLink("Charity Connections", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
@@ -28,6 +28,34 @@
                     <li class="nav-item">@Html.ActionLink("Login", "LoginView", "Login")</li>
                     <li class="nav-item">@Html.ActionLink("Logout", "logoutView", "Login")</li>
                     <li class="nav-item">@Html.ActionLink("Account", "ProfileView", "VolunteerProfile")</li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <!-- @Html.ActionLink("Charity Connections", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })-->
+            </div>
+            <div class="navbar-collapse  collapse" id="navbarColor03">
+                <ul class="nav navbar-nav mr-auto">
+
+                    <li class="nav-item active"><a href="/Home/Index"><img src="~/Content/Images/paw_category.svg" /></a></li>
+                    <li class="nav-item"><a class="nav-fill" href="/Home/Index"><img src="~/Content/Images/bookBtn.svg" /></a></li>
+                    <li class="nav-item"><a class="nav-fill" href="/Home/Index"><img src="~/Content/Images/healthBtn.svg" /></a></li>
+                    <li class="nav-item"><a class="nav-fill" href="/Home/Index"><img src="~/Content/Images/peopleBtn.svg" /></a></li>
+                    <li class="nav-item"><a class="nav-fill" href="/Home/Index"><img src="~/Content/Images/treeBtn.svg" /></a></li>
+                    <li class="nav-item"><a class="nav-fill" href="/Home/Index"><img src="~/Content/Images/helping_hands.svg" /></a></li>
+
+                    <!--    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+    <li class="nav-item">@Html.ActionLink("Sign Up", "SignupView", "Login")</li>
+    <li class="nav-item">@Html.ActionLink("Login", "LoginView", "Login")</li>
+    <li class="nav-item">@Html.ActionLink("Logout", "logoutView", "Login")</li>
+    <li class="nav-item">@Html.ActionLink("Account", "ProfileView", "VolunteerProfile")</li>-->
                 </ul>
             </div>
         </div>
