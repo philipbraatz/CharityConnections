@@ -93,7 +93,11 @@ namespace CC.Connections.BL
             }
             catch (Exception e)
             {
-                throw e;
+                if (e.Message != "The underlying provider failed on Open.")
+                    throw e;
+                else
+                    throw e.InnerException;//database error
+                
             }
         }
         //load
