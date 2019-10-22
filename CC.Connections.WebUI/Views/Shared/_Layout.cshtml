@@ -17,13 +17,20 @@
                 <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                @Html.ActionLink("Charity Connections", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+
+                
+                <div class="navbar-header pull-left">
+                    <a class="navbar-brand" href="@Url.Action("Index", "Home")">
+                        <img src="~/Content/Images/ccweblogo.svg" alt="Site Logo" style="height:100px; width:180px; padding:-20px" />
+                    </a>
+                </div>
+
+
             </div>
             <div class="navbar-collapse collapse" id="navbarColor03">
                 <ul class="nav navbar-nav mr-auto">
                     <li class="nav-item">@Html.ActionLink("Home", "Index", "Home")</li>
                     <li class="nav-item">@Html.ActionLink("Find Volunteer Opportunities", "FindVolunteerOpportunities", "Home")</li>
-                    <!--    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>-->
                     <li class="nav-item">@Html.ActionLink("Sign Up", "SignupView", "Login")</li>
                     <li class="nav-item">@Html.ActionLink("Login", "LoginView", "Login")</li>
                     <li class="nav-item">@Html.ActionLink("Logout", "logoutView", "Login")</li>
@@ -44,7 +51,7 @@
             <div class="navbar-collapse  collapse" id="navbarColor03">
                 <ul class="nav navbar-nav mr-auto">
 
-                    <li class="nav-item active"><a href="/Home/Index"><img src="~/Content/Images/paw_category.svg" /></a></li>
+                    <li class="nav-item"><a href="/Home/Index"><img src="~/Content/Images/paw_category.svg" /></a></li>
                     <li class="nav-item"><a class="nav-fill" href="/Home/Index"><img src="~/Content/Images/bookBtn.svg" /></a></li>
                     <li class="nav-item"><a class="nav-fill" href="/Home/Index"><img src="~/Content/Images/healthBtn.svg" /></a></li>
                     <li class="nav-item"><a class="nav-fill" href="/Home/Index"><img src="~/Content/Images/peopleBtn.svg" /></a></li>

@@ -147,6 +147,8 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Images\bookBtn.svg" />
+    <Content Include="Content\Images\ccweblogo.png" />
+    <Content Include="Content\Images\ccweblogo.svg" />
     <Content Include="Content\Images\healthBtn.svg" />
     <Content Include="Content\Images\helping_hands.svg" />
     <Content Include="Content\Images\paw_category.svg" />
