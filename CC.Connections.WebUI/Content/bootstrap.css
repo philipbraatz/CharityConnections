@@ -58,6 +58,11 @@ html {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
+yellow {
+    background-color: yellow;
+    color:yellow;
+}
+
 article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
     display: block;
 }
