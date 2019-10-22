@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 23.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="categoryNavBtn" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+	 y="0px" viewBox="0 0 71 67" style="enable-background:new 0 0 71 67;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#FFFFFF;stroke:#FF6633;stroke-miterlimit:10;}
+	.st1{fill:none;stroke:#FF6633;}
+	.st2{fill:#FF6633;}
+</style>
+<g id="Ellipse_11" transform="translate(0 0)">
+	<ellipse class="st0" cx="35.5" cy="33.5" rx="35.5" ry="33.5"/>
+	<ellipse class="st1" cx="35.5" cy="33.5" rx="35" ry="33"/>
+</g>
+<path id="Icon_awesome-hands-helping" class="st2" d="M47.3,29.5H36.6v3.9c0,2.8-2.3,5-5.1,5c-2.7,0-5-2.3-5-5v-8.6l-4.6,2.7
+	c-1.4,0.8-2.2,2.3-2.2,3.9v3.3l-5.6,3.2c-1.1,0.6-1.4,2-0.8,3.1c0,0,0,0,0,0l5.6,9.7c0.6,1.1,2,1.4,3.1,0.8c0,0,0,0,0,0l7.3-4.2h9.6
+	c2.5,0,4.5-2,4.5-4.5h1.1c1.2,0,2.2-1,2.3-2.2c0,0,0,0,0,0v-4.5h0.6c0.9,0,1.7-0.7,1.7-1.7c0,0,0,0,0,0v-3.4
+	C49,30.3,48.3,29.5,47.3,29.5C47.3,29.5,47.3,29.5,47.3,29.5z M57.7,26.9l-5.6-9.7c-0.6-1.1-2-1.4-3.1-0.8l-7.3,4.2h-7.2
+	c-0.8,0-1.7,0.2-2.4,0.7l-2.4,1.5c-0.7,0.4-1.1,1.1-1,1.9v8.9c0,1.6,1.3,2.8,2.9,2.8c1.5,0,2.7-1.2,2.8-2.8v-6.2h12.9
+	c2.2,0,3.9,1.8,3.9,3.9v2l5.6-3.2C57.9,29.3,58.3,27.9,57.7,26.9z"/>
+</svg>
