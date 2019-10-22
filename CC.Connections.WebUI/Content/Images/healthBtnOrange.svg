@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 23.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="healthBtn" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 71 67" style="enable-background:new 0 0 71 67;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#FFFFFF;stroke:#FF6633;stroke-miterlimit:10;}
+	.st1{fill:none;stroke:#FF6633;}
+	.st2{fill:#FF6633;}
+</style>
+<g id="Ellipse_11" transform="translate(0 0)">
+	<ellipse class="st0" cx="35.5" cy="33.5" rx="35.5" ry="33.5"/>
+	<ellipse class="st1" cx="35.5" cy="33.5" rx="35" ry="33"/>
+</g>
+<path id="Icon_map-health" class="st2" d="M50.8,28.5c0-0.4-0.3-0.6-0.6-0.6h-8.3c-0.4,0-0.6-0.3-0.6-0.6v-8.3
+	c0-0.4-0.3-0.6-0.6-0.6H30.2c-0.4,0-0.6,0.3-0.6,0.6v8.3c0,0.4-0.3,0.6-0.6,0.6h-8.3c-0.4,0-0.6,0.3-0.6,0.6v10.3
+	c0,0.4,0.3,0.6,0.6,0.6h8.3c0.4,0,0.6,0.3,0.6,0.6v8.3c0,0.4,0.3,0.6,0.6,0.6h10.3c0.4,0,0.6-0.3,0.6-0.6v-8.3
+	c0-0.4,0.3-0.6,0.6-0.6h8.3c0.4,0,0.6-0.3,0.6-0.6L50.8,28.5z"/>
+</svg>

@@ -9,25 +9,103 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
+    <!-- changed the 'a' tag right padding so all the links fit in the header -->
+    <style>
+        a{
+            padding-right: 20px;           
+        }
+        a :hover{
+            color:#FF6633
+        }
+        .row-bottom{
+            padding-left:10px;
+        }
+        .navbar[target]{
+            padding-top:10px;
+            padding-bottom:10px;
+        }
+        .nav-item img{
+            width:50px;
+        }
+        .nav-item :hover{
+            color:#FF6633;
+            
+        }
+
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" type="text/javascript" >
+        $(function() {
+            //alert("mouse over");
+            var image = document.getElementsByClassName("overout");
+            $(".overout").on().mouseenter().attr("src", "~/Content/Images/paw_categoryOrange.svg")
+
+            //$(".overout").mouseenter(function () { $("img").attr("src", "~/Content/Images/paw_categoryOrange.svg")})
+            //    .mouseleave(function () { $("img").attr("src", "~/Content/Images/paw_category.svg") });               
+
+            
+            //image = document.getElementById
+        }
+    </script>
+
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-fixed-top">
+    <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light navbar-fixed-top" target="_lessBotPad" > <!-- added a target for style so it doesn't affect the lower navbar -->            
+        <div class="container">                                                                             <!-- style="background-color:darkcyan" -->
+            <div class="row">                                                                               <!-- row -->
+                <div class="navbar-header col-sm-3" >                                                       <!-- col-3 style="background-color:lightseagreen" -->
+
+
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="@Url.Action("Index", "Home")">
+                            <img src="~/Content/Images/ccweblogo.svg" alt="Site Logo" style=" width:220px;" />
+                        </a>
+                    </div>
+
+
+                    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation" style="padding:0.25rem 0.75rem; margin-left:2rem">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                </div>
+                <div class="navbar-collapse collapse col-sm-9" id="navbarColor03" >     <!-- col-9 style="background-color:lightseagreen" -->
+                    <ul class="nav navbar-nav mr-auto row row-bottom">                  <!-- row (row may not be needed depending on if we add the round links to this navbar or make another) row-bottom -->
+                        <li class="nav-item">@Html.ActionLink("Home", "Index", "Home")</li>
+                        <li class="nav-item">@Html.ActionLink("Find Volunteer Opportunities", "FindVolunteerOpportunities", "Home")</li>
+                        <li class="nav-item">@Html.ActionLink("Sign Up", "SignupView", "Login")</li>
+                        <li class="nav-item">@Html.ActionLink("Login", "LoginView", "Login")</li>
+                        <li class="nav-item">@Html.ActionLink("Logout", "logoutView", "Login")</li>
+                        <li class="nav-item">@Html.ActionLink("Account", "ProfileView", "VolunteerProfile")</li>
+                    
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <nav class="navbar  navbar-expand-lg navbar-light bg-light navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>                   
+                    <span class="navbar-toggler-icon"></span>
                 </button>
-                @Html.ActionLink("Charity Connections", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                <!-- @Html.ActionLink("Charity Connections", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })-->
             </div>
-            <div class="navbar-collapse collapse" id="navbarColor03">
+            <div class="navbar-collapse  collapse" id="navbarColor03">
                 <ul class="nav navbar-nav mr-auto">
-                    <li class="nav-item">@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li class="nav-item">@Html.ActionLink("Find Volunteer Opportunities", "FindVolunteerOpportunities", "Home")</li>
-                    <!--    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>-->
-                    <li class="nav-item">@Html.ActionLink("Sign Up", "SignupView", "Login")</li>
-                    <li class="nav-item">@Html.ActionLink("Login", "LoginView", "Login")</li>
-                    <li class="nav-item">@Html.ActionLink("Logout", "logoutView", "Login")</li>
-                    <li class="nav-item">@Html.ActionLink("Account", "ProfileView", "VolunteerProfile")</li>
+
+                    <li class="nav-item overout" id="paw" ><a href="/Home/Index"><img src="~/Content/Images/paw_category.svg" title="Animals" /></a></li>
+                    <li class="nav-item"><a class="nav-fill" href="/Home/Index"><img src="~/Content/Images/bookBtn.svg" title="Education"  /></a></li>
+                    <li class="nav-item"><a class="nav-fill" href="/Home/Index"><img src="~/Content/Images/healthBtn.svg" title="Hospice" /></a></li>
+                    <li class="nav-item"><a class="nav-fill" href="/Home/Index"><img src="~/Content/Images/peopleBtn.svg" title="" /></a></li>
+                    <li class="nav-item"><a class="nav-fill" href="/Home/Index"><img src="~/Content/Images/treeBtn.svg" title="Environment" /></a></li>
+                    <li class="nav-item"><a class="nav-fill" href="/Home/Index"><img src="~/Content/Images/helping_hands.svg" title="Community" /></a></li>
+
+                    <!--    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+    <li class="nav-item">@Html.ActionLink("Sign Up", "SignupView", "Login")</li>
+    <li class="nav-item">@Html.ActionLink("Login", "LoginView", "Login")</li>
+    <li class="nav-item">@Html.ActionLink("Logout", "logoutView", "Login")</li>
+    <li class="nav-item">@Html.ActionLink("Account", "ProfileView", "VolunteerProfile")</li>-->
                 </ul>
             </div>
         </div>
