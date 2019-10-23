@@ -1,14 +1,12 @@
 ﻿using System.Linq;
 using CC.Connections.PL;
 using System.ComponentModel;
+using System.Data.Entity;
 
 namespace CC.Connections.BL
 {
-    //2 hours
     public class AbsCategory : ColumnEntry<PL.Category>
     {
-        private static fvtcEntities1 dc = new fvtcEntities1();
-
         //Parameters
 
         //id
@@ -27,18 +25,12 @@ namespace CC.Connections.BL
             set { setProperty("Category_Desc", value); }
         }
 
-        public AbsCategory() :
-            base(new PL.Category()){ }
-        public AbsCategory(PL.Category entry) :
+        public AbsCategory() : 
+            base(){ }
+        public AbsCategory(PL.Category entry) : 
             base(entry) { }
-        public AbsCategory(int id) :
-            base(new fvtcEntities1().Categories, id)
-        {
-            dc.Dispose();
-            Clear();
-            ID = id;
-            LoadId();
-        }
+        public AbsCategory(int id) : 
+            base(new fvtcEntities1().Categories, id){}
         //turns a PL class into a BL equivelent example: 
         //Category pl = new Category();
         //...
@@ -50,6 +42,11 @@ namespace CC.Connections.BL
             using (fvtcEntities1 dc = new fvtcEntities1()){
                 base.LoadId(dc.Categories);
             }
+        }
+        public void LoadId(int id)
+        {
+            ID = id;
+            LoadId();
         }
         public int Insert() {
             using (fvtcEntities1 dc = new fvtcEntities1()){

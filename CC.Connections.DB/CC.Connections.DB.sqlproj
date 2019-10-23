@@ -129,9 +129,9 @@
     <None Include="Post-Deployment\DefaultData\Charity.sql" />
     <None Include="Post-Deployment\DefaultData\CharityEvents.sql" />
     <None Include="Post-Deployment\DefaultData\Location.sql" />
+    <None Include="CC.Connections.DB.publish.xml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="CC.Connections.DB.publish.xml" />
     <None Include="Post-Deployment\DefaultData\ContactInfo.sql" />
     <None Include="Post-Deployment\DefaultData\EventAttendance.sql" />
     <None Include="Post-Deployment\DefaultData\HelpingActions.sql" />

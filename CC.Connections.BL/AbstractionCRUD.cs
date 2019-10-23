@@ -198,6 +198,10 @@ namespace CC.Connections.BL
         //    table = tableUsed;
         //}
 
+
+        //TODO use Activators to not require any instances
+        protected void createInstance() => 
+            createInstance((TEntity)Activator.CreateInstance(typeof(TEntity), new object[] { }));
         protected void createInstance(TEntity entry)
         {
             Type type = typeof(TEntity);//maybe make property
@@ -206,22 +210,23 @@ namespace CC.Connections.BL
             using (fvtcEntities1 dc = new fvtcEntities1())
             {
                 type.GetProperties().ToList().ForEach(c =>
-                    {
-                        PropertyDB_Info<TEntity> test = new PropertyDB_Info<TEntity>(c, dc, instance);
-                        properties.Add(test);
-                    }
+                {
+                    PropertyDB_Info<TEntity> test = new PropertyDB_Info<TEntity>(c, dc, instance);
+                    properties.Add(test);
+                }
                 );
             }
         }
-        public ColumnEntry(TEntity entry)
-        {
-            createInstance(entry);
-        }
+        //new instance
+        public ColumnEntry() => createInstance();
+        //create from exist instance
+        public ColumnEntry(TEntity entry) => createInstance(entry);
+        //load from database
         public ColumnEntry(DbSet<TEntity> table, object id,string load_AlternativeField = "")
         {
             try
             {
-                createInstance(table.FirstOrDefault());
+                createInstance();
             }
             catch (Exception e)
             {
@@ -232,18 +237,6 @@ namespace CC.Connections.BL
             }
             LoadId(table, id,load_AlternativeField);
         }
-
-        //public static Tcrud ConvertToBL<Tcrud>(TEntity entity) 
-        //    where Tcrud : ColumnEntry<TEntity>
-        //{
-        //    return new ColumnEntry<TEntity>(entity);
-        //}
-        //public static implicit operator ColumnEntry<TEntity>(TEntity entry)
-        //{
-        //    return new ColumnEntry<TEntity>(entry);
-        //}
-        //public extern static Tcrud ToBL<Tcrud>(TEntity entity) 
-        //    where Tcrud :ColumnEntry<TEntity>, new();
 
         public void Clear()
         {
@@ -289,15 +282,6 @@ namespace CC.Connections.BL
                         TEntity entity = table.ToList().LastOrDefault();
                         PropertyInfo id_prop = entity.GetType().GetProperty(properties[0].p.Name, typeof(int));
                         ID = (int)id_prop.GetValue(entity) +1;
-
-                        //int max = 0;
-                        //foreach (var t in table)
-                        //{
-                        //    comp = (int)getValue(t, properties[0].Name);
-                        //    if (comp > max)
-                        //        max = comp;
-                        //}
-                        //ID = max + 1;
                     }
                     else
                         ID = 0;
