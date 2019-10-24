@@ -32,6 +32,8 @@ namespace CC.Connections.BL
         public string Ch_Email { get; set; }
         public Password Password { get; set; }
 
+        public CharityEventList charityEvents { get; set; }
+
         public string ContactName;
         public string CategoryName;
         public string LocationZip;
@@ -46,8 +48,13 @@ namespace CC.Connections.BL
         {
             Clear();
         }
+        public Charity(int id)
+        {
+            Clear();
+            LoadId(id);
+        }
 
-        //only clears MEMBER values
+        //only clears CHARITY values
         private new void Clear()
         {
             Contact_ID = 0;
@@ -95,7 +102,9 @@ namespace CC.Connections.BL
                         Password = new Password(chEmail, password, hashed); //standard
                     else
                         Password = new Password(chEmail, false); //new      
-                    
+
+                    charityEvents = new CharityEventList(ID);
+
                 }
             }
             catch (Exception e)
@@ -180,7 +189,7 @@ namespace CC.Connections.BL
             throw new NotImplementedException();
         }
 
-        public void LoadCharityId(int iD)
+        public void LoadId(int charity_id)
         {
             try
             {
@@ -190,7 +199,7 @@ namespace CC.Connections.BL
                     if (entry != null)
                         this.ID = entry.Charity_ID;
                     else
-                        throw new Exception("Charity ID " + iD + " does not have a Charity associated with it");
+                        throw new Exception("Charity ID " + charity_id + " does not have a Charity associated with it");
 
                     Clear();
 
@@ -209,10 +218,7 @@ namespace CC.Connections.BL
                     LoadLocation(entry.Location_ID.Value);                    
                 }
             }
-            catch (Exception e)
-            {
-                throw e;
-            }
+            catch (Exception e){throw e;}
         }
 
         public int InsertCharity()

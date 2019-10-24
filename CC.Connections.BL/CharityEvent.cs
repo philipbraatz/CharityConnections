@@ -169,6 +169,14 @@ namespace CC.Connections.BL
         int? charity_ID { get; set; }
 
         private const string Event_LOAD_ERROR = "Events not loaded, please loadEvents with a Charity ID";
+
+        public CharityEventList() { }
+        public CharityEventList(int id)
+        {
+            charity_ID = id;
+            LoadList();
+        }
+
         public void LoadList()
         {
             try
