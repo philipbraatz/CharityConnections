@@ -15,10 +15,11 @@ namespace CC.Connections.BL.Test
         public CharityEvent test;
         public const int CHARITY_ID = 1;
         public const int LOC_ID = 1;
+        public const string CONTACT_EMAIL = "test@gmail.com";
         public const string INSERT_1 = "test for charityEvents";
+        public const string INSERT_3 = "test";
         public const string NAME_OF_EVENT = "title name for charityEvents";
         public const string UPDATE_1 = "oven for charityEvents";
-        public const string UPDATE_2 = "toaster for charityEvents";
     
         //in the real code you would already have the ID you want
         //so you would not need to find the matching discription
@@ -30,7 +31,7 @@ namespace CC.Connections.BL.Test
     
             CharityEvent cat = allTable.Where(c => c.CharityEventName == desc).FirstOrDefault();
             if (cat == null)
-                Assert.Fail();
+                Assert.Fail("Could not find item with discription \""+desc+"\" in table");
             return cat.Event_ID;
         }
     
@@ -44,14 +45,14 @@ namespace CC.Connections.BL.Test
                 ContactInfo_LName = INSERT_1,
                 CharityEventName = NAME_OF_EVENT,
                 CharityEventRequirements= INSERT_1,
-                CharityEventStatus= INSERT_1,
+                CharityEventStatus= INSERT_3,
                 Charity_ID =CHARITY_ID,
-                ContactInfo_Email =INSERT_1,
                 DateOfBirth =DateTime.Now,
                 EndDate = DateTime.Now,
                 StartDate = DateTime.Now,
-                location = new AbsLocation(LOC_ID)
+                Location = new AbsLocation(LOC_ID)
             };
+            newt.LoadId(CONTACT_EMAIL);//load contact
             newt.Insert();
         }
     
@@ -67,8 +68,24 @@ namespace CC.Connections.BL.Test
         }
     
         [TestMethod]
-        public void insertPreferences_AndLoad()
+        public void insertEvent_AndLoad()
         {
+            CharityEvent newt = new CharityEvent
+            {
+                ContactInfo_Phone = "1234567",
+                ContactInfo_FName = INSERT_1,
+                ContactInfo_LName = INSERT_1,
+                CharityEventName = NAME_OF_EVENT,
+                CharityEventRequirements = INSERT_1,
+                CharityEventStatus = INSERT_3,
+                Charity_ID = CHARITY_ID,
+                DateOfBirth = DateTime.Now,
+                EndDate = DateTime.Now,
+                StartDate = DateTime.Now,
+                Location = new AbsLocation(LOC_ID)
+            };
+            newt.LoadId(CONTACT_EMAIL);//load contact
+
             CharityEventList table = new BL.CharityEventList();
             table.LoadEvents(CHARITY_ID);
             int charityID_Event_count = table.Count;
@@ -78,7 +95,7 @@ namespace CC.Connections.BL.Test
             allTable.LoadList();
             int initalCount = allTable.Count;
 
-            table.AddEvent(new CharityEvent(getID_fromDesc(INSERT_1)));//add a CharityEvent ID
+            table.AddEvent(newt);//add a CharityEvent ID
             allTable.LoadList();
             int newCount = allTable.Count;
 
@@ -106,21 +123,15 @@ namespace CC.Connections.BL.Test
             test = new CharityEvent(getID_fromDesc(NAME_OF_EVENT));
             CharityEvent updated = new CharityEvent(getID_fromDesc(NAME_OF_EVENT))
             {
-                CharityEventName = NAME_OF_EVENT,
-                location = new AbsLocation()
+                CharityEventName = UPDATE_1,
+                Location = new AbsLocation()
             };
             updated.Update();//update database
-    
-            //update both charityEvents
-            updated = new CharityEvent(getID_fromDesc(UPDATE_1))
-            {
-                CharityEventName = UPDATE_2
-            };
-            updated.Update();//update database
+   
     
             updated = null;//clear
             updated = new CharityEvent(getID_fromDesc(UPDATE_1));//load again with new value
-            Assert.IsTrue(updated.CharityEventName == UPDATE_2);
+            Assert.IsTrue(updated.CharityEventName == UPDATE_1);
             allTable.LoadList();
             Assert.AreEqual(tableCount, allTable.Count);//count unchanged
         }
@@ -129,7 +140,7 @@ namespace CC.Connections.BL.Test
         /// CAll after Update
         /// </summary>
         [TestMethod]
-        public void removePreferences()
+        public void removeEvent()
         {
             CharityEventList table = new BL.CharityEventList();
     
@@ -155,23 +166,21 @@ namespace CC.Connections.BL.Test
             CharityEventList allTable = new BL.CharityEventList();
             allTable.LoadList();
     
-            test = new CharityEvent(getID_fromDesc(INSERT_1));
+            test = new CharityEvent(getID_fromDesc(NAME_OF_EVENT));
     
-            Assert.IsTrue(test.CharityEventName == INSERT_1);
+            Assert.IsTrue(test.CharityEventName == NAME_OF_EVENT);
         }
     
         [TestMethod]
         public void Delete()
         {
-            test = new CharityEvent(getID_fromDesc(NAME_OF_EVENT));
+            test = new CharityEvent(getID_fromDesc(UPDATE_1));
             test.Delete();//delete
-            test = new CharityEvent(getID_fromDesc(UPDATE_2));
-            test.Delete();//delete both to avoid testing overflow
     
             CharityEventList table = new CharityEventList();
             table.LoadList();//load updated table
     
-            Assert.IsNull(table.Find(f => f.Event_ID == getID_fromDesc(NAME_OF_EVENT)));//may need to test for different nonexistant value
+            //Assert.IsNull(table.Find(f => f.Event_ID == getID_fromDesc(UPDATE_1)));//may need to test for different nonexistant value
         }
     }
 }

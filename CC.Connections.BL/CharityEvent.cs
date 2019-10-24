@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace CC.Connections.BL
         public int Event_ID { get; set; }
         public int Charity_ID { get; set; }//only the id 
         public string CharityEventName { get; set; }
-        public AbsLocation location { get; set; }
+        public AbsLocation Location { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string CharityEventStatus { get; set; }
@@ -22,15 +23,7 @@ namespace CC.Connections.BL
 
 
         public CharityEvent() { }
-        public CharityEvent(Contact_Info contact)
-        {
-            base.ContactInfo_Email = contact.ContactInfo_Email;
-            base.ContactInfo_FName = contact.ContactInfo_FName;
-            base.contact_ID = contact.Contact_Info_ID;
-            base.ContactInfo_LName = contact.ContactInfo_LName;
-            base.ContactInfo_Phone = contact.ContactInfo_Phone;
-            base.DateOfBirth = (DateTime)contact.DateOfBirth;
-        }
+        public CharityEvent(Contact_Info contact) => setContactInfo(contact);
         public CharityEvent(int charity_event_ID)
         {
             this.Event_ID = charity_event_ID;
@@ -44,7 +37,30 @@ namespace CC.Connections.BL
         //{ return new CharityEvent(entry.Charity_Contact_ID); }
         public static bool Exists(fvtcEntities1 dc, int eventID)
         {
-            return dc.Charity_Event.Where(c => c.CharityEventCharity_ID == eventID).FirstOrDefault() != null;
+            return dc.Charity_Event.Where(c => c.CharityEvent_ID == eventID).FirstOrDefault() != null;
+        }
+
+        protected void setContactInfo(Contact_Info contact)
+        {
+            base.ContactInfo_Email = contact.ContactInfo_Email;
+            base.ContactInfo_FName = contact.ContactInfo_FName;
+            base.contact_ID = contact.Contact_Info_ID;
+            base.ContactInfo_LName = contact.ContactInfo_LName;
+            base.ContactInfo_Phone = contact.ContactInfo_Phone;
+            base.DateOfBirth = (DateTime)contact.DateOfBirth;
+        }
+        protected void setEventInfo(PL.Charity_Event char_event)
+        {
+            this.Event_ID = char_event.CharityEvent_ID;
+            this.CharityEventName = char_event.CharityEventName;
+            this.CharityEventRequirements = char_event.CharityEventRequirements;
+            this.CharityEventStatus = char_event.CharityEventStatus;
+            this.Charity_ID = (int)char_event.CharityEventCharity_ID;
+            this.StartDate = (DateTime)char_event.CharityEventStartDate;
+            this.EndDate = (DateTime)char_event.CharityEventEndDate;
+            if (char_event.CharityEventLocation_ID == null)
+                throw new Exception("Charity Event ID "+ this.Event_ID+" doesnt not have a location set");
+            this.Location = new AbsLocation((int)char_event.CharityEventLocation_ID);
         }
 
         public new int Insert()
@@ -56,22 +72,28 @@ namespace CC.Connections.BL
                 using (fvtcEntities1 dc = new fvtcEntities1())
                 {
                     if (dc.Charity_Event.ToList().Count > 0)
-                        Event_ID = (int)dc.Charity_Event.Max(c => c.CharityEventCharity_ID) + 1;//unique id
+                        Event_ID = (int)dc.Charity_Event.Max(c => c.CharityEvent_ID) + 1;//unique id
                     else
                         Event_ID = 0;
 
                     dc.Charity_Event.Add(new Charity_Event{
                         CharityEvent_ID = this.Event_ID,
                         CharityEventCharity_ID =this.Charity_ID,
-                        CharityEventLocation_ID = this.location.ID,
+                        CharityEventLocation_ID = this.Location.ID,
                         CharityEventContactInfo_ID = this.contact_ID,
                         CharityEventStartDate = this.StartDate,
                         CharityEventEndDate = this.EndDate,
                         CharityEventStatus = this.CharityEventStatus,
-                        CharityEventRequirements = this.CharityEventRequirements
+                        CharityEventRequirements = this.CharityEventRequirements,
+                        CharityEventName =this.CharityEventName
                     });
                     return dc.SaveChanges();
                 }
+            }
+            catch (DbEntityValidationException e)
+            {
+                //throw e;
+                throw new Exception( e.EntityValidationErrors.FirstOrDefault().ValidationErrors.FirstOrDefault().ErrorMessage);
             }
             catch (Exception e) { throw e; }
         }
@@ -101,7 +123,8 @@ namespace CC.Connections.BL
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invaild");
 
-                    PL.Charity_Event entry = dc.Charity_Event.Where(c => c.CharityEventCharity_ID == this.Event_ID).FirstOrDefault();
+                    PL.Charity_Event entry = dc.Charity_Event.Where(c => c.CharityEvent_ID == this.Event_ID).FirstOrDefault() 
+                        ?? throw new Exception("Could not find Charity Event with ID: "+ this.Event_ID);
                     entry.CharityEventEndDate = EndDate;
                     entry.CharityEventName = CharityEventName;
                     entry.CharityEventRequirements = CharityEventRequirements;
@@ -122,17 +145,14 @@ namespace CC.Connections.BL
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invaild");
 
-                    PL.Charity_Event entry = dc.Charity_Event.FirstOrDefault(c => c.CharityEventCharity_ID == this.Event_ID);
-                    if (entry == null)
-                        //if (!debug)
-                            throw new Exception("Category does not exist ID: " + Event_ID);
-                        //else
-                        //{
-                        //    Debug.WriteLine("Category does not exist ID: " + CharityEvent_ID);
-                        //    entry = new PL.Charity_Event { CharityEventCharity_ID = CharityEvent_ID, Category_Desc = "DEBUG: not found" };
-                        //}
-
-                    //Category_Desc = entry.Category_Desc;
+                    PL.Charity_Event entry = dc.Charity_Event.FirstOrDefault(c => c.CharityEvent_ID == this.Event_ID) 
+                        ?? throw new Exception("Event does not exist ID: " + Event_ID);
+                    if (entry.CharityEventContactInfo_ID == null)
+                        throw new Exception("Event does not have a Contact Info");
+                    PL.Contact_Info contact = dc.Contact_Info.Where(c => c.Contact_Info_ID == entry.CharityEventContactInfo_ID).FirstOrDefault()
+                        ?? throw new Exception("Event Contact Info could not be found with ID: "+entry.CharityEventContactInfo_ID);
+                    setContactInfo(contact);
+                    setEventInfo(entry);
                 }
             }
             catch (Exception e)
@@ -157,12 +177,7 @@ namespace CC.Connections.BL
                 using (fvtcEntities1 dc = new fvtcEntities1())
                 {
                     if (dc.Charity_Event.ToList().Count != 0)
-                        dc.Charity_Event.ToList().ForEach(c => this.Add(new BL.CharityEvent
-                        {
-                            Event_ID = c.CharityEvent_ID,
-                            Charity_ID = (int)c.CharityEventCharity_ID,
-                            contact_ID = (int)c.CharityEventContactInfo_ID
-                        }));
+                        dc.Charity_Event.ToList().ForEach(c => this.Add(c));
                 }
             }
             catch (Exception e) { throw e; }
@@ -189,7 +204,7 @@ namespace CC.Connections.BL
                                  EndDate = (DateTime)c.CharityEventEndDate,
                                  CharityEventStatus = c.CharityEventStatus,
                                  CharityEventRequirements = c.CharityEventRequirements
-                             }));
+                             },true));
                 }
                 return this;
             }
@@ -210,25 +225,25 @@ namespace CC.Connections.BL
             }
         }
 
-        public void AddEvent(CharityEvent evnt, bool debug = false)
+        public void AddEvent(CharityEvent evnt)
         {
             if (charity_ID == null)
                 throw new Exception(Event_LOAD_ERROR);
 
             using (fvtcEntities1 dc = new fvtcEntities1())
             {
-                if (!CharityEvent.Exists(dc, evnt.Event_ID))
-                    throw new Exception("Event ID: " + evnt.Event_ID + " does not exist");
+                if (CharityEvent.Exists(dc, evnt.Event_ID))
+                    throw new Exception("Event ID: " + evnt.Event_ID + " is already registered as an Charity Event");
 
-                int charEventID = 0;
+                evnt.Event_ID = 0;
                 if (dc.Charity_Event.ToList().Count != 0)
-                    charEventID = dc.Charity_Event.Max(c => c.CharityEvent_ID) + 1;
+                    evnt.Event_ID = dc.Charity_Event.Max(c => c.CharityEvent_ID) + 1;
 
                 dc.Charity_Event.Add(new Charity_Event {
                     CharityEventCharity_ID = evnt.Charity_ID,
                     CharityEventContactInfo_ID =evnt.contact_ID,
                     CharityEventEndDate =evnt.EndDate,
-                    CharityEventLocation_ID =evnt.location.ID,
+                    CharityEventLocation_ID =evnt.Location.ID,
                     CharityEventName = evnt.CharityEventName,
                     CharityEventRequirements =evnt.CharityEventRequirements,
                     CharityEventStartDate =evnt.StartDate,
@@ -240,21 +255,22 @@ namespace CC.Connections.BL
             }
         }
 
-        public void DeleteEvent(int actionID)
+        public void DeleteEvent(int eventID)
         {
             if (charity_ID == null)
                 throw new Exception(Event_LOAD_ERROR);
 
             using (fvtcEntities1 dc = new fvtcEntities1())
             {
-                //if (!AbsHelping_Action.Exists(dc, actionID))
-                //    throw new Exception("Helping Action ID: " + actionID + " does not exist");
 
-                dc.Member_Action.Remove(dc.Member_Action.Where(
-                    c => c.MemberActionMember_ID == charity_ID &&
-                    c.MemberActionAction_ID == actionID).FirstOrDefault());
+                PL.Charity_Event cevent =dc.Charity_Event.Where(
+                    c => c.CharityEventCharity_ID == charity_ID &&
+                    c.CharityEvent_ID == eventID).FirstOrDefault()
+                    ?? throw new Exception("Event : " + eventID + " does not exist");
+
+                this.Remove(new CharityEvent(eventID), true);
+                dc.Charity_Event.Remove(cevent);
                 dc.SaveChanges();
-                this.Remove(new CharityEvent(actionID), true);
             }
         }
         //public void UpdateCategory(Category cat, string description)
