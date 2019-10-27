@@ -10,13 +10,15 @@ namespace CC.Connections.WebUI.Controllers
     public class VolunteerProfileController : Controller
     {
         // GET: VolunteerProfile
-        public ActionResult ProfileView(string id)
+        public ActionResult ProfileView(string returnUrl)
         {
-            ViewBag.ReturnUrl = id;
+            ViewBag.ReturnUrl = returnUrl;
             AbsContactInfo c = new AbsContactInfo();
             Password p = (Password)Session["member"];
-
-            return View(new AbsContactInfo(p.email));
+            if (p != null)
+                return View(new AbsContactInfo(p.email));
+            else
+                return RedirectToAction("Index", "Home");
         }
 
 
