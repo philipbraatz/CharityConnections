@@ -10,12 +10,15 @@ namespace CC.Connections.WebUI.Controllers
     public class VolunteerProfileController : Controller
     {
         // GET: VolunteerProfile
-        public ActionResult ProfileView()
+        public ActionResult ProfileView(string returnUrl)
         {
+            ViewBag.ReturnUrl = returnUrl;
             AbsContactInfo c = new AbsContactInfo();
             Password p = (Password)Session["member"];
-
-            return View(new AbsContactInfo(p.email));
+            if (p != null)
+                return View(new AbsContactInfo(p.email));
+            else
+                return RedirectToAction("Index", "Home");
         }
 
         // GET: VolunteerProfile/Edit/5
@@ -35,7 +38,7 @@ namespace CC.Connections.WebUI.Controllers
             {
                 // TODO: Add update logic here
                 c.Update();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
             catch
             {
