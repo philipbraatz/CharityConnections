@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 // 30 min
@@ -51,6 +52,7 @@ namespace CC.Connections.BL
             set { setProperty("ContactInfo_Phone", value); }
         }
         [DisplayName("Birth Date")]
+        [DataType(DataType.Date)]
         public new DateTime DateOfBirth
         {
             get
