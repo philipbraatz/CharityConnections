@@ -13,10 +13,9 @@ namespace CC.Connections.WebUI.Controllers
         public ActionResult ProfileView(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
-            AbsContactInfo c = new AbsContactInfo();
             Password p = (Password)Session["member"];
             if (p != null)
-                return View(new AbsContactInfo(p.email));
+                return View(new AbsContactInfo(p));
             else
                 return RedirectToAction("Index", "Home");
         }
@@ -25,8 +24,16 @@ namespace CC.Connections.WebUI.Controllers
         public ActionResult Edit(int id)
         {
             AbsContactInfo c = new AbsContactInfo();
-            c.contact_ID = id;
-            c.LoadId();
+
+            Password p = (Password)Session["member"];
+            if (p != null)
+                c = new AbsContactInfo(p);
+            else
+            {
+                ViewBag.Message = "You are not signed in yet";
+                return View();
+            }
+
             return View(c);
         }
 

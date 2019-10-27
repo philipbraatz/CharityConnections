@@ -4,49 +4,62 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Charity Connections</title>
-    <link runat="server" rel="shortcut icon" href="~/favicon.png" type="image/x-icon"/>
-    <link runat="server" rel=" icon" href="~/favicon.png" type="image/svg"/>
+    <link runat="server" rel="shortcut icon" href="~/favicon.png" type="image/x-icon" />
+    <link runat="server" rel=" icon" href="~/favicon.png" type="image/svg" />
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
     <!-- changed the 'a' tag right padding so all the links fit in the header -->
     <style>
-        a{
-            padding-right: 20px;           
-        }
-        a :hover{
-            color:#FF6633
-        }
-        .row-bottom{
-            padding-left:10px;
-        }
-        .navbar[target]{
-            padding-top:10px;
-            padding-bottom:10px;
-        }
-        .nav-item img{
-            width:50px;
-        }
-        .nav-item :hover{
-            color:#FF6633;
-            
+        a {
+            padding-right: 20px;
         }
 
+            a :hover {
+                color: #FF6633
+            }
+
+        .row-bottom {
+            padding-left: 10px;
+        }
+
+        .navbar[target] {
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        .nav-item img {
+            width: 50px;
+        }
+
+        .nav-item :hover {
+            color: #FF6633;
+        }
     </style>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" type="text/javascript" >
-        $(function() {
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" type="text/javascript">
+        $(function () {
             //alert("mouse over");
             var image = document.getElementsByClassName("overout");
             $(".overout").on().mouseenter().attr("src", "~/Content/Images/paw_categoryOrange.svg")
 
             //$(".overout").mouseenter(function () { $("img").attr("src", "~/Content/Images/paw_categoryOrange.svg")})
-            //    .mouseleave(function () { $("img").attr("src", "~/Content/Images/paw_category.svg") });               
+            //    .mouseleave(function () { $("img").attr("src", "~/Content/Images/paw_category.svg") });
 
-            
+
             //image = document.getElementById
         }
     </script>
+
+    <!--Added MetaContent to allow View's to added to the header.
+        to use:
+            @section MetaContent
+            {
+                //your header tags here
+            }
+            }
+            -->
+    @RenderSection("ViewContent", false)
 
 </head>
 <body>

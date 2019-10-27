@@ -81,6 +81,12 @@ namespace CC.Connections.BL
             ContactInfo_Email = email;
             LoadId();
         }
+        public AbsContactInfo(Password _password) :
+            base(new PL.Contact_Info())
+        {
+            ContactInfo_Email = _password.email;
+            LoadId();
+        }
 
         private void emailEmptyCheck()
         {
@@ -140,7 +146,7 @@ namespace CC.Connections.BL
                     PL.Contact_Info entry = dc.Contact_Info.FirstOrDefault(c =>
                         c.ContactInfo_Email == this.ContactInfo_Email);
                     if (entry == null)
-                        throw new Exception("Contact_Info does not exist: Email " + this.ContactInfo_Email ) ;
+                        throw new Exception("Contact_Info does not exist with Email \'" + this.ContactInfo_Email+"\'" ) ;
                     base.LoadId(dc.Contact_Info,entry.Contact_Info_ID);
                 }
             }

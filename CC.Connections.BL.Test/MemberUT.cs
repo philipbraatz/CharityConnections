@@ -6,7 +6,7 @@ namespace CC.Connections.BL.Test
 {
     //Tests Members contact info, location, and password fully
     [TestClass]
-    public class MemberUT
+    public class Member_UT
     {
 
         public BLMember test;
@@ -108,6 +108,13 @@ namespace CC.Connections.BL.Test
 
             Assert.IsNull(table.Find(f => f.ContactInfo_FName == VALUE1));
             //TODO check that users prefrences are gone
+        }
+
+        [TestMethod]
+        public void CreateContact()
+        {
+            AbsContactInfo c = new AbsContactInfo();
+            AbsContactInfo d = 
         }
     }
 }
