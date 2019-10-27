@@ -239,6 +239,7 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\VolunteerProfile\Edit.cshtml" />
     <Content Include="Views\VolunteerProfile\ProfileView.cshtml" />
   </ItemGroup>
   <ItemGroup>

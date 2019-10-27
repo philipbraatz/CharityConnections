@@ -10,16 +10,38 @@ namespace CC.Connections.WebUI.Controllers
     public class VolunteerProfileController : Controller
     {
         // GET: VolunteerProfile
-        public ActionResult ProfileView(string id)
+        public ActionResult ProfileView()
         {
-            ViewBag.ReturnUrl = id;
             AbsContactInfo c = new AbsContactInfo();
             Password p = (Password)Session["member"];
 
             return View(new AbsContactInfo(p.email));
         }
 
+        // GET: VolunteerProfile/Edit/5
+        public ActionResult Edit(int id)
+        {
+            AbsContactInfo c = new AbsContactInfo();
+            c.contact_ID = id;
+            c.LoadId();
+            return View(c);
+        }
 
-        
+        // POST: VolunteerProfile/Edit/5
+        [HttpPost]
+        public ActionResult Edit(int id, AbsContactInfo c)
+        {
+            try
+            {
+                // TODO: Add update logic here
+                c.Update();
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View(c);
+            }
+        }
+
     }
 }
