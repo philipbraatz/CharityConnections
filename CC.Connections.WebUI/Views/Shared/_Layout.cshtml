@@ -53,10 +53,14 @@
 
 </head>
 <body>
-    <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light navbar-fixed-top" target="_lessBotPad" > <!-- added a target for style so it doesn't affect the lower navbar -->            
-        <div class="container">                                                                             <!-- style="background-color:darkcyan" -->
-            <div class="row">                                                                               <!-- row -->
-                <div class="navbar-header col-sm-3" >                                                       <!-- col-3 style="background-color:lightseagreen" -->
+    <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light navbar-fixed-top" target="_lessBotPad">
+        <!-- added a target for style so it doesn't affect the lower navbar -->
+        <div class="container">
+            <!-- style="background-color:darkcyan" -->
+            <div class="row">
+                <!-- row -->
+                <div class="navbar-header col-sm-3">
+                    <!-- col-3 style="background-color:lightseagreen" -->
 
 
                     <div class="navbar-header">
@@ -71,15 +75,17 @@
                     </button>
 
                 </div>
-                <div class="navbar-collapse collapse col-sm-9" id="navbarColor03" >     <!-- col-9 style="background-color:lightseagreen" -->
-                    <ul class="nav navbar-nav mr-auto row row-bottom">                  <!-- row (row may not be needed depending on if we add the round links to this navbar or make another) row-bottom -->
+                <div class="navbar-collapse collapse col-sm-9" id="navbarColor03">
+                    <!-- col-9 style="background-color:lightseagreen" -->
+                    <ul class="nav navbar-nav mr-auto row row-bottom">
+                        <!-- row (row may not be needed depending on if we add the round links to this navbar or make another) row-bottom -->
                         <li class="nav-item">@Html.ActionLink("Home", "Index", "Home")</li>
                         <li class="nav-item">@Html.ActionLink("Find Volunteer Opportunities", "FindVolunteerOpportunities", "Home")</li>
                         <li class="nav-item">@Html.ActionLink("Sign Up", "SignupView", "Login")</li>
                         <li class="nav-item">@Html.ActionLink("Login", "LoginView", "Login")</li>
                         <li class="nav-item">@Html.ActionLink("Logout", "logoutView", "Login")</li>
                         <li class="nav-item">@Html.ActionLink("Account", "ProfileView", "VolunteerProfile")</li>
-                    
+
                     </ul>
                 </div>
             </div>
@@ -97,29 +103,29 @@
             <div class="navbar-collapse  collapse" id="navbarColor03">
                 <ul class="nav navbar-nav mr-auto">
 
-                    <li class="nav-item overout" id="paw" ><a href="/Home/Index"><img src="~/Content/Images/paw_category.svg" title="Animals" /></a></li>
-                    <li class="nav-item"><a class="nav-fill" href="/Home/Index"><img src="~/Content/Images/bookBtn.svg" title="Education"  /></a></li>
+                    <li class="nav-item overout" id="paw"><a href="/Home/Index"><img src="~/Content/Images/paw_category.svg" title="Animals" /></a></li>
+                    <li class="nav-item"><a class="nav-fill" href="/Home/Index"><img src="~/Content/Images/bookBtn.svg" title="Education" /></a></li>
                     <li class="nav-item"><a class="nav-fill" href="/Home/Index"><img src="~/Content/Images/healthBtn.svg" title="Hospice" /></a></li>
                     <li class="nav-item"><a class="nav-fill" href="/Home/Index"><img src="~/Content/Images/peopleBtn.svg" title="" /></a></li>
                     <li class="nav-item"><a class="nav-fill" href="/Home/Index"><img src="~/Content/Images/treeBtn.svg" title="Environment" /></a></li>
                     <li class="nav-item"><a class="nav-fill" href="/Home/Index"><img src="~/Content/Images/helping_hands.svg" title="Community" /></a></li>
 
                     <!--    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-    <li class="nav-item">@Html.ActionLink("Sign Up", "SignupView", "Login")</li>
-    <li class="nav-item">@Html.ActionLink("Login", "LoginView", "Login")</li>
-    <li class="nav-item">@Html.ActionLink("Logout", "logoutView", "Login")</li>
-    <li class="nav-item">@Html.ActionLink("Account", "ProfileView", "VolunteerProfile")</li>-->
+                    <li class="nav-item">@Html.ActionLink("Sign Up", "SignupView", "Login")</li>
+                    <li class="nav-item">@Html.ActionLink("Login", "LoginView", "Login")</li>
+                    <li class="nav-item">@Html.ActionLink("Logout", "logoutView", "Login")</li>
+                    <li class="nav-item">@Html.ActionLink("Account", "ProfileView", "VolunteerProfile")</li>-->
                 </ul>
             </div>
         </div>
     </nav>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Charity Connections</p>
-            <p>Disclaimer: We do not facilitate donations or transfer of funds through this website. You must contact independent charity group to donate.</p>
-        </footer>
+    <div class="container body-content"> 
+    @RenderBody()
+    <hr />
+    <footer>
+        <p>&copy; @DateTime.Now.Year - Charity Connections</p>
+        <p>Disclaimer: We do not facilitate donations or transfer of funds through this website. You must contact independent charity group to donate.</p>
+    </footer>
     </div>
 
     @Scripts.Render("~/bundles/jquery")
