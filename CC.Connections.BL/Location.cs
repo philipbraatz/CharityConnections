@@ -46,6 +46,15 @@ namespace CC.Connections.BL
             get { return ContactInfoAddress + " ," + ContactInfoCity + " ," + ContactInfoState; }
         }
 
+        public DateTime startTime {
+            get { return (DateTime)base.getProperty("ContactInfoZip"); }
+            set { setProperty("ContactInfoZip", value); }
+        }
+        public DateTime endTime {
+            get { return (DateTime)base.getProperty("ContactInfoZip"); }
+            set { setProperty("ContactInfoZip", value); }
+        }
+
         public AbsLocation() :
             base(new Location()){ }
         public AbsLocation(PL.Location entry) :
