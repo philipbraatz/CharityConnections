@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Text;
@@ -14,11 +16,19 @@ namespace CC.Connections.BL
 
         public int Event_ID { get; set; }
         public int Charity_ID { get; set; }//only the id 
+        [DisplayName("Charity Event")]
         public string CharityEventName { get; set; }
+        [DisplayName("Location")]
         public AbsLocation Location { get; set; }
+        [DisplayName("Start Date")]
+        [DataType(DataType.Date)]
         public DateTime StartDate { get; set; }
+        [DisplayName("End Date")]
+        [DataType(DataType.Date)]
         public DateTime EndDate { get; set; }
+        [DisplayName("Status")]
         public string CharityEventStatus { get; set; }
+        [DisplayName("Requirements")]
         public string CharityEventRequirements { get; set; }
 
 

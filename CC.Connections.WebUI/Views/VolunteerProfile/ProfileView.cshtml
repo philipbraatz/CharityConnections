@@ -1,8 +1,14 @@
 ﻿@model CC.Connections.BL.AbsContactInfo
-
-@Html.ActionLink("Profile", "ProfileView", new { id = User.Identity.Name })
+@{
+    ViewBag.Title = "ProfileView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
 Full Name: @Model.FullName <br />
 Email: @Model.ContactInfo_Email<br />
 Phone: @Model.ContactInfo_Phone<br />
 DOB: @Model.DateOfBirth<br />
+
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.contact_ID })
+    </td>
