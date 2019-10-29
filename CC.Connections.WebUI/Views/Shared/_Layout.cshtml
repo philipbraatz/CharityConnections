@@ -35,6 +35,16 @@
         .nav-item :hover {
             color: #FF6633;
         }
+        footer {
+            background-color: #F63;
+            opacity: 0.90; 
+            color: #FFFFFF;
+        }
+        #footer-link :hover {
+            color: #66ccff;
+            text-decoration: none;
+            font-size: 16px;
+        }
     </style>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" type="text/javascript">
@@ -65,7 +75,7 @@
 
                     <div class="navbar-header">
                         <a class="navbar-brand" href="@Url.Action("Index", "Home")">
-                            <img src="~/Content/Images/ccweblogo.svg" alt="Site Logo" style=" width:220px;" />
+                            <img src="~/Content/Images/CCLOGO_2.svg" alt="Site Logo" style=" width:220px;" />
                         </a>
                     </div>
 
@@ -84,6 +94,7 @@
                         <li class="nav-item">@Html.ActionLink("Sign Up", "SignupView", "Login")</li>
                         <li class="nav-item">@Html.ActionLink("Login", "LoginView", "Login")</li>
                         <li class="nav-item">@Html.ActionLink("Logout", "logoutView", "Login")</li>
+                        <!--do we need this below item in our header/???? what is the purpose of this link?-->
                         <li class="nav-item">@Html.ActionLink("Account", "ProfileView", "VolunteerProfile")</li>
 
                     </ul>
@@ -119,13 +130,46 @@
             </div>
         </div>
     </nav>
-    <div class="container body-content"> 
-    @RenderBody()
-    <hr />
-    <footer>
-        <p>&copy; @DateTime.Now.Year - Charity Connections</p>
-        <p>Disclaimer: We do not facilitate donations or transfer of funds through this website. You must contact independent charity group to donate.</p>
-    </footer>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <!-- Footer -->
+        <footer class="page-footer font-small unique-color-dark pt-4">
+
+            <!-- Footer Elements -->
+            <div class="container">
+
+                <!-- Call to action -->
+                <ul class="list-unstyled list-inline text-center py-2">
+                    <li class="list-inline-item">
+                        <h5 class="mb-1">Disclaimer</h5>
+                    </li>
+
+                    <p>We do not facilitate donations or transfer of funds through this website.</p>
+                    <p> You must contact independent charity group to donate.</p>
+                    <!-- <li class="list-inline-item">
+        <a href="#!" class="btn btn-outline-white btn-rounded">Sign up!</a>
+    </li>-->
+                    <li class="nav-item" id="footer-link">@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li class="nav-item" id="footer-link">@Html.ActionLink("Find Volunteer Opportunities", "FindVolunteerOpportunities", "Home")</li>
+                    <li class="nav-item" id="footer-link">@Html.ActionLink("Sign Up", "SignupView", "Login")</li>
+                    <li class="nav-item" id="footer-link">@Html.ActionLink("Login", "LoginView", "Login")</li>
+                    <li class="nav-item" id="footer-link">@Html.ActionLink("Logout", "logoutView", "Login")</li>
+
+                </ul>
+                <!-- Call to action -->
+
+            </div>
+            <!-- Footer Elements -->
+            <!-- Copyright -->
+            <div class="footer-copyright text-center py-3">
+                &copy; @DateTime.Now.Year - Charity Connections
+                <a href="https://bestcharitysites.com">BestCharitySites.com</a>
+            </div>
+            <!-- Copyright -->
+
+        </footer>
+        <!-- Footer -->
     </div>
 
     @Scripts.Render("~/bundles/jquery")

@@ -154,6 +154,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Images\bookBtn.svg" />
     <Content Include="Content\Images\bookBtnOrange.svg" />
+    <Content Include="Content\Images\CCLOGO_2.svg" />
     <Content Include="Content\Images\ccweblogo.png" />
     <Content Include="Content\Images\ccweblogo.svg" />
     <Content Include="Content\Images\healthBtn.svg" />
