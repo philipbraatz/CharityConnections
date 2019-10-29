@@ -52,7 +52,7 @@ namespace CC.Connections.WebUI.Controllers
                     //if (returnurl != null)
                     //    return Redirect(returnurl);
                     //else
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("ProfileView", "VolunteerProfile");
                 }
                 else
                 {
