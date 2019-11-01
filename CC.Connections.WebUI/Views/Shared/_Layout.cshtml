@@ -6,18 +6,41 @@
     <title>@ViewBag.Title - Charity Connections</title>
     <link runat="server" rel="shortcut icon" href="~/favicon.png" type="image/x-icon" />
     <link runat="server" rel=" icon" href="~/favicon.png" type="image/svg" />
+
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"  type="text/javascript"></script>
+    <script  type="text/javascript">
+        $(document).ready(function () {
+            // TODO: add jQuery function to change the round medallion links to the orange pictures on mouseover/hover
+
+            // Displays the volunteer category nav bar when hovering over "find volunteer opportunities"
+            $("#findVolunteerBtn").mouseenter(function () {
+                $("#volunteerBar").slideToggle("slow");
+            })
+
+            // This works, I can target the volunteer bar by itself but cannot get it to be targeted by the findVolunteerBtn
+            //$("#volunteerBar").mouseover(function () {
+            //    alert("volunteer bar");
+            //    $("#volunteerBar").toggle();
+            //});
+        });
+    </script>
+
     <!-- changed the 'a' tag right padding so all the links fit in the header -->
     <style>
+        #volunteerBar{
+            display:none;
+        }
+
         a {
             padding-right: 20px;
         }
 
-            a :hover {
-                color: #FF6633
-            }
+        a :hover {
+            color: #FF6633
+        }
 
         .row-bottom {
             padding-left: 10px;
@@ -35,11 +58,13 @@
         .nav-item :hover {
             color: #FF6633;
         }
+
         footer {
             background-color: #F63;
-            opacity: 0.90; 
+            opacity: 0.90;
             color: #FFFFFF;
         }
+
         #footer-link :hover {
             color: #66ccff;
             text-decoration: none;
@@ -47,35 +72,16 @@
         }
     </style>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" type="text/javascript">
-        $(function () {
-            //alert("mouse over");
-            var image = document.getElementsByClassName("overout");
-            $(".overout").on().mouseenter().attr("src", "~/Content/Images/paw_categoryOrange.svg")
-
-            //$(".overout").mouseenter(function () { $("img").attr("src", "~/Content/Images/paw_categoryOrange.svg")})
-            //    .mouseleave(function () { $("img").attr("src", "~/Content/Images/paw_category.svg") });
-
-
-            //image = document.getElementById
-        }
-    </script>
-
 </head>
 <body>
-    <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light navbar-fixed-top" target="_lessBotPad">
-        <!-- added a target for style so it doesn't affect the lower navbar -->
-        <div class="container">
-            <!-- style="background-color:darkcyan" -->
-            <div class="row">
-                <!-- row -->
-                <div class="navbar-header col-sm-3">
-                    <!-- col-3 style="background-color:lightseagreen" -->
-
+    <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light navbar-fixed-top" target="_lessBottomPad">     <!-- added a target for style so it doesn't affect the lower navbar -->
+        <div class="container">                                                                                         <!-- style="background-color:darkcyan" -->
+            <div class="row">                                                                                           <!-- row -->
+                <div class="navbar-header col-sm-3">                                                                    <!-- col-3 style="background-color:lightseagreen" -->
 
                     <div class="navbar-header">
                         <a class="navbar-brand" href="@Url.Action("Index", "Home")">
-                            <img src="~/Content/Images/CCLOGO_2.svg" alt="Site Logo" style=" width:220px;" />
+                            <img src="~/Content/Images/ccweblogo.svg" alt="Site Logo" style=" width:220px;" />
                         </a>
                     </div>
 
@@ -85,12 +91,10 @@
                     </button>
 
                 </div>
-                <div class="navbar-collapse collapse col-sm-9" id="navbarColor03">
-                    <!-- col-9 style="background-color:lightseagreen" -->
-                    <ul class="nav navbar-nav mr-auto row row-bottom">
-                        <!-- row (row may not be needed depending on if we add the round links to this navbar or make another) row-bottom -->
+                <div class="navbar-collapse collapse col-sm-9" id="navbarColor03">      <!-- col-9 style="background-color:lightseagreen" -->
+                    <ul class="nav navbar-nav mr-auto row row-bottom">                  <!-- row (row may not be needed depending on if we add the round links to this navbar or make another) row-bottom -->
                         <li class="nav-item">@Html.ActionLink("Home", "Index", "Home")</li>
-                        <li class="nav-item">@Html.ActionLink("Find Volunteer Opportunities", "FindVolunteerOpportunities", "Home")</li>
+                        <li class="nav-item" id="findVolunteerBtn">@Html.ActionLink("Find Volunteer Opportunities", "FindVolunteerOpportunities", "Home")</li>
                         <li class="nav-item">@Html.ActionLink("Sign Up", "SignupView", "Login")</li>
                         <li class="nav-item">@Html.ActionLink("Login", "LoginView", "Login")</li>
                         <li class="nav-item">@Html.ActionLink("Logout", "logoutView", "Login")</li>
@@ -103,7 +107,7 @@
         </div>
     </nav>
 
-    <nav class="navbar  navbar-expand-lg navbar-light bg-light navbar-fixed-top">
+    <nav class="navbar  navbar-expand-lg navbar-light bg-light navbar-fixed-top" id="volunteerBar" >
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
