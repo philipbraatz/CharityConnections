@@ -1,8 +1,30 @@
 ﻿@model CC.Connections.BL.AbsContactInfo
+@{
+    ViewBag.Title = "ProfileView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
-@Html.ActionLink("Profile", "ProfileView", new { id = User.Identity.Name })
+<table class="table table-user-information">
+   <tbody>
+    <tr>
+        <td>Name:</td>
+        <td>@Model.FullName</td>
+    </tr>
+   <tr>
+       <td>Email:</td>    
+        <td>@Model.ContactInfo_Email</td>  
+   </tr>  
+   <tr>
+       <td> Phone:</td>
+       <td>@Model.ContactInfo_Phone</td>
+   </tr>
+       <tr>
+           <td>Birthdate: </td>
+           <td>@Model.DateOfBirth</td>
+       </tr>
+</tbody>
 
-Full Name: @Model.FullName <br />
-Email: @Model.ContactInfo_Email<br />
-Phone: @Model.ContactInfo_Phone<br />
-DOB: @Model.DateOfBirth<br />
+</table>
+    <td>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.contact_ID })
+    </td>

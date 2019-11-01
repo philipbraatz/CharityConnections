@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 // 30 min
@@ -51,6 +52,7 @@ namespace CC.Connections.BL
             set { setProperty("ContactInfo_Phone", value); }
         }
         [DisplayName("Birth Date")]
+        [DataType(DataType.Date)]
         public new DateTime DateOfBirth
         {
             get
@@ -79,6 +81,12 @@ namespace CC.Connections.BL
             base(new fvtcEntities1().Contact_Info,email, "ContactInfo_Email")
         {
             ContactInfo_Email = email;
+            LoadId();
+        }
+        public AbsContactInfo(Password _password) :
+            base(new PL.Contact_Info())
+        {
+            ContactInfo_Email = _password.email;
             LoadId();
         }
 
@@ -140,7 +148,7 @@ namespace CC.Connections.BL
                     PL.Contact_Info entry = dc.Contact_Info.FirstOrDefault(c =>
                         c.ContactInfo_Email == this.ContactInfo_Email);
                     if (entry == null)
-                        throw new Exception("Contact_Info does not exist: Email " + this.ContactInfo_Email ) ;
+                        throw new Exception("Contact_Info does not exist with Email \'" + this.ContactInfo_Email+"\'" ) ;
                     base.LoadId(dc.Contact_Info,entry.Contact_Info_ID);
                 }
             }

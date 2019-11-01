@@ -144,7 +144,7 @@ namespace CC.Connections.BL
             PropertyInfo propinf = type.GetProperties().Where(c => c.Name == propertyName).FirstOrDefault();
             if (propinf != null)
             {
-                object ret = propinf.GetValue(instance);
+                object ret = propinf.GetValue(prop);
                 if (ret != null)
                     return ret;
                 else
@@ -349,7 +349,7 @@ namespace CC.Connections.BL
                     if (fixFirstFound)
                     {
                         //instance = where( entry in the table == this ID)
-                        if (tempID.Equals(getValue(col, propName)))
+                        if ((getValue(col, propName).ToString())==(tempID.ToString()))
                         {
                             instance = col;//sets all properties
                             found = true;

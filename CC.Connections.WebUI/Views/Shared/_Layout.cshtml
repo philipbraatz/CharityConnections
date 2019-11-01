@@ -4,61 +4,78 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Charity Connections</title>
-    <link runat="server" rel="shortcut icon" href="~/favicon.png" type="image/x-icon"/>
-    <link runat="server" rel=" icon" href="~/favicon.png" type="image/svg"/>
+    <link runat="server" rel="shortcut icon" href="~/favicon.png" type="image/x-icon" />
+    <link runat="server" rel=" icon" href="~/favicon.png" type="image/svg" />
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
     <!-- changed the 'a' tag right padding so all the links fit in the header -->
     <style>
-        a{
-            padding-right: 20px;           
-        }
-        a :hover{
-            color:#FF6633
-        }
-        .row-bottom{
-            padding-left:10px;
-        }
-        .navbar[target]{
-            padding-top:10px;
-            padding-bottom:10px;
-        }
-        .nav-item img{
-            width:50px;
-        }
-        .nav-item :hover{
-            color:#FF6633;
-            
+        a {
+            padding-right: 20px;
         }
 
+            a :hover {
+                color: #FF6633
+            }
+
+        .row-bottom {
+            padding-left: 10px;
+        }
+
+        .navbar[target] {
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        .nav-item img {
+            width: 50px;
+        }
+
+        .nav-item :hover {
+            color: #FF6633;
+        }
+        footer {
+            background-color: #F63;
+            opacity: 0.90; 
+            color: #FFFFFF;
+        }
+        #footer-link :hover {
+            color: #66ccff;
+            text-decoration: none;
+            font-size: 16px;
+        }
     </style>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" type="text/javascript" >
-        $(function() {
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" type="text/javascript">
+        $(function () {
             //alert("mouse over");
             var image = document.getElementsByClassName("overout");
             $(".overout").on().mouseenter().attr("src", "~/Content/Images/paw_categoryOrange.svg")
 
             //$(".overout").mouseenter(function () { $("img").attr("src", "~/Content/Images/paw_categoryOrange.svg")})
-            //    .mouseleave(function () { $("img").attr("src", "~/Content/Images/paw_category.svg") });               
+            //    .mouseleave(function () { $("img").attr("src", "~/Content/Images/paw_category.svg") });
 
-            
+
             //image = document.getElementById
         }
     </script>
 
 </head>
 <body>
-    <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light navbar-fixed-top" target="_lessBotPad" > <!-- added a target for style so it doesn't affect the lower navbar -->            
-        <div class="container">                                                                             <!-- style="background-color:darkcyan" -->
-            <div class="row">                                                                               <!-- row -->
-                <div class="navbar-header col-sm-3" >                                                       <!-- col-3 style="background-color:lightseagreen" -->
+    <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light navbar-fixed-top" target="_lessBotPad">
+        <!-- added a target for style so it doesn't affect the lower navbar -->
+        <div class="container">
+            <!-- style="background-color:darkcyan" -->
+            <div class="row">
+                <!-- row -->
+                <div class="navbar-header col-sm-3">
+                    <!-- col-3 style="background-color:lightseagreen" -->
 
 
                     <div class="navbar-header">
                         <a class="navbar-brand" href="@Url.Action("Index", "Home")">
-                            <img src="~/Content/Images/ccweblogo.svg" alt="Site Logo" style=" width:220px;" />
+                            <img src="~/Content/Images/CCLOGO_2.svg" alt="Site Logo" style=" width:220px;" />
                         </a>
                     </div>
 
@@ -68,15 +85,18 @@
                     </button>
 
                 </div>
-                <div class="navbar-collapse collapse col-sm-9" id="navbarColor03" >     <!-- col-9 style="background-color:lightseagreen" -->
-                    <ul class="nav navbar-nav mr-auto row row-bottom">                  <!-- row (row may not be needed depending on if we add the round links to this navbar or make another) row-bottom -->
+                <div class="navbar-collapse collapse col-sm-9" id="navbarColor03">
+                    <!-- col-9 style="background-color:lightseagreen" -->
+                    <ul class="nav navbar-nav mr-auto row row-bottom">
+                        <!-- row (row may not be needed depending on if we add the round links to this navbar or make another) row-bottom -->
                         <li class="nav-item">@Html.ActionLink("Home", "Index", "Home")</li>
                         <li class="nav-item">@Html.ActionLink("Find Volunteer Opportunities", "FindVolunteerOpportunities", "Home")</li>
                         <li class="nav-item">@Html.ActionLink("Sign Up", "SignupView", "Login")</li>
                         <li class="nav-item">@Html.ActionLink("Login", "LoginView", "Login")</li>
                         <li class="nav-item">@Html.ActionLink("Logout", "logoutView", "Login")</li>
+                        <!--do we need this below item in our header/???? what is the purpose of this link?-->
                         <li class="nav-item">@Html.ActionLink("Account", "ProfileView", "VolunteerProfile")</li>
-                    
+
                     </ul>
                 </div>
             </div>
@@ -94,18 +114,18 @@
             <div class="navbar-collapse  collapse" id="navbarColor03">
                 <ul class="nav navbar-nav mr-auto">
 
-                    <li class="nav-item overout" id="paw" ><a href="/Home/Index"><img src="~/Content/Images/paw_category.svg" title="Animals" /></a></li>
-                    <li class="nav-item"><a class="nav-fill" href="/Home/Index"><img src="~/Content/Images/bookBtn.svg" title="Education"  /></a></li>
+                    <li class="nav-item overout" id="paw"><a href="/Home/Index"><img src="~/Content/Images/paw_category.svg" title="Animals" /></a></li>
+                    <li class="nav-item"><a class="nav-fill" href="/Home/Index"><img src="~/Content/Images/bookBtn.svg" title="Education" /></a></li>
                     <li class="nav-item"><a class="nav-fill" href="/Home/Index"><img src="~/Content/Images/healthBtn.svg" title="Hospice" /></a></li>
                     <li class="nav-item"><a class="nav-fill" href="/Home/Index"><img src="~/Content/Images/peopleBtn.svg" title="" /></a></li>
                     <li class="nav-item"><a class="nav-fill" href="/Home/Index"><img src="~/Content/Images/treeBtn.svg" title="Environment" /></a></li>
                     <li class="nav-item"><a class="nav-fill" href="/Home/Index"><img src="~/Content/Images/helping_hands.svg" title="Community" /></a></li>
 
                     <!--    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-    <li class="nav-item">@Html.ActionLink("Sign Up", "SignupView", "Login")</li>
-    <li class="nav-item">@Html.ActionLink("Login", "LoginView", "Login")</li>
-    <li class="nav-item">@Html.ActionLink("Logout", "logoutView", "Login")</li>
-    <li class="nav-item">@Html.ActionLink("Account", "ProfileView", "VolunteerProfile")</li>-->
+                    <li class="nav-item">@Html.ActionLink("Sign Up", "SignupView", "Login")</li>
+                    <li class="nav-item">@Html.ActionLink("Login", "LoginView", "Login")</li>
+                    <li class="nav-item">@Html.ActionLink("Logout", "logoutView", "Login")</li>
+                    <li class="nav-item">@Html.ActionLink("Account", "ProfileView", "VolunteerProfile")</li>-->
                 </ul>
             </div>
         </div>
@@ -113,10 +133,43 @@
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Charity Connections</p>
-            <p>Disclaimer: We do not facilitate donations or transfer of funds through this website. You must contact independent charity group to donate.</p>
+        <!-- Footer -->
+        <footer class="page-footer font-small unique-color-dark pt-4">
+
+            <!-- Footer Elements -->
+            <div class="container">
+
+                <!-- Call to action -->
+                <ul class="list-unstyled list-inline text-center py-2">
+                    <li class="list-inline-item">
+                        <h5 class="mb-1">Disclaimer</h5>
+                    </li>
+
+                    <p>We do not facilitate donations or transfer of funds through this website.</p>
+                    <p> You must contact independent charity group to donate.</p>
+                    <!-- <li class="list-inline-item">
+        <a href="#!" class="btn btn-outline-white btn-rounded">Sign up!</a>
+    </li>-->
+                    <li class="nav-item" id="footer-link">@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li class="nav-item" id="footer-link">@Html.ActionLink("Find Volunteer Opportunities", "FindVolunteerOpportunities", "Home")</li>
+                    <li class="nav-item" id="footer-link">@Html.ActionLink("Sign Up", "SignupView", "Login")</li>
+                    <li class="nav-item" id="footer-link">@Html.ActionLink("Login", "LoginView", "Login")</li>
+                    <li class="nav-item" id="footer-link">@Html.ActionLink("Logout", "logoutView", "Login")</li>
+
+                </ul>
+                <!-- Call to action -->
+
+            </div>
+            <!-- Footer Elements -->
+            <!-- Copyright -->
+            <div class="footer-copyright text-center py-3">
+                &copy; @DateTime.Now.Year - Charity Connections
+                <a href="https://bestcharitysites.com">BestCharitySites.com</a>
+            </div>
+            <!-- Copyright -->
+
         </footer>
+        <!-- Footer -->
     </div>
 
     @Scripts.Render("~/bundles/jquery")

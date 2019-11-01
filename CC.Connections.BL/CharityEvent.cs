@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Text;
@@ -14,11 +16,63 @@ namespace CC.Connections.BL
 
         public int Event_ID { get; set; }
         public int Charity_ID { get; set; }//only the id 
+        [DisplayName("Charity Event")]
         public string CharityEventName { get; set; }
+        [DisplayName("Location")]
         public AbsLocation Location { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+
+        //TODO make PRIVATE
+
+        public DateTime _start { get; set; }
+        public DateTime _end { get; set; }
+
+        [DisplayName("Start Date")]
+        [DataType(DataType.Date)]
+        public DateTime StartDate 
+        { 
+            get=> DateTime.Parse( _start.ToShortDateString()); 
+            set 
+            {
+                _start = StartDate.Date.Add(StartTime.TimeOfDay);
+            } 
+        }
+
+        [DisplayName("Open Time")]
+        [DataType(DataType.Date)]
+        public DateTime StartTime {
+            get => DateTime.Parse(_start.ToShortTimeString());
+            set
+            {
+                _start = StartDate.Date.Add(StartTime.TimeOfDay);
+            }
+        }
+
+        [DisplayName("End Date")]
+        [DataType(DataType.Date)]
+        public DateTime EndDate
+        {
+            get => DateTime.Parse(_end.ToShortDateString());
+            set
+            {
+                _start = EndDate.Date.Add(EndTime.TimeOfDay);
+            }
+        }
+
+        [DisplayName("Close Time")]
+        [DataType(DataType.Date)]
+        public DateTime EndTime
+        {
+            get => DateTime.Parse(_end.ToShortTimeString());
+            set
+            {
+                _start = EndDate.Date.Add(EndTime.TimeOfDay);
+            }
+        }
+
+
+        [DisplayName("Status")]
         public string CharityEventStatus { get; set; }
+        [DisplayName("Requirements")]
         public string CharityEventRequirements { get; set; }
 
 
@@ -56,8 +110,8 @@ namespace CC.Connections.BL
             this.CharityEventRequirements = char_event.CharityEventRequirements;
             this.CharityEventStatus = char_event.CharityEventStatus;
             this.Charity_ID = (int)char_event.CharityEventCharity_ID;
-            this.StartDate = (DateTime)char_event.CharityEventStartDate;
-            this.EndDate = (DateTime)char_event.CharityEventEndDate;
+            this._start = (DateTime)char_event.CharityEventStartDate;
+            this._end = (DateTime)char_event.CharityEventEndDate;
             if (char_event.CharityEventLocation_ID == null)
                 throw new Exception("Charity Event ID "+ this.Event_ID+" doesnt not have a location set");
             this.Location = new AbsLocation((int)char_event.CharityEventLocation_ID);
@@ -81,8 +135,8 @@ namespace CC.Connections.BL
                         CharityEventCharity_ID =this.Charity_ID,
                         CharityEventLocation_ID = this.Location.ID,
                         CharityEventContactInfo_ID = this.contact_ID,
-                        CharityEventStartDate = this.StartDate,
-                        CharityEventEndDate = this.EndDate,
+                        CharityEventStartDate = this._start,
+                        CharityEventEndDate = this._end,
                         CharityEventStatus = this.CharityEventStatus,
                         CharityEventRequirements = this.CharityEventRequirements,
                         CharityEventName =this.CharityEventName
@@ -125,7 +179,8 @@ namespace CC.Connections.BL
 
                     PL.Charity_Event entry = dc.Charity_Event.Where(c => c.CharityEvent_ID == this.Event_ID).FirstOrDefault() 
                         ?? throw new Exception("Could not find Charity Event with ID: "+ this.Event_ID);
-                    entry.CharityEventEndDate = EndDate;
+                    entry.CharityEventEndDate = _end;
+                    entry.CharityEventStartDate = _start;
                     entry.CharityEventName = CharityEventName;
                     entry.CharityEventRequirements = CharityEventRequirements;
                     entry.CharityEventStartDate = StartDate;
@@ -169,6 +224,14 @@ namespace CC.Connections.BL
         int? charity_ID { get; set; }
 
         private const string Event_LOAD_ERROR = "Events not loaded, please loadEvents with a Charity ID";
+
+        public CharityEventList() { }
+        public CharityEventList(int id)
+        {
+            charity_ID = id;
+            LoadList();
+        }
+
         public void LoadList()
         {
             try
@@ -200,8 +263,8 @@ namespace CC.Connections.BL
                                  Event_ID =c.CharityEvent_ID,
                                  Charity_ID = (int)c.CharityEventCharity_ID,
                                  contact_ID = (int)c.CharityEventContactInfo_ID,
-                                 StartDate = (DateTime)c.CharityEventStartDate,
-                                 EndDate = (DateTime)c.CharityEventEndDate,
+                                 _start = (DateTime)c.CharityEventStartDate,
+                                 _end = (DateTime)c.CharityEventEndDate,
                                  CharityEventStatus = c.CharityEventStatus,
                                  CharityEventRequirements = c.CharityEventRequirements
                              },true));
