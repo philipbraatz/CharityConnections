@@ -4,27 +4,58 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<table class="table table-user-information">
-   <tbody>
-    <tr>
-        <td>Name:</td>
-        <td>@Model.FullName</td>
-    </tr>
-   <tr>
-       <td>Email:</td>    
-        <td>@Model.ContactInfo_Email</td>  
-   </tr>  
-   <tr>
-       <td> Phone:</td>
-       <td>@Model.ContactInfo_Phone</td>
-   </tr>
-       <tr>
-           <td>Birthdate: </td>
-           <td>@Model.DateOfBirth</td>
-       </tr>
-</tbody>
+<br />
+<br />
+<br />
 
+<style>
+    a:hover {
+        color: #FF6633;
+        text-decoration: none;
+    }
+</style>
+<h4>Profile</h4>
+
+
+<table class="table table-user-information">
+    <tbody>
+        <tr>
+            <td>Name:</td>
+            <td>@Model.FullName</td>
+        </tr>
+        <tr>
+            <td>Email:</td>
+            <td>@Model.ContactInfo_Email</td>
+        </tr>
+        <tr>
+            <td> Phone:</td>
+            <td>@Model.ContactInfo_Phone</td>
+        </tr>
+        <tr>
+            <td>Birthdate: </td>
+            <td>@Model.DateOfBirth</td>
+        </tr>
+
+    </tbody>
 </table>
-    <td>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.contact_ID })
-    </td>
+
+<br />
+<br />
+<table>
+    <tr>
+        <td>
+            @Html.ActionLink("Edit Profile", "Edit", new { id = Model.contact_ID })
+        </td>
+    </tr>
+</table>
+
+
+
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />

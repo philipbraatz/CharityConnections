@@ -1,5 +1,28 @@
 ﻿@model CC.Connections.BL.AbsContactInfo
 
+<style>
+    .account-display{
+        color: rebeccapurple;
+        font-weight: bold;       
+        text-align: right;
+        border: none;
+        margin-left: 900px;
+        
+    }
+    a:hover {
+        color: #FF6633;
+        text-decoration: none;
+    }
+    p {
+        text-align: right;
+        margin-left: 700px;
+    }
+</style>
+
+
+
+<p>Currently logged in as</p>
+@Html.EditorFor(model => model.ContactInfo_FName, new { htmlAttributes = new { @class = "account-display" } })
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -8,9 +31,15 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
+
+    <br />
+    <br />
+    <br />
+
+   
     <div class="form-horizontal">
-        <h4>AbsContactInfo</h4>
+        <h4>Edit Profile Information</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
@@ -53,6 +82,7 @@
             </div>
         </div>
 
+        <!--THIS SAVE BUTTON DOES NOTHING-->
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-default" />
@@ -61,9 +91,20 @@
     </div>
 }
 
-<div>
+
+<br />
+<br />
+<!--Does not redirect as expected-->
+<!--<div>
     @Html.ActionLink("Back to List", "Index")
+</div>-->
+<!--REDIRECT TO PROFILE PAGE-->
+<div>
+    @Html.ActionLink("Back to Profile", "ProfileView")
 </div>
+
+<br />
+<br />
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

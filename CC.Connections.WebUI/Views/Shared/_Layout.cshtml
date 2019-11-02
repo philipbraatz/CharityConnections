@@ -74,10 +74,14 @@
 
 </head>
 <body>
-    <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light navbar-fixed-top" target="_lessBottomPad">     <!-- added a target for style so it doesn't affect the lower navbar -->
-        <div class="container">                                                                                         <!-- style="background-color:darkcyan" -->
-            <div class="row">                                                                                           <!-- row -->
-                <div class="navbar-header col-sm-3">                                                                    <!-- col-3 style="background-color:lightseagreen" -->
+    <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light navbar-fixed-top" target="_lessBottomPad">
+        <!-- added a target for style so it doesn't affect the lower navbar -->
+        <div class="container">
+            <!-- style="background-color:darkcyan" -->
+            <div class="row">
+                <!-- row -->
+                <div class="navbar-header col-sm-3">
+                    <!-- col-3 style="background-color:lightseagreen" -->
 
                     <div class="navbar-header">
                         <a class="navbar-brand" href="@Url.Action("Index", "Home")">
@@ -91,8 +95,10 @@
                     </button>
 
                 </div>
-                <div class="navbar-collapse collapse col-sm-9" id="navbarColor03">      <!-- col-9 style="background-color:lightseagreen" -->
-                    <ul class="nav navbar-nav mr-auto row row-bottom">                  <!-- row (row may not be needed depending on if we add the round links to this navbar or make another) row-bottom -->
+                <div class="navbar-collapse collapse col-sm-9" id="navbarColor03">
+                    <!-- col-9 style="background-color:lightseagreen" -->
+                    <ul class="nav navbar-nav mr-auto row row-bottom">
+                        <!-- row (row may not be needed depending on if we add the round links to this navbar or make another) row-bottom -->
                         <li class="nav-item">@Html.ActionLink("Home", "Index", "Home")</li>
                         <li class="nav-item" id="findVolunteerBtn">@Html.ActionLink("Find Volunteer Opportunities", "FindVolunteerOpportunities", "Home")</li>
                         <li class="nav-item">@Html.ActionLink("Sign Up", "SignupView", "Login")</li>
@@ -107,7 +113,9 @@
         </div>
     </nav>
 
-    <nav class="navbar  navbar-expand-lg navbar-light bg-light navbar-fixed-top" id="volunteerBar" >
+   
+    
+    <nav class="navbar  navbar-expand-lg navbar-light bg-light navbar-fixed-top" id="volunteerBar">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
@@ -152,8 +160,8 @@
                     <p>We do not facilitate donations or transfer of funds through this website.</p>
                     <p> You must contact independent charity group to donate.</p>
                     <!-- <li class="list-inline-item">
-        <a href="#!" class="btn btn-outline-white btn-rounded">Sign up!</a>
-    </li>-->
+                        <a href="#!" class="btn btn-outline-white btn-rounded">Sign up!</a>
+                    </li>-->
                     <li class="nav-item" id="footer-link">@Html.ActionLink("Home", "Index", "Home")</li>
                     <li class="nav-item" id="footer-link">@Html.ActionLink("Find Volunteer Opportunities", "FindVolunteerOpportunities", "Home")</li>
                     <li class="nav-item" id="footer-link">@Html.ActionLink("Sign Up", "SignupView", "Login")</li>
