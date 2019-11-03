@@ -13,18 +13,49 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"  type="text/javascript"></script>
     <script  type="text/javascript">
         $(document).ready(function () {
-            // TODO: add jQuery function to change the round medallion links to the orange pictures on mouseover/hover
+            // TODO: move the jQuery to it's own document to clean up this page
 
             // Displays the volunteer category nav bar when hovering over "find volunteer opportunities"
             $("#findVolunteerBtn").mouseenter(function () {
                 $("#volunteerBar").slideToggle("slow");
             })
 
-            // This works, I can target the volunteer bar by itself but cannot get it to be targeted by the findVolunteerBtn
-            //$("#volunteerBar").mouseover(function () {
-            //    alert("volunteer bar");
-            //    $("#volunteerBar").toggle();
-            //});
+            // Changes the picture (different color) when hovering over link
+            $("#paw").mouseenter(function () {
+                $(this).find('img').attr('src', '../../Content/Images/paw_category.svg').replaceWith('<img src="../../Content/Images/paw_categoryOrange.svg">');
+            }).mouseleave(function () {
+                $(this).find('img').attr('src', '../../Content/Images/paw_categoryOrange.svg').replaceWith('<img src="../../Content/Images/paw_category.svg">');
+            })
+
+            $("#book").mouseenter(function () {
+                $(this).find('img').attr('src', '../../Content/Images/bookBtn.svg').replaceWith('<img src="../../Content/Images/bookBtnOrange.svg">');
+            }).mouseleave(function () {
+                $(this).find('img').attr('src', '../../Content/Images/bookBtnOrange.svg').replaceWith('<img src="../../Content/Images/bookBtn.svg">');
+            })
+
+            $("#health").mouseenter(function () {
+                $(this).find('img').attr('src', '../../Content/Images/healthBtn.svg').replaceWith('<img src="../../Content/Images/healthBtnOrange.svg">');
+            }).mouseleave(function () {
+                $(this).find('img').attr('src', '../../Content/Images/healthBtnOrange.svg').replaceWith('<img src="../../Content/Images/healthBtn.svg">');
+            })
+
+            $("#people").mouseenter(function () {
+                $(this).find('img').attr('src', '../../Content/Images/peopleBtn.svg').replaceWith('<img src="../../Content/Images/peopleBtnOrange.svg">');
+            }).mouseleave(function () {
+                $(this).find('img').attr('src', '../../Content/Images/peopleBtnOrange.svg').replaceWith('<img src="../../Content/Images/peopleBtn.svg">');
+            })
+
+            $("#tree").mouseenter(function () {
+                $(this).find('img').attr('src', '../../Content/Images/treeBtn.svg').replaceWith('<img src="../../Content/Images/treeBtnOrange.svg">');
+            }).mouseleave(function () {
+                $(this).find('img').attr('src', '../../Content/Images/treeBtnOrange.svg').replaceWith('<img src="../../Content/Images/treeBtn.svg">');
+            })
+
+            $("#hands").mouseenter(function () {
+                $(this).find('img').attr('src', '../../Content/Images/helping_hands.svg').replaceWith('<img src="../../Content/Images/helping_handsOrange.svg">');
+            }).mouseleave(function () {
+                $(this).find('img').attr('src', '../../Content/Images/helping_handsOrange.svg').replaceWith('<img src="../../Content/Images/helping_hands.svg">');
+            })
         });
     </script>
 
@@ -57,6 +88,9 @@
 
         .nav-item :hover {
             color: #FF6633;
+        }
+        .volunteer-category-bar{
+            margin-left: 35px;
         }
 
         footer {
@@ -124,14 +158,14 @@
                 <!-- @Html.ActionLink("Charity Connections", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })-->
             </div>
             <div class="navbar-collapse  collapse" id="navbarColor03">
-                <ul class="nav navbar-nav mr-auto">
-
-                    <li class="nav-item overout" id="paw"><a href="/Home/Index"><img src="~/Content/Images/paw_category.svg" title="Animals" /></a></li>
-                    <li class="nav-item"><a class="nav-fill" href="/Home/Index"><img src="~/Content/Images/bookBtn.svg" title="Education" /></a></li>
-                    <li class="nav-item"><a class="nav-fill" href="/Home/Index"><img src="~/Content/Images/healthBtn.svg" title="Hospice" /></a></li>
-                    <li class="nav-item"><a class="nav-fill" href="/Home/Index"><img src="~/Content/Images/peopleBtn.svg" title="" /></a></li>
-                    <li class="nav-item"><a class="nav-fill" href="/Home/Index"><img src="~/Content/Images/treeBtn.svg" title="Environment" /></a></li>
-                    <li class="nav-item"><a class="nav-fill" href="/Home/Index"><img src="~/Content/Images/helping_hands.svg" title="Community" /></a></li>
+                <ul class="nav navbar-nav mr-auto row">
+                    <li class="col-1">
+                    <li class="nav-item overout col-1 volunteer-category-bar" id="paw" ><a href="/Home/Index"><img src="~/Content/Images/paw_category.svg" title="Animals" /></a></li>
+                    <li class="nav-item col-1 volunteer-category-bar" id="book"><a class="nav-fill" href="/Home/Index"><img src="~/Content/Images/bookBtn.svg" title="Education" /></a></li>
+                    <li class="nav-item col-1 volunteer-category-bar" id="health"><a class="nav-fill" href="/Home/Index"><img src="~/Content/Images/healthBtn.svg" title="Hospice" /></a></li>
+                    <li class="nav-item col-1 volunteer-category-bar" id="people"><a class="nav-fill" href="/Home/Index"><img src="~/Content/Images/peopleBtn.svg" title="" /></a></li>
+                    <li class="nav-item col-1 volunteer-category-bar" id="tree"><a class="nav-fill" href="/Home/Index"><img src="~/Content/Images/treeBtn.svg" title="Environment" /></a></li>
+                    <li class="nav-item col-1 volunteer-category-bar" id="hands"><a class="nav-fill" href="/Home/Index"><img src="~/Content/Images/helping_hands.svg" title="Community" /></a></li>
 
                     <!--    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                     <li class="nav-item">@Html.ActionLink("Sign Up", "SignupView", "Login")</li>

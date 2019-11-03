@@ -114,7 +114,7 @@ namespace CC.Connections.BL.Test
         public void CreateContact()
         {
             AbsContactInfo c = new AbsContactInfo();
-            AbsContactInfo d = 
+            //AbsContactInfo d = 
         }
     }
 }
