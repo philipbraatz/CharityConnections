@@ -15,7 +15,7 @@ namespace CC.Connections.WebUI.Controllers
             ViewBag.ReturnUrl = returnUrl;
             Password p = (Password)Session["member"];
             if (p != null)
-                return View(new AbsContactInfo(p));
+                return View(new AbsContact(p));
             else
                 return RedirectToAction("Index", "Home");
         }
@@ -23,11 +23,11 @@ namespace CC.Connections.WebUI.Controllers
         // GET: VolunteerProfile/Edit/5
         public ActionResult Edit(int id)
         {
-            AbsContactInfo c = new AbsContactInfo();
+            AbsContact c = new AbsContact();
 
             Password p = (Password)Session["member"];
             if (p != null)
-                c = new AbsContactInfo(p);
+                c = new AbsContact(p);
             else
             {
                 ViewBag.Message = "You are not signed in yet";
@@ -39,7 +39,7 @@ namespace CC.Connections.WebUI.Controllers
 
         // POST: VolunteerProfile/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, AbsContactInfo c)
+        public ActionResult Edit(int id, AbsContact c)
         {
             try
             {

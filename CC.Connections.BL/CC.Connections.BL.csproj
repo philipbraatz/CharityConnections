@@ -61,7 +61,7 @@
     <Compile Include="CharityEvent.cs" />
     <Compile Include="AbstractionCRUD.cs" />
     <Compile Include="Charity.cs" />
-    <Compile Include="ContactInfo.cs" />
+    <Compile Include="Contact.cs" />
     <Compile Include="Helping_Action.cs" />
     <Compile Include="Location.cs" />
     <Compile Include="MapAPI.cs" />

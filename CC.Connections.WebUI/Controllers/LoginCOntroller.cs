@@ -84,7 +84,7 @@ namespace CC.Connections.WebUI.Controllers
             try
             {
                 BLMember newMember = new BLMember(con.ContactInfo_Email, con.password.Pass, 1,true);
-                newMember.setContactInfo((AbsContactInfo)con);
+                newMember.setContactInfo((AbsContact)con);
                 newMember.Insert();
 
                 Session["member"] = newMember.Password;

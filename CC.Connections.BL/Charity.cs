@@ -12,10 +12,18 @@ using System.ComponentModel;
 
 namespace CC.Connections.BL
 {
-    public class Charity : AbsContactInfo
+    public class Charity : AbsContact
     {
-        public int ID { get; set; }
-        public int Contact_ID { get; set; }
+        //AbsContact properites ---------------------------------------
+        //ContactInfo_Email = Support Email
+        //ContactInfo_FName = Name of Charity
+        //ContactInfo_Phone = phone #
+        //DateOfBirth = Start of Charity orginization
+
+        //ContactInfo_LName = Not used
+        //ContactInfo_FullName = Not used
+
+        public new int ID { get; set; }
         [DisplayName("Federal Tax ID#")]
         public string EIN { get; set; }
         [DisplayName("Is Deductible")]
@@ -24,20 +32,15 @@ namespace CC.Connections.BL
         public string URL { get; set; }
         [DisplayName("Charities Cause")]
         public string Cause { get; set; }
-        public int Category_ID { get; set; }
-        public int LocationID { get; set; }
+        public AbsCategory Category { get; set; }//never delete
+        public AbsLocation Location { get; set; }//delete when removed
         [DisplayName("Charities Requirements")]
         public string Requirements { get; set; }
         [DisplayName("Charity Email")]
-        public string Ch_Email { get; set; }
-        public Password Password { get; set; }
+        public string CharityEmail { get; set; }
+        public Password Password { get; set; }//delete when removed
 
         public CharityEventList charityEvents { get; set; }
-
-        public string ContactName;
-        public string CategoryName;
-        public string LocationZip;
-        public string LocationCityState;
 
         internal static bool Exists(fvtcEntities1 dc, int id)
         {
@@ -54,135 +57,18 @@ namespace CC.Connections.BL
             LoadId(id);
         }
 
-        //only clears CHARITY values
         private new void Clear()
         {
-            Contact_ID = 0;
-            Ch_Email = string.Empty;
+            base.Clear();
+            CharityEmail = string.Empty;
             EIN = string.Empty;
             Deductibility = false;
             URL = string.Empty;
             Cause = string.Empty;
-            Category_ID = 0;
-            LocationID = 0;
+            Category = new Category();
+            Location = new Location();
             Requirements = string.Empty;
-            ContactName = string.Empty;
-            CategoryName = string.Empty;
-            LocationZip = string.Empty;
-            LocationCityState = string.Empty;
         }
-
-        public void ChMember(string chEmail, string password = "", int member_type = 2, bool hashed = false, bool debug = false)
-        {
-            //get ID and password from other tables
-            try
-            {
-                using (fvtcEntities1 dc = new fvtcEntities1())
-                {
-                    Clear();
-
-                    //set new id for prefered lists
-                    if (dc.Charities.ToList().Count > 0)
-                        ID = dc.Charities.Max(c => c.Charity_ID) + 1;
-                    else
-                        ID = 0;//first entry                    
-
-                    //try to load existing ID
-                    PL.Charity chID = dc.Charities.Where(ch => ch.Charity_Email == chEmail).FirstOrDefault();
-                    PL.Charity chMID;
-                    if (chID != null)
-                    {
-                        chMID = dc.Charities.Where(c => c.Charity_ID == chID.Charity_ID).FirstOrDefault();
-                        if (chMID != null)
-                            ID = chMID.Charity_ID;
-                    }
-
-                    this.Ch_Email = chEmail;
-                    if (password != string.Empty)
-                        Password = new Password(chEmail, password, hashed); //standard
-                    else
-                        Password = new Password(chEmail, false); //new      
-
-                    charityEvents = new CharityEventList(ID);
-
-                }
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
-        public void ChMember(string email)
-        {
-            //get ID and password from other tables
-            try
-            {
-                using (fvtcEntities1 dc = new fvtcEntities1())
-                {
-                    PL.Charity chID = dc.Charities.Where(ch => ch.Charity_Email == Ch_Email).FirstOrDefault();
-                    if (chID == null)
-                        throw new Exception("Email " + email + " does not have a charity info");
-                    
-                    this.LoadId(email);
-                }
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
-        public void LoadContactName(int contactID)
-        {
-            this.Contact_ID = contactID;
-            base.LoadId();
-            ContactName = this.FullName;
-        }    
-        
-        public void LoadLocation(int locationID)
-        {
-            try
-            {
-                using (fvtcEntities1 dc = new fvtcEntities1())
-                {
-                    Clear();
-
-                    PL.Location locID = dc.Locations.Where(c => c.Location_ID == locationID).FirstOrDefault();
-                    if (locID == null)
-                        throw new Exception("Location ID " + locationID + " does not have a location that exist");
-                    LocationZip = locID.ContactInfoZip;
-                    LocationCityState = locID.ContactInfoCity + ", " + locID.ContactInfoState;
-                }
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-
-        }
-         
-
-        public void LoadCategoryName(int categoryID)
-        {
-            try
-            {
-                using (fvtcEntities1 dc = new fvtcEntities1())
-                {
-                    Clear();
-
-                    PL.Category catID = dc.Categories.Where(c => c.Category_ID == categoryID).FirstOrDefault();
-                    if (catID == null)
-                        throw new Exception("Category ID " + categoryID + " does not have a category that exist");
-                    CategoryName = catID.Category_Desc;
-                }
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
 
         internal static List<int> LoadMembersIdList(fvtcEntities1 dc, int member_ID)
         {
@@ -191,7 +77,12 @@ namespace CC.Connections.BL
 
         public void LoadId(int charity_id)
         {
-            try
+            this.ID = charity_id;
+            LoadId();
+        }
+        public new void LoadId()
+        {
+                try
             {
                 using (fvtcEntities1 dc = new fvtcEntities1())
                 {
@@ -199,29 +90,30 @@ namespace CC.Connections.BL
                     if (entry != null)
                         this.ID = entry.Charity_ID;
                     else
-                        throw new Exception("Charity ID " + charity_id + " does not have a Charity associated with it");
+                        throw new Exception("Charity ID " + this.ID + " does not have a Charity associated with it");
 
                     Clear();
 
-                    this.Contact_ID = entry.Charity_Contact_ID.Value;
+                    base.setContactInfo(AbsContact.fromNumID(entry.Charity_Contact_ID));
                     this.EIN = entry.Charity_EIN;
                     this.Deductibility = entry.Charity_Deductibility.Value;
                     this.URL = entry.Charity_URL;
                     this.Cause = entry.Charity_Cause;
-                    this.ContactInfo_Email = entry.Charity_Email;
-                    this.Category_ID = entry.Charity_Category_ID.Value;
-                    this.LocationID = entry.Location_ID.Value;
+                    this.CharityEmail = entry.Charity_Email;
+                    this.Category = new  AbsCategory(entry.Charity_Category_ID.Value);
+                    this.Location = new  AbsLocation(entry.Location_ID.Value);
                     this.Requirements = entry.Charity_Requirements;
 
-                    LoadCategoryName(entry.Charity_Category_ID.Value);
-                    LoadContactName(entry.Charity_Contact_ID.Value);
-                    LoadLocation(entry.Location_ID.Value);                    
+                    this.Category = new AbsCategory(entry.Charity_Category_ID.Value);
+                    this.Location = new AbsLocation(entry.Location_ID.Value);
+                    this.Password = new Password(entry.Charity_Email);
                 }
             }
-            catch (Exception e){throw e;}
+            catch (Exception e)
+            {throw e;}
         }
 
-        public int InsertCharity()
+        public new int Insert()
         {
             {
                 base.Insert();
@@ -239,17 +131,19 @@ namespace CC.Connections.BL
                         PL.Charity entry = new PL.Charity
                         {
                             Charity_ID = ID,
-                            Charity_Contact_ID = Contact_ID,
+                            Charity_Contact_ID = this.contact_ID,
                             Charity_EIN = EIN,
                             Charity_Deductibility = Deductibility,
                             Charity_URL = URL,
                             Charity_Cause = Cause,
-                            Charity_Email = ContactInfo_Email,
-                            Charity_Category_ID = Category_ID,
-                            Location_ID = LocationID,
+                            Charity_Email = CharityEmail,
+                            Charity_Category_ID = this.Category.ID,
+                            Location_ID = this.Location.ID,
                             Charity_Requirements = Requirements
                         };
                         dc.Charities.Add(entry);
+                        Location.Insert();
+                        Password.Insert(ID);//match Charity ID with given password
                         
                         return dc.SaveChanges();
                     }
@@ -258,22 +152,32 @@ namespace CC.Connections.BL
             }
         }
 
-        public int UpdateCharity()
+        public new int Update()
         {
             try
             {           
                 using (fvtcEntities1 dc = new fvtcEntities1())
                 {
                     PL.Charity entry = dc.Charities.Where(c => c.Charity_ID == this.ID).FirstOrDefault();
-                    base.Update();
+                    entry.Charity_Category_ID = this.Category.ID;
+                    entry.Charity_Cause = this.Cause;
+                    entry.Charity_Contact_ID = this.contact_ID;
+                    entry.Charity_Deductibility = this.Deductibility;
+                    entry.Charity_EIN = this.EIN;
+                    entry.Charity_Email = this.CharityEmail;
+                    entry.Charity_ID = this.ID;
+                    entry.Charity_Requirements = this.Requirements;
+                    entry.Charity_URL = this.URL;
+                    entry.Location_ID = this.Location.ID;
                     
+                    base.Update();
                     return dc.SaveChanges();
                 }
             }
             catch (Exception e) { throw e; }
         }
 
-        public int DeleteCharity()
+        public new int Delete()
         {
             try
             {
@@ -301,13 +205,13 @@ namespace CC.Connections.BL
                     if (entryCharity == null)
                         throw new Exception("Charity does not exist: Charity ID '" + retChar.ID + "'"); ;
 
+                    retChar = (Charity)AbsContact.fromNumID(entryCharity.Charity_Contact_ID.Value);
                     retChar.ID = entryCharity.Charity_ID;
-                    retChar.Category_ID = entryCharity.Charity_Category_ID.Value;
-                    retChar.Contact_ID = entryCharity.Charity_Contact_ID.Value;
+                    retChar.Category = new AbsCategory( entryCharity.Charity_Category_ID.Value);
                     retChar.Deductibility = entryCharity.Charity_Deductibility.Value;
                     retChar.EIN = entryCharity.Charity_EIN;
                     retChar.ContactInfo_Email = entryCharity.Charity_Email;
-                    retChar.LocationID = entryCharity.Location_ID.Value;
+                    retChar.Location = new AbsLocation( entryCharity.Location_ID.Value);
                     retChar.URL = entryCharity.Charity_URL;
                     retChar.Requirements = entryCharity.Charity_Requirements;
                     retChar.Cause = entryCharity.Charity_Cause;
@@ -329,38 +233,11 @@ namespace CC.Connections.BL
 
         public void LoadList()
         {
-            try
-            {
-                using (fvtcEntities1 dc = new fvtcEntities1())
-                {
+            try{
+                using (fvtcEntities1 dc = new fvtcEntities1()){
                     if(dc.Charities.ToList().Count != 0)
-                        dc.Charities.ToList().ForEach(c =>
-                        {
-                            Charity newCharity = Charity.fromCharityID(c.Charity_ID);
-                            newCharity.ID = c.Charity_ID;
-                            newCharity.EIN = c.Charity_EIN;
-                            newCharity.ContactInfo_Email = c.Charity_Email;
-                            newCharity.URL = c.Charity_URL;
-                            if (c.Charity_Deductibility == false)
-                            {
-                                newCharity.Deductibility = false ;
-                            }
-                            else
-                            { 
-                                newCharity.Deductibility = true;
-                            }
-                            newCharity.Cause = c.Charity_Cause;
-                            newCharity.Requirements = c.Charity_Requirements;
-                            
-                            newCharity.CategoryName = dc.Categories.FirstOrDefault(f => f.Category_ID == c.Charity_Category_ID).Category_Desc;
-
-                            newCharity.LoadLocation(c.Location_ID.Value);
-
-                            newCharity.LoadContactName(c.Charity_Contact_ID.Value);
-
-                            
-                            this.Add(newCharity);
-                        });
+                        dc.Charities.ToList().ForEach(c =>{ 
+                            this.Add(new Charity(c.Charity_ID));});
                 }
             }
             catch (Exception e) { throw e; }

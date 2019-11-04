@@ -8,7 +8,7 @@ using System.Linq;
 // 30 min
 namespace CC.Connections.BL
 {
-    public class AbsContactInfo : ColumnEntry<PL.Contact_Info>
+    public class AbsContact : ColumnEntry<PL.Contact_Info>
     {
         private static fvtcEntities1 dc;
 
@@ -73,17 +73,17 @@ namespace CC.Connections.BL
             get { return ContactInfo_FName + " " + ContactInfo_LName; }
         }
 
-        public AbsContactInfo() :
+        public AbsContact() :
             base(new PL.Contact_Info()){ Clear(); }
-        public AbsContactInfo(PL.Contact_Info entry) :
+        public AbsContact(PL.Contact_Info entry) :
         base(entry){ }
-        public AbsContactInfo(string email) :
+        public AbsContact(string email) :
             base(new fvtcEntities1().Contact_Info,email, "ContactInfo_Email")
         {
             ContactInfo_Email = email;
             LoadId();
         }
-        public AbsContactInfo(Password _password) :
+        public AbsContact(Password _password) :
             base(new PL.Contact_Info())
         {
             ContactInfo_Email = _password.email;
@@ -156,20 +156,30 @@ namespace CC.Connections.BL
         }
 
         //TODO depreciate
-        internal static AbsContactInfo fromNumID(int? memberContact_ID)
+        internal static AbsContact fromNumID(int? memberContact_ID)
         {
             try{
                 using (fvtcEntities1 dc = new fvtcEntities1()){
-                    AbsContactInfo entry = new AbsContactInfo();
+                    AbsContact entry = new AbsContact();
                     entry.LoadId(dc.Contact_Info,memberContact_ID);
                     return entry;
                 }
             }
             catch (Exception e) { throw e; }
         }
+
+        public void setContactInfo(AbsContact contactInfo)
+        {
+            this.ContactInfo_Email = contactInfo.ContactInfo_Email ?? "";
+            this.ContactInfo_FName = contactInfo.ContactInfo_FName ?? "";
+            this.ContactInfo_LName = contactInfo.ContactInfo_LName ?? "";
+            this.ContactInfo_Phone = contactInfo.ContactInfo_Phone ?? "";
+            this.contact_ID = contactInfo.contact_ID;
+            this.DateOfBirth = contactInfo.DateOfBirth;
+        }
     }
 
-    public class AbsContactList : AbsList<AbsContactInfo, Contact_Info>
+    public class AbsContactList : AbsList<AbsContact, Contact_Info>
     {
         public new void LoadAll(){
             using (fvtcEntities1 dc = new fvtcEntities1()){

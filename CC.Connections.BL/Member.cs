@@ -7,7 +7,7 @@ using CC.Connections.PL;
 
 namespace CC.Connections.BL
 {
-    public class BLMember : AbsContactInfo
+    public class BLMember : AbsContact
     {
         public new int ID { get; set; }
         public Password Password { get; set; }
@@ -170,7 +170,7 @@ namespace CC.Connections.BL
                     };
                     dc.Members.Add(entry);//adding prior to everything else
 
-                    Password.Insert(dc, ID);
+                    Password.Insert(ID);
 
                     //do not handle member preference lists here
 
@@ -188,7 +188,7 @@ namespace CC.Connections.BL
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invaild");
 
-                    Password.Delete(dc);
+                    Password.Delete();
                     Pref.Delete();
                     Location.Delete();
                     base.Delete();
@@ -219,7 +219,7 @@ namespace CC.Connections.BL
 
                     PL.Member entry = dc.Members.Where(c => c.Member_ID == this.ID).FirstOrDefault();
                     base.Update();
-                    Password.Update(dc);
+                    Password.Update();
                     Pref.Update();
                     //Member_Type.Update();
                     Location.Update();
@@ -278,7 +278,7 @@ namespace CC.Connections.BL
         //loads contact info only
         internal static BLMember loadContactInfo(int? memberContact_ID)
         {
-            AbsContactInfo info = AbsContactInfo.fromNumID(memberContact_ID);
+            AbsContact info = AbsContact.fromNumID(memberContact_ID);
             return new BLMember
             {
                 ContactInfo_Email = info.ContactInfo_Email,
@@ -290,7 +290,7 @@ namespace CC.Connections.BL
         }
 
         //sets contact info only
-        public void setContactInfo(AbsContactInfo contact)
+        public void setContactInfo(AbsContact contact)
         {
             ContactInfo_Email = contact.ContactInfo_Email;
             ContactInfo_FName = contact.ContactInfo_FName;

@@ -109,12 +109,5 @@ namespace CC.Connections.BL.Test
             Assert.IsNull(table.Find(f => f.ContactInfo_FName == VALUE1));
             //TODO check that users prefrences are gone
         }
-
-        [TestMethod]
-        public void CreateContact()
-        {
-            AbsContactInfo c = new AbsContactInfo();
-            AbsContactInfo d = 
-        }
     }
 }

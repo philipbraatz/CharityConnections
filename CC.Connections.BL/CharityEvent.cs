@@ -10,7 +10,7 @@ using CC.Connections.PL;
 
 namespace CC.Connections.BL
 {
-    public class CharityEvent : AbsContactInfo
+    public class CharityEvent : AbsContact
     {
         private static fvtcEntities1 dc;
 

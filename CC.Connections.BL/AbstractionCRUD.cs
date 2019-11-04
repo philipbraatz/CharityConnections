@@ -180,6 +180,8 @@ namespace CC.Connections.BL
         }
         protected void setProperty(string propertyName, object value)
         {
+            try
+            {
             PropertyDB_Info<TEntity> propinf = properties.Where(c => c.p.Name == propertyName).FirstOrDefault();
             if (propinf != null)
                 if (propinf.p.PropertyType.Name == "Nullable`1")
@@ -191,6 +193,11 @@ namespace CC.Connections.BL
                     propinf.p.SetValue(instance, ((string)value).Substring(0, propinf.max-1));//cut of larger values (zero based)
             else
                 throw new Exception(typeof(TEntity) + " does not have a " + propertyName + " property");
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         //public void LoadTable(DbSet<TEntity> tableUsed)
