@@ -7,27 +7,23 @@ using CC.Connections.BL;
 
 namespace CC.Connections.WebUI.Controllers
 {
-    public class VolunteerProfileController : Controller
+    public class CharityController : Controller
     {
-        // GET: VolunteerProfile
-        public ActionResult ProfileView(string returnUrl)
+        // GET: Charity
+        public ActionResult CharityView(string returnUrl)
         {
-            ViewBag.ReturnUrl = returnUrl;
-            Password p = (Password)Session["member"];
-            if (p != null)
-                return View(new AbsContact(p));
-            else
-                return RedirectToAction("Index", "Home");
+            Charity c = new Charity();
+
+            return View();
         }
 
-        // GET: VolunteerProfile/Edit/5
+        // GET: Charity/Edit/5
         public ActionResult Edit(int id)
         {
-            AbsContact c = new AbsContact();
-
+            Charity c = new Charity();
             Password p = (Password)Session["member"];
             if (p != null)
-                c = new AbsContact(p);
+                c = new Charity(id);
             else
             {
                 ViewBag.Message = "You are not signed in yet";
@@ -37,21 +33,20 @@ namespace CC.Connections.WebUI.Controllers
             return View(c);
         }
 
-        // POST: VolunteerProfile/Edit/5
+        // POST: Charity/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, AbsContact c)
+        public ActionResult Edit(int id, Charity c)
         {
             try
             {
                 // TODO: Add update logic here
                 c.Update();
-                return RedirectToAction("ProfileView", "VolunteerProfile");
+                return RedirectToAction("Index", "Home");
             }
             catch
             {
                 return View(c);
             }
         }
-
     }
 }
