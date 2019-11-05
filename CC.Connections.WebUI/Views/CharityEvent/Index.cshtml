@@ -1,0 +1,33 @@
+﻿@model IEnumerable<CC.Connections.WebUI.Model.CharityEvent_with_Charity>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Charity Events</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td><h2>Charity Logo</h2></td>
+        <td>
+            <h2>@item.CharityEventName</h2>
+            <h3>Hosted by: @item.CharityName</h3>
+            <h5>Days: @item.StartDate.ToShortDateString() to @item.EndDate.ToShortDateString() </h5>
+            <h5>Time: @item.StartTime.ToShortTimeString() to @item.EndTime.ToShortTimeString()</h5>
+            <p>@item.Description</p>
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Event_ID }) |
+            @Html.ActionLink("Details", "Details", new {  id=item.Event_ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Event_ID  })
+        </td>
+    </tr>
+    }
+    </table>

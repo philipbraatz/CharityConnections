@@ -7,7 +7,7 @@
       <Diagram DiagramId="df4fc7be105444099449bde79cb8a2ba" Name="Diagram1">
         <EntityTypeShape EntityType="fvtcModel.Category" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="fvtcModel.Charity" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="fvtcModel.Charity_Event" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="fvtcModel.Charity_Event" Width="2.25" PointX="4.375" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="fvtcModel.Contact_Info" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="fvtcModel.Event_Attendance" Width="1.5" PointX="6.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="fvtcModel.Helping_Action" Width="1.5" PointX="0.75" PointY="0.875" IsExpanded="true" />

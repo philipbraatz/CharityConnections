@@ -27,7 +27,7 @@ namespace CC.Connections.BL.Test
         {
             if (allTable == null)
                 allTable = new BL.CharityEventList();
-            allTable.LoadList();
+            allTable.LoadAll();
     
             CharityEvent cat = allTable.Where(c => c.CharityEventName == desc).FirstOrDefault();
             if (cat == null)
@@ -45,7 +45,6 @@ namespace CC.Connections.BL.Test
                 ContactInfo_LName = INSERT_1,
                 CharityEventName = NAME_OF_EVENT,
                 CharityEventRequirements= INSERT_1,
-                CharityEventStatus= INSERT_3,
                 Charity_ID =CHARITY_ID,
                 DateOfBirth =DateTime.Now,
                 EndDate = DateTime.Now,
@@ -60,7 +59,7 @@ namespace CC.Connections.BL.Test
         public void LoadAll()
         {
             CharityEventList table = new BL.CharityEventList();
-            table.LoadList();
+            table.LoadAll();
     
             Assert.AreNotEqual(0, table.Count);
     
@@ -77,7 +76,6 @@ namespace CC.Connections.BL.Test
                 ContactInfo_LName = INSERT_1,
                 CharityEventName = NAME_OF_EVENT,
                 CharityEventRequirements = INSERT_1,
-                CharityEventStatus = INSERT_3,
                 Charity_ID = CHARITY_ID,
                 DateOfBirth = DateTime.Now,
                 EndDate = DateTime.Now,
@@ -87,16 +85,16 @@ namespace CC.Connections.BL.Test
             newt.LoadId(CONTACT_EMAIL);//load contact
 
             CharityEventList table = new BL.CharityEventList();
-            table.LoadEvents(CHARITY_ID);
+            table.Load(CHARITY_ID);
             int charityID_Event_count = table.Count;
             //Assert.AreEqual(0, table.Count);//make sure its empty
 
             CharityEventList allTable = new BL.CharityEventList();
-            allTable.LoadList();
+            allTable.LoadAll();
             int initalCount = allTable.Count;
 
             table.AddEvent(newt);//add a CharityEvent ID
-            allTable.LoadList();
+            allTable.LoadAll();
             int newCount = allTable.Count;
 
             //compare to all
@@ -117,7 +115,7 @@ namespace CC.Connections.BL.Test
         {
             if (allTable == null)
                 allTable = new BL.CharityEventList();
-            allTable.LoadList();
+            allTable.LoadAll();
             int tableCount = allTable.Count;
     
             test = new CharityEvent(getID_fromDesc(NAME_OF_EVENT));
@@ -132,7 +130,7 @@ namespace CC.Connections.BL.Test
             updated = null;//clear
             updated = new CharityEvent(getID_fromDesc(UPDATE_1));//load again with new value
             Assert.IsTrue(updated.CharityEventName == UPDATE_1);
-            allTable.LoadList();
+            allTable.LoadAll();
             Assert.AreEqual(tableCount, allTable.Count);//count unchanged
         }
     
@@ -145,7 +143,7 @@ namespace CC.Connections.BL.Test
             CharityEventList table = new BL.CharityEventList();
     
             CharityEventList allTable = new BL.CharityEventList();
-            allTable.LoadList();
+            allTable.LoadAll();
     
             table.LoadEvents(CHARITY_ID);
             //Assert.AreEqual(1, table.Count);
@@ -164,7 +162,7 @@ namespace CC.Connections.BL.Test
         public void Load()
         {
             CharityEventList allTable = new BL.CharityEventList();
-            allTable.LoadList();
+            allTable.LoadAll();
     
             test = new CharityEvent(getID_fromDesc(NAME_OF_EVENT));
     
@@ -178,7 +176,7 @@ namespace CC.Connections.BL.Test
             test.Delete();//delete
     
             CharityEventList table = new CharityEventList();
-            table.LoadList();//load updated table
+            table.LoadAll();//load updated table
     
             //Assert.IsNull(table.Find(f => f.Event_ID == getID_fromDesc(UPDATE_1)));//may need to test for different nonexistant value
         }

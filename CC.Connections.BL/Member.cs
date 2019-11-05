@@ -33,10 +33,11 @@ namespace CC.Connections.BL
         public BLMember(Contact_Info entry) :
             base(entry)
         { }
-        public BLMember(int member_id,string email,PL.Member entry)
+        public BLMember(PL.Member entry)
         {
             ID = entry.Member_ID;
             Clear();
+            base.setContactInfo( AbsContact.fromNumID(entry.MemberContact_ID));
 
             Member_Type = new AbsMember_Type((int)entry.MemberType_ID);
             Pref = new AbsPreference((int)entry.MemberPreference_ID);

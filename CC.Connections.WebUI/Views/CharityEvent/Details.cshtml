@@ -1,0 +1,139 @@
+﻿@model CC.Connections.WebUI.Model.CharityEvent_with_Charity
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CharityEvent</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ContactInfo_Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContactInfo_Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContactInfo_FName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContactInfo_FName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContactInfo_LName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContactInfo_LName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContactInfo_Phone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContactInfo_Phone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateOfBirth)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateOfBirth)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FullName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FullName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CharityName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CharityName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CharityEventName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CharityEventName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EndTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CharityEventStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CharityEventStatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CharityEventRequirements)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CharityEventRequirements)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Event_ID  }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

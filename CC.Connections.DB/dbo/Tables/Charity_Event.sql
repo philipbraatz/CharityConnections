@@ -8,6 +8,7 @@
     [CharityEventEndDate]        DATETIME       NULL,
     [CharityEventStatus]         nvarchar (10)  NULL,
     [CharityEventRequirements]   nvarchar (500) NULL,
+    [CharityEventDescription] NVARCHAR(1500) NULL, 
     CONSTRAINT [PK_CharityEvent_ID] PRIMARY KEY CLUSTERED ([CharityEvent_ID] ASC)
 );
 

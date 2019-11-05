@@ -23,5 +23,6 @@ namespace CC.Connections.PL
         public Nullable<System.DateTime> CharityEventEndDate { get; set; }
         public string CharityEventStatus { get; set; }
         public string CharityEventRequirements { get; set; }
+        public string CharityEventDescription { get; set; }
     }
 }

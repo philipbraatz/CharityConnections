@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="fvtcModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="fvtcModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Category">
           <Key>
             <PropertyRef Name="Category_ID" />
@@ -40,6 +40,7 @@
           <Property Name="CharityEventEndDate" Type="datetime" />
           <Property Name="CharityEventStatus" Type="nvarchar" MaxLength="10" />
           <Property Name="CharityEventRequirements" Type="nvarchar" MaxLength="500" />
+          <Property Name="CharityEventDescription" Type="nvarchar" MaxLength="1500" />
         </EntityType>
         <EntityType Name="Contact_Info">
           <Key>
@@ -50,7 +51,7 @@
           <Property Name="ContactInfo_LName" Type="nvarchar" MaxLength="50" />
           <Property Name="ContactInfo_Phone" Type="nvarchar" MaxLength="12" />
           <Property Name="ContactInfo_Email" Type="nvarchar" MaxLength="50" />
-          <Property Name="DateOfBirth" Type="date" />
+          <Property Name="DateOfBirth" Type="datetime" />
         </EntityType>
         <EntityType Name="Event_Attendance">
           <Key>
@@ -135,7 +136,7 @@
           <Property Name="Member_ID" Type="int" />
           <Property Name="Charity_ID" Type="int" />
         </EntityType>
-        <Association Name="FK__Member_Ac__Membe__3FD07829">
+        <Association Name="FK__Member_Ac__Membe__38EE7070">
           <End Role="Helping_Action" Type="Self.Helping_Action" Multiplicity="0..1" />
           <End Role="Member_Action" Type="Self.Member_Action" Multiplicity="*" />
           <ReferentialConstraint>
@@ -162,13 +163,12 @@
           <EntitySet Name="Preference" EntityType="Self.Preference" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Preferred_Category" EntityType="Self.Preferred_Category" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Preferred_Charity" EntityType="Self.Preferred_Charity" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Member_Ac__Membe__3FD07829" Association="Self.FK__Member_Ac__Membe__3FD07829">
+          <AssociationSet Name="FK__Member_Ac__Membe__38EE7070" Association="Self.FK__Member_Ac__Membe__38EE7070">
             <End Role="Helping_Action" EntitySet="Helping_Action" />
             <End Role="Member_Action" EntitySet="Member_Action" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="fvtcModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -207,6 +207,7 @@
           <Property Name="CharityEventEndDate" Type="DateTime" Precision="3" />
           <Property Name="CharityEventStatus" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="CharityEventRequirements" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="CharityEventDescription" Type="String" MaxLength="1500" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Contact_Info">
           <Key>
@@ -217,7 +218,7 @@
           <Property Name="ContactInfo_LName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ContactInfo_Phone" Type="String" MaxLength="12" FixedLength="false" Unicode="true" />
           <Property Name="ContactInfo_Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="DateOfBirth" Type="DateTime" Precision="0" />
+          <Property Name="DateOfBirth" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="Event_Attendance">
           <Key>
@@ -369,6 +370,7 @@
           <EntitySetMapping Name="Charity_Event">
             <EntityTypeMapping TypeName="fvtcModel.Charity_Event">
               <MappingFragment StoreEntitySet="Charity_Event">
+                <ScalarProperty Name="CharityEventDescription" ColumnName="CharityEventDescription" />
                 <ScalarProperty Name="CharityEvent_ID" ColumnName="CharityEvent_ID" />
                 <ScalarProperty Name="CharityEventName" ColumnName="CharityEventName" />
                 <ScalarProperty Name="CharityEventLocation_ID" ColumnName="CharityEventLocation_ID" />

@@ -56,6 +56,21 @@ namespace CC.Connections.BL
             Clear();
             LoadId(id);
         }
+        public Charity(PL.Charity entry)
+        {
+            Clear();
+
+            this.setContactInfo((Charity)AbsContact.fromNumID(entry.Charity_Contact_ID.Value));
+            this.ID                 = entry.Charity_ID;
+            this.Deductibility      = entry.Charity_Deductibility.Value;
+            this.EIN                = entry.Charity_EIN;
+            this.ContactInfo_Email  = entry.Charity_Email;
+            this.URL                = entry.Charity_URL;
+            this.Requirements       = entry.Charity_Requirements;
+            this.Cause              = entry.Charity_Cause;
+            this.Category = new AbsCategory(entry.Charity_Category_ID.Value);
+            this.Location = new AbsLocation(entry.Location_ID.Value);
+        }
 
         private new void Clear()
         {
@@ -95,18 +110,18 @@ namespace CC.Connections.BL
                     Clear();
 
                     base.setContactInfo(AbsContact.fromNumID(entry.Charity_Contact_ID));
-                    this.EIN = entry.Charity_EIN;
-                    this.Deductibility = entry.Charity_Deductibility.Value;
-                    this.URL = entry.Charity_URL;
-                    this.Cause = entry.Charity_Cause;
-                    this.CharityEmail = entry.Charity_Email;
-                    this.Category = new  AbsCategory(entry.Charity_Category_ID.Value);
-                    this.Location = new  AbsLocation(entry.Location_ID.Value);
-                    this.Requirements = entry.Charity_Requirements;
+                    this.EIN            = entry.Charity_EIN;
+                    this.Deductibility  = entry.Charity_Deductibility.Value;
+                    this.URL            = entry.Charity_URL;
+                    this.Cause          = entry.Charity_Cause;
+                    this.CharityEmail   = entry.Charity_Email;
+                    this.Category   = new  AbsCategory(entry.Charity_Category_ID.Value);
+                    this.Location   = new  AbsLocation(entry.Location_ID.Value);
+                    this.Requirements   = entry.Charity_Requirements;
 
                     this.Category = new AbsCategory(entry.Charity_Category_ID.Value);
                     this.Location = new AbsLocation(entry.Location_ID.Value);
-                    this.Password = new Password(entry.Charity_Email);
+                    this.Password = new Password(   entry.Charity_Email);
                 }
             }
             catch (Exception e)

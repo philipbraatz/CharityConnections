@@ -71,9 +71,27 @@ namespace CC.Connections.BL
 
 
         [DisplayName("Status")]
-        public string CharityEventStatus { get; set; }
+        public string CharityEventStatus { 
+            get {
+                if (DateTime.Now < StartDate)
+                    return "Upcoming";
+                else if (DateTime.Now > _start &&
+                        DateTime.Now < _end)
+                {
+                    if (DateTime.Parse(DateTime.Now.ToShortTimeString()) > StartTime &&
+                        DateTime.Parse(DateTime.Now.ToShortTimeString()) < EndTime)
+                        return "Ongoing";
+                    else
+                        return "Closed";
+                }
+                else
+                    return "Completed";
+                } 
+        }
         [DisplayName("Requirements")]
         public string CharityEventRequirements { get; set; }
+        [DisplayName("Description")]
+        public string Description { get; set; }
 
 
         public CharityEvent() { }
@@ -82,6 +100,12 @@ namespace CC.Connections.BL
         {
             this.Event_ID = charity_event_ID;
             LoadId();
+        }
+
+        public CharityEvent(Charity_Event c)
+        {
+            this.setContactInfo(AbsContact.fromNumID( c.CharityEventContactInfo_ID));
+            this.setEventInfo(c);
         }
 
         public static implicit operator CharityEvent(PL.Charity_Event entry)
@@ -108,13 +132,24 @@ namespace CC.Connections.BL
             this.Event_ID = char_event.CharityEvent_ID;
             this.CharityEventName = char_event.CharityEventName;
             this.CharityEventRequirements = char_event.CharityEventRequirements;
-            this.CharityEventStatus = char_event.CharityEventStatus;
             this.Charity_ID = (int)char_event.CharityEventCharity_ID;
             this._start = (DateTime)char_event.CharityEventStartDate;
             this._end = (DateTime)char_event.CharityEventEndDate;
             if (char_event.CharityEventLocation_ID == null)
                 throw new Exception("Charity Event ID "+ this.Event_ID+" doesnt not have a location set");
             this.Location = new AbsLocation((int)char_event.CharityEventLocation_ID);
+            this.Description = char_event.CharityEventDescription;
+        }
+        protected void setEventInfo(CharityEvent evnt)
+        {
+            this.Event_ID = evnt.Event_ID;
+            this.CharityEventName = evnt.CharityEventName;
+            this.CharityEventRequirements = evnt.CharityEventRequirements;
+            this.Charity_ID = evnt.Charity_ID;
+            this._start = evnt._start;
+            this._end = evnt._end;
+            this.Location = evnt.Location;
+            this.Description = evnt.Description;
         }
 
         public new int Insert()
@@ -137,9 +172,9 @@ namespace CC.Connections.BL
                         CharityEventContactInfo_ID = this.contact_ID,
                         CharityEventStartDate = this._start,
                         CharityEventEndDate = this._end,
-                        CharityEventStatus = this.CharityEventStatus,
                         CharityEventRequirements = this.CharityEventRequirements,
-                        CharityEventName =this.CharityEventName
+                        CharityEventName =this.CharityEventName,
+                        CharityEventDescription = this.Description
                     });
                     return dc.SaveChanges();
                 }
@@ -184,7 +219,7 @@ namespace CC.Connections.BL
                     entry.CharityEventName = CharityEventName;
                     entry.CharityEventRequirements = CharityEventRequirements;
                     entry.CharityEventStartDate = StartDate;
-                    entry.CharityEventStatus = CharityEventStatus;
+                    entry.CharityEventDescription = Description;
 
                     return dc.SaveChanges();
                 }
@@ -221,68 +256,74 @@ namespace CC.Connections.BL
         : List<CharityEvent>
     {
         //only used for Event lists
-        int? charity_ID { get; set; }
+        private int? Sort_ID { get; set; }
+        //private SortBy sorter { get; set; }
+        private BLMember userPref { get; set; }
 
         private const string Event_LOAD_ERROR = "Events not loaded, please loadEvents with a Charity ID";
 
-        public CharityEventList() { }
-        public CharityEventList(int id)
+        public CharityEventList() {
+            //sorter = SortBy.NONE;
+        }
+        //public CharityEventList(int id, SortBy sort, BLMember user_pref = default)
+        //{
+        //    Sort_ID = id;
+        //    //sorter = sort;
+        //    userPref = user_pref;
+        //    LoadAll();
+        //}
+
+        public void setPreferences(BLMember user_pref)
         {
-            charity_ID = id;
-            LoadList();
+            userPref = user_pref;
         }
 
-        public void LoadList()
+        public void LoadAll()
         {
-            try
-            {
-                this.Clear();
-                using (fvtcEntities1 dc = new fvtcEntities1())
-                {
-                    if (dc.Charity_Event.ToList().Count != 0)
-                        dc.Charity_Event.ToList().ForEach(c => this.Add(c));
+            //sorter = SortBy.NONE;
+            try{
+                using (fvtcEntities1 dc = new fvtcEntities1()){
+                    dc.Charity_Event.ToList().ForEach(c=> this.Add(c,true));
                 }
-            }
-            catch (Exception e) { throw e; }
+            }catch (Exception){ throw;}
         }
 
-        public CharityEventList LoadEvents(int charityID, bool debug = false)
+        //public void LoadWithFilter(int id,SortBy sort)
+        //{
+        //    switch (sort)
+        //    {
+        //        case SortBy.CATEGORY:
+        //            break;
+        //        case SortBy.HELPING_ACTION:
+        //            break;
+        //        case SortBy.CHARITY:
+        //            break;
+        //        default:
+        //            throw new Exception("Cannot use id Filterer to Sort By " + sort.GetType().GetEnumName(sort));
+        //    }
+        //
+        //}
+
+        //Loads list using preferences filter
+        public void LoadWithPreferences(BLMember user_preferences)
         {
-            try
-            {
-                this.Clear();
-                charity_ID = (int?)charityID;
-                using (fvtcEntities1 dc = new fvtcEntities1())
-                {
-                    //if (!MemberExists(dc, memberID))
-                    //    throw new Exception("Member ID: "+ memberID + " does not have any Actions");
-
-                    if (dc.Charity_Event.ToList().Count != 0)
-                        dc.Charity_Event.Where(d => d.CharityEventCharity_ID == charityID).ToList().ForEach(c =>
-                             this.Add(new CharityEvent {
-                                 Event_ID =c.CharityEvent_ID,
-                                 Charity_ID = (int)c.CharityEventCharity_ID,
-                                 contact_ID = (int)c.CharityEventContactInfo_ID,
-                                 _start = (DateTime)c.CharityEventStartDate,
-                                 _end = (DateTime)c.CharityEventEndDate,
-                                 CharityEventStatus = c.CharityEventStatus,
-                                 CharityEventRequirements = c.CharityEventRequirements
-                             },true));
-                }
-                return this;
-            }
-            catch (Exception e) { throw e; }
+            userPref = user_preferences;
+            Clear();
+            //foreach (var item in Filterer.CutEventByPreferences(userPref))
+            //    this.Add(item, true);
         }
+
+        
 
         internal void DeleteAllEvents()
         {
-            if (charity_ID == null)
+            if (Sort_ID == null)
                 throw new Exception(Event_LOAD_ERROR);
 
             using (fvtcEntities1 dc = new fvtcEntities1())
             {
                 dc.Charity_Event.RemoveRange(dc.Charity_Event.Where(c =>
-                c.CharityEventCharity_ID == charity_ID).ToList());
+                c.CharityEventCharity_ID == Sort_ID).ToList());
                 this.Clear();
                 dc.SaveChanges();
             }
@@ -290,7 +331,7 @@ namespace CC.Connections.BL
 
         public void AddEvent(CharityEvent evnt)
         {
-            if (charity_ID == null)
+            if (Sort_ID == null)
                 throw new Exception(Event_LOAD_ERROR);
 
             using (fvtcEntities1 dc = new fvtcEntities1())
@@ -310,8 +351,8 @@ namespace CC.Connections.BL
                     CharityEventName = evnt.CharityEventName,
                     CharityEventRequirements =evnt.CharityEventRequirements,
                     CharityEventStartDate =evnt.StartDate,
-                    CharityEventStatus =evnt.CharityEventStatus,
-                    CharityEvent_ID =evnt.Event_ID
+                    CharityEvent_ID =evnt.Event_ID,
+                    CharityEventDescription = evnt.Description
                 });
                 dc.SaveChanges();
                 this.Add(evnt, true);
@@ -320,14 +361,14 @@ namespace CC.Connections.BL
 
         public void DeleteEvent(int eventID)
         {
-            if (charity_ID == null)
+            if (Sort_ID == null)
                 throw new Exception(Event_LOAD_ERROR);
 
             using (fvtcEntities1 dc = new fvtcEntities1())
             {
 
                 PL.Charity_Event cevent =dc.Charity_Event.Where(
-                    c => c.CharityEventCharity_ID == charity_ID &&
+                    c => c.CharityEventCharity_ID == Sort_ID &&
                     c.CharityEvent_ID == eventID).FirstOrDefault()
                     ?? throw new Exception("Event : " + eventID + " does not exist");
 
@@ -359,7 +400,7 @@ namespace CC.Connections.BL
         public new void Clear()
         {
             base.Clear();
-            charity_ID = null;
+            Sort_ID = null;
         }
 
         private void Add(CharityEvent item, bool overrideMethod = true)
@@ -372,15 +413,20 @@ namespace CC.Connections.BL
         }
         public new void Add(CharityEvent item)
         {
-            if (charity_ID != null)
+            if (Sort_ID != null)
                 throw new Exception("Currently being used as a prefrence list. Please use AddPrefrence instead");
             base.Add(item);
         }
         public new void Remove(CharityEvent item)
         {
-            if (charity_ID != null)
+            if (Sort_ID != null)
                 throw new Exception("Currently being used as a prefrence list. Please use DeletePrefrence instead");
             base.Remove(item);
+        }
+
+        public static implicit operator List<object>(CharityEventList v)
+        {
+            throw new NotImplementedException();
         }
     }
 }

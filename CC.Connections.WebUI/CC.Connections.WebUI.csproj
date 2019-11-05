@@ -136,6 +136,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CharityController.cs" />
+    <Compile Include="Controllers\CharityEventController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ScrollableController.cs" />
@@ -143,6 +144,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Model\CharityEvent_with_Charity.cs" />
     <Compile Include="Model\ContactInfoSignup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -248,6 +250,8 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\VolunteerProfile\Edit.cshtml" />
     <Content Include="Views\VolunteerProfile\ProfileView.cshtml" />
+    <Content Include="Views\CharityEvent\Index.cshtml" />
+    <Content Include="Views\CharityEvent\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
