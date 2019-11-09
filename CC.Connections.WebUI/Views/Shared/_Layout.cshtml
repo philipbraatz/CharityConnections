@@ -17,7 +17,11 @@
 
             // Displays the volunteer category nav bar when hovering over "find volunteer opportunities"
             $("#findVolunteerBtn").mouseenter(function () {
-                $("#volunteerBar").slideToggle("slow");
+                // This was how we were showing seconnd nav before
+                //$("#volunteerBar").slideToggle("slow");
+
+                // This will keep second (find volunteer) nav at top of page when scrolling
+                $("#volunteerBar").appendTo(".nav1").slideToggle("slow");
             })
 
             // Changes the picture (different color) when hovering over link
@@ -120,14 +124,11 @@
 
 </head>
 <body>
-    <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light navbar-fixed-top" target="_lessBottomPad">
         <!-- added a target for style so it doesn't affect the lower navbar -->
+    <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light navbar-fixed-top" target="_lessBottomPad">
         <div class="container">
-            <!-- style="background-color:darkcyan" -->
-            <div class="row">
-                <!-- row -->
+            <div class="row nav1">
                 <div class="navbar-header col-sm-3">
-                    <!-- col-3 style="background-color:lightseagreen" -->
 
                     <div class="navbar-header">
                         <a class="navbar-brand" href="@Url.Action("Index", "Home")">
@@ -142,7 +143,6 @@
 
                 </div>
                 <div class="navbar-collapse collapse col-sm-9" id="navbarColor03">
-                    <!-- col-9 style="background-color:lightseagreen" -->
                     <ul class="nav navbar-nav mr-auto row row-bottom">
                         <!-- row (row may not be needed depending on if we add the round links to this navbar or make another) row-bottom -->
                         <li class="nav-item">@Html.ActionLink("Home", "Index", "Home")</li>
@@ -160,19 +160,21 @@
     </nav>
 
    
-    
-    <nav class="navbar  navbar-expand-lg navbar-light bg-light navbar-fixed-top" id="volunteerBar">
+     
+    <nav class="navbar  justify-content-center navbar-expand-lg navbar-light bg-light navbar-fixed-top" id="volunteerBar">
+            <hr />
         <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <!-- @Html.ActionLink("Charity Connections", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })-->
-            </div>
+            <!-- Removing the following div will remove it (hamburger menu) from the mobile view -->
+            <!-- <div class="navbar-header"> -->
+            <!-- <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation"> -->
+            <!-- <span class="navbar-toggler-icon"></span> -->
+            <!-- </button> -->
+            <!-- @Html.ActionLink("Charity Connections", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })-->
+            <!-- </div> -->
             <div class="navbar-collapse  collapse" id="navbarColor03">
                 <ul class="nav navbar-nav mr-auto row">
                     <li class="col-1">
-                    <li class="nav-item overout col-1 volunteer-category-bar" id="paw" ><a href="/Home/Index"><img src="~/Content/Images/paw_category.svg" title="Animals" /></a></li>
+                    <li class="nav-item overout col-1 volunteer-category-bar" id="paw"><a href="/Home/Index"><img src="~/Content/Images/paw_category.svg" title="Animals" /></a></li>
                     <li class="nav-item col-1 volunteer-category-bar" id="book"><a class="nav-fill" href="/Home/Index"><img src="~/Content/Images/bookBtn.svg" title="Education" /></a></li>
                     <li class="nav-item col-1 volunteer-category-bar" id="health"><a class="nav-fill" href="/Home/Index"><img src="~/Content/Images/healthBtn.svg" title="Hospice" /></a></li>
                     <li class="nav-item col-1 volunteer-category-bar" id="people"><a class="nav-fill" href="/Home/Index"><img src="~/Content/Images/peopleBtn.svg" title="" /></a></li>
@@ -180,10 +182,10 @@
                     <li class="nav-item col-1 volunteer-category-bar" id="hands"><a class="nav-fill" href="/Home/Index"><img src="~/Content/Images/helping_hands.svg" title="Community" /></a></li>
 
                     <!--    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    <li class="nav-item">@Html.ActionLink("Sign Up", "SignupView", "Login")</li>
-                    <li class="nav-item">@Html.ActionLink("Login", "LoginView", "Login")</li>
-                    <li class="nav-item">@Html.ActionLink("Logout", "logoutView", "Login")</li>
-                    <li class="nav-item">@Html.ActionLink("Account", "ProfileView", "VolunteerProfile")</li>-->
+            <li class="nav-item">@Html.ActionLink("Sign Up", "SignupView", "Login")</li>
+            <li class="nav-item">@Html.ActionLink("Login", "LoginView", "Login")</li>
+            <li class="nav-item">@Html.ActionLink("Logout", "logoutView", "Login")</li>
+            <li class="nav-item">@Html.ActionLink("Account", "ProfileView", "VolunteerProfile")</li>-->
                 </ul>
             </div>
         </div>
