@@ -171,6 +171,7 @@
     <Content Include="Content\Images\pet_volunteer.jpg" />
     <Content Include="Content\Images\raking.jpg" />
     <Content Include="Content\Images\school_volunteer.jpg" />
+    <Content Include="Content\Images\Tagline_CC.svg" />
     <Content Include="Content\Images\treeBtn.svg" />
     <Content Include="Content\Images\treeBtnOrange.svg" />
     <Content Include="Content\Images\volunteer_large_group.jpg" />
