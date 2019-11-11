@@ -8,132 +8,44 @@
 <h2>Details</h2>
 
 <div>
-    <h4>CharityEvent</h4>
+    <h2>(Charity Logo) @Html.DisplayFor(model => model.CharityName)</h2>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.ContactInfo_Email)
-        </dt>
+    <h4> @Html.DisplayFor(model => model.CharityEventName)</h4>
+    <h5>Days: @Model.StartDate.ToShortDateString() to @Model.EndDate.ToShortDateString() </h5>
+    <h5>Time: @Model.StartTime.ToShortTimeString() to @Model.EndTime.ToShortTimeString() </h5>
+    <p> @Html.DisplayFor(model => model.Description)</p>
+    <br />
+    <p><b>Requirements: </b>@Model.CharityEventRequirements</p>
 
-        <dd>
-            @Html.DisplayFor(model => model.ContactInfo_Email)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ContactInfo_FName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ContactInfo_FName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ContactInfo_LName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ContactInfo_LName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ContactInfo_Phone)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ContactInfo_Phone)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.DateOfBirth)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.DateOfBirth)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.FullName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.FullName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CharityName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CharityName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CharityEventName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CharityEventName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.StartDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.StartDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.StartTime)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.StartTime)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.EndDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EndDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.EndTime)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EndTime)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CharityEventStatus)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CharityEventStatus)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CharityEventRequirements)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CharityEventRequirements)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-
-    </dl>
 </div>
+<h4>@ViewBag.Message</h4>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Event_ID  }) |
-    @Html.ActionLink("Back to List", "Index")
+
+    @{ if (Model.Member_Attendance != null && Model.Member_Attendance.Status != null)
+        {
+            <h2>Debug</h2>
+            <H3>Status: "@Model.Member_Attendance.Status"</H3>
+            <H3>Attendance ID: "@Model.Member_Attendance.ID"</H3>
+            <H3>Event ID: "@Model.Member_Attendance.Event_ID"</H3>
+            <H3>Member ID: "@Model.Member_Attendance.Member_ID"</H3>
+
+            if (Model.Member_Attendance.Status == "going")
+            {
+                @Html.ActionLink("Show Interest", "Interested", new { id = Model.Event_ID });
+                @Html.ActionLink("Leave Event", "Signup", new { id = Model.Event_ID });
+            }
+            else if (Model.Member_Attendance.Status == "interested")
+            {
+                @Html.ActionLink("Remove Interest", "Interested", new { id = Model.Event_ID });
+                @Html.ActionLink("Sign Up for Event", "Signup", new { id = Model.Event_ID });
+            }
+            else
+            {
+                @Html.ActionLink("Interested", "Interested", new { id = Model.Event_ID });
+                @Html.ActionLink("Sign Up for Event", "Signup", new { id = Model.Event_ID });
+            }
+        }
+    }
+    @Html.ActionLink("Back to List", "Index");
+
 </p>

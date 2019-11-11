@@ -85,7 +85,7 @@ namespace CC.Connections.BL.Test
             newt.LoadId(CONTACT_EMAIL);//load contact
 
             CharityEventList table = new BL.CharityEventList();
-            table.Load(CHARITY_ID);
+            table.LoadWithFilter(CHARITY_ID,SortBy.CHARITY);
             int charityID_Event_count = table.Count;
             //Assert.AreEqual(0, table.Count);//make sure its empty
 
@@ -105,7 +105,7 @@ namespace CC.Connections.BL.Test
 
             //LOAD test
             table.Clear();
-            table.LoadEvents(CHARITY_ID);
+            table.LoadWithFilter(CHARITY_ID,SortBy.CHARITY);
             int new_charityID_Event_count = table.Count;
             Assert.AreEqual(charityID_Event_count+1,new_charityID_Event_count);
         }
@@ -145,7 +145,7 @@ namespace CC.Connections.BL.Test
             CharityEventList allTable = new BL.CharityEventList();
             allTable.LoadAll();
     
-            table.LoadEvents(CHARITY_ID);
+            table.LoadWithFilter(CHARITY_ID,SortBy.CHARITY);
             //Assert.AreEqual(1, table.Count);
     
             table.DeleteEvent(getID_fromDesc(NAME_OF_EVENT));
@@ -154,7 +154,7 @@ namespace CC.Connections.BL.Test
     
             //CLEAR
             table.Clear();
-            table.LoadEvents(CHARITY_ID);
+            table.LoadWithFilter(CHARITY_ID,SortBy.CHARITY);
             //Assert.AreEqual(0, table.Count);
     
         }

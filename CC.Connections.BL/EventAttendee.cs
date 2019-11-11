@@ -1,0 +1,241 @@
+﻿using CC.Connections.PL;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace CC.Connections.BL
+{
+    public class AbsEventAtendee : ColumnEntry<PL.Event_Attendance>
+    {
+        //Parameters
+
+        //id
+        public new int ID
+        {
+            get { return (int)base.ID; }
+            set { base.ID = value; }
+        }
+
+        //other parameters from PL.Category
+        public int Event_ID
+        {
+            get { return (int)base.getProperty("Event_ID"); }
+            set { setProperty("Event_ID", value); }
+        }
+        public int Member_ID
+        {
+            get { return (int)base.getProperty("Member_ID"); }
+            set { setProperty("Member_ID", value); }
+        }
+
+        public string GetEmail()
+        {
+            return BLMember.fromNumID(Member_ID).ContactInfo_Email;
+        }
+
+        [DisplayName("Status")]
+        //must be the same name as the PL class
+        public string Status
+        {
+            get { return (string)base.getProperty("Status"); }
+            set { setProperty("Status", value); }
+        }
+
+        public AbsEventAtendee() :
+            base()
+        { }
+        public AbsEventAtendee(int event_id,string email) :
+            base()
+        {
+            this.Event_ID = event_id;
+            this.Member_ID = new BLMember(email).ID;
+            this.Status = String.Empty;
+            TryFindMatching();
+        }
+        public AbsEventAtendee(PL.Event_Attendance entry) :
+            base(entry)
+        {
+            this.Status= this.Status ?? String.Empty;
+        }
+        public AbsEventAtendee(int id) :
+            base(new fvtcEntities1().Event_Attendance, id)
+        { }
+        //turns a PL class into a BL equivelent example: 
+        //Category pl = new Category();
+        //...
+        //AbsCategory bl = (AbsCategory)pl
+        public static implicit operator AbsEventAtendee(PL.Event_Attendance entry)
+        { return new AbsEventAtendee(entry); }
+
+        public bool Exists()
+        {
+            using (fvtcEntities1 dc = new fvtcEntities1())
+            {
+                return dc.Event_Attendance.Where(c => c.Event_ID == this.Event_ID && c.Member_ID == this.Member_ID).FirstOrDefault() != null;
+            }
+        }
+        public void LoadId()
+        {
+            using (fvtcEntities1 dc = new fvtcEntities1())
+            {
+                base.LoadId(dc.Event_Attendance);
+            }
+        }
+        public bool TryFindMatching()
+        {
+            using (fvtcEntities1 dc = new fvtcEntities1())
+            {
+                Event_Attendance eat = dc.Event_Attendance.Where(c => c.Event_ID == this.Event_ID && c.Member_ID == this.Member_ID).FirstOrDefault();
+                if (eat == null)
+                    return false;
+                
+                this.ID = eat.EventAttendance_ID;
+                this.Member_ID = (int)eat.Member_ID;
+                this.Event_ID = (int)eat.Event_ID;
+                this.Status = eat.Status;
+                return true;
+            }
+        }
+
+        public void LoadId(int id)
+        {
+            ID = id;
+            LoadId();
+        }
+        public int Insert()
+        {
+            using (fvtcEntities1 dc = new fvtcEntities1())
+            {
+                return base.Insert(dc, dc.Event_Attendance);
+            }
+        }
+        public int Update(string status)
+        {
+            this.Status = status;
+            using (fvtcEntities1 dc = new fvtcEntities1())
+            {
+                return base.Update(dc, dc.Event_Attendance);
+            }
+        }
+        public int Update()
+        {
+            using (fvtcEntities1 dc = new fvtcEntities1())
+            {
+                return base.Update(dc, dc.Event_Attendance);
+            }
+        }
+        public int Delete()
+        {
+            using (fvtcEntities1 dc = new fvtcEntities1())
+            {
+                //dc.Categories.Remove(this);
+                //return dc.SaveChanges();
+                return base.Delete(dc, dc.Event_Attendance);
+            }
+        }
+
+        public PL.Event_Attendance GetPL()
+        {
+            return this.GetPL();
+        }
+    }
+
+    public class AbsEventAttendanceList : AbsList<AbsEventAtendee, Event_Attendance>
+    {
+        public new void LoadAll()
+        {
+            using (fvtcEntities1 dc = new fvtcEntities1())
+            {
+                //base.LoadAll(dc.Categories);
+                foreach (var c in dc.Event_Attendance.ToList())
+                    base.Add(new AbsEventAtendee(c));
+            }
+        }
+    }
+    public class EventAttendanceList : AbsListJoin<AbsEventAtendee, Event_Attendance, CharityEvent>
+    {
+        int eventID
+        {
+            get { return (int)joinGrouping_ID; }
+            set { joinGrouping_ID = value; }
+        }
+
+
+        public EventAttendanceList(int event_id)
+            : base("MemberCat_Category_ID", event_id, "MemberCat_Member_ID")
+        {
+            Charity c = new Charity { ID = event_id };
+            base.joinGrouping_ID = c.ID;
+        }
+
+        public new void LoadPreferences()
+        { LoadPreferences((int)base.joinGrouping_ID); }
+        public new void LoadPreferences(int event_id)
+        {
+            using (fvtcEntities1 dc = new fvtcEntities1())
+            {
+                eventID = event_id;
+                if (dc.Event_Attendance.ToList().Count != 0)
+                    dc.Charity_Event
+                        .Where(c => c.CharityEvent_ID == eventID).ToList()
+                        .ForEach(b => base.Add(new AbsEventAtendee(dc.Event_Attendance
+                            .Where(d =>
+                                d.Event_ID == b.CharityEvent_ID
+                            ).FirstOrDefault()))
+                        );
+            }
+        }
+        public void DeleteAttendance()
+        {
+            using (fvtcEntities1 dc = new fvtcEntities1())
+            {
+                foreach (var item in dc.Event_Attendance)
+                    if (item.Event_ID == (int?)base.joinGrouping_ID)
+                        dc.Event_Attendance.Remove(item);
+                dc.SaveChanges();
+                this.Clear();
+            }
+        }
+        public void Add(string attendee)
+        {
+            using (fvtcEntities1 dc = new fvtcEntities1())
+            {
+                int newID = 0;
+                if (dc.Event_Attendance.ToList().Count != 0)
+                    newID = dc.Event_Attendance.Max(c => c.EventAttendance_ID)+1;
+
+                AbsEventAtendee evntAtt = new AbsEventAtendee((int)base.joinGrouping_ID, attendee);
+                dc.Event_Attendance.Add(evntAtt.GetPL());
+                this.Add(evntAtt);
+
+            }
+        }
+        public new void Remove(string category)
+        {
+            using (fvtcEntities1 dc = new fvtcEntities1())
+            {
+                foreach (var item in dc.Event_Attendance)
+                    if (item.Event_ID == (int?)base.joinGrouping_ID)
+                    {
+                        dc.Event_Attendance.Remove(item);
+                    }
+                dc.SaveChanges();
+            }
+        }
+        public new void RemoveAttendee(string category)
+        {
+            using (fvtcEntities1 dc = new fvtcEntities1())
+            {
+                foreach (var item in dc.Event_Attendance)
+                    if (item.Event_ID == (int?)base.joinGrouping_ID)
+                    {
+                        dc.Event_Attendance.Remove(item);
+                    }
+                dc.SaveChanges();
+            }
+        }
+    }
+}

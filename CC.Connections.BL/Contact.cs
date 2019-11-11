@@ -5,7 +5,6 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
-// 30 min
 namespace CC.Connections.BL
 {
     public class AbsContact : ColumnEntry<PL.Contact_Info>
