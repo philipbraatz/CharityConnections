@@ -1,6 +1,8 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
+
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--<title>@ViewBag.Title - Charity Connections</title>-->
@@ -23,6 +25,16 @@
                 // This will keep second (find volunteer) nav at top of page when scrolling
                 $("#volunteerBar").appendTo(".nav1").slideToggle("slow");
             })
+
+            
+            $("#btnLogout").click(function () {
+                //alert("Logout clicked");
+                Session.Remove("member");
+
+                Location
+            })
+
+            
 
             // Changes the picture (different color) when hovering over link
             $("#paw").mouseenter(function () {
@@ -60,16 +72,18 @@
             }).mouseleave(function () {
                 $(this).find('img').attr('src', '../../Content/Images/helping_handsOrange.svg').replaceWith('<img src="../../Content/Images/helping_hands.svg">');
             })
+
         });
     </script>
 
     <!--TODO move to seperate CSS file-->
     <!-- changed the 'a' tag right padding so all the links fit in the header -->
     <style>
-        
-        body{
-            background:#fffff0;
+
+        body {
+            background: #fffff0;
         }
+
         #volunteerBar {
             display: none;
         }
@@ -108,7 +122,6 @@
             opacity: 0.90;
             color: #FFFFFF;
             width: 100%;
-          
             bottom: 0;
             left: 0;
             height: 50px;
@@ -148,9 +161,16 @@
                         <!-- row (row may not be needed depending on if we add the round links to this navbar or make another) row-bottom -->
                         <li class="nav-item">@Html.ActionLink("Home", "Index", "Home")</li>
                         <li class="nav-item" id="findVolunteerBtn">@Html.ActionLink("Find Volunteer Opportunities", "FindVolunteerOpportunities", "Home")</li>
-                        <li class="nav-item">@Html.ActionLink("Sign Up", "SignupView", "Login")</li>
-                        <li class="nav-item">@Html.ActionLink("Login", "LoginView", "Login")</li>
-                        <li class="nav-item">@Html.ActionLink("Logout", "logoutView", "Login")</li>
+                        <li class="nav-item">@Html.ActionLink("Sign Up", "SignupView", "Login")</li>               
+                        <!-- Changes link to login/logout based on if new session -->
+                        @if (Session["member"] == null) 
+                        {
+                            <li class="nav-item">@Html.ActionLink("Login", "LoginView", "Login")</li>                           
+                        }
+                        else
+                        {
+                            <li class="nav-item" id="btnLogout">@Html.ActionLink("Logout", "logoutView", "Login")</li>
+                        }
                         <!--do we need this below item in our header/???? what is the purpose of this link?-->
                         <li class="nav-item">@Html.ActionLink("Account", "ProfileView", "VolunteerProfile")</li>
                         <li class="nav-item">@Html.ActionLink("Events", "Index", "CharityEvent")</li>
@@ -164,7 +184,8 @@
    
      
     <nav class="navbar  justify-content-center navbar-expand-lg navbar-light bg-light navbar-fixed-top" id="volunteerBar">
-            <hr />
+        <!-- Added in this hr line because appending the second nav caused a line to appear under it -->    
+        <hr />
         <div class="container">
             <!-- Removing the following div will remove it (hamburger menu) from the mobile view -->
             <!-- <div class="navbar-header"> -->
