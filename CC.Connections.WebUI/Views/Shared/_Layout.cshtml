@@ -24,17 +24,7 @@
 
                 // This will keep second (find volunteer) nav at top of page when scrolling
                 $("#volunteerBar").appendTo(".nav1").slideToggle("slow");
-            })
-
-            
-            $("#btnLogout").click(function () {
-                //alert("Logout clicked");
-                Session.Remove("member");
-
-                Location
-            })
-
-            
+            })          
 
             // Changes the picture (different color) when hovering over link
             $("#paw").mouseenter(function () {
@@ -84,6 +74,10 @@
             background: #fffff0;
         }
 
+        .navbar-custom {
+            background-color: #fffff0 !important;
+        }
+
         #volunteerBar {
             display: none;
         }
@@ -92,9 +86,9 @@
             padding-right: 20px;
         }
 
-            a :hover {
-                color: #FF6633
-            }
+        a :hover {
+            color: #FF6633
+        }
 
         .row-bottom {
             padding-left: 10px;
@@ -139,7 +133,7 @@
 </head>
 <body>
         <!-- added a target for style so it doesn't affect the lower navbar -->
-    <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light navbar-fixed-top" target="_lessBottomPad">
+    <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light navbar-fixed-top navbar-custom" target="_lessBottomPad">
         <div class="container">
             <div class="row nav1">
                 <div class="navbar-header col-sm-3">
@@ -183,7 +177,7 @@
 
    
      
-    <nav class="navbar  justify-content-center navbar-expand-lg navbar-light bg-light navbar-fixed-top" id="volunteerBar">
+    <nav class="navbar navbar-custom justify-content-center navbar-expand-lg navbar-light bg-light navbar-fixed-top" id="volunteerBar">
         <!-- Added in this hr line because appending the second nav caused a line to appear under it -->    
         <hr />
         <div class="container">
