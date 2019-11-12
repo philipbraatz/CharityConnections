@@ -32,7 +32,21 @@ textarea {
 }
 
 
-.row{
+.carousel-container p {
+    color: #F63;
+    font: bold;
+    font-weight: 800;
+    font-family: Garamond;
+    font-size: 20px;
+    margin-bottom: 4px;
+}
+
+.tagline {
+    margin-right: 400px;
+}
+
+
+.row {
     margin-top: 10px;
 }
 
@@ -43,4 +57,12 @@ a{
 
 footer {
     background-color: orange;
+}
+
+.main-tagline{
+    color: #F63;
+    font-family: Garamond;
+    font-size: 24px;
+    margin-bottom: 0px;
+
 }
