@@ -23,12 +23,6 @@
 
     @{ if (Model.Member_Attendance != null && Model.Member_Attendance.Status != null)
         {
-            <h2>Debug</h2>
-            <H3>Status: "@Model.Member_Attendance.Status"</H3>
-            <H3>Attendance ID: "@Model.Member_Attendance.ID"</H3>
-            <H3>Event ID: "@Model.Member_Attendance.Event_ID"</H3>
-            <H3>Member ID: "@Model.Member_Attendance.Member_ID"</H3>
-
             if (Model.Member_Attendance.Status == "going")
             {
                 @Html.ActionLink("Show Interest", "Interested", new { id = Model.Event_ID });

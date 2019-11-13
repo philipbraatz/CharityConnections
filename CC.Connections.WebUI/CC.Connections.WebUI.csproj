@@ -253,6 +253,8 @@
     <Content Include="Views\VolunteerProfile\ProfileView.cshtml" />
     <Content Include="Views\CharityEvent\Index.cshtml" />
     <Content Include="Views\CharityEvent\Details.cshtml" />
+    <Content Include="Views\CharityEvent\View.cshtml" />
+    <Content Include="Views\CharityEvent\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

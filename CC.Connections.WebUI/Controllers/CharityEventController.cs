@@ -43,7 +43,9 @@ namespace CC.Connections.WebUI.Controllers
         // GET: CharityEvent/Create
         public ActionResult Create()
         {
-            return View();
+            CharityEvent evnt = new CharityEvent();
+            //evnt.Charity_ID;
+            return View(new CharityEvent());
         }
 
         // POST: CharityEvent/Create
