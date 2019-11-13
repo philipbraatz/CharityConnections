@@ -17,7 +17,6 @@ namespace CC.Connections.PL
         public int Member_ID { get; set; }
         public Nullable<int> MemberContact_ID { get; set; }
         public Nullable<int> MemberPreference_ID { get; set; }
-        public Nullable<int> MemberType_ID { get; set; }
         public Nullable<int> Location_ID { get; set; }
     }
 }

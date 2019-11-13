@@ -1,7 +1,8 @@
 <svg id="healthBtn" xmlns="http://www.w3.org/2000/svg" width="71" height="67" viewBox="0 0 71 67">
-  <g id="Ellipse_11" data-name="Ellipse 11" transform="translate(0 0)" fill="#fff" stroke="#707070" stroke-width="1">
+  <g id="Ellipse_11" data-name="Ellipse 11" transform="translate(0 0)" fill="#fffff0" stroke="#707070" stroke-width="1">
     <ellipse cx="35.5" cy="33.5" rx="35.5" ry="33.5" stroke="none"/>
     <ellipse cx="35.5" cy="33.5" rx="35" ry="33" fill="none"/>
   </g>
   <path id="Icon_map-health" data-name="Icon map-health" d="M31.518,10.986a.644.644,0,0,0-.642-.642H22.535a.644.644,0,0,1-.642-.642V1.362A.644.644,0,0,0,21.252.72H10.986a.644.644,0,0,0-.642.642V9.7a.644.644,0,0,1-.642.642H1.362a.644.644,0,0,0-.642.642V21.252a.644.644,0,0,0,.642.642H9.7a.644.644,0,0,1,.642.642v8.341a.644.644,0,0,0,.642.642H21.252a.644.644,0,0,0,.642-.642V22.535a.644.644,0,0,1,.642-.642h8.341a.644.644,0,0,0,.642-.642Z" transform="translate(19.235 17.557)" fill="#707070"/>
 </svg>
+<!-- fill was fill="#fff" -->

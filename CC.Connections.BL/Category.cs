@@ -24,6 +24,11 @@ namespace CC.Connections.BL
             get { return (string)base.getProperty("Category_Desc"); }
             set { setProperty("Category_Desc", value); }
         }
+        public string Category_Color
+        {
+            get { return (string)base.getProperty("Category_Color"); }
+            set { setProperty("Category_Color", value); }
+        }
 
         public AbsCategory() : 
             base(){ }

@@ -16,5 +16,6 @@ namespace CC.Connections.PL
     {
         public int Category_ID { get; set; }
         public string Category_Desc { get; set; }
+        public string Category_Color { get; set; }
     }
 }

@@ -8,6 +8,13 @@ using System.Threading.Tasks;
 
 namespace CC.Connections.BL
 {
+    public enum MemberType
+    {
+        GUEST = 0,
+        VOLLUNTEER,
+        CHARITY
+    }
+
     //Only to be used inside classes that need passwords
     //you cannot straight up create a new password without sending it to a classes password
     public class Password
@@ -25,11 +32,21 @@ namespace CC.Connections.BL
             {
                 using (var sha1 = new System.Security.Cryptography.SHA1Managed())
                 {
-                    var hashbytes = System.Text.Encoding.UTF8.GetBytes(value);
-                    hash = Convert.ToBase64String(sha1.ComputeHash(hashbytes));
+                    if(value == null)
+                    { 
+                        var hashbytes = System.Text.Encoding.UTF8.GetBytes(value);
+                        hash = Convert.ToBase64String(sha1.ComputeHash(hashbytes));
+                    }
                 }
             }
         }
+
+        [DisplayName("Account Type")]
+        public new MemberType MemberType { get; set; }//TODO inherit AbsColumn
+        //{
+            //get { return (MemberType)base.getProperty("MemberType"); }
+            //set { setProperty("MemberType", value); }
+        //}
 
         public Password() { }
         //existing Password
@@ -43,9 +60,9 @@ namespace CC.Connections.BL
                 if (!loadId())//insert new Password with email
                 {
                     GenerateDefault(email);//generate
-                    //insert
+                                           //insert
                     using (fvtcEntities1 dc = new fvtcEntities1())
-                        this.Insert(dc.Log_in.Max(c=>
+                        this.Insert(dc.Log_in.Max(c =>
                             c.LogInMember_ID).GetValueOrDefault());
                 }
         }
@@ -88,7 +105,7 @@ namespace CC.Connections.BL
         }
 
 
-        internal bool Insert( int iD)
+        internal bool Insert(int iD)
         {
             using (fvtcEntities1 dc = new fvtcEntities1())
             {
@@ -152,7 +169,8 @@ namespace CC.Connections.BL
                             return entry.LogInPassword == hash;//success if match
                     }
                 }
-            } catch (Exception e){ throw e; }
+            }
+            catch (Exception e) { throw e; }
         }
     }
 
@@ -162,13 +180,16 @@ namespace CC.Connections.BL
     {
         public void LoadList()
         {
-            try{
-                using (fvtcEntities1 dc = new fvtcEntities1()){
+            try
+            {
+                using (fvtcEntities1 dc = new fvtcEntities1())
+                {
                     if (dc.Log_in.ToList().Count != 0)
                         dc.Log_in.ToList().ForEach(c =>
                             this.Add(new Password(c.ContactInfoEmail, c.LogInPassword, true)));
                 }
-            } catch (Exception e) { throw e; }
+            }
+            catch (Exception e) { throw e; }
         }
     }
 }

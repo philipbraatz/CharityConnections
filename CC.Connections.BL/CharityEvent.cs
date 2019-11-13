@@ -21,6 +21,8 @@ namespace CC.Connections.BL
         [DisplayName("Location")]
         public AbsLocation Location { get; set; }
 
+        public EventAttendanceList atendees { get; set; }
+
         //TODO make PRIVATE
 
         public DateTime _start { get; set; }
@@ -88,6 +90,19 @@ namespace CC.Connections.BL
                     return "Completed";
                 } 
         }
+
+        public void AddMember(string email, Status status)
+        {
+            AbsEventAtendee atendee = new AbsEventAtendee(this.Event_ID, email);
+            atendee.Status = status;
+            atendee.Insert();
+            this.atendees.Add(atendee);
+        }
+        public void RemoveMember(string email)
+        {
+            this.atendees.Remove(email);
+        }
+
         [DisplayName("Requirements")]
         public string CharityEventRequirements { get; set; }
         [DisplayName("Description")]
@@ -99,6 +114,7 @@ namespace CC.Connections.BL
         public CharityEvent(int charity_event_ID)
         {
             this.Event_ID = charity_event_ID;
+            Clear();
             LoadId();
         }
 
@@ -116,6 +132,12 @@ namespace CC.Connections.BL
         public static bool Exists(fvtcEntities1 dc, int eventID)
         {
             return dc.Charity_Event.Where(c => c.CharityEvent_ID == eventID).FirstOrDefault() != null;
+        }
+
+        private void Clear()
+        {
+            this.Location = new Location();
+            this.atendees = new EventAttendanceList(this.Event_ID);
         }
 
         protected void setContactInfo(Contact_Info contact)
@@ -139,6 +161,7 @@ namespace CC.Connections.BL
                 throw new Exception("Charity Event ID "+ this.Event_ID+" doesnt not have a location set");
             this.Location = new AbsLocation((int)char_event.CharityEventLocation_ID);
             this.Description = char_event.CharityEventDescription;
+            this.atendees = new EventAttendanceList(char_event.CharityEvent_ID);
         }
         protected void setEventInfo(CharityEvent evnt)
         {
@@ -150,6 +173,7 @@ namespace CC.Connections.BL
             this._end = evnt._end;
             this.Location = evnt.Location;
             this.Description = evnt.Description;
+            this.atendees = new EventAttendanceList(evnt.Event_ID);
         }
 
         public new int Insert()
@@ -196,6 +220,8 @@ namespace CC.Connections.BL
                     //    throw new Exception("ID is invaild");
 
                     dc.Charity_Event.Remove(dc.Charity_Event.Where(c=> c.CharityEvent_ID == this.Event_ID).FirstOrDefault());
+                    Location.Delete();
+                    atendees.DeleteAttendance();
                     return dc.SaveChanges();
                 }
             }
@@ -243,12 +269,23 @@ namespace CC.Connections.BL
                         ?? throw new Exception("Event Contact Info could not be found with ID: "+entry.CharityEventContactInfo_ID);
                     setContactInfo(contact);
                     setEventInfo(entry);
+
                 }
             }
             catch (Exception e)
             {
                 throw e;
             }
+        }
+
+
+        public bool IsGoing(String email)
+        {
+            return atendees.Where(c => c.GetEmail() == email).FirstOrDefault().Status ==Status.GOING;
+        }
+        public bool IsInterested(String email)
+        {
+            return atendees.Where(c => c.GetEmail() == email).FirstOrDefault().Status == Status.INTERESTED;
         }
     }
 
@@ -257,21 +294,21 @@ namespace CC.Connections.BL
     {
         //only used for Event lists
         private int? Sort_ID { get; set; }
-        //private SortBy sorter { get; set; }
+        private SortBy sorter { get; set; }
         private BLMember userPref { get; set; }
 
         private const string Event_LOAD_ERROR = "Events not loaded, please loadEvents with a Charity ID";
 
         public CharityEventList() {
-            //sorter = SortBy.NONE;
+            sorter = SortBy.NONE;
         }
-        //public CharityEventList(int id, SortBy sort, BLMember user_pref = default)
-        //{
-        //    Sort_ID = id;
-        //    //sorter = sort;
-        //    userPref = user_pref;
-        //    LoadAll();
-        //}
+        public CharityEventList(int id, SortBy sort, BLMember user_pref = default)
+        {
+            Sort_ID = id;
+            sorter = sort;
+            userPref = user_pref;
+            LoadAll();
+        }
 
         public void setPreferences(BLMember user_pref)
         {
@@ -280,7 +317,7 @@ namespace CC.Connections.BL
 
         public void LoadAll()
         {
-            //sorter = SortBy.NONE;
+            sorter = SortBy.NONE;
             try{
                 using (fvtcEntities1 dc = new fvtcEntities1()){
                     dc.Charity_Event.ToList().ForEach(c=> this.Add(c,true));
@@ -288,29 +325,31 @@ namespace CC.Connections.BL
             }catch (Exception){ throw;}
         }
 
-        //public void LoadWithFilter(int id,SortBy sort)
-        //{
-        //    switch (sort)
-        //    {
-        //        case SortBy.CATEGORY:
-        //            break;
-        //        case SortBy.HELPING_ACTION:
-        //            break;
-        //        case SortBy.CHARITY:
-        //            break;
-        //        default:
-        //            throw new Exception("Cannot use id Filterer to Sort By " + sort.GetType().GetEnumName(sort));
-        //    }
-        //
-        //}
+        public void LoadWithFilter(int id,SortBy sort)
+        {
+            switch (sort)
+            {
+                case SortBy.CATEGORY:
+                    break;
+                case SortBy.HELPING_ACTION:
+                    break;
+                case SortBy.CHARITY:
+                    break;
+                default:
+                    throw new Exception("Cannot use id Filterer to Sort By " + sort.GetType().GetEnumName(sort));
+            }
+
+        }
 
         //Loads list using preferences filter
         public void LoadWithPreferences(BLMember user_preferences)
         {
             userPref = user_preferences;
             Clear();
-            //foreach (var item in Filterer.CutEventByPreferences(userPref))
-            //    this.Add(item, true);
+            Filterer filter = new Filterer();
+            filter.CutEventByPreferences(userPref);
+            foreach (var item in filter.GetRemainingEvents())
+                this.Add(item, true);
         }
 
         
