@@ -12,9 +12,13 @@ namespace CC.Connections.WebUI.Controllers
         // GET: Charity
         public ActionResult CharityView(string returnUrl)
         {
-            Charity c = new Charity();
-
-            return View();
+             ViewBag.ReturnUrl = returnUrl;
+             Password p = (Password)Session["member"];
+             if (p != null)
+                 return View(new Charity(p));
+             else
+                 return RedirectToAction("Index", "Home");
+                 
         }
 
         // GET: Charity/Edit/5

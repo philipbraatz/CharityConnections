@@ -53,5 +53,30 @@ namespace CC.Connections.WebUI.Controllers
             }
         }
 
+        // GET: VolunteerProfile/Delete/5
+        public ActionResult Delete(int id)
+        {
+            AbsContact c = new AbsContact();
+            c.contact_ID = id;
+            c.LoadId();
+            return View(c);
+        }
+
+        // POST: VolunteerProfile/Delete/5
+        [HttpPost]
+        public ActionResult Delete(int id, AbsContact c)
+        {
+            try
+            {
+                // TODO: Add delete logic here
+                c.Delete();
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View(c);
+            }
+        }
+
     }
 }

@@ -145,6 +145,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Model\CharityEvent_with_Charity.cs" />
+    <Compile Include="Model\CharitySignup.cs" />
     <Compile Include="Model\ContactInfoSignup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -252,10 +253,11 @@
     <Content Include="Views\VolunteerProfile\ProfileView.cshtml" />
     <Content Include="Views\CharityEvent\Index.cshtml" />
     <Content Include="Views\CharityEvent\Details.cshtml" />
+    <Content Include="Views\VolunteerProfile\Delete.cshtml" />
+    <Content Include="Views\Charity\CharityView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Charity\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
