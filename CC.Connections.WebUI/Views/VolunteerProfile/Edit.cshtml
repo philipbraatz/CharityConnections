@@ -1,4 +1,4 @@
-﻿@model CC.Connections.BL.AbsContactInfo
+﻿@model CC.Connections.BL.AbsContact
 
 <style>
     .account-display{
@@ -41,16 +41,16 @@
     <div class="form-horizontal">
         <h4>Edit Profile Information</h4>
         <hr />
-        <!-- @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group" style="display:none">
             @Html.LabelFor(model => model.contact_ID, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.contact_ID, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.contact_ID, "", new { @class = "text-danger" })
             </div>
-        </div>-->
+        </div>
 
-        <div class="form-group">
+        <div class="form-group" style="display: none">
             @Html.LabelFor(model => model.ContactInfo_Email, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.ContactInfo_Email, new { htmlAttributes = new { @class = "form-control" } })

@@ -46,8 +46,12 @@ namespace CC.Connections.BL
         {
             return dc.Charities.Where(c => c.Charity_ID == id).FirstOrDefault() != null;
         }
-
         public Charity()
+        {
+            Clear();
+        }
+
+        public Charity(Password p)
         {
             Clear();
         }

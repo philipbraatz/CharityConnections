@@ -1,6 +1,7 @@
-﻿@model CC.Connections.BL.AbsContact
+﻿@model CC.Connections.BL.Charity
+
 @{
-    ViewBag.Title = "ProfileView";
+    ViewBag.Title = "CharityView";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -21,15 +22,15 @@
     <tbody>
         <tr>
             <td>Name:</td>
-            <td>@Model.FullName</td>
+            <td>@Model.Deductibility</td>
         </tr>
         <tr>
             <td>Email:</td>
-            <td>@Model.ContactInfo_Email</td>
+            <td>@Model.ID</td>
         </tr>
         <tr>
             <td> Phone:</td>
-            <td>@Model.ContactInfo_Phone</td>
+            <td>@Model.Requirements</td>
         </tr>
         <tr>
             <td>Birthdate: </td>
