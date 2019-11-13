@@ -1,6 +1,6 @@
 <svg id="Group_35" data-name="Group 35" xmlns="http://www.w3.org/2000/svg" width="71" height="67" viewBox="0 0 71 67">
   <g id="Group_34" data-name="Group 34">
-    <g id="Ellipse_11" data-name="Ellipse 11" fill="#fff" stroke="#707070" stroke-width="1">
+    <g id="Ellipse_11" data-name="Ellipse 11" fill="#fffff0" stroke="#707070" stroke-width="1">
       <ellipse cx="35.5" cy="33.5" rx="35.5" ry="33.5" stroke="none"/>
       <ellipse cx="35.5" cy="33.5" rx="35" ry="33" fill="none"/>
     </g>
@@ -13,3 +13,4 @@
     </g>
   </g>
 </svg>
+<!-- fill was fill="#fff" -->

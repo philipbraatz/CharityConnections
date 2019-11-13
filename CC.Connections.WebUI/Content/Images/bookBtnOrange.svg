@@ -3,7 +3,7 @@
 <svg version="1.1" id="bookBtn" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 71 67" style="enable-background:new 0 0 71 67;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill:#FFFFFF;stroke:#FF6633;stroke-miterlimit:10;}
+	.st0{fill:#fffff0;stroke:#FF6633;stroke-miterlimit:10;}
 	.st1{fill:none;stroke:#FF6633;}
 	.st2{fill:#FF6633;}
 </style>
@@ -17,3 +17,4 @@
 	L34.4,32.6z M50,29.5c-3,0.2-9.1,0.8-12.8,3.1c-0.3,0.2-0.4,0.4-0.4,0.7v15.4c0,0.5,0.4,0.9,0.9,0.8c0.1,0,0.3,0,0.4-0.1
 	c3.8-1.9,9.4-2.5,12.1-2.6c0.9,0,1.6-0.8,1.7-1.7v-14c0-1-0.8-1.7-1.8-1.7C50.1,29.5,50,29.5,50,29.5L50,29.5z"/>
 </svg>
+<!-- fill was fill:#ffffff -->

@@ -37,6 +37,7 @@ namespace CC.Connections.WebUI.Controllers
                 ViewBag.Message = "You have signed out";
             //Logged out
             HttpContext.Session["member"] = null;
+
             return View();
         }
 
