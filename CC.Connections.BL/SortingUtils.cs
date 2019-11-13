@@ -29,7 +29,7 @@ namespace CC.Connections.BL
         public void FillFilter(List<Charity> charities){  filterCharities = charities;}
         public void FillFilter(List<CharityEvent> charities){ filterEvents = charities;}
 
-        public int Whitelist_from_Preferences(BLMember member_preferences)
+        public int Whitelist_from_Preferences(Volunteer member_preferences)
         {
             int size = 0;
             if (filterCharities.Count > 0)
@@ -211,7 +211,7 @@ namespace CC.Connections.BL
         }
 
         //TODO add more user preference properties ------------------------------------------------
-        public int CutEventByPreferences(BLMember userPref)
+        public int CutEventByPreferences(Volunteer userPref)
         {
             try
             {
@@ -405,7 +405,7 @@ namespace CC.Connections.BL
             return filterCharities.Count;
         }
 
-        public int CutCharitiesByPreferences(BLMember userPref)
+        public int CutCharitiesByPreferences(Volunteer userPref)
         {
             try
             {

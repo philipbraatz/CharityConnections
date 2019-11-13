@@ -32,7 +32,7 @@ namespace CC.Connections.BL
             {
                 using (var sha1 = new System.Security.Cryptography.SHA1Managed())
                 {
-                    if(value == null)
+                    if(value != null)
                     { 
                         var hashbytes = System.Text.Encoding.UTF8.GetBytes(value);
                         hash = Convert.ToBase64String(sha1.ComputeHash(hashbytes));
@@ -52,7 +52,7 @@ namespace CC.Connections.BL
         //existing Password
         //
         //if Password is not found with matching (email)
-        //a new one will be create with (Pass) = "default"
+        //a new one will be create with (Pass) = "default" and MemberType =Guest
         public Password(string email, bool load = true)
         {
             this.email = email;
@@ -71,16 +71,19 @@ namespace CC.Connections.BL
         {
             this.email = email;
             this.Pass = password;
+            this.MemberType = MemberType.GUEST;
         }
 
         //new
-        public Password(string email, string password, bool hashed = false)
+        public Password(string email, string password,MemberType memberType, bool hashed = false)
         {
             this.email = email;
             if (hashed)
                 this.hash = password;
             else
                 this.Pass = password;
+            this.MemberType = memberType;
+            Insert(0);
         }
 
         private bool loadId()
@@ -97,6 +100,7 @@ namespace CC.Connections.BL
                         return false;//throw new Exception("Log_in "+ this.email + " does not exist");
 
                     this.hash = entry.LogInPassword;
+                    this.MemberType = (MemberType)entry.MemberType;
                     return true;
                 }
             }
@@ -121,7 +125,8 @@ namespace CC.Connections.BL
                 {
                     ContactInfoEmail = email,
                     LogInMember_ID = iD,
-                    LogInPassword = hash
+                    LogInPassword = hash,
+                    MemberType =(int)this.MemberType
                 };
                 dc.Log_in.Add(entry);
                 dc.SaveChanges();
@@ -146,6 +151,7 @@ namespace CC.Connections.BL
             {
                 PL.Log_in entry = dc.Log_in.Where(c => c.ContactInfoEmail == this.email).FirstOrDefault();
                 entry.LogInPassword = hash;
+                entry.MemberType = (int)this.MemberType;
                 dc.SaveChanges();
             }
         }
@@ -186,7 +192,7 @@ namespace CC.Connections.BL
                 {
                     if (dc.Log_in.ToList().Count != 0)
                         dc.Log_in.ToList().ForEach(c =>
-                            this.Add(new Password(c.ContactInfoEmail, c.LogInPassword, true)));
+                            this.Add(new Password(c.ContactInfoEmail, c.LogInPassword,(MemberType)c.MemberType, true)));
                 }
             }
             catch (Exception e) { throw e; }

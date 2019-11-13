@@ -84,11 +84,11 @@ namespace CC.Connections.WebUI.Controllers
         {
             try
             {
-                BLMember newMember = new BLMember(con.ContactInfo_Email, con.password.Pass, 1,true);
+                Volunteer newMember = new Volunteer(con.ContactInfo_Email, con.password.Pass,true);
                 newMember.setContactInfo((AbsContact)con);
                 newMember.Insert();
 
-                Session["member"] = newMember.Password;
+                Session["member"] = con.password;
                 return RedirectToAction("Index", "Home");
             }
             catch (Exception ex)

@@ -40,7 +40,7 @@ namespace CC.Connections.BL
 
         public string GetEmail()
         {
-            return BLMember.fromNumID(Member_ID).ContactInfo_Email;
+            return Volunteer.fromNumID(Member_ID).ContactInfo_Email;
         }
 
         [DisplayName("Status")]
@@ -58,7 +58,7 @@ namespace CC.Connections.BL
             base()
         {
             this.Event_ID = event_id;
-            this.Member_ID = new BLMember(email).ID;
+            this.Member_ID = new Volunteer(email).ID;
             this.Status = Status.NOT_GOING;
             TryFindMatching();
         }

@@ -65,7 +65,7 @@ namespace CC.Connections.BL.Test
         [TestMethod]
         public void insertPreferences_AndLoad()
         {
-            BLMember mtest = new BLMember(memberEmail);//get a member id
+            Volunteer mtest = new Volunteer(memberEmail);//get a member id
             AbsCategoryPreferences table = new BL.AbsCategoryPreferences(mtest.ID);
             table.LoadPreferences();
             //Assert.AreEqual(0, table.Count);//make sure its empty
@@ -123,7 +123,7 @@ namespace CC.Connections.BL.Test
         [TestMethod]
         public void removePreferences()
         {
-            BLMember mtest = new BLMember(memberEmail);
+            Volunteer mtest = new Volunteer(memberEmail);
             AbsCategoryPreferences table = new BL.AbsCategoryPreferences(mtest.ID);
 
             AbsCategoryList allTable = new BL.AbsCategoryList();

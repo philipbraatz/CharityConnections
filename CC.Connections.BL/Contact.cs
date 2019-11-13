@@ -62,7 +62,14 @@ namespace CC.Connections.BL
                 else
                     return new DateTime();
             }
-            set { setProperty("DateOfBirth", value); }
+            set { 
+                if(value > DateTime.Parse("1753/1/1"))
+                    setProperty("DateOfBirth", value); 
+                else
+                {
+                    setProperty("DateOfBirth", DateTime.Parse("1800/1/1"));
+                }
+            }
         }
 
         //New values

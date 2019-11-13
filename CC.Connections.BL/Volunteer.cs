@@ -7,14 +7,13 @@ using CC.Connections.PL;
 
 namespace CC.Connections.BL
 {
-    public class BLMember : AbsContact
+    public class Volunteer : AbsContact
     {
         public new int ID { get; set; }
         public Password Password { get; set; }
         public AbsCategoryPreferences Prefered_Categories { get; set; }
         public CharityList Prefered_Charities { get; set; }
         public AbsMemberActionList Prefered_helping_Actions { get; set; }
-        public MemberType Member_Type { get; set; }
         //depreciated
         //public Role Role { get; set; }
         public AbsPreference Pref { get; set; }
@@ -26,23 +25,19 @@ namespace CC.Connections.BL
         }
 
         //required for login controller
-        public BLMember()
+        public Volunteer()
         {
             Clear();
         }
-        public BLMember(Contact_Info entry) :
+        public Volunteer(Contact_Info entry) :
             base(entry)
         { }
-        public BLMember(PL.Member entry)
+        public Volunteer(PL.Member entry)
         {
             ID = entry.Member_ID;
             Clear();
             base.setContactInfo( AbsContact.fromNumID(entry.MemberContact_ID));
 
-            using (fvtcEntities1 dc = new fvtcEntities1())
-            {
-                Member_Type = (MemberType)dc.Log_in.Where(c => this.ContactInfo_Email == c.ContactInfoEmail).FirstOrDefault().MemberType;
-            }
             Pref = new AbsPreference((int)entry.MemberPreference_ID);
             Location = new AbsLocation((int)entry.Location_ID);
             Password = new Password(ContactInfo_Email);
@@ -53,7 +48,7 @@ namespace CC.Connections.BL
         }
         //new member, member_type is hardcoded as guess
         //DOES NOT try to LOAD from database
-        public BLMember(string contactEmail, string password="", int member_type=3, bool hashed = false, bool debug = false)
+        public Volunteer(string contactEmail, string password="", bool hashed = false, bool debug = false)
         {
             //get ID and password from other tables
             try
@@ -80,11 +75,9 @@ namespace CC.Connections.BL
 
                     this.ContactInfo_Email = contactEmail;
                     if (password != string.Empty)
-                        Password = new Password(contactEmail, password, hashed);//standard
+                        Password = new Password(contactEmail, password,MemberType.VOLLUNTEER, hashed);//standard
                     else
                         Password = new Password(contactEmail, false);//new
-
-                    this.Member_Type = (MemberType)dc.Log_in.Where(c => this.ContactInfo_Email == c.ContactInfoEmail).FirstOrDefault().MemberType;
 
                     //will LOAD nothing if NEW ID but will SET preference ID
                     //needed for adding and removing items
@@ -105,7 +98,7 @@ namespace CC.Connections.BL
             }
         }
         //load
-        public BLMember(string email)
+        public Volunteer(string email)
         {
             //get ID and password from other tables
             try
@@ -141,7 +134,6 @@ namespace CC.Connections.BL
             Prefered_Categories = new AbsCategoryPreferences(ID);
             Prefered_Charities = new CharityList();
             Prefered_helping_Actions = new AbsMemberActionList(ID);
-            Member_Type = new MemberType();
             Pref = new AbsPreference();
             Location = new AbsLocation();
         }
@@ -257,12 +249,11 @@ namespace CC.Connections.BL
                     if (login == null)
                         throw new Exception("Log in does not exist for Member with email " + email);
 
-                    this.Password = new Password(login.ContactInfoEmail, login.LogInPassword, true);
+                    this.Password = new Password(login.ContactInfoEmail, login.LogInPassword,(MemberType)login.MemberType, true);
 
                     if (entry.MemberPreference_ID == null)
                         throw new Exception("Preference ID is null and cannot be loaded");
                     this.Pref = new AbsPreference((int)entry.MemberPreference_ID);
-                    this.Member_Type = (MemberType)dc.Log_in.Where(c => this.ContactInfo_Email == c.ContactInfoEmail).FirstOrDefault().MemberType;
                     this.Location = new AbsLocation((int)entry.Location_ID);
 
                     this.Prefered_Categories.LoadPreferences(entry.Member_ID);
@@ -279,10 +270,10 @@ namespace CC.Connections.BL
         }
 
         //loads contact info only
-        internal static BLMember loadContactInfo(int? memberContact_ID)
+        internal static Volunteer loadContactInfo(int? memberContact_ID)
         {
             AbsContact info = AbsContact.fromNumID(memberContact_ID);
-            return new BLMember
+            return new Volunteer
             {
                 ContactInfo_Email = info.ContactInfo_Email,
                 ContactInfo_FName = info.ContactInfo_FName,
@@ -304,7 +295,7 @@ namespace CC.Connections.BL
     }
 
     public class MemberList
-    : List<BLMember>
+    : List<Volunteer>
     {
         public void LoadList()
         {
@@ -315,11 +306,10 @@ namespace CC.Connections.BL
                     if (dc.Members.ToList().Count != 0)
                         dc.Members.ToList().ForEach(c =>
                         {
-                            BLMember newMem = BLMember.loadContactInfo(c.MemberContact_ID);
+                            Volunteer newMem = Volunteer.loadContactInfo(c.MemberContact_ID);
                             newMem.ID = c.Member_ID;
                             newMem.Pref = new AbsPreference((int)c.MemberPreference_ID);
                             newMem.Password = new Password(newMem.ContactInfo_Email);
-                            newMem.Member_Type = (MemberType)dc.Log_in.Where(d => newMem.ContactInfo_Email == d.ContactInfoEmail).FirstOrDefault().MemberType;
                             newMem.Location = new AbsLocation((int)c.Location_ID);
 
                             newMem.Prefered_Categories.LoadPreferences(c.Member_ID);

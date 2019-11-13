@@ -56,7 +56,7 @@ namespace CC.Connections.BL.Test
                 Location = new AbsLocation(LOCATION_ID),
                 Requirements = VALUE1,
                 CharityEmail = testing_ID2,
-                Password = new Password(testing_ID1,VALUE1)
+                Password = new Password(testing_ID1,VALUE1,MemberType.CHARITY)
             };
             newt.Insert();
         }

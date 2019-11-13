@@ -295,14 +295,14 @@ namespace CC.Connections.BL
         //only used for Event lists
         private int? Sort_ID { get; set; }
         private SortBy sorter { get; set; }
-        private BLMember userPref { get; set; }
+        private Volunteer userPref { get; set; }
 
         private const string Event_LOAD_ERROR = "Events not loaded, please loadEvents with a Charity ID";
 
         public CharityEventList() {
             sorter = SortBy.NONE;
         }
-        public CharityEventList(int id, SortBy sort, BLMember user_pref = default)
+        public CharityEventList(int id, SortBy sort, Volunteer user_pref = default)
         {
             Sort_ID = id;
             sorter = sort;
@@ -310,7 +310,7 @@ namespace CC.Connections.BL
             LoadAll();
         }
 
-        public void setPreferences(BLMember user_pref)
+        public void setPreferences(Volunteer user_pref)
         {
             userPref = user_pref;
         }
@@ -342,7 +342,7 @@ namespace CC.Connections.BL
         }
 
         //Loads list using preferences filter
-        public void LoadWithPreferences(BLMember user_preferences)
+        public void LoadWithPreferences(Volunteer user_preferences)
         {
             userPref = user_preferences;
             Clear();

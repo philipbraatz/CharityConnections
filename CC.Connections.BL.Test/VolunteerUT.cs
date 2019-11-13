@@ -9,7 +9,7 @@ namespace CC.Connections.BL.Test
     public class Member_UT
     {
 
-        public BLMember test;
+        public Volunteer test;
         public string testingID = "test@test.com";
         public const string VALUE1 = "test";
         public const string VALUE2 = "updated";
@@ -26,13 +26,12 @@ namespace CC.Connections.BL.Test
         [TestMethod]
         public void Insert()
         {
-            BLMember newt = new BLMember(testingID, VALUE1, GUEST_ID,false,true)
+            Volunteer newt = new Volunteer(testingID, VALUE1, false,true)
             {
                 ContactInfo_Phone = "1234567",
                 ContactInfo_FName = VALUE1,
                 ContactInfo_LName = VALUE2
             };
-            newt.Member_Type = MemberType.VOLLUNTEER;
             newt.Pref.Distance = INT1;
 
             newt.Location.ContactInfoCity = VALUE1;
@@ -61,7 +60,7 @@ namespace CC.Connections.BL.Test
         [TestMethod]
         public void Load()
         {
-            test = new BLMember(testingID);
+            test = new Volunteer(testingID);
 
             Assert.IsTrue(test.ContactInfo_Phone == "1234567");
             Assert.IsFalse(test.Password.Pass == VALUE1.Trim());
@@ -76,8 +75,8 @@ namespace CC.Connections.BL.Test
         [TestMethod]
         public void Update()
         {
-            test = new BLMember(testingID);
-            BLMember updated = new BLMember(testingID)
+            test = new Volunteer(testingID);
+            Volunteer updated = new Volunteer(testingID)
             {
                 ContactInfo_LName = VALUE2
             };
@@ -89,7 +88,7 @@ namespace CC.Connections.BL.Test
 
             updated.Update();//update database
             updated = null;//clear
-            updated = new BLMember(testingID);//load again
+            updated = new Volunteer(testingID);//load again
 
             Assert.IsTrue(updated.ContactInfo_LName == VALUE2);
             //Assert.IsTrue(updated.Member_Type.Desc == VALUE2);
@@ -100,7 +99,7 @@ namespace CC.Connections.BL.Test
         [TestMethod]
         public void Delete()
         {
-            test = new BLMember(testingID);
+            test = new Volunteer(testingID);
             test.Delete();//delete
 
             MemberList table = new MemberList();
