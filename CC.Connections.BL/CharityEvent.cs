@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CC.Connections.PL;
+using CC.Connections.BL;
 
 namespace CC.Connections.BL
 {

@@ -63,6 +63,7 @@
     <Compile Include="Charity.cs" />
     <Compile Include="Contact.cs" />
     <Compile Include="EventAttendee.cs" />
+    <Compile Include="SortingUtil.cs" />
     <Compile Include="Helping_Action.cs" />
     <Compile Include="Location.cs" />
     <Compile Include="MapAPI.cs" />
