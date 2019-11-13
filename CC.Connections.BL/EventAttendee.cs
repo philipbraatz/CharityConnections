@@ -8,6 +8,13 @@ using System.Threading.Tasks;
 
 namespace CC.Connections.BL
 {
+    public enum Status
+    {
+        NOT_GOING=0,
+        INTERESTED=1,
+        GOING=2
+    }
+
     public class AbsEventAtendee : ColumnEntry<PL.Event_Attendance>
     {
         //Parameters
@@ -38,9 +45,9 @@ namespace CC.Connections.BL
 
         [DisplayName("Status")]
         //must be the same name as the PL class
-        public string Status
+        public Status Status
         {
-            get { return (string)base.getProperty("Status"); }
+            get { return (Status)base.getProperty("Status"); }
             set { setProperty("Status", value); }
         }
 
@@ -52,13 +59,13 @@ namespace CC.Connections.BL
         {
             this.Event_ID = event_id;
             this.Member_ID = new BLMember(email).ID;
-            this.Status = String.Empty;
+            this.Status = Status.NOT_GOING;
             TryFindMatching();
         }
         public AbsEventAtendee(PL.Event_Attendance entry) :
             base(entry)
         {
-            this.Status= this.Status ?? String.Empty;
+            this.Status= Status.NOT_GOING;
         }
         public AbsEventAtendee(int id) :
             base(new fvtcEntities1().Event_Attendance, id)
@@ -95,7 +102,7 @@ namespace CC.Connections.BL
                 this.ID = eat.EventAttendance_ID;
                 this.Member_ID = (int)eat.Member_ID;
                 this.Event_ID = (int)eat.Event_ID;
-                this.Status = eat.Status;
+                this.Status = (Status)eat.Status;
                 return true;
             }
         }
@@ -112,7 +119,7 @@ namespace CC.Connections.BL
                 return base.Insert(dc, dc.Event_Attendance);
             }
         }
-        public int Update(string status)
+        public int Update(Status status)
         {
             this.Status = status;
             using (fvtcEntities1 dc = new fvtcEntities1())

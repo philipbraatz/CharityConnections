@@ -91,7 +91,7 @@ namespace CC.Connections.BL
                 } 
         }
 
-        public void AddMember(string email, string status)
+        public void AddMember(string email, Status status)
         {
             AbsEventAtendee atendee = new AbsEventAtendee(this.Event_ID, email);
             atendee.Status = status;
@@ -281,11 +281,11 @@ namespace CC.Connections.BL
 
         public bool IsGoing(String email)
         {
-            return atendees.Where(c => c.GetEmail() == email).FirstOrDefault().Status =="going";
+            return atendees.Where(c => c.GetEmail() == email).FirstOrDefault().Status ==Status.GOING;
         }
         public bool IsInterested(String email)
         {
-            return atendees.Where(c => c.GetEmail() == email).FirstOrDefault().Status == "interested";
+            return atendees.Where(c => c.GetEmail() == email).FirstOrDefault().Status == Status.INTERESTED;
         }
     }
 

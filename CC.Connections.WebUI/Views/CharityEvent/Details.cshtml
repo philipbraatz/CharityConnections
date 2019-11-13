@@ -23,12 +23,12 @@
 
     @{ if (Model.Member_Attendance != null && Model.Member_Attendance.Status != null)
         {
-            if (Model.Member_Attendance.Status == "going")
+            if (Model.Member_Attendance.Status == CC.Connections.BL.Status.GOING)
             {
                 @Html.ActionLink("Show Interest", "Interested", new { id = Model.Event_ID });
                 @Html.ActionLink("Leave Event", "Signup", new { id = Model.Event_ID });
             }
-            else if (Model.Member_Attendance.Status == "interested")
+            else if (Model.Member_Attendance.Status == CC.Connections.BL.Status.INTERESTED)
             {
                 @Html.ActionLink("Remove Interest", "Interested", new { id = Model.Event_ID });
                 @Html.ActionLink("Sign Up for Event", "Signup", new { id = Model.Event_ID });

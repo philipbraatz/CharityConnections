@@ -14,7 +14,7 @@ namespace CC.Connections.BL
         public AbsCategoryPreferences Prefered_Categories { get; set; }
         public CharityList Prefered_Charities { get; set; }
         public AbsMemberActionList Prefered_helping_Actions { get; set; }
-        public AbsMember_Type Member_Type { get; set; }
+        public MemberType Member_Type { get; set; }
         //depreciated
         //public Role Role { get; set; }
         public AbsPreference Pref { get; set; }
@@ -39,7 +39,10 @@ namespace CC.Connections.BL
             Clear();
             base.setContactInfo( AbsContact.fromNumID(entry.MemberContact_ID));
 
-            Member_Type = new AbsMember_Type((int)entry.MemberType_ID);
+            using (fvtcEntities1 dc = new fvtcEntities1())
+            {
+                Member_Type = (MemberType)dc.Log_in.Where(c => this.ContactInfo_Email == c.ContactInfoEmail).FirstOrDefault().MemberType;
+            }
             Pref = new AbsPreference((int)entry.MemberPreference_ID);
             Location = new AbsLocation((int)entry.Location_ID);
             Password = new Password(ContactInfo_Email);
@@ -81,7 +84,7 @@ namespace CC.Connections.BL
                     else
                         Password = new Password(contactEmail, false);//new
 
-                    this.Member_Type = new AbsMember_Type(member_type);
+                    this.Member_Type = (MemberType)dc.Log_in.Where(c => this.ContactInfo_Email == c.ContactInfoEmail).FirstOrDefault().MemberType;
 
                     //will LOAD nothing if NEW ID but will SET preference ID
                     //needed for adding and removing items
@@ -138,7 +141,7 @@ namespace CC.Connections.BL
             Prefered_Categories = new AbsCategoryPreferences(ID);
             Prefered_Charities = new CharityList();
             Prefered_helping_Actions = new AbsMemberActionList(ID);
-            Member_Type = new AbsMember_Type();
+            Member_Type = new MemberType();
             Pref = new AbsPreference();
             Location = new AbsLocation();
         }
@@ -165,7 +168,6 @@ namespace CC.Connections.BL
                         Member_ID = ID,
                         MemberContact_ID = contact_ID,
                         //Role_ID = Role.ID,
-                        MemberType_ID = Member_Type.ID,
                         MemberPreference_ID = Pref.ID,
                         Location_ID = Location.ID
                     };
@@ -260,7 +262,7 @@ namespace CC.Connections.BL
                     if (entry.MemberPreference_ID == null)
                         throw new Exception("Preference ID is null and cannot be loaded");
                     this.Pref = new AbsPreference((int)entry.MemberPreference_ID);
-                    this.Member_Type = new AbsMember_Type((int)entry.MemberType_ID);
+                    this.Member_Type = (MemberType)dc.Log_in.Where(c => this.ContactInfo_Email == c.ContactInfoEmail).FirstOrDefault().MemberType;
                     this.Location = new AbsLocation((int)entry.Location_ID);
 
                     this.Prefered_Categories.LoadPreferences(entry.Member_ID);
@@ -317,7 +319,7 @@ namespace CC.Connections.BL
                             newMem.ID = c.Member_ID;
                             newMem.Pref = new AbsPreference((int)c.MemberPreference_ID);
                             newMem.Password = new Password(newMem.ContactInfo_Email);
-                            newMem.Member_Type = new AbsMember_Type((int)c.MemberType_ID);
+                            newMem.Member_Type = (MemberType)dc.Log_in.Where(d => newMem.ContactInfo_Email == d.ContactInfoEmail).FirstOrDefault().MemberType;
                             newMem.Location = new AbsLocation((int)c.Location_ID);
 
                             newMem.Prefered_Categories.LoadPreferences(c.Member_ID);

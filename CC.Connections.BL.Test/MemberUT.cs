@@ -32,7 +32,7 @@ namespace CC.Connections.BL.Test
                 ContactInfo_FName = VALUE1,
                 ContactInfo_LName = VALUE2
             };
-            newt.Member_Type.MemberTypeDescription = VALUE1;
+            newt.Member_Type = MemberType.VOLLUNTEER;
             newt.Pref.Distance = INT1;
 
             newt.Location.ContactInfoCity = VALUE1;

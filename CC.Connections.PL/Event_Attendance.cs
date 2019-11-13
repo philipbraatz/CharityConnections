@@ -15,8 +15,8 @@ namespace CC.Connections.PL
     public partial class Event_Attendance
     {
         public int EventAttendance_ID { get; set; }
-        public Nullable<int> Event_ID { get; set; }
-        public Nullable<int> Member_ID { get; set; }
-        public string Status { get; set; }
+        public int Event_ID { get; set; }
+        public int Member_ID { get; set; }
+        public Nullable<int> Status { get; set; }
     }
 }

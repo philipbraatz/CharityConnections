@@ -67,7 +67,6 @@
     <Compile Include="Location.cs" />
     <Compile Include="MapAPI.cs" />
     <Compile Include="Member.cs" />
-    <Compile Include="Member_Type.cs" />
     <Compile Include="Password.cs" />
     <Compile Include="Preference.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

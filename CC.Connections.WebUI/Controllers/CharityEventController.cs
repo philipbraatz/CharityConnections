@@ -115,12 +115,12 @@ namespace CC.Connections.WebUI.Controllers
             {
                 AbsEventAtendee atendee = new AbsEventAtendee(id, ((Password)Session["member"]).email);
                 if (atendee.Exists())
-                    if (atendee.Status != "going")
-                        atendee.Update("going");//interested -> going
+                    if (atendee.Status != Status.GOING)
+                        atendee.Update(Status.GOING);//interested -> going
                     else
                         evnt.RemoveMember(((Password)Session["member"]).email);//going -> not going
                 else
-                    evnt.AddMember(((Password)Session["member"]).email,"going");// not going -> going
+                    evnt.AddMember(((Password)Session["member"]).email,Status.GOING);// not going -> going
 
             }
             else
@@ -135,12 +135,12 @@ namespace CC.Connections.WebUI.Controllers
             {
                 AbsEventAtendee atendee = new AbsEventAtendee(id, ((Password)Session["member"]).email);
                 if (atendee.Exists())
-                    if (atendee.Status != "interested")
-                        atendee.Update("interested");//going -> interested
+                    if (atendee.Status != Status.INTERESTED)
+                        atendee.Update(Status.INTERESTED);//going -> interested
                     else
                         evnt.RemoveMember(((Password)Session["member"]).email);//interested -> not interested
                 else
-                    evnt.AddMember(((Password)Session["member"]).email, "interested");// not interested -> interested
+                    evnt.AddMember(((Password)Session["member"]).email, Status.INTERESTED);// not interested -> interested
 
             }
             else
