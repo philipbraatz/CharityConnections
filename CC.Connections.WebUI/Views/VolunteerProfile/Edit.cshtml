@@ -1,24 +1,24 @@
 ﻿@model CC.Connections.BL.AbsContact
 
 <style>
-    .account-display{
-        color: rebeccapurple;
-        font-weight: bold;       
-        text-align: right;
+    .account-display {
+        color: #FF6633;
+        font-weight: bold;
+        text-align: left;
         border: none;
         margin-left: 900px;
         
     }
+
     a:hover {
         color: #FF6633;
         text-decoration: none;
     }
-   
 </style>
 
 
 
-<p>Currently logged in as</p>
+<p class="account-display">Currently logged in as</p>
 @Html.EditorFor(model => model.ContactInfo_FName, new { htmlAttributes = new { @class = "account-display" } })
 @{
     ViewBag.Title = "Edit";
@@ -34,7 +34,7 @@
     <br />
     <br />
 
-   
+
     <div class="form-horizontal">
         <h4>Edit Profile Information</h4>
         <hr />
@@ -91,6 +91,7 @@
 
 <br />
 <br />
+
 <!--Does not redirect as expected-->
 <!--<div>
     @Html.ActionLink("Back to List", "Index")
@@ -100,6 +101,9 @@
     @Html.ActionLink("Back to Profile", "ProfileView")
 </div>
 
+<br />
+<br />
+<br />
 <br />
 <br />
 
