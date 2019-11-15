@@ -56,13 +56,13 @@ a{
 
 
 footer {
-    background-color: orange;
+    background-color: #F63;
 }
 
-.main-tagline{
-    color: #F63;
+.main-tagline {
+    color: #F63;   
     font-family: Garamond;
-    font-size: 24px;
+    font: 36px bold;
     margin-bottom: 0px;
-
+    
 }
