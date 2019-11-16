@@ -118,9 +118,11 @@
             width: 100%;
             bottom: 0;
             left: 0;
-            height: 50px;
+            height: 75px;
             text-align: center;
             font-size: 12px;
+            padding-top: 12px; 
+            padding-bottom: 14px;
         }
 
         #footer-link :hover {
@@ -157,16 +159,16 @@
                         <li class="nav-item" id="findVolunteerBtn">@Html.ActionLink("Find Volunteer Opportunities", "Index", "CharityEvent")</li>
                         <li class="nav-item">@Html.ActionLink("Sign Up", "SignupView", "Login")</li>               
                         <!-- Changes link to login/logout based on if new session -->
-                        @if (Session["member"] == null) 
+                        @if (Session["member"] == null)
                         {
-                            <li class="nav-item">@Html.ActionLink("Login", "LoginView", "Login")</li>                           
+                            <li class="nav-item">@Html.ActionLink("Sign Up", "SignupView", "Login")</li>
+                            <li class="nav-item">@Html.ActionLink("Login", "LoginView", "Login")</li>
                         }
                         else
                         {
                             <li class="nav-item" id="btnLogout">@Html.ActionLink("Logout", "logoutView", "Login")</li>
+                            <li class="nav-item">@Html.ActionLink("My Account", "ProfileView", "VolunteerProfile")</li>
                         }
-                        <!--do we need this below item in our header/???? what is the purpose of this link?-->
-                        <li class="nav-item">@Html.ActionLink("Account", "ProfileView", "VolunteerProfile")</li>
 
                     </ul>
                 </div>
@@ -214,8 +216,8 @@
 
             <!-- Footer Elements -->
             <div class="container">
-                <p>Disclaimer: We do not facilitate donations or transfer of funds through this website. You must contact independent charity group to donate.</p>
-               <p> &copy; @DateTime.Now.Year - Charity Connections</p>
+                <p>Disclaimer: We do not facilitate donations or transfer of funds through this website. You must contact independent charity group to donate. </p>
+                <p>&copy; @DateTime.Now.Year - Charity Connections</p>
             </div>
 
                 <!-- Copyright -->

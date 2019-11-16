@@ -33,12 +33,13 @@ namespace CC.Connections.WebUI.Controllers
         {
             if (HttpContext.Session["member"] == null)
                 ViewBag.Message = "You are not signed in yet";
-            else
+            else  
                 ViewBag.Message = "You have signed out";
+
             //Logged out
             HttpContext.Session["member"] = null;
 
-            return View();
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
