@@ -28,15 +28,26 @@ namespace CC.Connections.BL.Test
 
         //in the real code you would already have the ID you want
         //so you would not need to find the matching discription
-        private int getID_fromDesc(string desc)
+        private int getID_fromDesc(string desc,bool isNull =false)
         {
             CharityList allTable = new CharityList();
             allTable.LoadList();
 
             Charity cat = allTable.Where(c => c.ContactInfo_Email.Equals(desc)).FirstOrDefault();
             if (cat == null)
-                Assert.Fail("Could not find item with CharityEmail \"" + desc + "\" in Charity table");
-            return cat.ID;
+            {
+                Charity cat2 = allTable.Where(c => c.CharityEmail.Equals(desc)).FirstOrDefault();
+                if (cat2 == null)
+                {
+                    if (!isNull)
+                        Assert.Fail("Could not find email \"" + desc + "\" in Charity table");
+                    return -12345;
+                }
+                else
+                    return cat2.ID;
+            }
+            else
+                return cat.ID;
         }
         
         [TestMethod]
@@ -125,7 +136,7 @@ namespace CC.Connections.BL.Test
             CharityList table = new CharityList();
             table.LoadList();//load updated table
 
-            Assert.IsNull(table.Find(f => f.CharityEmail == testing_ID2));
+            Assert.AreEqual(-12345,getID_fromDesc(testing_ID2,true));
             //TODO check that users prefrences are gone
         }
     }

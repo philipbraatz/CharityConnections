@@ -271,6 +271,7 @@ namespace CC.Connections.BL
                     setContactInfo(contact);
                     setEventInfo(entry);
 
+                    atendees.LoadByEvent(entry.CharityEvent_ID);
                 }
             }
             catch (Exception e)
@@ -282,11 +283,11 @@ namespace CC.Connections.BL
 
         public bool IsGoing(String email)
         {
-            return atendees.Where(c => c.GetEmail() == email).FirstOrDefault().Status ==Status.GOING;
+            return atendees.Where(c => c.email == email).FirstOrDefault().Status ==Status.GOING;
         }
         public bool IsInterested(String email)
         {
-            return atendees.Where(c => c.GetEmail() == email).FirstOrDefault().Status == Status.INTERESTED;
+            return atendees.Where(c => c.email == email).FirstOrDefault().Status == Status.INTERESTED;
         }
     }
 

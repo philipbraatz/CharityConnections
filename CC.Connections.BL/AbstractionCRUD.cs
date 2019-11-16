@@ -178,25 +178,39 @@ namespace CC.Connections.BL
             else
                 throw new Exception(typeof(TEntity) + " does not have a " + propertyName + " property");
         }
+        protected void setProperty(string propertyName, object value, bool forceInt =true)
+        {
+            setProperty(propertyName, (int)value);
+        }
         protected void setProperty(string propertyName, object value)
         {
             try
             {
             PropertyDB_Info<TEntity> propinf = properties.Where(c => c.p.Name == propertyName).FirstOrDefault();
-            if (propinf != null)
-                if (propinf.p.PropertyType.Name == "Nullable`1")
-                    propinf.p.SetValue(instance, value);
-                else if (propinf.p.PropertyType.Name == "String" &&
-                         ((string)value).Length > propinf.max)//get property index equal to current property to compare sized
-                    propinf.p.SetValue(instance, value);
+                if (propinf != null)
+                    if (propinf.p.PropertyType.Name == "Nullable`1")
+                        if (propinf.p.PropertyType.GenericTypeArguments.Length > 0)
+                        {
+                            if (propinf.p.PropertyType.GenericTypeArguments[0].Name == "DateTime")
+                                propinf.p.SetValue(instance, (DateTime)value);
+                            else
+                                propinf.p.SetValue(instance, value);
+                        }
+                        else if (value.GetType().Name == "Status")
+                            propinf.p.SetValue(instance, (int)value);
+                        else
+                            propinf.p.SetValue(instance, value);
+                    else if (propinf.p.PropertyType.Name == "String" &&
+                             ((string)value).Length > propinf.max)//get property index equal to current property to compare sized
+                        propinf.p.SetValue(instance, ((string)value));//.Substring(0, propinf.max - 1));//cut of larger values (zero based)
+                    else
+                        propinf.p.SetValue(instance, value);
                 else
-                    propinf.p.SetValue(instance, ((string)value).Substring(0, propinf.max-1));//cut of larger values (zero based)
-            else
-                throw new Exception(typeof(TEntity) + " does not have a " + propertyName + " property");
+                    throw new Exception(typeof(TEntity) + " does not have a " + propertyName + " property");
             }
             catch (Exception e)
             {
-                throw e;
+                throw new Exception(typeof(TEntity) +": "+e.Message);
             }
         }
 
@@ -347,8 +361,10 @@ namespace CC.Connections.BL
             {
                 object tempID = getProperty(propName);
                 bool found = false;
+
                 //dont cound the first thing you find 
-                //it always thinks the first id matches current id. Might break things
+                //it always thinks the first id matches current id.
+                //FIRST entry in database is skipped
                 bool fixFirstFound = false;
                 List<TEntity> tDebugVarible = table.ToList();
                 foreach (var col in table)

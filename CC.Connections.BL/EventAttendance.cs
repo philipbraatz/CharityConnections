@@ -10,9 +10,9 @@ namespace CC.Connections.BL
 {
     public enum Status
     {
-        NOT_GOING=0,
-        INTERESTED=1,
-        GOING=2
+        NOT_GOING = 0,
+        INTERESTED = 1,
+        GOING = 2
     }
 
     public class AbsEventAtendee : ColumnEntry<PL.Event_Attendance>
@@ -38,38 +38,44 @@ namespace CC.Connections.BL
             set { setProperty("Member_ID", value); }
         }
 
-        public string GetEmail()
-        {
-            return Volunteer.fromNumID(Member_ID).ContactInfo_Email;
-        }
+        public string email { get; set; }
 
         [DisplayName("Status")]
         //must be the same name as the PL class
         public Status Status
         {
             get { return (Status)base.getProperty("Status"); }
-            set { setProperty("Status", value); }
+            set { setProperty("Status", (value),true); }
         }
 
         public AbsEventAtendee() :
             base()
         { }
-        public AbsEventAtendee(int event_id,string email) :
+        public AbsEventAtendee(int event_id, string email) :
             base()
         {
+
             this.Event_ID = event_id;
+            this.email = email;
             this.Member_ID = new Volunteer(email).ID;
-            this.Status = Status.NOT_GOING;
+            //this.Status = Status.NOT_GOING;//default
             TryFindMatching();
         }
         public AbsEventAtendee(PL.Event_Attendance entry) :
             base(entry)
         {
-            this.Status= Status.NOT_GOING;
+            Volunteer v = new Volunteer();
+            v.LoadId(entry.Member_ID);
+            this.email = v.ContactInfo_Email;
+            //this.Status = Status.NOT_GOING;
         }
         public AbsEventAtendee(int id) :
             base(new fvtcEntities1().Event_Attendance, id)
-        { }
+        {
+            Volunteer v = new Volunteer();
+            v.LoadId(this.Member_ID);
+            this.email = v.ContactInfo_Email;
+        }
         //turns a PL class into a BL equivelent example: 
         //Category pl = new Category();
         //...
@@ -95,10 +101,15 @@ namespace CC.Connections.BL
         {
             using (fvtcEntities1 dc = new fvtcEntities1())
             {
+                List<Event_Attendance> debugList = dc.Event_Attendance.ToList();
                 Event_Attendance eat = dc.Event_Attendance.Where(c => c.Event_ID == this.Event_ID && c.Member_ID == this.Member_ID).FirstOrDefault();
                 if (eat == null)
+                {
+                    this.ID = -1;
+                    this.Status = Status.NOT_GOING;
                     return false;
-                
+                }
+
                 this.ID = eat.EventAttendance_ID;
                 this.Member_ID = (int)eat.Member_ID;
                 this.Event_ID = (int)eat.Event_ID;
@@ -169,30 +180,41 @@ namespace CC.Connections.BL
             get { return (int)joinGrouping_ID; }
             set { joinGrouping_ID = value; }
         }
-
+        [DisplayName("Going: ")]
+        public int CountGoing { get => this.Where(c => c.Status == Status.GOING).Count(); }
+        [DisplayName("Interested: ")]
+        public int CountInterested { get => this.Where(c => c.Status == Status.INTERESTED).Count(); }
 
         public EventAttendanceList(int event_id)
             : base("MemberCat_Category_ID", event_id, "MemberCat_Member_ID")
         {
             Charity c = new Charity { ID = event_id };
             base.joinGrouping_ID = c.ID;
+            LoadByEvent();
         }
 
-        public new void LoadPreferences()
-        { LoadPreferences((int)base.joinGrouping_ID); }
-        public new void LoadPreferences(int event_id)
+        public void LoadByEvent()
+        { LoadByEvent((int)base.joinGrouping_ID); }
+        public void LoadByEvent(int event_id)
         {
             using (fvtcEntities1 dc = new fvtcEntities1())
             {
                 eventID = event_id;
                 if (dc.Event_Attendance.ToList().Count != 0)
+                {
+                    List<Charity_Event> debugList = dc.Charity_Event.Where(c => c.CharityEvent_ID == eventID).ToList();
                     dc.Charity_Event
                         .Where(c => c.CharityEvent_ID == eventID).ToList()
-                        .ForEach(b => base.Add(new AbsEventAtendee(dc.Event_Attendance
-                            .Where(d =>
-                                d.Event_ID == b.CharityEvent_ID
-                            ).FirstOrDefault()))
-                        );
+                        .ForEach(b =>
+                        {
+                            dc.Event_Attendance
+                                .Where(d =>
+                                   d.Event_ID == b.CharityEvent_ID
+                                ).ToList().ForEach(eat => 
+                                    base.Add(new AbsEventAtendee(eat)));
+                        });
+                }
+                        
             }
         }
         public void DeleteAttendance()
@@ -212,7 +234,7 @@ namespace CC.Connections.BL
             {
                 int newID = 0;
                 if (dc.Event_Attendance.ToList().Count != 0)
-                    newID = dc.Event_Attendance.Max(c => c.EventAttendance_ID)+1;
+                    newID = dc.Event_Attendance.Max(c => c.EventAttendance_ID) + 1;
 
                 AbsEventAtendee evntAtt = new AbsEventAtendee((int)base.joinGrouping_ID, attendee);
                 dc.Event_Attendance.Add(evntAtt.GetPL());

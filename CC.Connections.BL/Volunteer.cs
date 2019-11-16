@@ -226,6 +226,52 @@ namespace CC.Connections.BL
             }
             catch (Exception e) { throw e; }
         }
+
+        //TODO remove in favor of email
+        public new void LoadId(int id)
+        {
+            try
+            {
+                using (fvtcEntities1 dc = new fvtcEntities1())
+                {
+                    //if (this.ID == Guid.Empty)
+                    //    throw new Exception("ID is invaild");
+                    int contactId;
+
+                    PL.Member entry = dc.Members.Where(c => c.Member_ID == id).FirstOrDefault();
+                    if (entry != null)
+                    {
+                        this.ID = entry.Member_ID;
+                        Clear();//make sure member fields are created
+                        base.setContactInfo(AbsContact.fromNumID( (int)entry.MemberContact_ID));
+                    }
+                    else
+                        throw new Exception("ID = " + id + ", does not have a Member associated with it");
+                    ///all good Login in related values
+                    
+                    PL.Log_in login = dc.Log_in.FirstOrDefault(c => c.ContactInfoEmail == this.ContactInfo_Email);
+                    if (login == null)
+                        throw new Exception("Log in does not exist for Member with email " + this.ContactInfo_Email);
+
+                    this.Password = new Password(login.ContactInfoEmail, login.LogInPassword, (MemberType)login.MemberType, true);
+
+                    if (entry.MemberPreference_ID == null)
+                        throw new Exception("Preference ID is null and cannot be loaded");
+                    this.Pref = new AbsPreference((int)entry.MemberPreference_ID);
+                    this.Location = new AbsLocation((int)entry.Location_ID);
+
+                    this.Prefered_Categories.LoadPreferences(entry.Member_ID);
+                    this.Prefered_helping_Actions.LoadPreferences(entry.Member_ID);
+                    //this.Prefered_Charities.LoadPreferences( entry.Member_ID);
+
+
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
         public new void LoadId(string email)
         {
             base.LoadId(email);
