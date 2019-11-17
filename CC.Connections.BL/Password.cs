@@ -59,11 +59,19 @@ namespace CC.Connections.BL
             if (load)
                 if (!loadId())//insert new Password with email
                 {
+                    try
+                    {
                     GenerateDefault(email);//generate
                                            //insert
                     using (fvtcEntities1 dc = new fvtcEntities1())
                         this.Insert(dc.Log_in.Max(c =>
                             c.LogInMember_ID).GetValueOrDefault());
+                    }
+                    catch (Exception)
+                    {
+
+                        throw;
+                    }
                 }
         }
 
@@ -100,7 +108,12 @@ namespace CC.Connections.BL
                         return false;//throw new Exception("Log_in "+ this.email + " does not exist");
 
                     this.hash = entry.LogInPassword;
-                    this.MemberType = (MemberType)entry.MemberType;
+
+                    //TODO remove null option in the future
+                    if (entry.MemberType != null)
+                        this.MemberType = (MemberType)entry.MemberType;
+                    else
+                        this.MemberType = MemberType.VOLLUNTEER;
                     return true;
                 }
             }

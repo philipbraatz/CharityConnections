@@ -16,9 +16,9 @@ namespace CC.Connections.BL.Test
         public const int INT1 = -7;
         public const int INT2 = -22;
 
-        public const int CATEGORY_ID = 0;
-        public const int ACTION_ID = 0;
-        public const int ACTION1 = 0;
+        public const int CATEGORY_ID = 1;
+        public const int ACTION_ID = 1;
+        public const int ACTION1 = 1;
         public const int ACTION2 = 1;
         public const int GUEST_ID = 3;
 

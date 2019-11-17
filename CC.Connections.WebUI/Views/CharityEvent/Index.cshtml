@@ -17,16 +17,20 @@
     <tr>
         <td><h2>Charity Logo</h2></td>
         <td>
-            <h2>@item.CharityEventName</h2>
+            <h2> @item.CharityEventName</h2>
             <h3>Hosted by: @item.CharityName</h3>
             <h5>Days: @item.StartDate.ToShortDateString() to @item.EndDate.ToShortDateString() </h5>
             <h5>Time: @item.StartTime.ToShortTimeString() to @item.EndTime.ToShortTimeString()</h5>
             <p>@item.Description</p>
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Event_ID }) |
-            @Html.ActionLink("Details", "Details", new {  id=item.Event_ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Event_ID  })
+            <h4>Going: @item.atendees.CountGoing</h4>
+            <h4>Interested: @item.atendees.CountInterested</h4>
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.Event_ID }) |
+            @Html.ActionLink("Details", "Details", new { id = item.Event_ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Event_ID })
         </td>
     </tr>
     }

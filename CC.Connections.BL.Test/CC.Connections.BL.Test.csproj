@@ -69,6 +69,7 @@
     <Compile Include="Charity_Event_UT.cs" />
     <Compile Include="Charity_UT.cs" />
     <Compile Include="Helping_ActionUT.cs" />
+    <Compile Include="Attendance_UT.cs" />
     <Compile Include="VolunteerUT.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
