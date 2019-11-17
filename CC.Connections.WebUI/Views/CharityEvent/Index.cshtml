@@ -5,7 +5,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Charity Events</h2>
+
+
+
+
+
+<br />
+<h2>Volunteer Opportunities</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -15,23 +21,27 @@
     @foreach (var item in Model)
     {
     <tr>
-        <td><h2>Charity Logo</h2></td>
+        <td><h3>Charity Logo</h3></td>
         <td>
             <h2> @item.CharityEventName</h2>
             <h3>Hosted by: @item.CharityName</h3>
             <h5>Days: @item.StartDate.ToShortDateString() to @item.EndDate.ToShortDateString() </h5>
             <h5>Time: @item.StartTime.ToShortTimeString() to @item.EndTime.ToShortTimeString()</h5>
             <p>@item.Description</p>
+            <h3>Going: @item.atendees.CountGoing</h3>
+            <h3>Interested: @item.atendees.CountInterested</h3>
         </td>
+        <!-- <td>
+           <h5>Going: @item.atendees.CountGoing</h5>
+           Interested: @item.atendees.CountInterested
+       </td> -->
         <td>
-            <h4>Going: @item.atendees.CountGoing</h4>
-            <h4>Interested: @item.atendees.CountInterested</h4>
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.Event_ID }) |
-            @Html.ActionLink("Details", "Details", new { id = item.Event_ID }) |
+            @Html.ActionLink("Edit", "Edit", new { id = item.Event_ID })
+            @Html.ActionLink("Details", "Details", new { id = item.Event_ID })
             @Html.ActionLink("Delete", "Delete", new { id = item.Event_ID })
         </td>
     </tr>
     }
-    </table>
+</table>
+
+

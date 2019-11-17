@@ -54,7 +54,6 @@ a{
    padding-right: 30px;
 }
 
-
 footer {
     background-color: #F63;
 }
@@ -64,4 +63,13 @@ footer {
     font-family: Garamond;
     font: 36px bold;
     margin-bottom: 0px;  
+}
+
+td {
+    padding-right: 0px;
+}
+
+a:hover{
+    color:#F63;
+    text-decoration:none;
 }
