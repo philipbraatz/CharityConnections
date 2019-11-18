@@ -43,23 +43,36 @@ namespace CC.Connections.WebUI.Controllers
         // GET: CharityEvent/Create
         public ActionResult Create()
         {
-            CharityEvent evnt = new CharityEvent();
+            CharityEvent evnt = new CharityEvent
+            {
+                Location = new AbsLocation(),
+            };
+            Password credentals = (Password)Session["member"];
+            if(credentals == null)
+                return RedirectToAction("LoginView", "Login");//TODO change to charity login
+            if (credentals.MemberType == MemberType.CHARITY)
+                evnt.Charity_ID = new Charity((Password)Session["member"]).ID;
+            else
+            {
+                //ViewBag.Message = "Only charities can create a event.";
+                ViewBag.Message = "Defaulting to charity ID =  1 for testing";
+            }
             //evnt.Charity_ID;
-            return View(new CharityEvent());
+            return View(evnt);
         }
 
         // POST: CharityEvent/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(CharityEvent charityEvent)
         {
             try
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
+                charityEvent.Insert();
+                return RedirectToAction("Index","CharityEvent");
             }
-            catch
+            catch(Exception e)
             {
+                ViewBag.Message = "Error: " + e.Message;
                 return View();
             }
         }
@@ -98,7 +111,8 @@ namespace CC.Connections.WebUI.Controllers
         {
             try
             {
-                // TODO: Add delete logic here
+                CharityEvent deleteEvent = new CharityEvent(id);
+                deleteEvent.Delete();
 
                 return RedirectToAction("Index");
             }

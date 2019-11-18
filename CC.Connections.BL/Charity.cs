@@ -8,17 +8,17 @@ using System.ComponentModel;
 
 
 
-// setting the charity class with a inherit from contactinfo
+// setting the charity class with a inherit from contactInfo
 
 namespace CC.Connections.BL
 {
     public class Charity : AbsContact
     {
-        //AbsContact properites ---------------------------------------
+        //AbsContact properties
         //ContactInfo_Email = Support Email
         //ContactInfo_FName = Name of Charity
         //ContactInfo_Phone = phone #
-        //DateOfBirth = Start of Charity orginization
+        //DateOfBirth = Start of Charity organization
 
         //ContactInfo_LName = Not used
         //ContactInfo_FullName = Not used

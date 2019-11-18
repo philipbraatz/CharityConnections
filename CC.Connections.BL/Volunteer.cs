@@ -181,7 +181,7 @@ namespace CC.Connections.BL
                 using (fvtcEntities1 dc = new fvtcEntities1())
                 {
                     //if (this.ID == Guid.Empty)
-                    //    throw new Exception("ID is invaild");
+                    //    throw new Exception("ID is invalid");
 
                     Password.Delete();
                     Pref.Delete();
@@ -210,7 +210,7 @@ namespace CC.Connections.BL
                 using (fvtcEntities1 dc = new fvtcEntities1())
                 {
                     //if (this.ID == Guid.Empty)
-                    //    throw new Exception("ID is invaild");
+                    //    throw new Exception("ID is invalid");
 
                     PL.Member entry = dc.Members.Where(c => c.Member_ID == this.ID).FirstOrDefault();
                     base.Update();
@@ -235,7 +235,7 @@ namespace CC.Connections.BL
                 using (fvtcEntities1 dc = new fvtcEntities1())
                 {
                     //if (this.ID == Guid.Empty)
-                    //    throw new Exception("ID is invaild");
+                    //    throw new Exception("ID is invalid");
                     int contactId;
 
                     PL.Member entry = dc.Members.Where(c => c.Member_ID == id).FirstOrDefault();
@@ -281,7 +281,7 @@ namespace CC.Connections.BL
                 using (fvtcEntities1 dc = new fvtcEntities1())
                 {
                     //if (this.ID == Guid.Empty)
-                    //    throw new Exception("ID is invaild");
+                    //    throw new Exception("ID is invalid");
 
                     PL.Member entry = dc.Members.Where(c => c.MemberContact_ID == this.contact_ID).FirstOrDefault();
                     if (entry != null)

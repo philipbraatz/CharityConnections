@@ -40,18 +40,13 @@ namespace CC.Connections.BL.Test
         {
             CharityEvent newt = new CharityEvent
             {
-                ContactInfo_Phone = "1234567",
-                ContactInfo_FName = INSERT_1,
-                ContactInfo_LName = INSERT_1,
                 CharityEventName = NAME_OF_EVENT,
                 CharityEventRequirements= INSERT_1,
                 Charity_ID =CHARITY_ID,
-                DateOfBirth =DateTime.Now,
                 EndDate = DateTime.Now,
                 StartDate = DateTime.Now,
                 Location = new AbsLocation(LOC_ID)
             };
-            newt.LoadId(CONTACT_EMAIL);//load contact
             newt.Insert();
         }
     
@@ -71,18 +66,13 @@ namespace CC.Connections.BL.Test
         {
             CharityEvent newt = new CharityEvent
             {
-                ContactInfo_Phone = "1234567",
-                ContactInfo_FName = INSERT_1,
-                ContactInfo_LName = INSERT_1,
                 CharityEventName = NAME_OF_EVENT,
                 CharityEventRequirements = INSERT_1,
                 Charity_ID = CHARITY_ID,
-                DateOfBirth = DateTime.Now,
                 EndDate = DateTime.Now,
                 StartDate = DateTime.Now,
                 Location = new AbsLocation(LOC_ID)
             };
-            newt.LoadId(CONTACT_EMAIL);//load contact
 
             CharityEventList table = new BL.CharityEventList();
             table.LoadWithFilter(CHARITY_ID,SortBy.CHARITY);

@@ -20,7 +20,7 @@ namespace CC.Connections.WebUI.Model
         public CharityEvent_with_Charity(CharityEvent evnt)
         {
             this.setEventInfo(evnt);
-            setContactInfo(new AbsContact(evnt.ContactInfo_Email));
+            //setContactInfo(new AbsContact(evnt.ContactInfo_Email));
             Charity = new Charity(evnt.Charity_ID);
             CharityName = Charity.FullName;
         }
@@ -28,7 +28,7 @@ namespace CC.Connections.WebUI.Model
         public CharityEvent_with_Charity(CharityEvent evnt, string member_email)
         {
             this.setEventInfo(evnt);
-            setContactInfo(new AbsContact(evnt.ContactInfo_Email));
+            //setContactInfo(new AbsContact(evnt.ContactInfo_Email));
             Charity = new Charity(evnt.Charity_ID);
             CharityName = Charity.FullName;
             Member_Attendance = new AbsEventAtendee(evnt.Event_ID,member_email);
