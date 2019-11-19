@@ -1,0 +1,52 @@
+﻿@using MvcBootstrapTimepicker
+@model CC.Connections.BL.AbsCategory
+
+<style type="text/css">
+    body {
+        margin-left: 10pt;
+        padding: 10pt;
+    }
+
+    .TimePickerWidth {
+        width: 150px;
+    }
+</style>
+
+@Styles.Render("~/TimePicker/bootstrap-timepicker.css")
+@Styles.Render("~/TimePicker/MvcBootstrapTimepicker.css")
+@Scripts.Render("~/TimePicker/bootstrap-timepicker.js")
+@Scripts.Render("~/TimePicker/MvcBootstrapTimepicker.js")
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.BootstrapTimePicker("SelectedTime").ContainerClass("TimePickerWidth");
+    <br />
+    <br />
+    @Html.DropDownList("Time", (IEnumerable <SelectListItem>)ViewBag.TimeList)
+    <br />
+    <br />
+
+
+    < input type = "submit" value = "Submit" />
+}
+
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+        $(function () {
+            alert("@ViewBag.Message");
+        });
+    </script>
+}
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

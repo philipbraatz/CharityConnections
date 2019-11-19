@@ -1,0 +1,4 @@
+﻿.bootstrap-timepicker .form-control:not(:first-child):not(:last-child) {
+  border-bottom-left-radius: 4px;
+  border-top-left-radius: 4px;
+}
