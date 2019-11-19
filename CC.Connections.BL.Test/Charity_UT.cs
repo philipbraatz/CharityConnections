@@ -137,7 +137,7 @@ namespace CC.Connections.BL.Test
             table.LoadList();//load updated table
 
             Assert.AreEqual(-12345,getID_fromDesc(testing_ID2,true));
-            //TODO check that users prefrences are gone
+            //TODO check that users preferences are gone
         }
     }
 }

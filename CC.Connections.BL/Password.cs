@@ -101,7 +101,7 @@ namespace CC.Connections.BL
                 using (fvtcEntities1 dc = new fvtcEntities1())
                 {
                     //if (this.ID == Guid.Empty)
-                    //    throw new Exception("ID is invaild");
+                    //    throw new Exception("ID is invalid");
 
                     PL.Log_in entry = dc.Log_in.FirstOrDefault(c => c.ContactInfoEmail == this.email);
                     if (entry == null)

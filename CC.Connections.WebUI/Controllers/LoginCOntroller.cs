@@ -19,7 +19,7 @@ namespace CC.Connections.WebUI.Controllers
             else
                 return View();
             //return View();
-            //ViewBag.ReturnUrl = returnurl;
+            //ViewBag.ReturnUrl = returnUrl;
 
         }
 

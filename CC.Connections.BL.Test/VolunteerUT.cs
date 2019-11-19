@@ -106,7 +106,7 @@ namespace CC.Connections.BL.Test
             table.LoadList();//load updated table
 
             Assert.IsNull(table.Find(f => f.ContactInfo_FName == VALUE1));
-            //TODO check that users prefrences are gone
+            //TODO check that users preferences are gone
         }
     }
 }

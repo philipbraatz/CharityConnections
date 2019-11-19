@@ -7,23 +7,25 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details</h2>
+    <div>
+        <h2>(Charity Logo) @Html.DisplayFor(model => model.CharityName)</h2>
+        <div class="TODO put me on the right side">
+            <h4>Going: @Model.atendees.CountGoing</h4>
+            <h4>Interested: @Model.atendees.CountInterested</h4>
+        </div>
+        <hr />
+        <h4> @Html.DisplayFor(model => model.CharityEventName)</h4>
+        <h5>Days: @Model.StartDate.ToShortDateString() to @Model.EndDate.ToShortDateString() </h5>
+        <h5>Time: @Model.StartTime.ToShortTimeString() to @Model.EndTime.ToShortTimeString() </h5>
+        <p> @Html.DisplayFor(model => model.Description)</p>
+        <br />
+        <p><b>Requirements: </b>@Model.CharityEventRequirements</p>
 
-<div>
-    <h2>(Charity Logo) @Html.DisplayFor(model => model.CharityName)</h2>
-    <hr />
-    <h4> @Html.DisplayFor(model => model.CharityEventName)</h4>
-    <h5>Days: @Model.StartDate.ToShortDateString() to @Model.EndDate.ToShortDateString() </h5>
-    <h5>Time: @Model.StartTime.ToShortTimeString() to @Model.EndTime.ToShortTimeString() </h5>
-    <p> @Html.DisplayFor(model => model.Description)</p>
-    <br />
-    <p><b>Requirements: </b>@Model.CharityEventRequirements</p>
-
-</div>
+    </div>
 <h4>@ViewBag.Message</h4>
 <p>
 
-    @{ if (Model.Member_Attendance != null && Model.Member_Attendance.Status != null)
+    @{ if (Model.Member_Attendance != null)
         {
             if (Model.Member_Attendance.Status == CC.Connections.BL.Status.GOING)
             {
