@@ -17,14 +17,14 @@ namespace CC.Connections.WebUI.Controllers
              if (p != null)
                  return View(new Charity(p));
              else
-                 return RedirectToAction("Index", "Home");
-                 
+                 return RedirectToAction("Index", "Home");    
         }
 
         // GET: Charity/Edit/5
         public ActionResult Edit(int id)
         {
             Charity c = new Charity();
+
             Password p = (Password)Session["member"];
             if (p != null)
                 c = new Charity(id);

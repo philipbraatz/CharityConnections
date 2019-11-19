@@ -28,7 +28,13 @@ namespace CC.Connections.WebUI.Controllers
             ViewBag.ReturnUrl = returnurl;
             return View(new ContactInfoSignup());
         }
-        
+
+        public ActionResult CharitySignUpView(string returnurl)
+        {
+            ViewBag.ReturnUrl = returnurl;
+            return View(new CharitySignup());
+        }
+
         public ActionResult LogoutView()
         {
             if (HttpContext.Session["member"] == null)
@@ -54,7 +60,7 @@ namespace CC.Connections.WebUI.Controllers
                     //if (returnurl != null)
                     //    return Redirect(returnurl);
                     //else
-                        return RedirectToAction("ProfileView", "VolunteerProfile");
+                        return RedirectToAction("Index", "Home");
                 }
                 else
                 {
@@ -102,5 +108,7 @@ namespace CC.Connections.WebUI.Controllers
                 return View(con);
             }
         }
+
+        
     }
 }

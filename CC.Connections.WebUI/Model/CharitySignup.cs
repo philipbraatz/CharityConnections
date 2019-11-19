@@ -9,49 +9,6 @@ namespace CC.Connections.WebUI.Model
 {
     public class CharitySignup : AbsContact
     {
-        [Display(Name = "Charity Email")]
-        [DataType(DataType.EmailAddress)]
-        public string contactInfoEmail
-        {
-            get
-            {
-                return this.contactInfoEmail;
-            }
-
-            set
-            {
-                this.contactInfoEmail = ContactInfo_Email;
-            }
-        }
-
-        [Display(Name = "Charity Name")]
-        [DataType(DataType.Text)]
-        public string lastName
-        {
-            get
-            {
-                return this.lastName;
-            }
-            set
-            {
-                this.lastName = ContactInfo_LName;
-            }
-        }
-
-        [Display(Name = "Charity")]
-        [DataType(DataType.Text)]
-        public string firstName
-        {
-            get
-            {
-                return this.firstName;
-            }
-            set
-            {
-                this.firstName = "Charity Business";
-            }
-        }
-
         [Display(Name = "Password")]
         [DataType(DataType.Password)]
         [Required(ErrorMessage = "Password required")]

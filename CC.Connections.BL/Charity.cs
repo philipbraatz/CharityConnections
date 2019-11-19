@@ -46,15 +46,19 @@ namespace CC.Connections.BL
         {
             return dc.Charities.Where(c => c.Charity_ID == id).FirstOrDefault() != null;
         }
+
         public Charity()
         {
-            Clear();
-        }
 
+        }
         public Charity(Password p)
         {
             Clear();
         }
+
+        public Charity(Contact_Info entry) :
+            base(entry)
+        { }
         public Charity(int id)
         {
             Clear();
@@ -75,6 +79,58 @@ namespace CC.Connections.BL
             this.Category = new AbsCategory(entry.Charity_Category_ID.Value);
             this.Location = new AbsLocation(entry.Location_ID.Value);
         }
+
+
+        public Charity(string charityEmail, string password = "", bool hashed = false, bool debug = false)
+        {
+            //get ID and password from other tables
+            try
+            {
+                using (fvtcEntities1 dc = new fvtcEntities1())
+                {
+                    Clear();
+
+                    //set new id for prefered lists
+                    if (dc.Members.ToList().Count > 0)
+                        ID = dc.Members.Max(c => c.Member_ID) + 1;
+                    else
+                        ID = 0;//first entry
+
+                    //try to load existing ID
+                    PL.Contact_Info cID = dc.Contact_Info.Where(c => c.ContactInfo_Email == charityEmail).FirstOrDefault();
+                    PL.Member mID;
+                    if (cID != null)
+                    {
+                        mID = dc.Members.Where(c => c.MemberContact_ID == cID.Contact_Info_ID).FirstOrDefault();
+                        if (mID != null)
+                            ID = mID.Member_ID;
+                    }
+
+                    this.ContactInfo_Email = charityEmail;
+                    if (password != string.Empty)
+                        Password = new Password(charityEmail, password, MemberType.CHARITY, hashed);//standard
+                    else
+                        Password = new Password(charityEmail, false);//new
+
+                    //will LOAD nothing if NEW ID but will SET preference ID
+                    //needed for adding and removing items
+                    //Prefered_helping_Actions.LoadPreferences(ID);
+                    //Prefered_Categories.LoadPreferences(ID);
+                    //Prefered_Charities.LoadPreferences(ID);
+
+                    //this.LoadId();
+                }
+            }
+            catch (Exception e)
+            {
+                if (e.Message != "The underlying provider failed on Open.")
+                    throw e;
+                else
+                    throw e.InnerException;//database error
+
+            }
+        }
+
 
         private new void Clear()
         {

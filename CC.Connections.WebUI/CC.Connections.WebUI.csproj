@@ -255,6 +255,7 @@
     <Content Include="Views\CharityEvent\Index.cshtml" />
     <Content Include="Views\CharityEvent\Details.cshtml" />
     <Content Include="Views\Login\CharitySignupView.cshtml" />
+    <Content Include="Views\Charity\CharityView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

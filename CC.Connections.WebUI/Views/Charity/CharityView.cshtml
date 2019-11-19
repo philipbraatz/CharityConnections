@@ -15,26 +15,26 @@
         text-decoration: none;
     }
 </style>
-<h4>Profile</h4>
+<h4>Charity Profile</h4>
 
 
 <table class="table table-user-information">
     <tbody>
         <tr>
-            <td>Name:</td>
+            <td>Charity Name:</td>
+            <td>@Model.ContactInfo_FName</td>
+        </tr>
+        <tr>
+            <td>Charity Email:</td>
+            <td>@Model.ContactInfo_Email</td>
+        </tr>
+        <tr>
+            <td>Phone:</td>
+            <td>@Model.ContactInfo_LName</td>
+        </tr>
+        <tr>
+            <td>Address</td>
             <td>@Model.Deductibility</td>
-        </tr>
-        <tr>
-            <td>Email:</td>
-            <td>@Model.ID</td>
-        </tr>
-        <tr>
-            <td> Phone:</td>
-            <td>@Model.Requirements</td>
-        </tr>
-        <tr>
-            <td>Birthdate: </td>
-            <td>@Model.DateOfBirth</td>
         </tr>
 
     </tbody>
