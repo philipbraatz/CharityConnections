@@ -1,0 +1,49 @@
+﻿@using MvcBootstrapTimepicker;
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <style type="text/css">
+        body {
+            margin-left: 10pt;
+            padding: 10pt;
+        }
+
+        .TimePickerWidth {
+            width: 150px;
+        }
+    </style>
+</head>
+<body>
+
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/TimePicker/bootstrap-timepicker.css" rel="stylesheet" />
+    <link href="~/TimePicker/MvcBootstrapTimepicker.css" rel="stylesheet" />
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js" type="text/javascript"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="~/TimePicker/bootstrap-timepicker.js" type="text/javascript"></script>
+    <script src="~/TimePicker/MvcBootstrapTimepicker.js" type="text/javascript"></script>
+
+    @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+    {
+        @Html.BootstrapTimePicker("SelectedTime").ContainerClass("TimePickerWidth");
+        <br />
+        <br />
+        <input type="submit" value="Submit" />
+    }
+    @if (ViewBag.Message != null)
+    {
+        <script type="text/javascript">
+            $(function () {
+                alert("@ViewBag.Message");
+            });
+        </script>
+    }
+</body>
+</html>
