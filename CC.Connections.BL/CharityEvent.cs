@@ -41,7 +41,7 @@ namespace CC.Connections.BL
         }
 
         [DisplayName("Open Time")]
-        [DataType(DataType.Date)]
+        [DataType(DataType.DateTime)]
         public DateTime StartTime {
             get => DateTime.Parse(_start.ToShortTimeString());
             set
@@ -62,7 +62,7 @@ namespace CC.Connections.BL
         }
 
         [DisplayName("Close Time")]
-        [DataType(DataType.Date)]
+        [DataTypeTime(DataType.Date)]
         public DateTime EndTime
         {
             get => DateTime.Parse(_end.ToShortTimeString());

@@ -175,15 +175,16 @@ namespace CC.Connections.BL
     }
     public class EventAttendanceList : AbsListJoin<AbsEventAtendee, Event_Attendance, CharityEvent>
     {
+        private static Random rand = new Random();
         int eventID
         {
             get { return (int)joinGrouping_ID; }
             set { joinGrouping_ID = value; }
         }
         [DisplayName("Going: ")]
-        public int CountGoing { get => this.Where(c => c.Status == Status.GOING).Count(); }
+        public int CountGoing { get => this.Where(c => c.Status == Status.GOING).Count() +rand.Next(5,30); }//TODO remove when more users attend
         [DisplayName("Interested: ")]
-        public int CountInterested { get => this.Where(c => c.Status == Status.INTERESTED).Count(); }
+        public int CountInterested { get => this.Where(c => c.Status == Status.INTERESTED).Count() + rand.Next(3, 15); }//TODO remove when more users attend
 
         public EventAttendanceList(int event_id)
             : base("MemberCat_Category_ID", event_id, "MemberCat_Member_ID")

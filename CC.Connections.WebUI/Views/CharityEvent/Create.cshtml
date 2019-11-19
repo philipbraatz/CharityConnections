@@ -1,4 +1,4 @@
-﻿@model CC.Connections.BL.CharityEvent
+﻿@model CC.Connections.WebUI.Model.CharityEvent_WithTime
 
 @{
     ViewBag.Title = "Create";
@@ -6,12 +6,12 @@
 }
 
 <style>
-    #main_area{
-        margin:auto;
+    #main_area {
+        margin: auto;
     }
 
     #tbleft {
-        width: 25%; 
+        width: 25%;
     }
 
     #tbright {
@@ -19,11 +19,11 @@
     }
 
     .control-label col-md-2 {
-        column-span:all;
+        column-span: all;
     }
 
     /*.form-horizont
-        al{
+        al{//TODO remove when more users attend
         margin:0 50px 0 50px ;
     }
     #leftcol {
@@ -114,51 +114,58 @@
 
                     <table class="form-group">
                         <thead>
-                            <tr>@Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })</tr>
-                            <tr>@Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label col-md-2" })</tr>
+                            <tr>
+                                <td>
+                                    @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                                </td>
+                                <td>@Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                            </tr>
                         </thead>
                         <tbody class="col-md-10">
                             <tr>
+                                <td>
 
-                                @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+                                    @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
 
-                            </tr>
-                            <tr>
-                                @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+                                </td>
+                                <td>
+                                    @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+                                </td>
                             </tr>
                         </tbody>
                     </table>
 
                     <table class="form-group">
                         <thead>
-                            <tr>@Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label col-md-2" })</tr>
-                            <tr>@Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "control-label col-md-2" })</tr>
+                            <tr>
+                                <td>
+                                    @Html.LabelFor(model => model.StartTime, htmlAttributes: new { @class = "control-label col-md-2" })
+                                </td>
+                                <td>
+                                    @Html.LabelFor(model => model.EndTime, htmlAttributes: new { @class = "control-label col-md-2" })
+                                </td>
+                            </tr>
                         </thead>
                         <tbody class="col-md-10">
                             <tr>
+                                <td>
 
-                                @Html.EditorFor(model => model.StartTime, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "text-danger" })
-
-                            </tr>
-                            <tr>
-                                @Html.EditorFor(model => model.EndTime, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
+                                    @Html.DropDownListFor(model => model.strTimeStart, (IEnumerable<SelectListItem>
+                                        )ViewBag.TimeList, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "text-danger" })
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(model => model.strTimeEnd, (IEnumerable<SelectListItem>
+                                        )ViewBag.TimeList, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
+                                </td>
                             </tr>
                         </tbody>
                     </table>
 
                 </div>
-            </td>
-        </tr>
-        <tr>
-            <td><!--extra fields-->
-                
-            </td>
-            <td>
-
             </td>
         </tr>
     </table>

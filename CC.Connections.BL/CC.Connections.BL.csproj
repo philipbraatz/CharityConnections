@@ -62,6 +62,7 @@
     <Compile Include="AbstractionCRUD.cs" />
     <Compile Include="Charity.cs" />
     <Compile Include="Contact.cs" />
+    <Compile Include="DataTypeTimeAttribute.cs" />
     <Compile Include="EventAttendance.cs" />
     <Compile Include="SortingUtil.cs" />
     <Compile Include="Helping_Action.cs" />

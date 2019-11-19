@@ -15,13 +15,15 @@ namespace CC.Connections.WebUI.Controllers
         {
             CharityEventList allEvents = new CharityEventList();
             allEvents.LoadAll();
-            List<CharityEvent_with_Charity> charityEvents = new List<CharityEvent_with_Charity>();
+            List<CharityEvent_WithCharity> charityEvents = new List<CharityEvent_WithCharity>();
             foreach (var ev in allEvents)
+            {
                 if (Session != null && Session["member"] != null)
-                    charityEvents.Add(new CharityEvent_with_Charity(ev,
+                    charityEvents.Add(new CharityEvent_WithCharity(ev,
                         ((Password)Session["member"]).email));
                 else
-                    charityEvents.Add(new CharityEvent_with_Charity(ev));
+                    charityEvents.Add(new CharityEvent_WithCharity(ev));
+            }
             return View(charityEvents);
         }
 
@@ -32,41 +34,44 @@ namespace CC.Connections.WebUI.Controllers
             if (Session != null && Session["member"] != null)
             {
                 member = (Password)Session["member"];
-                return View(new CharityEvent_with_Charity(new CharityEvent(id),
+                return View(new CharityEvent_WithCharity(new CharityEvent(id),
                         member.email));
             }
             else
-                return View(new CharityEvent_with_Charity(new CharityEvent(id)));
+                return View(new CharityEvent_WithCharity(new CharityEvent(id)));
 
         }
 
         // GET: CharityEvent/Create
         public ActionResult Create()
         {
+            ViewBag.TimeList = TimeUtils.TimeList;
+
             CharityEvent evnt = new CharityEvent
             {
                 Location = new AbsLocation(),
             };
             Password credentals = (Password)Session["member"];
             if(credentals == null)
-                return RedirectToAction("LoginView", "Login");//TODO change to charity login
+                return RedirectToAction("LoginView", "Login");
             if (credentals.MemberType == MemberType.CHARITY)
                 evnt.Charity_ID = new Charity((Password)Session["member"]).ID;
             else
             {
                 //ViewBag.Message = "Only charities can create a event.";
-                ViewBag.Message = "Defaulting to charity ID =  1 for testing";
+                ViewBag.Message = "Debug: Defaulting to charity ID =  1";
             }
-            //evnt.Charity_ID;
-            return View(evnt);
+            return View(new CharityEvent_WithTime(evnt));
         }
 
         // POST: CharityEvent/Create
         [HttpPost]
-        public ActionResult Create(CharityEvent charityEvent)
+        public ActionResult Create(CharityEvent_WithTime charityEvent)
         {
             try
             {
+                //charityEvent.StartTime = TimeUtils.ToTime(charityEvent.Time);
+                //charityEvent.ENd
                 charityEvent.Insert();
                 return RedirectToAction("Index","CharityEvent");
             }
@@ -102,7 +107,9 @@ namespace CC.Connections.WebUI.Controllers
         // GET: CharityEvent/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            CharityEvent deleteEvent = new CharityEvent(id);
+            deleteEvent.Delete();
+            return RedirectToAction("Index", "CharityEvent");
         }
 
         // POST: CharityEvent/Delete/5
@@ -114,7 +121,7 @@ namespace CC.Connections.WebUI.Controllers
                 CharityEvent deleteEvent = new CharityEvent(id);
                 deleteEvent.Delete();
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "CharityEvent");
             }
             catch
             {
