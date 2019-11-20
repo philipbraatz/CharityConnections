@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CC.Connections.WebUI.Model.CharityEvent_WithCharity>
+﻿@model IEnumerable<CC.Connections.BL.CharityEvent>
 
 @{
     ViewBag.Title = "Index";
@@ -24,7 +24,7 @@
         <td><h3>Charity Logo</h3></td>
         <td>
             <h2> @item.CharityEventName</h2>
-            <h3>Hosted by: @item.CharityName</h3>
+            <h3>Hosted by: @item.charity.CharityName</h3>
             <h5>Days: @item.StartDate.ToShortDateString() to @item.EndDate.ToShortDateString() </h5>
             <h5>Time: @item.StartTime.ToShortTimeString() to @item.EndTime.ToShortTimeString()</h5>
             <p>@item.Description</p>

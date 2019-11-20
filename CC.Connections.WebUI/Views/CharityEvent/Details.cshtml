@@ -1,4 +1,4 @@
-﻿@model CC.Connections.WebUI.Model.CharityEvent_WithCharity
+﻿@model CC.Connections.BL.CharityEvent
 
 <br />
 
@@ -8,7 +8,7 @@
 }
 
     <div>
-        <h2>(Charity Logo) @Html.DisplayFor(model => model.CharityName)</h2>
+        <h2>(Charity Logo) @Html.DisplayFor(model => model.charity.CharityName)</h2>
         <div class="TODO put me on the right side">
             <h4>Going: @Model.atendees.CountGoing</h4>
             <h4>Interested: @Model.atendees.CountInterested</h4>

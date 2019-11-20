@@ -10,36 +10,65 @@ namespace CC.Connections.WebUI.Controllers
 {
     public class CharityEventController : Controller
     {
+
         // GET: CharityEvent
         public ActionResult Index()
         {
+            //load
             CharityEventList allEvents = new CharityEventList();
-            allEvents.LoadAll();
-            List<CharityEvent_WithCharity> charityEvents = new List<CharityEvent_WithCharity>();
-            foreach (var ev in allEvents)
+            if (Session != null && Session["charityEvents"] != null)
             {
-                if (Session != null && Session["member"] != null)
-                    charityEvents.Add(new CharityEvent_WithCharity(ev,
-                        ((Password)Session["member"]).email));
-                else
-                    charityEvents.Add(new CharityEvent_WithCharity(ev));
+                allEvents = ((CharityEventList)Session["charityEvents"]);
             }
-            return View(charityEvents);
+            else
+            {
+                //convert to Model
+                allEvents = new CharityEventList();
+                allEvents.LoadAll();
+                if (Session != null && Session["member"] != null)
+                    foreach (var ev in allEvents)
+                        ev.Member_Attendance = new AbsEventAtendee(ev.Event_ID, ((Password)Session["member"]).email);
+
+                //save
+                Session["charityEvents"] = allEvents;
+            }
+
+            return View(allEvents);
         }
 
         // GET: CharityEvent/Details/5
         public ActionResult Details(int id)
         {
+            CharityEventList allEvents = new CharityEventList();
+            CharityEvent detailEvent;
+            if (Session != null && Session["charityEvents"] != null)
+            {
+                allEvents = ((CharityEventList)Session["charityEvents"]);
+                detailEvent = allEvents.Where(c => c.Event_ID == id).FirstOrDefault();//grab the one we need
+                if (detailEvent == null)
+                {
+                    detailEvent = new CharityEvent(id);
+                    allEvents.Add(detailEvent);//add it because it was missing
+                    if (Session == null || Session["charityEvents"] == null)
+                        Session["charityEvents"] = allEvents;
+                }
+            }
+            else
+            {
+                detailEvent = new CharityEvent(id);
+                allEvents.Add(detailEvent);//load the only one we need and save it to list
+                if (Session == null || Session["charityEvents"] == null)
+                    Session["charityEvents"] = allEvents;
+            }
+
             Password member;
             if (Session != null && Session["member"] != null)
             {
                 member = (Password)Session["member"];
-                return View(new CharityEvent_WithCharity(new CharityEvent(id),
-                        member.email));
+                detailEvent.Member_Attendance = new AbsEventAtendee(detailEvent.Event_ID, member.email);
             }
-            else
-                return View(new CharityEvent_WithCharity(new CharityEvent(id)));
 
+            return View(detailEvent);
         }
 
         // GET: CharityEvent/Create
@@ -52,7 +81,7 @@ namespace CC.Connections.WebUI.Controllers
                 Location = new AbsLocation(),
             };
             Password credentals = (Password)Session["member"];
-            if(credentals == null)
+            if (credentals == null)
                 return RedirectToAction("LoginView", "Login");
             if (credentals.MemberType == MemberType.CHARITY)
                 evnt.Charity_ID = new Charity((Password)Session["member"]).ID;
@@ -70,12 +99,19 @@ namespace CC.Connections.WebUI.Controllers
         {
             try
             {
-                //charityEvent.StartTime = TimeUtils.ToTime(charityEvent.Time);
-                //charityEvent.ENd
+                CharityEventList events;
+                if (Session == null || Session["charityEvents"] == null)
+                    events = new CharityEventList();
+                else
+                    events = ((CharityEventList)Session["charityEvents"]);
+
                 charityEvent.Insert();
-                return RedirectToAction("Index","CharityEvent");
+                events.Add(charityEvent);
+                Session["charityEvents"] = events;
+
+                return RedirectToAction("Index", "CharityEvent");
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 ViewBag.Message = "Error: " + e.Message;
                 return View();
@@ -107,26 +143,18 @@ namespace CC.Connections.WebUI.Controllers
         // GET: CharityEvent/Delete/5
         public ActionResult Delete(int id)
         {
-            CharityEvent deleteEvent = new CharityEvent(id);
+            CharityEventList events;
+            if (Session == null || Session["charityEvents"] == null)
+                events = new CharityEventList();//should not happen
+            else
+                events = ((CharityEventList)Session["charityEvents"]);
+
+            CharityEvent deleteEvent = events.Where(c => c.Event_ID == id).FirstOrDefault();
             deleteEvent.Delete();
+            events.Remove(deleteEvent);
+            Session["charityEvents"] = events;
+
             return RedirectToAction("Index", "CharityEvent");
-        }
-
-        // POST: CharityEvent/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                CharityEvent deleteEvent = new CharityEvent(id);
-                deleteEvent.Delete();
-
-                return RedirectToAction("Index", "CharityEvent");
-            }
-            catch
-            {
-                return View();
-            }
         }
 
         public ActionResult Signup(int id)
@@ -141,8 +169,13 @@ namespace CC.Connections.WebUI.Controllers
                     else
                         evnt.RemoveMember(((Password)Session["member"]).email);//going -> not going
                 else
-                    evnt.AddMember(((Password)Session["member"]).email,Status.GOING);// not going -> going
+                    evnt.AddMember(((Password)Session["member"]).email, Status.GOING);// not going -> going
 
+                //update
+                CharityEventList sesEvents = ((CharityEventList)Session["charityEvents"]);
+                sesEvents.Remove(sesEvents.Where(c => c.Event_ID == id).FirstOrDefault());
+                sesEvents.Add(evnt);
+                Session["charityEvents"] = sesEvents;
             }
             else
                 ViewBag.Message = "You need to sign in to do this.";
@@ -151,7 +184,18 @@ namespace CC.Connections.WebUI.Controllers
 
         public ActionResult Interested(int id)
         {
-            CharityEvent evnt = new CharityEvent(id);
+            CharityEvent evnt = new CharityEvent();
+            if (Session != null && Session["charityEvents"] != null)
+            {
+                evnt = ((CharityEventList)Session["charityEvents"]).Where(c => c.Event_ID == id).FirstOrDefault();
+
+            }
+            if (evnt == null || evnt.Event_ID <= 0)
+            {
+                ViewBag.Message = "This Event does not exists :(";//should not happen
+                return RedirectToAction("Index", "CharityEvent");
+            }
+
             if (Session != null && Session["member"] != null)
             {
                 AbsEventAtendee atendee = new AbsEventAtendee(id, ((Password)Session["member"]).email);
@@ -163,6 +207,11 @@ namespace CC.Connections.WebUI.Controllers
                 else
                     evnt.AddMember(((Password)Session["member"]).email, Status.INTERESTED);// not interested -> interested
 
+                //update
+                CharityEventList sesEvents = ((CharityEventList)Session["charityEvents"]);
+                sesEvents.Remove(sesEvents.Where(c => c.Event_ID == id).FirstOrDefault());
+                sesEvents.Add(evnt);
+                Session["charityEvents"] = sesEvents;
             }
             else
                 ViewBag.Message = "You need to sign in to do this.";

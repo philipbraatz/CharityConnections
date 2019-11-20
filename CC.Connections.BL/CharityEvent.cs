@@ -92,6 +92,11 @@ namespace CC.Connections.BL
                 } 
         }
 
+        //display fields
+        public Charity charity { get; set; }
+        public AbsEventAtendee Member_Attendance { get; set; }
+
+
         public void AddMember(string email, Status status)
         {
             AbsEventAtendee atendee = new AbsEventAtendee(this.Event_ID, email);
@@ -109,7 +114,7 @@ namespace CC.Connections.BL
         [DisplayName("Description")]
         public string Description { get; set; }
 
-
+        //TODO refactor
         public CharityEvent() {
             Clear();
         }
@@ -118,11 +123,28 @@ namespace CC.Connections.BL
             this.Event_ID = charity_event_ID;
             Clear();
             LoadId();
+            this.charity = new Charity(this.Charity_ID);
+        }
+        public CharityEvent(Charity charity,int charity_event_ID)
+        {
+            this.charity = charity;
+            this.Event_ID = charity_event_ID;
+            Clear();
+            LoadId();
+        }
+        public CharityEvent(Charity charity, int charity_event_ID, string member_email)
+        {
+            this.charity = charity;
+            this.Member_Attendance = new AbsEventAtendee(charity_event_ID, member_email);
+            this.Event_ID = charity_event_ID;
+            Clear();
+            LoadId();
         }
 
         public CharityEvent(Charity_Event c)
         {
             this.setEventInfo(c);
+            this.charity = new Charity((int)c.CharityEventCharity_ID);
         }
 
         public static implicit operator CharityEvent(PL.Charity_Event entry)
@@ -317,6 +339,7 @@ namespace CC.Connections.BL
 
         public void LoadWithFilter(int id,SortBy sort)
         {
+            throw new NotImplementedException();
             switch (sort)
             {
                 case SortBy.CATEGORY:

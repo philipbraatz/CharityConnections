@@ -149,7 +149,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Model\CharityEvent_WithCharity.cs" />
     <Compile Include="Model\CharityEvent_WithTime.cs" />
     <Compile Include="Model\CharitySignup.cs" />
     <Compile Include="Model\ContactInfoSignup.cs" />

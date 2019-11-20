@@ -46,6 +46,10 @@ namespace CC.Connections.BL
         {
             return dc.Charities.Where(c => c.Charity_ID == id).FirstOrDefault() != null;
         }
+        public string CharityName { 
+            get { return ContactInfo_LName; }
+            set { ContactInfo_LName = value; }
+        }
 
         public Charity()
         {
