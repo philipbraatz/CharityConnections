@@ -21,7 +21,8 @@
     @foreach (var item in Model)
     {
     <tr>
-        <td><h3>Charity Logo</h3></td>
+        <!-- <td><h3>Charity Logo</h3></td>-->
+        <td><img  src="~/Content/Images/CCDefaultPlaceholder.gif" alt="empty space for logo" height="90" width="90"></td>
         <td>
             <h2> @item.CharityEventName</h2>
             <h3>Hosted by: @item.charity.CharityName</h3>
@@ -32,9 +33,9 @@
             <h3>Interested: @item.atendees.CountInterested</h3>
         </td>
         <!-- <td>
-           <h5>Going: @item.atendees.CountGoing</h5>
-           Interested: @item.atendees.CountInterested
-       </td> -->
+        <h5>Going: @item.atendees.CountGoing</h5>
+        Interested: @item.atendees.CountInterested
+    </td> -->
         <td>
             @Html.ActionLink("Edit", "Edit", new { id = item.Event_ID })
             @Html.ActionLink("Details", "Details", new { id = item.Event_ID })
