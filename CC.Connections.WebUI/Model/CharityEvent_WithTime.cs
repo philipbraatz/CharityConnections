@@ -6,7 +6,7 @@ using CC.Connections.BL;
 
 namespace CC.Connections.WebUI.Model
 {
-    public class CharityEvent_WithTime :CharityEvent
+    public class CharityEvent_WithTime : CharityEvent
     {
         private string time_start;
         private string time_end;
@@ -14,13 +14,18 @@ namespace CC.Connections.WebUI.Model
         public CharityEvent_WithTime() { }
         public CharityEvent_WithTime(CharityEvent evnt)
         {
+            this.Event_ID = evnt.Event_ID;
+            this.Charity_ID = evnt.Charity_ID;
             this.setEventInfo(evnt);
-
+            this.time_start = this.StartTime.ToShortTimeString();
+            this.time_end = this.EndTime.ToShortTimeString();
         }
 
-        public string strTimeStart {
+        public string strTimeStart
+        {
             get { return time_start; }
-            set {
+            set
+            {
                 time_start = value;
                 StartTime = TimeUtils.ToTime(int.Parse(value));
             }

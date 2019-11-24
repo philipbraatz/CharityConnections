@@ -39,7 +39,7 @@ namespace CC.Connections.WebUI.Controllers
         {
             if (HttpContext.Session["member"] == null)
                 ViewBag.Message = "You are not signed in yet";
-            else  
+            else
                 ViewBag.Message = "You have signed out";
 
             //Logged out
@@ -60,7 +60,7 @@ namespace CC.Connections.WebUI.Controllers
                     //if (returnurl != null)
                     //    return Redirect(returnurl);
                     //else
-                        return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                 {
@@ -70,7 +70,7 @@ namespace CC.Connections.WebUI.Controllers
             }
             catch (Exception ex)
             {
-                if(ex.Message != "The underlying provider failed on Open.")
+                if (ex.Message != "The underlying provider failed on Open.")
                     ViewBag.Message = ex.Message;
                 else
                     ViewBag.Message = "Unable to process any login's at this time.";//specialized error handler
@@ -91,7 +91,7 @@ namespace CC.Connections.WebUI.Controllers
         {
             try
             {
-                Volunteer newMember = new Volunteer(con.ContactInfo_Email, con.password.Pass,true);
+                Volunteer newMember = new Volunteer(con.ContactInfo_Email, con.password.Pass, true);
                 newMember.setContactInfo((AbsContact)con);
                 newMember.Insert();
 
@@ -109,6 +109,15 @@ namespace CC.Connections.WebUI.Controllers
             }
         }
 
-        
+        public ActionResult AutoV_View()
+        {
+            Session["member"] = new Password("auto@login.com");
+            return RedirectToAction("Index", "Home");
+        }
+        public ActionResult AutoC_View()
+        {
+            Session["member"] = new Password("auto@login.net");
+            return RedirectToAction("Index", "Home");
+        }
     }
 }

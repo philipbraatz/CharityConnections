@@ -19,6 +19,13 @@ namespace CC.Connections.WebUI.Controllers
             if (Session != null && Session["charityEvents"] != null)
             {
                 allEvents = ((CharityEventList)Session["charityEvents"]);
+                if (allEvents.Count != CharityEventList.getCount())//reload to catch missing
+                {
+                    allEvents.LoadAll();
+                    if (Session != null && Session["member"] != null)
+                        foreach (var ev in allEvents)
+                            ev.Member_Attendance = new AbsEventAtendee(ev.Event_ID, ((Password)Session["member"]).email);
+                }
             }
             else
             {
@@ -89,6 +96,7 @@ namespace CC.Connections.WebUI.Controllers
             {
                 //ViewBag.Message = "Only charities can create a event.";
                 ViewBag.Message = "Debug: Defaulting to charity ID =  1";
+                evnt.Charity_ID = 1;
             }
             return View(new CharityEvent_WithTime(evnt));
         }
@@ -101,7 +109,9 @@ namespace CC.Connections.WebUI.Controllers
             {
                 CharityEventList events;
                 if (Session == null || Session["charityEvents"] == null)
-                    events = new CharityEventList();
+                {
+                    events = new CharityEventList();//should not happen
+                }
                 else
                     events = ((CharityEventList)Session["charityEvents"]);
 
@@ -121,21 +131,68 @@ namespace CC.Connections.WebUI.Controllers
         // GET: CharityEvent/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            ViewBag.TimeList = TimeUtils.TimeList;
+
+            CharityEventList allEvents = new CharityEventList();
+            CharityEvent detailEvent;
+            if (Session != null && Session["charityEvents"] != null)
+            {
+                allEvents = ((CharityEventList)Session["charityEvents"]);
+                detailEvent = allEvents.Where(c => c.Event_ID == id).FirstOrDefault();//grab the one we need
+                if (detailEvent == null)
+                {
+                    detailEvent = new CharityEvent(id);
+                    allEvents.Add(detailEvent);//add it because it was missing
+                    if (Session == null || Session["charityEvents"] == null)
+                        Session["charityEvents"] = allEvents;
+                }
+            }
+            else
+            {
+                detailEvent = new CharityEvent(id);
+                allEvents.Add(detailEvent);//load the only one we need and save it to list
+                if (Session == null || Session["charityEvents"] == null)
+                    Session["charityEvents"] = allEvents;
+            }
+
+            Password credentals = (Password)Session["member"];
+            if (credentals == null)
+                return RedirectToAction("LoginView", "Login");
+            if (credentals.MemberType != MemberType.CHARITY)
+            {
+                //ViewBag.Message = "Only charities can edit a event.";
+                ViewBag.Message = "Debug: skipping authentication";
+            }
+            return View(new CharityEvent_WithTime(detailEvent));
         }
 
         // POST: CharityEvent/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, CharityEvent_WithTime collection)
         {
             try
             {
-                // TODO: Add update logic here
+                CharityEventList events;
+                if (Session == null || Session["charityEvents"] == null)
+                {
+                    events = new CharityEventList
+                    {
+                        new CharityEvent(id)
+                    };//should not happen
+                }
+                else
+                    events = ((CharityEventList)Session["charityEvents"]);
+
+                CharityEvent editEvent = events.Where(c => c.Event_ID == id).FirstOrDefault();
+                collection.Update();
+                editEvent = collection;
+                Session["charityEvents"] = events;
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception e)
             {
+                ViewBag.Message = e.Message;
                 return View();
             }
         }
@@ -145,7 +202,12 @@ namespace CC.Connections.WebUI.Controllers
         {
             CharityEventList events;
             if (Session == null || Session["charityEvents"] == null)
-                events = new CharityEventList();//should not happen
+            {
+                events = new CharityEventList
+                {
+                    new CharityEvent(id)
+                };//should not happen
+            }
             else
                 events = ((CharityEventList)Session["charityEvents"]);
 

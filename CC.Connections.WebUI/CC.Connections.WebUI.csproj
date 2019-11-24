@@ -276,6 +276,7 @@
     <Content Include="Views\Time\Index.cshtml" />
     <Content Include="TimePicker\LICENSE" />
     <Content Include="Views\CharityEvent\Delete.cshtml" />
+    <Content Include="Views\CharityEvent\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
