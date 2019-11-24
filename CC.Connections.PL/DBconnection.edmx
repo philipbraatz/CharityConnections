@@ -12,6 +12,7 @@
           <Property Name="Category_ID" Type="int" Nullable="false" />
           <Property Name="Category_Desc" Type="nvarchar" MaxLength="70" />
           <Property Name="Category_Color" Type="nvarchar" MaxLength="6" />
+          <Property Name="Category_Image" Type="nchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="Charity">
           <Key>
@@ -190,6 +191,7 @@
           <Property Name="Category_ID" Type="Int32" Nullable="false" />
           <Property Name="Category_Desc" Type="String" MaxLength="70" FixedLength="false" Unicode="true" />
           <Property Name="Category_Color" Type="String" MaxLength="6" FixedLength="false" Unicode="true" />
+          <Property Name="Category_Image" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
         </EntityType>
         <EntityType Name="Charity">
           <Key>
@@ -330,6 +332,7 @@
           <EntitySetMapping Name="Categories">
             <EntityTypeMapping TypeName="fvtcModel.Category">
               <MappingFragment StoreEntitySet="Category">
+                <ScalarProperty Name="Category_Image" ColumnName="Category_Image" />
                 <ScalarProperty Name="Category_Color" ColumnName="Category_Color" />
                 <ScalarProperty Name="Category_Desc" ColumnName="Category_Desc" />
                 <ScalarProperty Name="Category_ID" ColumnName="Category_ID" />

@@ -169,25 +169,25 @@
     <Content Include="TimePicker\bootstrap-timepicker.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\Images\bookBtn.svg" />
-    <Content Include="Content\Images\bookBtnOrange.svg" />
+    <Content Include="Content\Images\book.svg" />
+    <Content Include="Content\Images\bookColor.svg" />
     <Content Include="Content\Images\CCLOGO_2.svg" />
     <Content Include="Content\Images\ccweblogo.png" />
     <Content Include="Content\Images\ccweblogo.svg" />
-    <Content Include="Content\Images\healthBtn.svg" />
-    <Content Include="Content\Images\healthBtnOrange.svg" />
-    <Content Include="Content\Images\helping_hands.svg" />
-    <Content Include="Content\Images\helping_handsOrange.svg" />
-    <Content Include="Content\Images\paw_category.svg" />
-    <Content Include="Content\Images\paw_categoryOrange.svg" />
-    <Content Include="Content\Images\peopleBtn.svg" />
-    <Content Include="Content\Images\peopleBtnOrange.svg" />
+    <Content Include="Content\Images\health.svg" />
+    <Content Include="Content\Images\healthColor.svg" />
+    <Content Include="Content\Images\hands.svg" />
+    <Content Include="Content\Images\handsColor.svg" />
+    <Content Include="Content\Images\paw.svg" />
+    <Content Include="Content\Images\pawColor.svg" />
+    <Content Include="Content\Images\people.svg" />
+    <Content Include="Content\Images\peopleColor.svg" />
     <Content Include="Content\Images\pet_volunteer.jpg" />
     <Content Include="Content\Images\raking.jpg" />
     <Content Include="Content\Images\school_volunteer.jpg" />
     <Content Include="Content\Images\Tagline_CC.svg" />
-    <Content Include="Content\Images\treeBtn.svg" />
-    <Content Include="Content\Images\treeBtnOrange.svg" />
+    <Content Include="Content\Images\tree.svg" />
+    <Content Include="Content\Images\treeColor.svg" />
     <Content Include="Content\Images\volunteer_large_group.jpg" />
     <Content Include="TimePicker\MvcBootstrapTimepicker.css" />
     <Content Include="favicon.ico" />
@@ -279,6 +279,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\Images\Category\" />
+    <Folder Include="Content\Images\Profile\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

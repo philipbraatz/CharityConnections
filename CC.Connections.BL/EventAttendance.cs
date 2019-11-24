@@ -176,15 +176,16 @@ namespace CC.Connections.BL
     public class EventAttendanceList : AbsListJoin<AbsEventAtendee, Event_Attendance, CharityEvent>
     {
         private static Random rand = new Random();
+        private int myRandG, myRandI;
         int eventID
         {
             get { return (int)joinGrouping_ID; }
             set { joinGrouping_ID = value; }
         }
         [DisplayName("Going: ")]
-        public int CountGoing { get => this.Where(c => c.Status == Status.GOING).Count() +rand.Next(5,30); }//TODO remove when more users attend
+        public int CountGoing { get => this.Where(c => c.Status == Status.GOING).Count() + myRandG; }//TODO remove when more users attend
         [DisplayName("Interested: ")]
-        public int CountInterested { get => this.Where(c => c.Status == Status.INTERESTED).Count() + rand.Next(3, 15); }//TODO remove when more users attend
+        public int CountInterested { get => this.Where(c => c.Status == Status.INTERESTED).Count() + myRandI; }//TODO remove when more users attend
 
         public EventAttendanceList(int event_id)
             : base("MemberCat_Category_ID", event_id, "MemberCat_Member_ID")
@@ -192,6 +193,9 @@ namespace CC.Connections.BL
             Charity c = new Charity { ID = event_id };
             base.joinGrouping_ID = c.ID;
             LoadByEvent();
+
+            myRandG = rand.Next(5, 30);
+            myRandI = rand.Next(3, 15);
         }
 
         public void LoadByEvent()
