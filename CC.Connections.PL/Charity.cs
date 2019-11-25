@@ -15,7 +15,7 @@ namespace CC.Connections.PL
     public partial class Charity
     {
         public int Charity_ID { get; set; }
-        public Nullable<int> Charity_Contact_ID { get; set; }
+        public string Charity_Name { get; set; }
         public string Charity_EIN { get; set; }
         public Nullable<bool> Charity_Deductibility { get; set; }
         public string Charity_URL { get; set; }

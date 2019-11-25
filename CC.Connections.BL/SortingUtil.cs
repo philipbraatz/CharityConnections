@@ -351,7 +351,8 @@ namespace CC.Connections.BL
                         //    new Charity((int)c.Charity_ID).Helping_Action.ID == helpingAction)
                         //    valid = false;
                         if (startDate != null &&
-                            AbsContact.fromNumID(c.Charity_Contact_ID).DateOfBirth >= startDate)
+                            AbsContact.fromNumID(c.Charity_ID).DateOfBirth >= startDate)
+                            //AbsContact.fromNumID(c.Charity_Contact_ID).DateOfBirth >= startDate)
                         {
                             valid = false;
                             debugInvalidator = "startDate: " + startDate;

@@ -23,6 +23,9 @@ namespace CC.Connections.BL
         //ContactInfo_LName = Not used
         //ContactInfo_FullName = Not used
 
+        public string ChName { get; set; }
+        [DisplayName("CharityName")]
+
         public new int ID { get; set; }
         [DisplayName("Federal Tax ID#")]
         public string EIN { get; set; }
@@ -71,9 +74,10 @@ namespace CC.Connections.BL
         public Charity(PL.Charity entry)
         {
             Clear();
-
-            this.setContactInfo((Charity)AbsContact.fromNumID(entry.Charity_Contact_ID.Value));
+            //this.setContactInfo((Charity)AbsContact.ContactInfo_Email(entry.Charity_Email.ToString));
+            //this.setContactInfo((Charity)AbsContact.fromNumID(entry.Charity_Contact_ID.Value));
             this.ID                 = entry.Charity_ID;
+            this.ChName             = entry.Charity_Name;
             this.Deductibility      = entry.Charity_Deductibility.Value;
             this.EIN                = entry.Charity_EIN;
             this.ContactInfo_Email  = entry.Charity_Email;
@@ -139,6 +143,7 @@ namespace CC.Connections.BL
         private new void Clear()
         {
             base.Clear();
+            ChName = string.Empty;
             CharityEmail = string.Empty;
             EIN = string.Empty;
             Deductibility = false;
@@ -173,8 +178,9 @@ namespace CC.Connections.BL
 
                     Clear();
 
-                    base.setContactInfo(AbsContact.fromNumID(entry.Charity_Contact_ID));
+                    //base.setContactInfo(AbsContact.fromNumID(entry.Charity_Contact_ID));
                     this.EIN            = entry.Charity_EIN;
+                    this.CharityName    = entry.Charity_Name;
                     this.Deductibility  = entry.Charity_Deductibility.Value;
                     this.URL            = entry.Charity_URL;
                     this.Cause          = entry.Charity_Cause;
@@ -210,7 +216,7 @@ namespace CC.Connections.BL
                         PL.Charity entry = new PL.Charity
                         {
                             Charity_ID = ID,
-                            Charity_Contact_ID = this.contact_ID,
+                            Charity_Name = this.ChName,
                             Charity_EIN = EIN,
                             Charity_Deductibility = Deductibility,
                             Charity_URL = URL,
@@ -240,7 +246,7 @@ namespace CC.Connections.BL
                     PL.Charity entry = dc.Charities.Where(c => c.Charity_ID == this.ID).FirstOrDefault();
                     entry.Charity_Category_ID = this.Category.ID;
                     entry.Charity_Cause = this.Cause;
-                    entry.Charity_Contact_ID = this.contact_ID;
+                    entry.Charity_Name = this.ChName;
                     entry.Charity_Deductibility = this.Deductibility;
                     entry.Charity_EIN = this.EIN;
                     entry.Charity_Email = this.CharityEmail;
@@ -284,8 +290,9 @@ namespace CC.Connections.BL
                     if (entryCharity == null)
                         throw new Exception("Charity does not exist: Charity ID '" + retChar.ID + "'"); ;
 
-                    retChar = (Charity)AbsContact.fromNumID(entryCharity.Charity_Contact_ID.Value);
+                    //retChar = (Charity)AbsContact.fromNumID(entryCharity.Charity_Contact_ID.Value);
                     retChar.ID = entryCharity.Charity_ID;
+                    retChar.CharityName = entryCharity.Charity_Name;
                     retChar.Category = new AbsCategory( entryCharity.Charity_Category_ID.Value);
                     retChar.Deductibility = entryCharity.Charity_Deductibility.Value;
                     retChar.EIN = entryCharity.Charity_EIN;

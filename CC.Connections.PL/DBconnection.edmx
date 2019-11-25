@@ -19,7 +19,7 @@
             <PropertyRef Name="Charity_ID" />
           </Key>
           <Property Name="Charity_ID" Type="int" Nullable="false" />
-          <Property Name="Charity_Contact_ID" Type="int" />
+          <Property Name="Charity_Name" Type="varchar" MaxLength="50" />
           <Property Name="Charity_EIN" Type="nvarchar" MaxLength="50" />
           <Property Name="Charity_Deductibility" Type="bit" />
           <Property Name="Charity_URL" Type="nvarchar" MaxLength="75" />
@@ -167,7 +167,6 @@
       <Schema Namespace="fvtcModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="fvtcEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Categories" EntityType="fvtcModel.Category" />
-          <EntitySet Name="Charities" EntityType="fvtcModel.Charity" />
           <EntitySet Name="Charity_Event" EntityType="fvtcModel.Charity_Event" />
           <EntitySet Name="Contact_Info" EntityType="fvtcModel.Contact_Info" />
           <EntitySet Name="Event_Attendance" EntityType="fvtcModel.Event_Attendance" />
@@ -183,6 +182,7 @@
             <End Role="Member_Action" EntitySet="Member_Action" />
           </AssociationSet>
           <EntitySet Name="Members" EntityType="fvtcModel.Member" />
+          <EntitySet Name="Charities" EntityType="fvtcModel.Charity" />
         </EntityContainer>
         <EntityType Name="Category">
           <Key>
@@ -192,21 +192,6 @@
           <Property Name="Category_Desc" Type="String" MaxLength="70" FixedLength="false" Unicode="true" />
           <Property Name="Category_Color" Type="String" MaxLength="6" FixedLength="false" Unicode="true" />
           <Property Name="Category_Image" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
-        </EntityType>
-        <EntityType Name="Charity">
-          <Key>
-            <PropertyRef Name="Charity_ID" />
-          </Key>
-          <Property Name="Charity_ID" Type="Int32" Nullable="false" />
-          <Property Name="Charity_Contact_ID" Type="Int32" />
-          <Property Name="Charity_EIN" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Charity_Deductibility" Type="Boolean" />
-          <Property Name="Charity_URL" Type="String" MaxLength="75" FixedLength="false" Unicode="true" />
-          <Property Name="Charity_Cause" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Charity_Email" Type="String" MaxLength="75" FixedLength="false" Unicode="true" />
-          <Property Name="Charity_Category_ID" Type="Int32" />
-          <Property Name="Location_ID" Type="Int32" />
-          <Property Name="Charity_Requirements" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Charity_Event">
           <Key>
@@ -323,6 +308,21 @@
           <Property Name="MemberPreference_ID" Type="Int32" />
           <Property Name="Location_ID" Type="Int32" />
         </EntityType>
+        <EntityType Name="Charity">
+          <Key>
+            <PropertyRef Name="Charity_ID" />
+          </Key>
+          <Property Name="Charity_ID" Type="Int32" Nullable="false" />
+          <Property Name="Charity_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Charity_EIN" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Charity_Deductibility" Type="Boolean" />
+          <Property Name="Charity_URL" Type="String" MaxLength="75" FixedLength="false" Unicode="true" />
+          <Property Name="Charity_Cause" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Charity_Email" Type="String" MaxLength="75" FixedLength="false" Unicode="true" />
+          <Property Name="Charity_Category_ID" Type="Int32" />
+          <Property Name="Location_ID" Type="Int32" />
+          <Property Name="Charity_Requirements" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -336,22 +336,6 @@
                 <ScalarProperty Name="Category_Color" ColumnName="Category_Color" />
                 <ScalarProperty Name="Category_Desc" ColumnName="Category_Desc" />
                 <ScalarProperty Name="Category_ID" ColumnName="Category_ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Charities">
-            <EntityTypeMapping TypeName="fvtcModel.Charity">
-              <MappingFragment StoreEntitySet="Charity">
-                <ScalarProperty Name="Charity_Requirements" ColumnName="Charity_Requirements" />
-                <ScalarProperty Name="Location_ID" ColumnName="Location_ID" />
-                <ScalarProperty Name="Charity_Category_ID" ColumnName="Charity_Category_ID" />
-                <ScalarProperty Name="Charity_Email" ColumnName="Charity_Email" />
-                <ScalarProperty Name="Charity_Cause" ColumnName="Charity_Cause" />
-                <ScalarProperty Name="Charity_URL" ColumnName="Charity_URL" />
-                <ScalarProperty Name="Charity_Deductibility" ColumnName="Charity_Deductibility" />
-                <ScalarProperty Name="Charity_EIN" ColumnName="Charity_EIN" />
-                <ScalarProperty Name="Charity_Contact_ID" ColumnName="Charity_Contact_ID" />
-                <ScalarProperty Name="Charity_ID" ColumnName="Charity_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -464,6 +448,22 @@
                 <ScalarProperty Name="MemberPreference_ID" ColumnName="MemberPreference_ID" />
                 <ScalarProperty Name="MemberContact_ID" ColumnName="MemberContact_ID" />
                 <ScalarProperty Name="Member_ID" ColumnName="Member_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Charities">
+            <EntityTypeMapping TypeName="fvtcModel.Charity">
+              <MappingFragment StoreEntitySet="Charity">
+                <ScalarProperty Name="Charity_Requirements" ColumnName="Charity_Requirements" />
+                <ScalarProperty Name="Location_ID" ColumnName="Location_ID" />
+                <ScalarProperty Name="Charity_Category_ID" ColumnName="Charity_Category_ID" />
+                <ScalarProperty Name="Charity_Email" ColumnName="Charity_Email" />
+                <ScalarProperty Name="Charity_Cause" ColumnName="Charity_Cause" />
+                <ScalarProperty Name="Charity_URL" ColumnName="Charity_URL" />
+                <ScalarProperty Name="Charity_Deductibility" ColumnName="Charity_Deductibility" />
+                <ScalarProperty Name="Charity_EIN" ColumnName="Charity_EIN" />
+                <ScalarProperty Name="Charity_Name" ColumnName="Charity_Name" />
+                <ScalarProperty Name="Charity_ID" ColumnName="Charity_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

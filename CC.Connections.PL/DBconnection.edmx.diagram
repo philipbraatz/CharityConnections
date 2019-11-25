@@ -6,7 +6,6 @@
     <edmx:Diagrams>
       <Diagram DiagramId="df4fc7be105444099449bde79cb8a2ba" Name="Diagram1">
         <EntityTypeShape EntityType="fvtcModel.Category" Width="1.5" PointX="0.75" PointY="3.75" />
-        <EntityTypeShape EntityType="fvtcModel.Charity" Width="1.5" PointX="2.75" PointY="3.75" />
         <EntityTypeShape EntityType="fvtcModel.Charity_Event" Width="1.5" PointX="4.75" PointY="3.75" />
         <EntityTypeShape EntityType="fvtcModel.Contact_Info" Width="1.5" PointX="5.75" PointY="0.75" />
         <EntityTypeShape EntityType="fvtcModel.Event_Attendance" Width="1.5" PointX="6.75" PointY="3.75" />
@@ -19,6 +18,7 @@
         <EntityTypeShape EntityType="fvtcModel.Preferred_Charity" Width="1.5" PointX="8.75" PointY="6.75" />
         <AssociationConnector Association="fvtcModel.FK__Member_Ac__Membe__38EE7070" />
         <EntityTypeShape EntityType="fvtcModel.Member" Width="1.5" PointX="0.75" PointY="7" />
+        <EntityTypeShape EntityType="fvtcModel.Charity" Width="1.5" PointX="2.75" PointY="3.5" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
