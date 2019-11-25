@@ -18,9 +18,6 @@ namespace CC.Connections.WebUI.Controllers
                 return View(c);
             else
                 return View();
-            //return View();
-            //ViewBag.ReturnUrl = returnUrl;
-
         }
 
         public ActionResult SignUpView(string returnurl)
@@ -45,7 +42,7 @@ namespace CC.Connections.WebUI.Controllers
             //Logged out
             HttpContext.Session["member"] = null;
 
-            return RedirectToAction("Index", "Home");
+            return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());
         }
 
         [HttpPost]
@@ -60,7 +57,7 @@ namespace CC.Connections.WebUI.Controllers
                     //if (returnurl != null)
                     //    return Redirect(returnurl);
                     //else
-                    return RedirectToAction("Index", "Home");
+                    return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());
                 }
                 else
                 {
@@ -96,7 +93,7 @@ namespace CC.Connections.WebUI.Controllers
                 newMember.Insert();
 
                 Session["member"] = con.password;
-                return RedirectToAction("Index", "Home");
+                return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());
             }
             catch (Exception ex)
             {
@@ -112,12 +109,12 @@ namespace CC.Connections.WebUI.Controllers
         public ActionResult AutoV_View()
         {
             Session["member"] = new Password("auto@login.com");
-            return RedirectToAction("Index", "Home");
+            return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());
         }
         public ActionResult AutoC_View()
         {
             Session["member"] = new Password("auto@login.net");
-            return RedirectToAction("Index", "Home");
+            return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());
         }
     }
 }

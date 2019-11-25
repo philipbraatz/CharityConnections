@@ -17,7 +17,7 @@ namespace CC.Connections.WebUI.Controllers
             if (p != null)
                 return View(new AbsContact(p));
             else
-                return RedirectToAction("Index", "Home");
+                return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());
         }
 
         // GET: VolunteerProfile/Edit/5

@@ -152,7 +152,8 @@
                                 <tr>
                                     <td>
 
-                                        @Html.DropDownListFor(model => model.strTimeStart, (IEnumerable<SelectListItem>)ViewBag.TimeList, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.DropDownListFor(model => model.strTimeStart, (IEnumerable<SelectListItem>
+                                            )ViewBag.TimeList, new { htmlAttributes = new { @class = "form-control" } })
                                         @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "text-danger" })
                                     </td>
                                     <td>
