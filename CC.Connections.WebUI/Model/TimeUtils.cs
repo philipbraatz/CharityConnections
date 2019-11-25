@@ -107,6 +107,11 @@ namespace CC.Connections.WebUI.Model
 
             };
 
+        internal static int ToInt(DateTime startTime)
+        {
+            return (int)(startTime.Hour*2+(startTime.Minute / 30.0));
+        }
+
         public static DateTime ToTime(int value)
         {
             return DateTime.Now.Date.AddHours(((double)value) / 2);

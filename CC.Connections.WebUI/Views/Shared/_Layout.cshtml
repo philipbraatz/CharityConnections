@@ -175,15 +175,22 @@
                         <!--Profile Dropdown-->
                         <div class="nav-item dropdown">
                             <li class=" nav-item btn-secondary dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Profile
+                                @if (Session["member"] == null)
+                                {
+                                    <text>Sign In</text>
+                                }
+                                else
+                                {
+                                    <text>Profile</text>
+                                }
                             </li>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 
                                 @if (Session["member"] == null)
                                 {
+                                    <li class="nav-item">@Html.ActionLink("Login", "LoginView", "Login")</li>
                                     <li class="nav-item">@Html.ActionLink("Sign Up", "SignupView", "Login")</li>
                                     <li class="nav-item">@Html.ActionLink("Charity Signup", "CharitySignupView", "Login")</li>
-                                    <li class="nav-item">@Html.ActionLink("Login", "LoginView", "Login")</li>
 
                                     if (Request.IsLocal)
                                     {

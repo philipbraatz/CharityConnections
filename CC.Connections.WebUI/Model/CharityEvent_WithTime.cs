@@ -16,9 +16,9 @@ namespace CC.Connections.WebUI.Model
         {
             this.Event_ID = evnt.Event_ID;
             this.Charity_ID = evnt.Charity_ID;
-            this.setEventInfo(evnt);
-            this.time_start = this.StartTime.ToShortTimeString();
-            this.time_end = this.EndTime.ToShortTimeString();
+            this.setEventInfo(evnt);//charity id is set
+            this.time_start = TimeUtils.ToInt(this.StartTime).ToString();
+            this.time_end = TimeUtils.ToInt(this.EndTime).ToString();
         }
 
         public string strTimeStart

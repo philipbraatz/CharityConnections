@@ -55,9 +55,8 @@ namespace CC.Connections.BL
         {
 
         }
-        public Charity(Password p)
+        public Charity(Password p) :this(p.email)
         {
-            Clear();
         }
 
         public Charity(Contact_Info entry) :

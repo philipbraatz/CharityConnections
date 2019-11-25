@@ -13,7 +13,7 @@ namespace CC.Connections.WebUI.Controllers
 
         // GET: CharityEvent
         public ActionResult Index()
-        {
+       {
             //load
             CharityEventList allEvents = new CharityEventList();
             if (Session != null && Session["charityEvents"] != null)
@@ -91,7 +91,7 @@ namespace CC.Connections.WebUI.Controllers
             if (credentals == null)
                 return RedirectToAction("LoginView", "Login");
             if (credentals.MemberType == MemberType.CHARITY)
-                evnt.Charity_ID = new Charity((Password)Session["member"]).ID;
+                evnt.Charity_ID = new Charity((Password)Session["member"]).ID;//charity id is set
             else
             {
                 //ViewBag.Message = "Only charities can create a event.";

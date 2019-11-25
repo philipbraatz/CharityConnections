@@ -13,10 +13,14 @@
 <br />
 <h2>Volunteer Opportunities</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+@if (Session["member"] != null && ((CC.Connections.BL.Password)Session["member"]).MemberType == CC.Connections.BL.MemberType.CHARITY)
+{
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+}
 <table class="table">
+    
 
     @foreach (var item in Model)
     {
@@ -32,8 +36,8 @@
                 <img class="" src="@(("/Content/Images/"+item.charity.Category.Category_Image.Trim()+".svg"))" id="paw" title="Animals">
             </div>
             <!--<div class="card-body">
-                <p>item.Description</p>
-            </div>-->
+            <p>item.Description</p>
+        </div>-->
             <div class="card-footer">
                 <h3>Going: @item.atendees.CountGoing</h3>
                 <h3>Interested: @item.atendees.CountInterested</h3>
@@ -43,11 +47,14 @@
         <h5>Going: @item.atendees.CountGoing</h5>
         Interested: @item.atendees.CountInterested
     </td> -->
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.Event_ID })
-            @Html.ActionLink("Details", "Details", new { id = item.Event_ID })
-            @Html.ActionLink("Delete", "Delete", new { id = item.Event_ID })
-        </td>
+        @if (Session["member"] != null &&  ((CC.Connections.BL.Password)Session["member"]).email == item.charity.ContactInfo_Email)
+        {
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Event_ID })
+                @Html.ActionLink("Details", "Details", new { id = item.Event_ID })
+                @Html.ActionLink("Delete", "Delete", new { id = item.Event_ID })
+            </td>
+        }
     </tr>
     }
 </table>
