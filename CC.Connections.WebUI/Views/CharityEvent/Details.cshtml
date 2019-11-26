@@ -9,47 +9,50 @@
 
 <br />
 
-<div>
-    <p><img src="~/Content/Images/CCDefaultPlaceholder.gif" alt="empty space for logo" height="90" width="90"></p>
-    <h2>@Html.DisplayFor(model => model.charity.CharityName)</h2>
-    <div class="TODO put me on the right side">
-        <h4>Going: @Model.atendees.CountGoing</h4>
-        <h4>Interested: @Model.atendees.CountInterested</h4>
+<div class="card">
+    <div class="card-header ">
+        <p><img src="~/Content/Images/CCDefaultPlaceholder.gif" alt="empty space for logo" height="90" width="90"></p>
+        <h2>@Html.DisplayFor(model => model.charity.CharityName)</h2>
+        <div class="TODO put me on the right side">
+            <h4>Going: @Model.atendees.CountGoing</h4>
+            <h4>Interested: @Model.atendees.CountInterested</h4>
+        </div>
+        <img class="btn-outline-info" src="@(("/Content/Images/" + Model.charity.Category.Category_Image.Trim() + ".svg"))" id="paw" title="@(Model.charity.Category.Category_Image) ">
     </div>
-    <hr />
-    <h4> @Html.DisplayFor(model => model.CharityEventName)</h4>
-    <h5>Days: @Model.StartDate.ToShortDateString() to @Model.EndDate.ToShortDateString() </h5>
-    <h5>Time: @Model.StartTime.ToShortTimeString() to @Model.EndTime.ToShortTimeString() </h5>
-    <p> @Html.DisplayFor(model => model.Description)</p>
-    <br />
-    <p><b>Requirements: </b>@Model.CharityEventRequirements</p>
+    <div class="card-body">
+        <h4> @Html.DisplayFor(model => model.CharityEventName)</h4>
+        <h5>Days: @Model.StartDate.ToShortDateString() to @Model.EndDate.ToShortDateString() </h5>
+        <h5>Time: @Model.StartTime.ToShortTimeString() to @Model.EndTime.ToShortTimeString() </h5>
+        <p> @Html.DisplayFor(model => model.Description)</p>
+    </div>
+    <p class="card-footer"><b>Requirements: </b>@Model.CharityEventRequirements</p>
 
 </div>
 <h4>@ViewBag.Message</h4>
-<p>
-
+<div class="">
+    
     @{ if (Model.Member_Attendance != null)
         {
             if (Model.Member_Attendance.Status == CC.Connections.BL.Status.GOING)
             {
-                @Html.ActionLink("Show Interest", "Interested", new { id = Model.Event_ID });
-                @Html.ActionLink("Leave Event", "Signup", new { id = Model.Event_ID });
+                @Html.ActionLink("Show Interest", "Interested", new { id = Model.Event_ID },new { @class = "btn-outline-primary btn-lg" });
+                @Html.ActionLink("Leave Event", "Signup", new { id = Model.Event_ID },new { @class = "btn-outline-info btn-lg" });
             }
             else if (Model.Member_Attendance.Status == CC.Connections.BL.Status.INTERESTED)
             {
-                @Html.ActionLink("Remove Interest", "Interested", new { id = Model.Event_ID });
-                @Html.ActionLink("Sign Up for Event", "Signup", new { id = Model.Event_ID });
+                @Html.ActionLink("Remove Interest", "Interested", new { id = Model.Event_ID },new { @class = "btn-outline-info btn-lg" });
+                @Html.ActionLink("Sign Up for Event", "Signup", new { id = Model.Event_ID },new { @class = "btn-outline-primary btn-lg" });
             }
             else
             {
-                @Html.ActionLink("Interested", "Interested", new { id = Model.Event_ID });
-                @Html.ActionLink("Sign Up for Event", "Signup", new { id = Model.Event_ID });
+                @Html.ActionLink("Interested", "Interested", new { id = Model.Event_ID },new { @class = "btn-outline-primary btn-lg" });
+                @Html.ActionLink("Sign Up for Event", "Signup", new { id = Model.Event_ID },new { @class = "btn-outline-primary btn-lg" });
             }
         }
     }
-    @Html.ActionLink("Back to List", "Index");
+    @Html.ActionLink("Back to List", "Index",new { @class = "btn-outline-secondary" });
 
-</p>
+</div>
 
 <br />
 <br />

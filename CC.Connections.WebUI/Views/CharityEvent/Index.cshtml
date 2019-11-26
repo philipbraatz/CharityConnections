@@ -1,7 +1,6 @@
 ﻿@model IEnumerable<CC.Connections.BL.CharityEvent>
 
 @{
-    ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -11,7 +10,7 @@
 
 
 <br />
-<h2>Volunteer Opportunities</h2>
+<h2>@ViewBag.Title</h2>
 
 @if (Session["member"] != null && ((CC.Connections.BL.Password)Session["member"]).MemberType == CC.Connections.BL.MemberType.CHARITY)
 {
@@ -21,41 +20,49 @@
 }
 <table class="table">
     
-
-    @foreach (var item in Model)
+    @if (Model.ToList().Count != 0)
     {
-    <tr>
-        <td class="card">
-            <img class="" src="~/Content/Images/CCDefaultPlaceholder.gif" alt="empty space for logo" height="90" width="90">
-            <div class="card-header">
-
-                <h2 class="card-title"> @item.CharityEventName</h2>
-                <h3>Hosted by: @item.charity.CharityName</h3>
-                <h5>Days: @item.StartDate.ToShortDateString() to @item.EndDate.ToShortDateString() </h5>
-                <h5>Time: @item.StartTime.ToShortTimeString() to @item.EndTime.ToShortTimeString()</h5>
-                <img class="" src="@(("/Content/Images/"+item.charity.Category.Category_Image.Trim()+".svg"))" id="paw" title="Animals">
-            </div>
-            <!--<div class="card-body">
-            <p>item.Description</p>
-        </div>-->
-            <div class="card-footer">
-                <h3>Going: @item.atendees.CountGoing</h3>
-                <h3>Interested: @item.atendees.CountInterested</h3>
-            </div>
-        </td>
-        <!-- <td>
-        <h5>Going: @item.atendees.CountGoing</h5>
-        Interested: @item.atendees.CountInterested
-    </td> -->
-        @if (Session["member"] != null &&  ((CC.Connections.BL.Password)Session["member"]).email == item.charity.ContactInfo_Email)
+        foreach (var item in Model)
         {
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Event_ID })
-                @Html.ActionLink("Details", "Details", new { id = item.Event_ID })
-                @Html.ActionLink("Delete", "Delete", new { id = item.Event_ID })
+        <tr>
+            <td class="card">
+                <img class="" src="~/Content/Images/CCDefaultPlaceholder.gif" alt="empty space for logo" height="90" width="90">
+                <div class="card-header">
+                    <a title="Details" href="@Url.Action("Details", "CharityEvent", new { id = item.Event_ID })">
+                        <h2> @item.CharityEventName</h2>
+                    </a>
+                    <h3>Hosted by: @item.charity.CharityName</h3>
+                    <h5>Days: @item.StartDate.ToShortDateString() to @item.EndDate.ToShortDateString() </h5>
+                    <h5>Time: @item.StartTime.ToShortTimeString() to @item.EndTime.ToShortTimeString()</h5>
+                    <img class="" src="@(("/Content/Images/" + item.charity.Category.Category_Image.Trim() + ".svg"))" id="paw" title="@(item.charity.Category.Category_Image) ">
+                </div>
+                <!--<div class="card-body">
+                <p>item.Description</p>
+            </div>-->
+                <div class="card-footer">
+                    <h3>Going: @item.atendees.CountGoing</h3>
+                    <h3>Interested: @item.atendees.CountInterested</h3>
+                </div>
             </td>
+            <!-- <td>
+            <h5>Going: @item.atendees.CountGoing</h5>
+            Interested: @item.atendees.CountInterested
+        </td> -->
+            @if (Session["member"] != null && ((CC.Connections.BL.Password)Session["member"]).email == item.charity.ContactInfo_Email)
+            {
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Event_ID })
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Event_ID })
+                </td>
+            }
+        </tr>
         }
-    </tr>
+    }
+    else
+    {
+        <tr>
+            <h5>No Events</h5>
+        </tr>
     }
 </table>
 
