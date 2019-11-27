@@ -1,6 +1,5 @@
 ﻿
 $(function () {
-    // TODO: move the jQuery to it's own document to clean up this page
 
     // Displays the volunteer category nav bar when hovering over "find volunteer opportunities"
     $("#findVolunteerBtn").mouseenter(function () {
