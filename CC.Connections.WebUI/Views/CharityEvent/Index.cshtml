@@ -4,42 +4,36 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-
-
-
-
 <br />
 <h2>@ViewBag.Title</h2>
 
 @if (Session["member"] != null && ((CC.Connections.BL.Password)Session["member"]).MemberType == CC.Connections.BL.MemberType.CHARITY)
 {
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
+    <p>@Html.ActionLink("Create New", "Create")</p>
 }
 <table class="table">
-
     @if (Model.ToList().Count != 0)
     {
         foreach (var item in Model)
         {
             <tr>
                 <td class="card">
-                    <div class="card-header">
-                        <div class="row">
-                            <img class="col-2 " src="~/Content/Images/CCDefaultPlaceholder.gif" alt="empty space for logo"> @* height="90" width="90" *@
-                            <div class="col-8">
-                                <a class="" title="Details" href="@Url.Action("Details", "CharityEvent", new { id = item.Event_ID })">
-                                    <h2> @item.CharityEventName</h2>
-                                </a>
-                                <h3>Hosted by: @item.charity.CharityName</h3>
+                    <div class="card-header row">
+                        <img class="col-2 " src="~/Content/Images/CCDefaultPlaceholder.gif" alt="empty space for logo"> @* height="90" width="90" *@
+                        <div class="col-8">
+                            <a class="" title="Details" href="@Url.Action("Details", "CharityEvent", new { id = item.Event_ID })">
+                                <h2> @item.CharityEventName</h2>
+                            </a>
+                            <h3>Hosted by: @item.charity.CharityName</h3>
+                            <h4>@item.CharityEventStatus</h4>
+                            @if (item.CharityEventStatus != "Completed")
+                            {
                                 <h5>Days: @item.StartDate.ToShortDateString() to @item.EndDate.ToShortDateString() </h5>
-                                <h5>Time: @item.StartTime.ToShortTimeString() to @item.EndTime.ToShortTimeString()</h5>
-                            </div>
-                            <div class="col-1">
-                                <img style="padding-top:0px;" src="@(("/Content/Images/" + item.charity.Category.Category_Image.Trim() + ".svg"))" id="paw" title="@(item.charity.Category.Category_Image) ">
-                            </div>
+                                <h5>Time: @item.StartTime.ToShortTimeString() to @item.EndTime.ToShortTimeString() </h5>
+                            }
+                        </div>
+                        <div class="col-1">
+                            <img style="padding-top:0px;" src="@(("/Content/Images/" + item.charity.Category.Category_Image.Trim() + ".svg"))" id="paw" title="@(item.charity.Category.Category_Image) ">
                         </div>
                     </div>
                     <!--<div class="card-body">
