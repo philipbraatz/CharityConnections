@@ -67,9 +67,14 @@ footer {
 
 td {
     padding-right: 0px;
+    background: #fffff0;
 }
 
 a:hover{
     color:#F63;
     text-decoration:none;
+}
+
+#table {
+    background: #fffff0;
 }
