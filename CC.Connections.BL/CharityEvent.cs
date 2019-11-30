@@ -348,14 +348,25 @@ namespace CC.Connections.BL
 
         public void LoadWithFilter(int id, SortBy sort)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            this.LoadAll();
+            Filterer filter = new Filterer();
+            filter.FillFilter(this);
             switch (sort)
             {
                 case SortBy.CATEGORY:
+                    filter.Whitelist_Remaining_Events(new List<int> { id }, new List<int>(), new List<int>());
+                    this.Clear();
+                    foreach (var item in filter.GetRemainingEvents())
+                    {
+                        this.Add(item);
+                    }
                     break;
                 case SortBy.HELPING_ACTION:
+                    throw new NotImplementedException();
                     break;
                 case SortBy.CHARITY:
+                    throw new NotImplementedException();
                     break;
                 default:
                     throw new Exception("Cannot use id Filterer to Sort By " + sort.GetType().GetEnumName(sort));

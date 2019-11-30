@@ -174,7 +174,7 @@ namespace CC.Connections.BL
                             new Charity((int)c.Charity_ID).Deductibility != deductable)
                         {
                             valid = false;
-                            debugInvalidator = "deductable: " + deductable;
+                            debugInvalidator = "deductible: " + deductable;
                             continue;
                         }
                         if (location.ContactInfoCity != null &&

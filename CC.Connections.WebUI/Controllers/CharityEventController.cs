@@ -14,6 +14,9 @@ namespace CC.Connections.WebUI.Controllers
         // GET: CharityEvent
         public ActionResult Index()
        {
+            if (ViewBag.Title == null)
+                ViewBag.Title = "Volunteer Opportunities";
+
             //load
             CharityEventList allEvents = new CharityEventList();
             if (Session != null && Session["charityEvents"] != null)
@@ -41,6 +44,39 @@ namespace CC.Connections.WebUI.Controllers
             }
 
             return View(allEvents);
+        }
+
+        // GET: CharityEvent/CategoryView/2
+        public ActionResult CategoryView(int id)
+        {
+            ViewBag.Title = new AbsCategory(id).Category_Desc;
+
+            //load
+            CharityEventList allEvents = new CharityEventList();
+            if (Session != null && Session["charityEvents"] != null)
+            {
+                allEvents.LoadWithFilter(id, SortBy.CATEGORY);
+                if (allEvents.Count != 0)//reload to catch missing
+                {
+                    if (Session != null && Session["member"] != null)
+                        foreach (var ev in allEvents)
+                            ev.Member_Attendance = new AbsEventAtendee(ev.Event_ID, ((Password)Session["member"]).email);
+                }
+            }
+            else
+            {
+                //convert to Model
+                allEvents = new CharityEventList();
+                allEvents.LoadWithFilter(id, SortBy.CATEGORY);
+                if (Session != null && Session["member"] != null)
+                    foreach (var ev in allEvents)
+                        ev.Member_Attendance = new AbsEventAtendee(ev.Event_ID, ((Password)Session["member"]).email);
+
+                //save
+                Session["charityEvents"] = allEvents;
+            }
+
+            return View("Index",allEvents);
         }
 
         // GET: CharityEvent/Details/5
