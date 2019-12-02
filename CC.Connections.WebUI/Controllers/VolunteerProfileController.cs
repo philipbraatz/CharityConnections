@@ -9,13 +9,20 @@ namespace CC.Connections.WebUI.Controllers
 {
     public class VolunteerProfileController : Controller
     {
-        // GET: VolunteerProfile
+        // GET: VolunteerProfile/ProfileView
         public ActionResult ProfileView(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
             Password p = (Password)Session["member"];
             if (p != null)
-                return View(new AbsContact(p));
+                try {
+                    return View(new AbsContact(p));
+                }
+                catch (Exception e)
+                {
+                    ViewBag.Message = e.Message;
+                    return View(new AbsContact());//should not happen
+                }
             else
                 return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());
         }

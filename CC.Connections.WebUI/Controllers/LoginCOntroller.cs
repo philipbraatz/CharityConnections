@@ -93,7 +93,7 @@ namespace CC.Connections.WebUI.Controllers
                 newMember.Insert();
 
                 Session["member"] = con.password;
-                return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());
+                return RedirectToAction("ProfileView", "VolunteerProfile");
             }
             catch (Exception ex)
             {
