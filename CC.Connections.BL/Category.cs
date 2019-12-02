@@ -40,7 +40,7 @@ namespace CC.Connections.BL
         public AbsCategory(PL.Category entry) : 
             base(entry) { }
         public AbsCategory(int id) : 
-            base(new fvtcEntities1().Categories, id){}
+            base(new CCEntities().Categories, id){}
         //turns a PL class into a BL equivelent example: 
         //Category pl = new Category();
         //...
@@ -49,7 +49,7 @@ namespace CC.Connections.BL
         {return new AbsCategory(entry);}
 
         public void LoadId(){
-            using (fvtcEntities1 dc = new fvtcEntities1()){
+            using (CCEntities dc = new CCEntities()){
                 base.LoadId(dc.Categories);
             }
         }
@@ -59,20 +59,20 @@ namespace CC.Connections.BL
             LoadId();
         }
         public int Insert() {
-            using (fvtcEntities1 dc = new fvtcEntities1()){
+            using (CCEntities dc = new CCEntities()){
                 return base.Insert(dc, dc.Categories);
             }
         }
         public int Update()
         {
-            using (fvtcEntities1 dc = new fvtcEntities1())
+            using (CCEntities dc = new CCEntities())
             {
                 return base.Update(dc, dc.Categories);
             }
         }
         public int Delete()
         {
-            using (fvtcEntities1 dc = new fvtcEntities1())
+            using (CCEntities dc = new CCEntities())
             {
                 //dc.Categories.Remove(this);
                 //return dc.SaveChanges();
@@ -85,7 +85,7 @@ namespace CC.Connections.BL
     {
         public new void LoadAll()
         {
-            using (fvtcEntities1 dc = new fvtcEntities1())
+            using (CCEntities dc = new CCEntities())
             {
                 //base.LoadAll(dc.Categories);
                 foreach (var c in dc.Categories.ToList())
@@ -112,7 +112,7 @@ namespace CC.Connections.BL
         public new void LoadPreferences()
         { LoadPreferences((int)base.joinGrouping_ID); }
         public new void LoadPreferences(int member_id){
-            using (fvtcEntities1 dc = new fvtcEntities1()){
+            using (CCEntities dc = new CCEntities()){
                 memberID = member_id;
                 if (dc.Categories.ToList().Count != 0)
                     dc.Preferred_Category
@@ -125,17 +125,17 @@ namespace CC.Connections.BL
             }
         }
         public new void DeleteAllPreferences(){
-            using (fvtcEntities1 dc = new fvtcEntities1()){
+            using (CCEntities dc = new CCEntities()){
                 base.DeleteAllPreferences(dc, dc.Preferred_Category);
             }
         }
         public new void Add(AbsCategory category){
-            using (fvtcEntities1 dc = new fvtcEntities1()){
+            using (CCEntities dc = new CCEntities()){
                 base.Add(dc, dc.Preferred_Category,new Preferred_Category(), category);
             }
         }
         public new void Remove(AbsCategory category){
-            using (fvtcEntities1 dc = new fvtcEntities1()){
+            using (CCEntities dc = new CCEntities()){
                 base.Remove(dc, dc.Preferred_Category,category);
             }
         }

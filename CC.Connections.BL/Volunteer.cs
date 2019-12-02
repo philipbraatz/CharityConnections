@@ -19,7 +19,7 @@ namespace CC.Connections.BL
         public AbsPreference Pref { get; set; }
         public AbsLocation Location { get; set; }
 
-        internal static bool Exists(fvtcEntities1 dc, int id)
+        internal static bool Exists(CCEntities dc, int id)
         {
             return dc.Members.Where(c => c.Member_ID == id).FirstOrDefault() != null;
         }
@@ -53,7 +53,7 @@ namespace CC.Connections.BL
             //get ID and password from other tables
             try
             {
-                using (fvtcEntities1 dc = new fvtcEntities1())
+                using (CCEntities dc = new CCEntities())
                 {
                     Clear();
 
@@ -103,7 +103,7 @@ namespace CC.Connections.BL
             //get ID and password from other tables
             try
             {
-                using (fvtcEntities1 dc = new fvtcEntities1())
+                using (CCEntities dc = new CCEntities())
                 {
                     PL.Contact_Info cID = dc.Contact_Info.Where(c => c.ContactInfo_Email == email).FirstOrDefault();
                     if (cID == null)
@@ -146,11 +146,11 @@ namespace CC.Connections.BL
             {
                 //if (ID == string.Empty)
                 //    throw new Exception("Description cannot be empty");
-                using (fvtcEntities1 dc = new fvtcEntities1())
+                using (CCEntities dc = new CCEntities())
                 {
                     //double check ID before insert
-                    if(dc.Members.Where(c=>c.Member_ID ==ID) != null)
-                            ID = dc.Members.Max(c => c.Member_ID) + 1;//unique id
+                    if (dc.Members.Count() != 0)
+                        ID = dc.Members.Max(c => c.Member_ID) + 1;//unique id
 
                     Pref.Insert();
                     //Member_Type.Insert();
@@ -178,7 +178,7 @@ namespace CC.Connections.BL
         {
             try
             {
-                using (fvtcEntities1 dc = new fvtcEntities1())
+                using (CCEntities dc = new CCEntities())
                 {
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invalid");
@@ -207,7 +207,7 @@ namespace CC.Connections.BL
             {
                 //if (Description == string.Empty)
                 //    throw new Exception("Description cannot be empty");
-                using (fvtcEntities1 dc = new fvtcEntities1())
+                using (CCEntities dc = new CCEntities())
                 {
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invalid");
@@ -232,7 +232,7 @@ namespace CC.Connections.BL
         {
             try
             {
-                using (fvtcEntities1 dc = new fvtcEntities1())
+                using (CCEntities dc = new CCEntities())
                 {
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invalid");
@@ -278,7 +278,7 @@ namespace CC.Connections.BL
 
             try
             {
-                using (fvtcEntities1 dc = new fvtcEntities1())
+                using (CCEntities dc = new CCEntities())
                 {
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invalid");
@@ -347,7 +347,7 @@ namespace CC.Connections.BL
         {
             try
             {
-                using (fvtcEntities1 dc = new fvtcEntities1())
+                using (CCEntities dc = new CCEntities())
                 {
                     if (dc.Members.ToList().Count != 0)
                         dc.Members.ToList().ForEach(c =>

@@ -1,5 +1,5 @@
 ﻿BEGIN
-	INSERT INTO Category(Category_ID, Category_Desc,Category_Color)
+	INSERT INTO Categories(Category_ID, Category_Desc,Category_Color)
 	VALUES
 	(1, 'Animals','00FF00'),
 	(2, 'Computers and Technology','808080'),

@@ -119,7 +119,7 @@ namespace CC.Connections.BL
                                         DateTime? start, DateTime? end, bool? deductable)
         {
             List<CharityEvent> events = new List<CharityEvent>();
-            using (fvtcEntities1 dc = new fvtcEntities1())
+            using (CCEntities dc = new CCEntities())
             {
                 if (dc.Charity_Event.ToList().Count != 0)
                     foreach (var c in filterEvents)
@@ -216,7 +216,7 @@ namespace CC.Connections.BL
             try
             {
                 List<CharityEvent> events = new List<CharityEvent>();
-                using (fvtcEntities1 dc = new fvtcEntities1())
+                using (CCEntities dc = new CCEntities())
                 {
                     if (dc.Charity_Event.ToList().Count != 0)
                         foreach (var c in filterEvents)
@@ -330,7 +330,7 @@ namespace CC.Connections.BL
                                         DateTime? startDate, bool? deductable)
         {
             List<Charity> charities = new List<Charity>();
-            using (fvtcEntities1 dc = new fvtcEntities1())
+            using (CCEntities dc = new CCEntities())
             {
                 if (dc.Charity_Event.ToList().Count != 0)
                     foreach (var c in dc.Charities.ToList())
@@ -411,7 +411,7 @@ namespace CC.Connections.BL
             try
             {
                 List<Charity> charities = new List<Charity>();
-                using (fvtcEntities1 dc = new fvtcEntities1())
+                using (CCEntities dc = new CCEntities())
                 {
                     if (dc.Charity_Event.ToList().Count != 0)
                         foreach (var c in dc.Charities.ToList())

@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[Charity] (
+﻿CREATE TABLE [dbo].[Charities] (
     [Charity_ID]            INT        NOT NULL,
     [Charity_Contact_ID]    INT        NULL,
     [Charity_EIN]           nvarchar (50)  NULL,

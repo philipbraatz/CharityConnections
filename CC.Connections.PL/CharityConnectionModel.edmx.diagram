@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ae67217135e644e6a21e01cc7d5199fd" Name="Diagram1">
+        <EntityTypeShape EntityType="CharityConnectionsModel.Category" Width="1.5" PointX="0.75" PointY="3.75" />
+        <EntityTypeShape EntityType="CharityConnectionsModel.Charity" Width="1.5" PointX="2.75" PointY="3.75" />
+        <EntityTypeShape EntityType="CharityConnectionsModel.Charity_Event" Width="1.5" PointX="4.75" PointY="3.75" />
+        <EntityTypeShape EntityType="CharityConnectionsModel.Contact_Info" Width="1.5" PointX="5.75" PointY="0.75" />
+        <EntityTypeShape EntityType="CharityConnectionsModel.Event_Attendance" Width="1.5" PointX="6.75" PointY="3.75" />
+        <EntityTypeShape EntityType="CharityConnectionsModel.Helping_Action" Width="1.5" PointX="0.75" PointY="0.875" />
+        <EntityTypeShape EntityType="CharityConnectionsModel.Location" Width="1.5" PointX="6.75" PointY="6.75" />
+        <EntityTypeShape EntityType="CharityConnectionsModel.Log_in" Width="1.5" PointX="7.75" PointY="0.75" />
+        <EntityTypeShape EntityType="CharityConnectionsModel.Member_Action" Width="1.5" PointX="3" PointY="0.875" />
+        <EntityTypeShape EntityType="CharityConnectionsModel.Member_Type" Width="1.5" PointX="0.75" PointY="7.75" />
+        <EntityTypeShape EntityType="CharityConnectionsModel.Member" Width="1.5" PointX="2.75" PointY="7.75" />
+        <EntityTypeShape EntityType="CharityConnectionsModel.Preference" Width="1.5" PointX="8.75" PointY="3.75" />
+        <EntityTypeShape EntityType="CharityConnectionsModel.Preferred_Category" Width="1.5" PointX="8.75" PointY="6.75" />
+        <EntityTypeShape EntityType="CharityConnectionsModel.Preferred_Charity" Width="1.75" PointX="9.75" PointY="0.75" />
+        <AssociationConnector Association="CharityConnectionsModel.FK__Member_Ac__Membe__38EE7070" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

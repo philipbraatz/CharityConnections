@@ -70,7 +70,7 @@ namespace CC.Connections.BL
             //this.Status = Status.NOT_GOING;
         }
         public AbsEventAtendee(int id) :
-            base(new fvtcEntities1().Event_Attendance, id)
+            base(new CCEntities().Event_Attendance, id)
         {
             Volunteer v = new Volunteer();
             v.LoadId(this.Member_ID);
@@ -85,21 +85,21 @@ namespace CC.Connections.BL
 
         public bool Exists()
         {
-            using (fvtcEntities1 dc = new fvtcEntities1())
+            using (CCEntities dc = new CCEntities())
             {
                 return dc.Event_Attendance.Where(c => c.Event_ID == this.Event_ID && c.Member_ID == this.Member_ID).FirstOrDefault() != null;
             }
         }
         public void LoadId()
         {
-            using (fvtcEntities1 dc = new fvtcEntities1())
+            using (CCEntities dc = new CCEntities())
             {
                 base.LoadId(dc.Event_Attendance);
             }
         }
         public bool TryFindMatching()
         {
-            using (fvtcEntities1 dc = new fvtcEntities1())
+            using (CCEntities dc = new CCEntities())
             {
                 List<Event_Attendance> debugList = dc.Event_Attendance.ToList();
                 Event_Attendance eat = dc.Event_Attendance.Where(c => c.Event_ID == this.Event_ID && c.Member_ID == this.Member_ID).FirstOrDefault();
@@ -125,7 +125,7 @@ namespace CC.Connections.BL
         }
         public int Insert()
         {
-            using (fvtcEntities1 dc = new fvtcEntities1())
+            using (CCEntities dc = new CCEntities())
             {
                 return base.Insert(dc, dc.Event_Attendance);
             }
@@ -133,21 +133,21 @@ namespace CC.Connections.BL
         public int Update(Status status)
         {
             this.Status = status;
-            using (fvtcEntities1 dc = new fvtcEntities1())
+            using (CCEntities dc = new CCEntities())
             {
                 return base.Update(dc, dc.Event_Attendance);
             }
         }
         public int Update()
         {
-            using (fvtcEntities1 dc = new fvtcEntities1())
+            using (CCEntities dc = new CCEntities())
             {
                 return base.Update(dc, dc.Event_Attendance);
             }
         }
         public int Delete()
         {
-            using (fvtcEntities1 dc = new fvtcEntities1())
+            using (CCEntities dc = new CCEntities())
             {
                 //dc.Categories.Remove(this);
                 //return dc.SaveChanges();
@@ -165,7 +165,7 @@ namespace CC.Connections.BL
     {
         public new void LoadAll()
         {
-            using (fvtcEntities1 dc = new fvtcEntities1())
+            using (CCEntities dc = new CCEntities())
             {
                 //base.LoadAll(dc.Categories);
                 foreach (var c in dc.Event_Attendance.ToList())
@@ -202,7 +202,7 @@ namespace CC.Connections.BL
         { LoadByEvent((int)base.joinGrouping_ID); }
         public void LoadByEvent(int event_id)
         {
-            using (fvtcEntities1 dc = new fvtcEntities1())
+            using (CCEntities dc = new CCEntities())
             {
                 eventID = event_id;
                 if (dc.Event_Attendance.ToList().Count != 0)
@@ -224,7 +224,7 @@ namespace CC.Connections.BL
         }
         public void DeleteAttendance()
         {
-            using (fvtcEntities1 dc = new fvtcEntities1())
+            using (CCEntities dc = new CCEntities())
             {
                 foreach (var item in dc.Event_Attendance)
                     if (item.Event_ID == (int?)base.joinGrouping_ID)
@@ -235,7 +235,7 @@ namespace CC.Connections.BL
         }
         public void Add(string attendee)
         {
-            using (fvtcEntities1 dc = new fvtcEntities1())
+            using (CCEntities dc = new CCEntities())
             {
                 int newID = 0;
                 if (dc.Event_Attendance.ToList().Count != 0)
@@ -249,7 +249,7 @@ namespace CC.Connections.BL
         }
         public new void Remove(string category)
         {
-            using (fvtcEntities1 dc = new fvtcEntities1())
+            using (CCEntities dc = new CCEntities())
             {
                 foreach (var item in dc.Event_Attendance)
                     if (item.Event_ID == (int?)base.joinGrouping_ID)
@@ -261,7 +261,7 @@ namespace CC.Connections.BL
         }
         public new void RemoveAttendee(string category)
         {
-            using (fvtcEntities1 dc = new fvtcEntities1())
+            using (CCEntities dc = new CCEntities())
             {
                 foreach (var item in dc.Event_Attendance)
                     if (item.Event_ID == (int?)base.joinGrouping_ID)

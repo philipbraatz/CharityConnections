@@ -11,7 +11,7 @@ namespace CC.Connections.BL
 {
     public class AbsLocation : ColumnEntry<PL.Location>
     {
-        public static fvtcEntities1 dc = new fvtcEntities1();
+        public static CCEntities dc = new CCEntities();
 
         //id
         public new int ID
@@ -52,7 +52,7 @@ namespace CC.Connections.BL
             base(entry)
         { }
         public AbsLocation(int id) :
-            base(new fvtcEntities1().Locations,id)
+            base(new CCEntities().Locations,id)
         {
             Clear();
             ID = id;
@@ -63,21 +63,21 @@ namespace CC.Connections.BL
         { return new AbsLocation(entry); }
 
         public int Insert(){
-            using (fvtcEntities1 dc = new fvtcEntities1()){
+            using (CCEntities dc = new CCEntities()){
                 return base.Insert(dc, dc.Locations);
         }}
         public int Delete(){
-            using (fvtcEntities1 dc = new fvtcEntities1()){
+            using (CCEntities dc = new CCEntities()){
                 return base.Delete(dc, dc.Locations);
         }}
 
         public int Update(){
-            using (fvtcEntities1 dc = new fvtcEntities1()){
+            using (CCEntities dc = new CCEntities()){
                 return base.Update(dc, dc.Locations);
         }}
 
         public void LoadId() {
-            using (fvtcEntities1 dc = new fvtcEntities1()){
+            using (CCEntities dc = new CCEntities()){
                 base.LoadId(dc.Locations);
         }}
 
@@ -96,7 +96,7 @@ namespace CC.Connections.BL
     {
         public new void LoadAll()
         {
-            using (fvtcEntities1 dc = new fvtcEntities1())
+            using (CCEntities dc = new CCEntities())
             {
                 base.LoadAll(dc.Locations);
             }

@@ -45,7 +45,7 @@ namespace CC.Connections.BL
 
         public CharityEventList charityEvents { get; set; }
 
-        internal static bool Exists(fvtcEntities1 dc, int id)
+        internal static bool Exists(CCEntities dc, int id)
         {
             return dc.Charities.Where(c => c.Charity_ID == id).FirstOrDefault() != null;
         }
@@ -93,7 +93,7 @@ namespace CC.Connections.BL
             //get ID and password from other tables
             try
             {
-                using (fvtcEntities1 dc = new fvtcEntities1())
+                using (CCEntities dc = new CCEntities())
                 {
                     Clear();
 
@@ -153,7 +153,7 @@ namespace CC.Connections.BL
             Requirements = string.Empty;
         }
 
-        internal static List<int> LoadMembersIdList(fvtcEntities1 dc, int member_ID)
+        internal static List<int> LoadMembersIdList(CCEntities dc, int member_ID)
         {
             throw new NotImplementedException();
         }
@@ -167,7 +167,7 @@ namespace CC.Connections.BL
         {
                 try
             {
-                using (fvtcEntities1 dc = new fvtcEntities1())
+                using (CCEntities dc = new CCEntities())
                 {
                     PL.Charity entry = dc.Charities.Where(c => c.Charity_ID == this.ID).FirstOrDefault();
                     if (entry != null)
@@ -206,7 +206,7 @@ namespace CC.Connections.BL
                 {
                     //if (ID == string.Empty)
                     //    throw new Exception("Description cannot be empty");
-                    using (fvtcEntities1 dc = new fvtcEntities1())
+                    using (CCEntities dc = new CCEntities())
                     {
                         //double check ID before insert
                         if (dc.Charities.Where(c => c.Charity_ID == ID) != null)
@@ -240,7 +240,7 @@ namespace CC.Connections.BL
         {
             try
             {           
-                using (fvtcEntities1 dc = new fvtcEntities1())
+                using (CCEntities dc = new CCEntities())
                 {
                     PL.Charity entry = dc.Charities.Where(c => c.Charity_ID == this.ID).FirstOrDefault();
                     entry.Charity_Category_ID = this.Category.ID;
@@ -265,7 +265,7 @@ namespace CC.Connections.BL
         {
             try
             {
-                using (fvtcEntities1 dc = new fvtcEntities1())
+                using (CCEntities dc = new CCEntities())
                 {                  
                     base.Delete();
 
@@ -282,7 +282,7 @@ namespace CC.Connections.BL
         {
             try
             {
-                using (fvtcEntities1 dc = new fvtcEntities1())
+                using (CCEntities dc = new CCEntities())
                 {
                     Charity retChar = new Charity();
                     PL.Charity entryCharity = dc.Charities.FirstOrDefault(c => c.Charity_ID == charity_ID);
@@ -319,7 +319,7 @@ namespace CC.Connections.BL
         public void LoadList()
         {
             try{
-                using (fvtcEntities1 dc = new fvtcEntities1()){
+                using (CCEntities dc = new CCEntities()){
                     if(dc.Charities.ToList().Count != 0)
                         dc.Charities.ToList().ForEach(c =>{ 
                             this.Add(new Charity(c.Charity_ID));});

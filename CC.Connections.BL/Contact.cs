@@ -9,7 +9,7 @@ namespace CC.Connections.BL
 {
     public class AbsContact : ColumnEntry<PL.Contact_Info>
     {
-        private static fvtcEntities1 dc;
+        private static CCEntities dc;
 
         //real contact_Info_ID
         public int contact_ID
@@ -84,7 +84,7 @@ namespace CC.Connections.BL
         public AbsContact(PL.Contact_Info entry) :
         base(entry){ }
         public AbsContact(string email) :
-            base(new fvtcEntities1().Contact_Info,email, "ContactInfo_Email")
+            base(new CCEntities().Contact_Info,email, "ContactInfo_Email")
         {
             ContactInfo_Email = email;
             LoadId();
@@ -98,7 +98,7 @@ namespace CC.Connections.BL
 
         private void emailEmptyCheck()
         {
-            if (this.ContactInfo_Email == string.Empty)
+            if (this.ContactInfo_Email == string.Empty || this.ContactInfo_Email =="")
                 throw new Exception("Contact Info Email cannot be blank");
         }
 
@@ -107,7 +107,7 @@ namespace CC.Connections.BL
             try
             {
                 emailEmptyCheck();
-                using (fvtcEntities1 dc = new fvtcEntities1()){
+                using (CCEntities dc = new CCEntities()){
                     return base.Insert(dc,dc.Contact_Info);
                 }
             }
@@ -118,7 +118,7 @@ namespace CC.Connections.BL
             try
             {
                 emailEmptyCheck();
-                using (fvtcEntities1 dc = new fvtcEntities1()){
+                using (CCEntities dc = new CCEntities()){
                     return base.Delete(dc,dc.Contact_Info);
                 }
             }
@@ -130,7 +130,7 @@ namespace CC.Connections.BL
             try
             {
                 emailEmptyCheck();
-                using (fvtcEntities1 dc = new fvtcEntities1()){
+                using (CCEntities dc = new CCEntities()){
                     return base.Update(dc, dc.Contact_Info);
                 }
             }
@@ -149,7 +149,7 @@ namespace CC.Connections.BL
             try
             {
                 emailEmptyCheck();
-                using (fvtcEntities1 dc = new fvtcEntities1())
+                using (CCEntities dc = new CCEntities())
                 {
                     PL.Contact_Info entry = dc.Contact_Info.FirstOrDefault(c =>
                         c.ContactInfo_Email == this.ContactInfo_Email);
@@ -165,7 +165,7 @@ namespace CC.Connections.BL
         internal static AbsContact fromNumID(int? memberContact_ID)
         {
             try{
-                using (fvtcEntities1 dc = new fvtcEntities1()){
+                using (CCEntities dc = new CCEntities()){
                     AbsContact entry = new AbsContact();
                     entry.LoadId(dc.Contact_Info,memberContact_ID);
                     return entry;
@@ -188,7 +188,7 @@ namespace CC.Connections.BL
     public class AbsContactList : AbsList<AbsContact, Contact_Info>
     {
         public new void LoadAll(){
-            using (fvtcEntities1 dc = new fvtcEntities1()){
+            using (CCEntities dc = new CCEntities()){
                 base.LoadAll(dc.Contact_Info);
             }
         }

@@ -13,7 +13,7 @@ namespace CC.Connections.BL
 {
     public class CharityEvent
     {
-        private static fvtcEntities1 dc;
+        private static CCEntities dc;
 
         public int Event_ID { get; set; }
         public int Charity_ID { get; set; }//only the id 
@@ -156,7 +156,7 @@ namespace CC.Connections.BL
 
         //public static implicit operator CharityEvent(PL.Charity entry)
         //{ return new CharityEvent(entry.Charity_Contact_ID); }
-        public static bool Exists(fvtcEntities1 dc, int eventID)
+        public static bool Exists(CCEntities dc, int eventID)
         {
             return dc.Charity_Event.Where(c => c.CharityEvent_ID == eventID).FirstOrDefault() != null;
         }
@@ -202,7 +202,7 @@ namespace CC.Connections.BL
             {
                 //if (Description == string.Empty)
                 //    throw new Exception("Description cannot be empty");
-                using (fvtcEntities1 dc = new fvtcEntities1())
+                using (CCEntities dc = new CCEntities())
                 {
                     if (dc.Charity_Event.ToList().Count > 0)
                         Event_ID = (int)dc.Charity_Event.Max(c => c.CharityEvent_ID) + 1;//unique id
@@ -234,7 +234,7 @@ namespace CC.Connections.BL
         {
             try
             {
-                using (fvtcEntities1 dc = new fvtcEntities1())
+                using (CCEntities dc = new CCEntities())
                 {
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invalid");
@@ -253,7 +253,7 @@ namespace CC.Connections.BL
             {
                 //if (Description == string.Empty)
                 //    throw new Exception("Description cannot be empty");
-                using (fvtcEntities1 dc = new fvtcEntities1())
+                using (CCEntities dc = new CCEntities())
                 {
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invalid");
@@ -276,7 +276,7 @@ namespace CC.Connections.BL
         {
             try
             {
-                using (fvtcEntities1 dc = new fvtcEntities1())
+                using (CCEntities dc = new CCEntities())
                 {
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invalid");
@@ -338,7 +338,7 @@ namespace CC.Connections.BL
             sorter = SortBy.NONE;
             try
             {
-                using (fvtcEntities1 dc = new fvtcEntities1())
+                using (CCEntities dc = new CCEntities())
                 {
                     dc.Charity_Event.ToList().ForEach(c => this.Add(c, true));
                 }
@@ -392,7 +392,7 @@ namespace CC.Connections.BL
             if (Sort_ID == null)
                 throw new Exception(Event_LOAD_ERROR);
 
-            using (fvtcEntities1 dc = new fvtcEntities1())
+            using (CCEntities dc = new CCEntities())
             {
                 dc.Charity_Event.RemoveRange(dc.Charity_Event.Where(c =>
                 c.CharityEventCharity_ID == Sort_ID).ToList());
@@ -406,7 +406,7 @@ namespace CC.Connections.BL
             if (Sort_ID == null)
                 throw new Exception(Event_LOAD_ERROR);
 
-            using (fvtcEntities1 dc = new fvtcEntities1())
+            using (CCEntities dc = new CCEntities())
             {
                 if (CharityEvent.Exists(dc, evnt.Event_ID))
                     throw new Exception("Event ID: " + evnt.Event_ID + " is already registered as an Charity Event");
@@ -436,7 +436,7 @@ namespace CC.Connections.BL
             if (Sort_ID == null)
                 throw new Exception(Event_LOAD_ERROR);
 
-            using (fvtcEntities1 dc = new fvtcEntities1())
+            using (CCEntities dc = new CCEntities())
             {
 
                 PL.Charity_Event cevent = dc.Charity_Event.Where(
@@ -463,7 +463,7 @@ namespace CC.Connections.BL
         //    cthis.Update();
         //}
 
-        private bool MemberExists(fvtcEntities1 dc, int? member_ID)
+        private bool MemberExists(CCEntities dc, int? member_ID)
         {
             return dc.Member_Action.Where(c => c.MemberActionMember_ID == member_ID
             ).FirstOrDefault() != null;
@@ -498,7 +498,7 @@ namespace CC.Connections.BL
 
         public static int getCount()
         {
-            using (fvtcEntities1 dc = new fvtcEntities1())
+            using (CCEntities dc = new CCEntities())
             {
                 return dc.Charity_Event.Count();
             }

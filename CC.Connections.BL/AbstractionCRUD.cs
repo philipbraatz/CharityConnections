@@ -186,9 +186,12 @@ namespace CC.Connections.BL
         {
             try
             {
-            PropertyDB_Info<TEntity> propinf = properties.Where(c => c.p.Name == propertyName).FirstOrDefault();
+                PropertyDB_Info<TEntity> propinf = properties.Where(c => c.p.Name == propertyName).FirstOrDefault();
                 if (propinf != null)
-                    if (propinf.p.PropertyType.Name == "Nullable`1")
+                {
+                    if(value == null)
+                        propinf.p.SetValue(instance, null);//deal with null right away
+                    else if (propinf.p.PropertyType.Name == "Nullable`1")
                         if (propinf.p.PropertyType.GenericTypeArguments.Length > 0)
                         {
                             if (propinf.p.PropertyType.GenericTypeArguments[0].Name == "DateTime")
@@ -205,6 +208,7 @@ namespace CC.Connections.BL
                         propinf.p.SetValue(instance, ((string)value));//.Substring(0, propinf.max - 1));//cut of larger values (zero based)
                     else
                         propinf.p.SetValue(instance, value);
+                }
                 else
                     throw new Exception(typeof(TEntity) + " does not have a " + propertyName + " property");
             }
@@ -228,7 +232,7 @@ namespace CC.Connections.BL
             Type type = typeof(TEntity);//maybe make property
             instance = entry;
             properties = new List<PropertyDB_Info<TEntity>>();
-            using (fvtcEntities1 dc = new fvtcEntities1())
+            using (CCEntities dc = new CCEntities())
             {
                 type.GetProperties().ToList().ForEach(c =>
                 {
@@ -265,7 +269,7 @@ namespace CC.Connections.BL
                 setValue(instance, c.p.Name, default);
         }
 
-        protected int Delete(fvtcEntities1 dc, DbSet<TEntity> table)
+        protected int Delete(CCEntities dc, DbSet<TEntity> table)
         {
             try
             {
@@ -290,7 +294,7 @@ namespace CC.Connections.BL
             return false;
         }
 
-        protected int Insert(fvtcEntities1 dc, DbSet<TEntity> table)
+        protected int Insert(CCEntities dc, DbSet<TEntity> table)
         {
             try
             {
@@ -394,7 +398,7 @@ namespace CC.Connections.BL
             }
         }
 
-        protected int Update(fvtcEntities1 dc, DbSet<TEntity> table)
+        protected int Update(CCEntities dc, DbSet<TEntity> table)
         {
             try
             {
@@ -514,7 +518,7 @@ namespace CC.Connections.BL
             //        }
             //    }
         }
-        public void DeleteAllPreferences(fvtcEntities1 dc, DbSet<TEntityJoin> join_table)
+        public void DeleteAllPreferences(CCEntities dc, DbSet<TEntityJoin> join_table)
         {
             foreach (var col in join_table)
                 if (joinGrouping_ID.Equals(Utils.getValue(col, joinGrouping_ID_name)))
@@ -523,7 +527,7 @@ namespace CC.Connections.BL
             this.Clear();
         }
 
-        public void Add(fvtcEntities1 dc, DbSet<TEntityJoin> joinTable, TEntityJoin joinInstance, Tcrud entry)
+        public void Add(CCEntities dc, DbSet<TEntityJoin> joinTable, TEntityJoin joinInstance, Tcrud entry)
         {
             if (joinTable_Properties[0].GetValue(joinInstance) is int)//gets type int
             {
@@ -553,7 +557,7 @@ namespace CC.Connections.BL
             dc.SaveChanges();
             base.Add(entry);
         }
-        public void Remove(fvtcEntities1 dc, DbSet<TEntityJoin> joinTable, Tcrud entry)
+        public void Remove(CCEntities dc, DbSet<TEntityJoin> joinTable, Tcrud entry)
         {
             foreach (var join in joinTable)
             {

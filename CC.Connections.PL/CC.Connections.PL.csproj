@@ -55,69 +55,72 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Category.cs">
-      <DependentUpon>DBconnection.tt</DependentUpon>
+      <DependentUpon>CharityConnectionModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Charity.cs">
-      <DependentUpon>DBconnection.tt</DependentUpon>
+      <DependentUpon>CharityConnectionModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CharityConnectionModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CharityConnectionModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CharityConnectionModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CharityConnectionModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CharityConnectionModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CharityConnectionModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Charity_Event.cs">
-      <DependentUpon>DBconnection.tt</DependentUpon>
+      <DependentUpon>CharityConnectionModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Contact_Info.cs">
-      <DependentUpon>DBconnection.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DBconnection.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DBconnection.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DBconnection.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DBconnection.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DBconnection.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DBconnection.edmx</DependentUpon>
+      <DependentUpon>CharityConnectionModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Event_Attendance.cs">
-      <DependentUpon>DBconnection.tt</DependentUpon>
+      <DependentUpon>CharityConnectionModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Helping_Action.cs">
-      <DependentUpon>DBconnection.tt</DependentUpon>
+      <DependentUpon>CharityConnectionModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Location.cs">
-      <DependentUpon>DBconnection.tt</DependentUpon>
+      <DependentUpon>CharityConnectionModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Log_in.cs">
-      <DependentUpon>DBconnection.tt</DependentUpon>
+      <DependentUpon>CharityConnectionModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Member.cs">
-      <DependentUpon>DBconnection.tt</DependentUpon>
+      <DependentUpon>CharityConnectionModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Member_Action.cs">
-      <DependentUpon>DBconnection.tt</DependentUpon>
+      <DependentUpon>CharityConnectionModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Member_Type.cs">
+      <DependentUpon>CharityConnectionModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Preference.cs">
-      <DependentUpon>DBconnection.tt</DependentUpon>
+      <DependentUpon>CharityConnectionModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Preferred_Category.cs">
-      <DependentUpon>DBconnection.tt</DependentUpon>
+      <DependentUpon>CharityConnectionModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Preferred_Charity.cs">
-      <DependentUpon>DBconnection.tt</DependentUpon>
+      <DependentUpon>CharityConnectionModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
-    <EntityDeploy Include="DBconnection.edmx">
+    <EntityDeploy Include="CharityConnectionModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>DBconnection.Designer.cs</LastGenOutput>
+      <LastGenOutput>CharityConnectionModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="DBconnection.edmx.diagram">
-      <DependentUpon>DBconnection.edmx</DependentUpon>
+    <None Include="CharityConnectionModel.edmx.diagram">
+      <DependentUpon>CharityConnectionModel.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
@@ -125,16 +128,17 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DBconnection.Context.tt">
+    <Content Include="CharityConnectionModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DBconnection.edmx</DependentUpon>
-      <LastGenOutput>DBconnection.Context.cs</LastGenOutput>
+      <DependentUpon>CharityConnectionModel.edmx</DependentUpon>
+      <LastGenOutput>CharityConnectionModel.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="DBconnection.tt">
+    <Content Include="CharityConnectionModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DBconnection.edmx</DependentUpon>
-      <LastGenOutput>DBconnection.cs</LastGenOutput>
+      <DependentUpon>CharityConnectionModel.edmx</DependentUpon>
+      <LastGenOutput>CharityConnectionModel.cs</LastGenOutput>
     </Content>
+    <Content Include="DBconnection.edmx.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

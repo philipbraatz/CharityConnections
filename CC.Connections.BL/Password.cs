@@ -63,7 +63,7 @@ namespace CC.Connections.BL
                     {
                     GenerateDefault(email);//generate
                                            //insert
-                    using (fvtcEntities1 dc = new fvtcEntities1())
+                    using (CCEntities dc = new CCEntities())
                         this.Insert(dc.Log_in.Max(c =>
                             c.LogInMember_ID).GetValueOrDefault());
                     }
@@ -98,7 +98,7 @@ namespace CC.Connections.BL
         {
             try
             {
-                using (fvtcEntities1 dc = new fvtcEntities1())
+                using (CCEntities dc = new CCEntities())
                 {
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invalid");
@@ -124,7 +124,7 @@ namespace CC.Connections.BL
 
         internal bool Insert(int iD)
         {
-            using (fvtcEntities1 dc = new fvtcEntities1())
+            using (CCEntities dc = new CCEntities())
             {
                 if (dc.Log_in.ToList().Count > 0)
                     iD = (int)dc.Log_in.Max(c => c.LogInMember_ID) + 1;
@@ -149,7 +149,7 @@ namespace CC.Connections.BL
 
         internal void Delete()
         {
-            using (fvtcEntities1 dc = new fvtcEntities1())
+            using (CCEntities dc = new CCEntities())
             {
                 dc.Log_in.Remove(dc.Log_in.Where(c => c.ContactInfoEmail == email).FirstOrDefault());
                 this.email = string.Empty;
@@ -160,7 +160,7 @@ namespace CC.Connections.BL
 
         internal void Update()
         {
-            using (fvtcEntities1 dc = new fvtcEntities1())
+            using (CCEntities dc = new CCEntities())
             {
                 PL.Log_in entry = dc.Log_in.Where(c => c.ContactInfoEmail == this.email).FirstOrDefault();
                 entry.LogInPassword = hash;
@@ -179,7 +179,7 @@ namespace CC.Connections.BL
                     throw new Exception("Password must be set");//no UserPass
                 else
                 {
-                    using (fvtcEntities1 dc = new fvtcEntities1())
+                    using (CCEntities dc = new CCEntities())
                     {
                         PL.Log_in entry = dc.Log_in.FirstOrDefault(u => u.ContactInfoEmail == this.email);
                         if (entry == null)
@@ -201,7 +201,7 @@ namespace CC.Connections.BL
         {
             try
             {
-                using (fvtcEntities1 dc = new fvtcEntities1())
+                using (CCEntities dc = new CCEntities())
                 {
                     if (dc.Log_in.ToList().Count != 0)
                         dc.Log_in.ToList().ForEach(c =>

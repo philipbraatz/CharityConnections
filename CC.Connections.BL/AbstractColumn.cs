@@ -16,9 +16,9 @@ namespace CC.Connections.BL
         bool Exists(DbSet<TEntity> table);
         void LoadId(DbSet<TEntity> table);
         void LoadId(DbSet<TEntity> table, int id);
-        int Insert(fvtcEntities1 dc, DbSet<TEntity> table);
-        int Delete(fvtcEntities1 dc, DbSet<TEntity> table);
-        int Update(fvtcEntities1 dc, DbSet<TEntity> table);
+        int Insert(CCEntities dc, DbSet<TEntity> table);
+        int Delete(CCEntities dc, DbSet<TEntity> table);
+        int Update(CCEntities dc, DbSet<TEntity> table);
     }
 
     //Table or Junction table join
@@ -29,8 +29,8 @@ namespace CC.Connections.BL
         void DeleteAllMatching(DbSet<TEntity> table);
         void LoadMatching(DbSet<TEntity> table, object matching_ID);
         void RemoveMatching(DbSet<TEntity> table, object matching_ID);
-        void Add(fvtcEntities1 dc, DbSet<TEntity> table, TEntity entry);
-        void Remove(fvtcEntities1 dc, DbSet<TEntity> table, TEntity entry);
+        void Add(CCEntities dc, DbSet<TEntity> table, TEntity entry);
+        void Remove(CCEntities dc, DbSet<TEntity> table, TEntity entry);
     }
 
     /// <summary>
