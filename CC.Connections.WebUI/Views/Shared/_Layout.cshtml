@@ -80,6 +80,10 @@
             background-color: #fffff0 !important;
         }
 
+        #cc-logo{
+            float:left;
+            width:100%;
+        }
         #volunteerBar {
             display: none;
         }
@@ -109,6 +113,7 @@
         }
 
         .navbar[target] {
+            width: 100%;
             padding-top: 10px;
             padding-bottom: 10px;
         }
@@ -120,7 +125,11 @@
         .nav-item :hover {
             color: #FF6633;
         }
-
+        #nav-logo {
+            width: 100%;
+            float: left;
+        }
+        
         .volunteer-category-bar {
             margin-left: 35px;
         }
@@ -154,14 +163,14 @@
 
 <body>
     <!-- added a target for style so it doesn't affect the lower navbar -->
-    <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light navbar-fixed-top navbar-custom" target="_lessBottomPad">
-        <div class="container">
+    <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light navbar-fixed-top navbar-custom"  target="_lessBottomPad">
+        <div class="container" >
             <div class="row nav1">
                 <div class="navbar-header col-sm-3">
 
                     <div class="navbar-header">
-                        <a class="navbar-brand" href="@Url.Action("Index", "Home")">
-                            <img src="~/Content/Images/ccweblogo.png" alt="Site Logo" style=" width:220px;" />
+                        <a class="navbar-brand" id="cc-logo"  href="@Url.Action("Index", "Home")">
+                            <img src="~/Content/Images/ccweblogo.png"  alt="Site Logo" style=" width:220px;" />
                         </a>
                     </div>
 
