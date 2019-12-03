@@ -154,7 +154,7 @@ namespace CC.Connections.BL
         public static implicit operator CharityEvent(PL.Charity_Event entry)
         { return new CharityEvent(entry.CharityEvent_ID); }
 
-        //public static implicit operator CharityEvent(PL.Charity entry)
+        //public static implicit operator CharityEvent(PL.Charities entry)
         //{ return new CharityEvent(entry.Charity_Contact_ID); }
         public static bool Exists(CCEntities dc, int eventID)
         {

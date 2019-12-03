@@ -25,8 +25,6 @@ namespace CC.Connections.PL
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Category> Categories { get; set; }
-        public virtual DbSet<Charity> Charities { get; set; }
         public virtual DbSet<Charity_Event> Charity_Event { get; set; }
         public virtual DbSet<Contact_Info> Contact_Info { get; set; }
         public virtual DbSet<Event_Attendance> Event_Attendance { get; set; }
@@ -39,5 +37,7 @@ namespace CC.Connections.PL
         public virtual DbSet<Preference> Preferences { get; set; }
         public virtual DbSet<Preferred_Category> Preferred_Category { get; set; }
         public virtual DbSet<Preferred_Charity> Preferred_Charity { get; set; }
+        public virtual DbSet<Category> Categories { get; set; }
+        public virtual DbSet<Charity> Charities { get; set; }
     }
 }

@@ -16,7 +16,7 @@ namespace CC.Connections.BL
             set { base.ID = value; }
         }
 
-        //other parameters from PL.Category
+        //other parameters from PL.Categories
         [DisplayName("Description")]
         //must be the same name as the PL class
         public string Category_Desc

@@ -22,12 +22,9 @@ DROP TABLE IF EXISTS dbo.Contact_Info
 DROP TABLE IF EXISTS dbo.Charity_Event
 
 DROP TABLE IF EXISTS dbo.Location
-DROP TABLE IF EXISTS dbo.Category
-DROP TABLE IF EXISTS dbo.Member
-DROP TABLE IF EXISTS dbo.Charity
+DROP TABLE IF EXISTS dbo.Categories
+DROP TABLE IF EXISTS dbo.Members
+DROP TABLE IF EXISTS dbo.Charities
 DROP TABLE IF EXISTS dbo.Preferred_Category
 DROP TABLE IF EXISTS dbo.Preferred_Charity
 DROP TABLE IF EXISTS dbo.Helping_Action
-
-
-/*DROP TABLE IF EXISTS dbo.Helping_Action*/

@@ -97,7 +97,7 @@ namespace CC.Connections.BL
                 {
                     Clear();
 
-                    //set new id for prefered lists
+                    //set new id for preferred lists
                     if (dc.Members.ToList().Count > 0)
                         ID = dc.Members.Max(c => c.Member_ID) + 1;
                     else

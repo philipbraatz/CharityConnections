@@ -26,7 +26,7 @@ namespace CC.Connections.BL
             set { base.ID = value; }
         }
 
-        //other parameters from PL.Category
+        //other parameters from PL.Categories
         public int Event_ID
         {
             get { return (int)base.getProperty("Event_ID"); }

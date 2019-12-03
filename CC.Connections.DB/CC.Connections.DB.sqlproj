@@ -121,8 +121,6 @@
     <Folder Include="Post-Deployment" />
     <Folder Include="Post-Deployment\DefaultData" />
     <Folder Include="Pre-Deployment" />
-    <Folder Include="dbo\" />
-    <Folder Include="dbo\Tables\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Post-Deployment\DefaultData\Category.sql" />
@@ -152,21 +150,5 @@
   </ItemGroup>
   <ItemGroup>
     <PreDeploy Include="Pre-Deployment\Script.PreDeployment1.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <Build Include="dbo\Tables\Log_in.sql" />
-    <Build Include="dbo\Tables\Member_Action.sql" />
-    <Build Include="dbo\Tables\Member_Type.sql" />
-    <Build Include="dbo\Tables\Preferred_Category.sql" />
-    <Build Include="dbo\Tables\Preference.sql" />
-    <Build Include="dbo\Tables\Event_Attendance.sql" />
-    <Build Include="dbo\Tables\Location.sql" />
-    <Build Include="dbo\Tables\Category.sql" />
-    <Build Include="dbo\Tables\Charity_Event.sql" />
-    <Build Include="dbo\Tables\Preferred_Charity.sql" />
-    <Build Include="dbo\Tables\Member.sql" />
-    <Build Include="dbo\Tables\Helping_Action.sql" />
-    <Build Include="dbo\Tables\Charity.sql" />
-    <Build Include="dbo\Tables\Contact_Info.sql" />
   </ItemGroup>
 </Project>
