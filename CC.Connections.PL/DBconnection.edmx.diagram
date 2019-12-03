@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="df4fc7be105444099449bde79cb8a2ba" Name="Diagram1">
+        <EntityTypeShape EntityType="fvtcModel.Category" Width="1.5" PointX="0.75" PointY="3.75" />
+        <EntityTypeShape EntityType="fvtcModel.Charity_Event" Width="1.5" PointX="4.75" PointY="3.75" />
+        <EntityTypeShape EntityType="fvtcModel.Contact_Info" Width="1.5" PointX="4.625" PointY="0.5" />
+        <EntityTypeShape EntityType="fvtcModel.Event_Attendance" Width="1.5" PointX="6.75" PointY="3.75" />
+        <EntityTypeShape EntityType="fvtcModel.Helping_Action" Width="1.75" PointX="0.5" PointY="0.5" />
+        <EntityTypeShape EntityType="fvtcModel.Location" Width="1.5" PointX="6.75" PointY="6.75" />
+        <EntityTypeShape EntityType="fvtcModel.Log_in" Width="3.75" PointX="6.5" PointY="0.5" />
+        <EntityTypeShape EntityType="fvtcModel.Member_Action" Width="1.5" PointX="2.75" PointY="0.5" />
+        <EntityTypeShape EntityType="fvtcModel.Preference" Width="1.5" PointX="2.75" PointY="7.75" />
+        <EntityTypeShape EntityType="fvtcModel.Preferred_Category" Width="1.5" PointX="8.75" PointY="3.75" />
+        <EntityTypeShape EntityType="fvtcModel.Preferred_Charity" Width="1.5" PointX="8.75" PointY="6.75" />
+        <AssociationConnector Association="fvtcModel.FK__Member_Ac__Membe__38EE7070" />
+        <EntityTypeShape EntityType="fvtcModel.Member" Width="1.5" PointX="0.75" PointY="7" />
+        <EntityTypeShape EntityType="fvtcModel.Charity" Width="1.5" PointX="2.75" PointY="3.5" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
