@@ -190,8 +190,8 @@
             <End Role="Helping_Action" EntitySet="Helping_Action" />
             <End Role="Member_Action" EntitySet="Member_Action" />
           </AssociationSet>
-          <EntitySet Name="Categories" EntityType="CharityConnectionsModel.Category" />
-          <EntitySet Name="Charities" EntityType="CharityConnectionsModel.Charity" />
+          <EntitySet Name="Categories" EntityType="CharityConnectionsModel.Categories" />
+          <EntitySet Name="Charities" EntityType="CharityConnectionsModel.Charities" />
         </EntityContainer>
         <EntityType Name="Charity_Event">
           <Key>
@@ -315,7 +315,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Category">
+        <EntityType Name="Categories">
           <Key>
             <PropertyRef Name="Category_ID" />
           </Key>
@@ -324,7 +324,7 @@
           <Property Name="Category_Color" Type="String" MaxLength="6" FixedLength="false" Unicode="true" />
           <Property Name="Category_Image" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="Charity">
+        <EntityType Name="Charities">
           <Key>
             <PropertyRef Name="Charity_ID" />
           </Key>
@@ -466,7 +466,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Categories">
-            <EntityTypeMapping TypeName="CharityConnectionsModel.Category">
+            <EntityTypeMapping TypeName="CharityConnectionsModel.Categories">
               <MappingFragment StoreEntitySet="Categories">
                 <ScalarProperty Name="Category_Image" ColumnName="Category_Image" />
                 <ScalarProperty Name="Category_Color" ColumnName="Category_Color" />
@@ -476,7 +476,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Charities">
-            <EntityTypeMapping TypeName="CharityConnectionsModel.Charity">
+            <EntityTypeMapping TypeName="CharityConnectionsModel.Charities">
               <MappingFragment StoreEntitySet="Charities">
                 <ScalarProperty Name="Charity_Requirements" ColumnName="Charity_Requirements" />
                 <ScalarProperty Name="Location_ID" ColumnName="Location_ID" />

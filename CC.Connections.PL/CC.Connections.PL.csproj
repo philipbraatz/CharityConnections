@@ -54,10 +54,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Category.cs">
+    <Compile Include="Categories.cs">
       <DependentUpon>CharityConnectionModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Charity.cs">
+    <Compile Include="Charities.cs">
       <DependentUpon>CharityConnectionModel.tt</DependentUpon>
     </Compile>
     <Compile Include="CharityConnectionModel.Context.cs">

@@ -70,7 +70,7 @@ namespace CC.Connections.BL
             Clear();
             LoadId(id);
         }
-        public Charity(PL.Charity entry)
+        public Charity(PL.Charities entry)
         {
             Clear();
             //this.setContactInfo((Charity)AbsContact.ContactInfo_Email(entry.Charity_Email.ToString));
@@ -148,7 +148,7 @@ namespace CC.Connections.BL
             Deductibility = false;
             URL = string.Empty;
             Cause = string.Empty;
-            Category = new Category();
+            Category = new AbsCategory();
             Location = new Location();
             Requirements = string.Empty;
         }
@@ -169,7 +169,7 @@ namespace CC.Connections.BL
             {
                 using (CCEntities dc = new CCEntities())
                 {
-                    PL.Charity entry = dc.Charities.Where(c => c.Charity_ID == this.ID).FirstOrDefault();
+                    PL.Charities entry = dc.Charities.Where(c => c.Charity_ID == this.ID).FirstOrDefault();
                     if (entry != null)
                         this.ID = entry.Charity_ID;
                     else
@@ -212,7 +212,7 @@ namespace CC.Connections.BL
                         if (dc.Charities.Where(c => c.Charity_ID == ID) != null)
                             ID = dc.Charities.Max(c => c.Charity_ID) + 1;
                         
-                        PL.Charity entry = new PL.Charity
+                        PL.Charities entry = new PL.Charities
                         {
                             Charity_ID = ID,
                             Charity_Name = this.ChName,
@@ -242,7 +242,7 @@ namespace CC.Connections.BL
             {           
                 using (CCEntities dc = new CCEntities())
                 {
-                    PL.Charity entry = dc.Charities.Where(c => c.Charity_ID == this.ID).FirstOrDefault();
+                    PL.Charities entry = dc.Charities.Where(c => c.Charity_ID == this.ID).FirstOrDefault();
                     entry.Charity_Category_ID = this.Category.ID;
                     entry.Charity_Cause = this.Cause;
                     entry.Charity_Name = this.ChName;
@@ -285,7 +285,7 @@ namespace CC.Connections.BL
                 using (CCEntities dc = new CCEntities())
                 {
                     Charity retChar = new Charity();
-                    PL.Charity entryCharity = dc.Charities.FirstOrDefault(c => c.Charity_ID == charity_ID);
+                    PL.Charities entryCharity = dc.Charities.FirstOrDefault(c => c.Charity_ID == charity_ID);
                     if (entryCharity == null)
                         throw new Exception("Charity does not exist: Charity ID '" + retChar.ID + "'"); ;
 

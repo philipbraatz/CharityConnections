@@ -5,7 +5,7 @@ using System.Data.Entity;
 
 namespace CC.Connections.BL
 {
-    public class AbsCategory : ColumnEntry<PL.Category>
+    public class AbsCategory : ColumnEntry<PL.Categories>
     {
         //Parameters
 
@@ -37,7 +37,7 @@ namespace CC.Connections.BL
 
         public AbsCategory() : 
             base(){ }
-        public AbsCategory(PL.Category entry) : 
+        public AbsCategory(PL.Categories entry) : 
             base(entry) { }
         public AbsCategory(int id) : 
             base(new CCEntities().Categories, id){}
@@ -45,7 +45,7 @@ namespace CC.Connections.BL
         //Category pl = new Category();
         //...
         //AbsCategory bl = (AbsCategory)pl
-        public static implicit operator AbsCategory(PL.Category entry)
+        public static implicit operator AbsCategory(PL.Categories entry)
         {return new AbsCategory(entry);}
 
         public void LoadId(){
@@ -81,7 +81,7 @@ namespace CC.Connections.BL
         }
     }
 
-    public class AbsCategoryList : AbsList<AbsCategory, Category>
+    public class AbsCategoryList : AbsList<AbsCategory, Categories>
     {
         public new void LoadAll()
         {
@@ -93,7 +93,7 @@ namespace CC.Connections.BL
             }
         }
     }
-    public class AbsCategoryPreferences : AbsListJoin<AbsCategory, Category, Preferred_Category>
+    public class AbsCategoryPreferences : AbsListJoin<AbsCategory, Categories, Preferred_Category>
     {
         int memberID
         {

@@ -37,7 +37,7 @@ namespace CC.Connections.PL
         public virtual DbSet<Preference> Preferences { get; set; }
         public virtual DbSet<Preferred_Category> Preferred_Category { get; set; }
         public virtual DbSet<Preferred_Charity> Preferred_Charity { get; set; }
-        public virtual DbSet<Category> Categories { get; set; }
-        public virtual DbSet<Charity> Charities { get; set; }
+        public virtual DbSet<Categories> Categories { get; set; }
+        public virtual DbSet<Charities> Charities { get; set; }
     }
 }

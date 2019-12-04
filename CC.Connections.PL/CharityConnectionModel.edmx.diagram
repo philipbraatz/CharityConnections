@@ -18,8 +18,8 @@
         <EntityTypeShape EntityType="CharityConnectionsModel.Preferred_Category" Width="1.5" PointX="8.75" PointY="6.75" />
         <EntityTypeShape EntityType="CharityConnectionsModel.Preferred_Charity" Width="1.5" PointX="9.75" PointY="0.75" />
         <AssociationConnector Association="CharityConnectionsModel.FK__Member_Ac__Membe__38EE7070" />
-        <EntityTypeShape EntityType="CharityConnectionsModel.Category" Width="1.5" PointX="2.125" PointY="3.875" />
-        <EntityTypeShape EntityType="CharityConnectionsModel.Charity" Width="1.5" PointX="4.625" PointY="6.875" />
+        <EntityTypeShape EntityType="CharityConnectionsModel.Categories" Width="1.5" PointX="2.125" PointY="3.875" />
+        <EntityTypeShape EntityType="CharityConnectionsModel.Charities" Width="1.5" PointX="4.625" PointY="6.875" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

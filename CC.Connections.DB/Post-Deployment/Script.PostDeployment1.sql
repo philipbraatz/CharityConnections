@@ -10,7 +10,7 @@ Post-Deployment Script Template
 --------------------------------------------------------------------------------------
 */
 
-:r .\DefaultData\Category.sql
+:r .\DefaultData\Categories.sql
 :r .\DefaultData\Charity.sql
 :r .\DefaultData\CharityEvents.sql
 :r .\DefaultData\ContactInfo.sql
@@ -22,5 +22,5 @@ Post-Deployment Script Template
 :r .\DefaultData\MemberAction.sql
 :r .\DefaultData\MemberType.sql
 :r .\DefaultData\Preferences.sql
-:r .\DefaultData\PreferredCategory.sql
+:r .\DefaultData\PreferredCategories.sql
 :r .\DefaultData\PreferredCharity.sql

@@ -25,11 +25,11 @@ GO
 -- Dropping existing tables
 -- --------------------------------------------------
 
-IF OBJECT_ID(N'[dbo].[Category]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Category];
+IF OBJECT_ID(N'[dbo].[Categories]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Categories];
 GO
-IF OBJECT_ID(N'[dbo].[Charity]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Charity];
+IF OBJECT_ID(N'[dbo].[Charities]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Charities];
 GO
 IF OBJECT_ID(N'[dbo].[Charity_Event]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Charity_Event];
