@@ -1,6 +1,7 @@
 ﻿BEGIN
 	INSERT INTO Locations(Location_ID, ContactInfoAddress, ContactInfoCity, ContactInfoState, ContactInfoZip)
 	VALUES
+	(0, 'null', 'null', 'null', 'null'),
 	(1, '123 Main St.', 'Appleton', 'WI', '54911'),
 	(2, '321 Main St.', 'Green Bay', 'WI', '54229'),
 	(3, '563 Main St.', 'Appleton', 'WI', '54911')
