@@ -106,6 +106,29 @@ namespace CC.Connections.WebUI.Controllers
             }
         }
 
+        [HttpPost]
+        public ActionResult CharitySignUpView(CharitySignup csu)
+        {
+            try
+            {
+                Charity newCharity = new Charity(csu.CharityEmail, csu.password.Pass, true);
+                newCharity.setCharityInfo((Charity)csu);
+                newCharity.Insert();
+
+                Session["charity"] = csu.password;
+                return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message != "The underlying provider failed on Open.")
+                    ViewBag.Message = ex.Message;
+                else
+                    ViewBag.Message = "Unable to process any sign up's at this time.";//specialized error handler
+
+                return View(csu);
+            }
+        }
+
         public ActionResult AutoV_View()
         {
             Session["member"] = new Password("auto@login.com");

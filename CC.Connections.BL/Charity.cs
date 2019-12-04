@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CC.Connections.PL;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 
 
@@ -22,25 +23,32 @@ namespace CC.Connections.BL
 
         //ContactInfo_LName = Not used
         //ContactInfo_FullName = Not used
-
-        public string ChName { get; set; }
-        [DisplayName("CharityName")]
+        
+        [DisplayName("Charity Name (Required)")]
+        public string CharityName { get; set; }
 
         public new int ID { get; set; }
-        [DisplayName("Federal Tax ID#")]
+        [DisplayName("Federal Tax ID# (Required)")]
         public string EIN { get; set; }
+
         [DisplayName("Is Deductible")]
         public bool Deductibility { get; set; }
-        [DisplayName("Charity Web Site")]
+
+        [DisplayName("Charity Web Site (Required)")]
         public string URL { get; set; }
-        [DisplayName("Charities Cause")]
+
+        [DisplayName("Charities Cause (Required)")]
         public string Cause { get; set; }
+
         public AbsCategory Category { get; set; }//never delete
         public AbsLocation Location { get; set; }//delete when removed
-        [DisplayName("Charities Requirements")]
+
+        [DisplayName("Charities Requirements (Required)")]
         public string Requirements { get; set; }
-        [DisplayName("Charity Email")]
+
+        [DisplayName("Charity Email (Required)")]
         public string CharityEmail { get; set; }
+
         public Password Password { get; set; }//delete when removed
 
         public CharityEventList charityEvents { get; set; }
@@ -49,10 +57,10 @@ namespace CC.Connections.BL
         {
             return dc.Charities.Where(c => c.Charity_ID == id).FirstOrDefault() != null;
         }
-        public string CharityName { 
+        /*public string CharityName { 
             get { return ContactInfo_LName; }
             set { ContactInfo_LName = value; }
-        }
+        }*/
 
         public Charity()
         {
@@ -76,7 +84,7 @@ namespace CC.Connections.BL
             //this.setContactInfo((Charity)AbsContact.ContactInfo_Email(entry.Charity_Email.ToString));
             //this.setContactInfo((Charity)AbsContact.fromNumID(entry.Charity_Contact_ID.Value));
             this.ID                 = entry.Charity_ID;
-            this.ChName             = entry.Charity_Name;
+            this.CharityName        = entry.Charity_Name;
             this.Deductibility      = entry.Charity_Deductibility.Value;
             this.EIN                = entry.Charity_EIN;
             this.ContactInfo_Email  = entry.Charity_Email;
@@ -85,6 +93,17 @@ namespace CC.Connections.BL
             this.Cause              = entry.Charity_Cause;
             this.Category = new AbsCategory(entry.Charity_Category_ID.Value);
             this.Location = new AbsLocation(entry.Location_ID.Value);
+        }
+
+        public void setCharityInfo(Charity charityInfo)
+        {
+            this.CharityName = charityInfo.CharityName ?? "";
+            this.CharityEmail = charityInfo.CharityEmail ?? "";
+            this.Cause = charityInfo.Cause ?? "";
+            this.URL = charityInfo.URL ?? "";
+            this.Deductibility = charityInfo.Deductibility;
+            this.EIN = charityInfo.EIN;
+            this.Requirements = charityInfo.Requirements;
         }
 
 
@@ -142,7 +161,7 @@ namespace CC.Connections.BL
         private new void Clear()
         {
             base.Clear();
-            ChName = string.Empty;
+            CharityName = string.Empty;
             CharityEmail = string.Empty;
             EIN = string.Empty;
             Deductibility = false;
@@ -179,7 +198,7 @@ namespace CC.Connections.BL
 
                     //base.setContactInfo(AbsContact.fromNumID(entry.Charity_Contact_ID));
                     this.EIN            = entry.Charity_EIN;
-                    this.CharityName    = entry.Charity_Name;
+                    this.CharityName         = entry.Charity_Name;
                     this.Deductibility  = entry.Charity_Deductibility.Value;
                     this.URL            = entry.Charity_URL;
                     this.Cause          = entry.Charity_Cause;
@@ -215,7 +234,7 @@ namespace CC.Connections.BL
                         PL.Charities entry = new PL.Charities
                         {
                             Charity_ID = ID,
-                            Charity_Name = this.ChName,
+                            Charity_Name = this.CharityName,
                             Charity_EIN = EIN,
                             Charity_Deductibility = Deductibility,
                             Charity_URL = URL,
@@ -245,7 +264,7 @@ namespace CC.Connections.BL
                     PL.Charities entry = dc.Charities.Where(c => c.Charity_ID == this.ID).FirstOrDefault();
                     entry.Charity_Category_ID = this.Category.ID;
                     entry.Charity_Cause = this.Cause;
-                    entry.Charity_Name = this.ChName;
+                    entry.Charity_Name = this.CharityName;
                     entry.Charity_Deductibility = this.Deductibility;
                     entry.Charity_EIN = this.EIN;
                     entry.Charity_Email = this.CharityEmail;
