@@ -2,6 +2,7 @@
 using CC.Connections.PL;
 using System.ComponentModel;
 using System.Data.Entity;
+using System.Data.Entity.Core;
 
 namespace CC.Connections.BL
 {
@@ -85,11 +86,19 @@ namespace CC.Connections.BL
     {
         public new void LoadAll()
         {
+            try
+            {
             using (CCEntities dc = new CCEntities())
             {
                 //base.LoadAll(dc.Categories);
                 foreach (var c in dc.Categories.ToList())
                     base.Add(new AbsCategory(c));
+            }
+            }
+            catch (EntityException e)
+            {
+                throw e.InnerException;
+
             }
         }
     }
