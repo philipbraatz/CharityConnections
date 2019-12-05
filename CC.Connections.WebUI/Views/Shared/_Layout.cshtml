@@ -20,12 +20,12 @@
         $(document).ready(function () {
             // TODO: move the jQuery to it's own document to clean up this page
 
+            $("#volunteerBar").hide();
+
             // Displays the volunteer category nav bar when hovering over "find volunteer opportunities"
             $("#findVolunteerBtn").mouseenter(function () {
 
-
-                // This will keep second (find volunteer) nav at top of page when scrolling
-                $("#volunteerBar").appendTo(".nav1").slideToggle("slow");
+                $("#volunteerBar").slideToggle();
             })
 
             // Changes the picture (different color) when hovering over link
@@ -84,9 +84,6 @@
             float:left;
             width:100%;
         }
-        #volunteerBar {
-            display: none;
-        }
 
         a {
             padding-right: 20px;
@@ -104,16 +101,18 @@
             padding-left: 10px;
             padding-bottom: 5px;
         }
+
         dropdown-item{
             padding-bottom: 10px;
         }
 
         .row-bottom {
-            padding-left: 10px;
+            /*padding-left: 10px;*/
         }
 
         .navbar[target] {
-            width: 100%;
+            /*width: 100%;*/
+
             padding-top: 10px;
             padding-bottom: 10px;
         }
@@ -125,12 +124,19 @@
         .nav-item :hover {
             color: #FF6633;
         }
+
         #nav-logo {
             width: 100%;
             float: left;
         }
         
+        #volunteerBar {
+            /* Hides the volunteer navbar on screen load */
+            display: none;
+        }
+
         .volunteer-category-bar {
+            /* Spaces medallion links out */
             margin-left: 35px;
         }
 
@@ -162,28 +168,34 @@
 }
 
 <body>
+    <!-- MAIN NAVBAR -->
     <!-- added a target for style so it doesn't affect the lower navbar -->
     <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light navbar-fixed-top navbar-custom"  target="_lessBottomPad">
         <div class="container" >
             <div class="row nav1">
-                <div class="navbar-header col-sm-3">
-
+                <div class="navbar-header col-sm-4">
+                    <!-- LOGO -->
                     <div class="navbar-header">
                         <a class="navbar-brand" id="cc-logo"  href="@Url.Action("Index", "Home")">
-                            <img src="~/Content/Images/ccweblogo.png"  alt="Site Logo" style=" width:220px;" />
+                            <img src="~/Content/Images/ccweblogo.png"  alt="Site Logo" style="width:220px;" />
                         </a>
                     </div>
-
 
                     <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation" style="padding:0.25rem 0.75rem; margin-left:2rem">
                         <span class="navbar-toggler-icon"></span>
                     </button>
 
                 </div>
-                <div class="navbar-collapse collapse col-sm-9" id="navbarColor03" target="_moreleftpadding">
-                    <ul class="nav navbar-nav mr-auto row row-bottom">
-                        <!-- row (row may not be needed depending on if we add the round links to this navbar or make another) row-bottom -->
-                        <li class="nav-item">@Html.ActionLink("Home", "Index", "Home")</li>
+
+                <!-- ADDED THIS DIV AS A TEMPORARY FIX -->
+                <div class="col-sm-1"></div>
+
+                <!-- MAIN NAV LINKS -->
+                <div class="navbar-collapse collapse col-sm-7 float" id="navbarColor03" >
+
+                    <ul class="nav navbar-nav ml-auto row row-bottom">
+
+                        @*<li class="nav-item">@Html.ActionLink("Home", "Index", "Home")</li>*@
                         <li class="nav-item" id="findVolunteerBtn">@Html.ActionLink("Find Volunteer Opportunities", "Index", "CharityEvent")</li>
 
                         <!--Profile Dropdown-->
@@ -235,10 +247,9 @@
     </nav>
 
 
-
+    <!-- VOLUNTEER CATEGORIES NAVBAR -->
     <nav class="navbar navbar-custom justify-content-center navbar-expand-lg navbar-light bg-light navbar-fixed-top" id="volunteerBar">
         <!-- Added in this hr line because appending the second nav caused a line to appear under it -->
-        <hr />
         <div class="container">
             <!--#region Removed this div to remove hamburger menu button from the mobile view -->
             <!-- <div class="navbar-header"> -->
