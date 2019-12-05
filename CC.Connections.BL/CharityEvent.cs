@@ -340,6 +340,7 @@ namespace CC.Connections.BL
             {
                 using (CCEntities dc = new CCEntities())
                 {
+                    var test = dc.Charity_Event.ToList();
                     dc.Charity_Event.ToList().ForEach(c => this.Add(c, true));
                 }
             }
@@ -476,7 +477,7 @@ namespace CC.Connections.BL
         }
 
         private void Add(CharityEvent item, bool overrideMethod = true)
-        {
+        {if(item.Event_ID != null)
             base.Add(item);
         }
         private void Remove(CharityEvent item, bool overrideMethod = true)
