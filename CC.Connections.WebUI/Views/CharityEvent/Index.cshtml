@@ -19,7 +19,7 @@
             <tr>
                 <td class="card">
                     <div class="card-header row">
-                        <img class="col-2 " src="~/Content/Images/CCDefaultPlaceholder.gif" alt="empty space for logo"> @* height="90" width="90" *@
+                        <img class="col-2 " src="~/Content/Images/CCDefaultPlaceholder.gif" alt="@item.CharityEventName">
                         <div class="col-8">
                             <a class="" title="Details" href="@Url.Action("Details", "CharityEvent", new { id = item.Event_ID })">
                                 <h2> @item.CharityEventName</h2>
@@ -33,7 +33,7 @@
                             }
                         </div>
                         <div class="col-1">
-                            <img style="padding-top:0px;" src="@(("/Content/Images/" + item.charity.Category.Category_Image.Trim() + ".svg"))" id="paw" title="@(item.charity.Category.Category_Image) ">
+                            <img style="padding-top:0px;" src="@(("/Content/Images/" + item.charity.Category.Category_Image.Trim() + ".svg"))" id="paw" title="@(item.charity.Category.Category_Desc) ">
                         </div>
                     </div>
                     <!--<div class="card-body">

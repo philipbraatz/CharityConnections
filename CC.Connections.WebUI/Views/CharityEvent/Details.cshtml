@@ -18,7 +18,7 @@
         <h4>Interested: @Model.atendees.CountInterested</h4>
         <<h4><b>@Model.CharityEventStatus</b></h4>
     </div>
-        <img class="btn-outline-info col-1" style="padding-top:0px;" src="@(("/Content/Images/" + Model.charity.Category.Category_Image.Trim() + ".svg"))" id="paw" title="@(Model.charity.Category.Category_Image) ">
+        <img class="btn-outline-info col-1" style="padding-top:0px;" src="@(("/Content/Images/" + Model.charity.Category.Category_Image.Trim() + ".svg"))" id="@(Model.charity.Category.Category_Image)" title="@(Model.charity.Category.Category_Desc) ">
     </div>
     <div class="card-body">
         <h4> @Html.DisplayFor(model => model.CharityEventName)</h4>
