@@ -169,7 +169,9 @@ namespace CC.Connections.BL
             }
         }
 
-        public bool Login()
+        //guest if password didnt match
+        //otherwise sets volunteer or charity
+        public void Login()
         {
             try
             {
@@ -183,9 +185,11 @@ namespace CC.Connections.BL
                     {
                         PL.Log_in entry = dc.Log_in.FirstOrDefault(u => u.ContactInfoEmail == this.email);
                         if (entry == null)
-                            return false;
+                            this.MemberType = MemberType.GUEST;//doesnt exist
+                        else if (entry.LogInPassword == hash)//success if match
+                            this.MemberType = (MemberType)entry.MemberType;
                         else
-                            return entry.LogInPassword == hash;//success if match
+                            this.MemberType = MemberType.GUEST;//failed
                     }
                 }
             }

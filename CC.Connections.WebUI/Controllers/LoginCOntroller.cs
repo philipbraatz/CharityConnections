@@ -15,7 +15,10 @@ namespace CC.Connections.WebUI.Controllers
         {
             Password c = (Password)Session["member"];
             if (c != null)
-                return View(c);
+                if (c.MemberType == MemberType.CHARITY)
+                    return RedirectToAction("CharityView", "Charity");
+                else
+                    return RedirectToAction("ProfileView", "VolunteerProfile");
             else
                 return View();
         }
@@ -42,7 +45,10 @@ namespace CC.Connections.WebUI.Controllers
             //Logged out
             HttpContext.Session["member"] = null;
 
-            return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());
+            if (ControllerContext.HttpContext.Request.UrlReferrer != null)
+                return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());//go back
+            else
+                return RedirectToAction("Index", "Home");//go to index
         }
 
         [HttpPost]
@@ -50,14 +56,16 @@ namespace CC.Connections.WebUI.Controllers
         {
             try
             {
-                if (passValue.Login())
+                passValue.Login();
+                if (passValue.MemberType != MemberType.GUEST)
                 {
                     Session["member"] = passValue;
                     ViewBag.Message = "You have been logged in";
-                    //if (returnurl != null)
-                    //    return Redirect(returnurl);
-                    //else
-                    return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());
+                    if (ControllerContext.HttpContext.Request.UrlReferrer != null && 
+                        ControllerContext.HttpContext.Request.UrlReferrer.LocalPath !=  "/Login/LoginView")
+                        return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());//go back
+                    else
+                        return RedirectToAction("Index", "Home");//go to index
                 }
                 else
                 {
@@ -116,7 +124,10 @@ namespace CC.Connections.WebUI.Controllers
                 newCharity.Insert();
 
                 Session["charity"] = csu.password;
-                return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());
+                if (ControllerContext.HttpContext.Request.UrlReferrer != null)
+                    return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());//go back
+                else
+                    return RedirectToAction("Index", "Home");//go to index
             }
             catch (Exception ex)
             {
@@ -132,12 +143,18 @@ namespace CC.Connections.WebUI.Controllers
         public ActionResult AutoV_View()
         {
             Session["member"] = new Password("auto@login.com");
-            return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());
+            if (ControllerContext.HttpContext.Request.UrlReferrer != null)
+                return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());//go back
+            else
+                return RedirectToAction("Index", "Home");//go to index
         }
         public ActionResult AutoC_View()
         {
             Session["member"] = new Password("auto@login.net");
-            return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());
+            if (ControllerContext.HttpContext.Request.UrlReferrer != null)
+                return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());//go back
+            else
+                return RedirectToAction("Index", "Home");//go to index
         }
     }
 }

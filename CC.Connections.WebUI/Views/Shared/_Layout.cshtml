@@ -226,6 +226,10 @@
                                 }
                                 else
                                 {
+                                    if (Request.IsLocal)
+                                    {
+                                        <li class="dropdown-item">@Html.ActionLink(((CC.Connections.BL.Password)Session["member"]).MemberType.ToString(), "ProfileView", "VolunteerProfile")</li>
+                                    }
                                     if (((CC.Connections.BL.Password)Session["member"]).MemberType == CC.Connections.BL.MemberType.VOLLUNTEER)
                                     {
                                         <li class="dropdown-item">@Html.ActionLink("My Account", "ProfileView", "VolunteerProfile")</li>

@@ -23,8 +23,10 @@ namespace CC.Connections.WebUI.Controllers
                     ViewBag.Message = e.Message;
                     return View(new AbsContact());//should not happen
                 }
+            else if (ControllerContext.HttpContext.Request.UrlReferrer != null)
+                return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());//go back
             else
-                return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());
+                return RedirectToAction("Index", "Home");//go to index
         }
 
         // GET: VolunteerProfile/Edit/5

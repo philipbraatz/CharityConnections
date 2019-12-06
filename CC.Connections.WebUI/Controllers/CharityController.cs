@@ -15,9 +15,11 @@ namespace CC.Connections.WebUI.Controllers
              ViewBag.ReturnUrl = returnUrl;
              Password p = (Password)Session["member"];
              if (p != null)
-                 return View(new Charity(p));
-             else
-                return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());
+                 return View(new Charity(p));//go to charity
+             else if(ControllerContext.HttpContext.Request.UrlReferrer != null)
+                return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());//go back
+            else
+                return RedirectToAction("Index", "Home");//go to index
         }
 
         // GET: Charity/Edit/5
