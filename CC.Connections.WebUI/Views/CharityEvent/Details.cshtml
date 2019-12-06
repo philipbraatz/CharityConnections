@@ -11,14 +11,18 @@
 
 <div class="card">
     <div class="card-header row">
-        <img class="col-2 " src="~/Content/Images/CCDefaultPlaceholder.gif" alt="empty space for logo"> @* height="90" width="90" *@
-    <div class="col-8">
-        <h2>@Html.DisplayFor(model => model.charity.CharityName)</h2>
-        <h4>Going: @Model.atendees.CountGoing</h4>
-        <h4>Interested: @Model.atendees.CountInterested</h4>
-        <<h4><b>@Model.CharityEventStatus</b></h4>
-    </div>
-        <img class="btn-outline-info col-1" style="padding-top:0px;" src="@(("/Content/Images/" + Model.charity.Category.Category_Image.Trim() + ".svg"))" id="@(Model.charity.Category.Category_Image)" title="@(Model.charity.Category.Category_Desc) ">
+        <a href="@Url.Action("Details", "Charity", new { id = Model.charity.ID })">
+            <img class="col-2 " src="~/Content/Images/CCDefaultPlaceholder.gif" alt="@(Model.charity.CharityName) logo" title="View Charity"> @* scr="/Content/Images/" + Model.charity.Charity_Image + ".svg" *@
+        </a>
+        <div class="col-8">
+            <h2>@Html.DisplayFor(model => model.charity.CharityName)</h2>
+            <h4>Going: @Model.atendees.CountGoing</h4>
+            <h4>Interested: @Model.atendees.CountInterested</h4>
+            <<h4><b>@Model.CharityEventStatus</b></h4>
+        </div>
+        <a href="@Url.Action("CategoryView", "CharityEvent", new { id = Model.charity.Category.ID })">
+            <img class="btn-outline-info col-1" style="padding-top:0px;" src="@(("/Content/Images/" + Model.charity.Category.Category_Image + ".svg"))" id="@(Model.charity.Category.Category_Image)" title="@(Model.charity.Category.Category_Desc) ">
+        </a>
     </div>
     <div class="card-body">
         <h4> @Html.DisplayFor(model => model.CharityEventName)</h4>

@@ -197,6 +197,7 @@
 
                         @*<li class="nav-item">@Html.ActionLink("Home", "Index", "Home")</li>*@
                         <li class="nav-item" id="findVolunteerBtn">@Html.ActionLink("Find Volunteer Opportunities", "Index", "CharityEvent")</li>
+                        <li class="nav-item" id="findCharityBtn">@Html.ActionLink("Find Charities", "Index", "Charity")</li>
 
                         <!--Profile Dropdown-->
                         <div class="nav-item dropdown">
@@ -274,15 +275,6 @@
                                 <li class="nav-item overout col-1 volunteer-category-bar" id="@category.Category_Image.Trim()" title="@category.Category_Desc"><a href="@Url.Action("CategoryView", "CharityEvent", new { id = category.ID })"><img src="@("../../Content/Images/" + category.Category_Image.Trim() + ".svg")" /></a></li>
                             }
                         }
-                        <!--#region  OLD LINKS -->
-                        <!--<li class="nav-item overout col-1 volunteer-category-bar" id="paw" title="Animals"><a href="@Url.Action("CategoryView","CharityEvent",new { id =1})"><img src="~/Content/Images/paw.svg" /></a></li>
-        <li class="nav-item col-1 volunteer-category-bar" id="book" title="Education"><a class="nav-fill" href="@Url.Action("CategoryView","CharityEvent",new { id =2})"><img src="~/Content/Images/book.svg" /></a></li>
-        <li class="nav-item col-1 volunteer-category-bar" id="health" title="Hospice"><a class="nav-fill" href="@Url.Action("CategoryView","CharityEvent",new { id =3})"><img src="~/Content/Images/health.svg" /></a></li>
-        <li class="nav-item col-1 volunteer-category-bar" id="people" title=""><a class="nav-fill" href="@Url.Action("CategoryView","CharityEvent",new { id =4})"><img src="~/Content/Images/people.svg" /></a></li>
-        <li class="nav-item col-1 volunteer-category-bar" id="tree" title="Environment"><a class="nav-fill" href="@Url.Action("CategoryView","CharityEvent",new { id =5})"><img src="~/Content/Images/tree.svg" /></a></li>
-        <li class="nav-item col-1 volunteer-category-bar" id="hands" title="Community"><a class="nav-fill" href="@Url.Action("CategoryView","CharityEvent",new { id =6})"><img src="~/Content/Images/hands.svg" /></a></li>
-            -->
-                    <!--#endregion-->
                     </ul>
             </div>
         </div>

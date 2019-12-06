@@ -19,10 +19,12 @@
             <tr>
                 <td class="card">
                     <div class="card-header row">
-                        <img class="col-2 " src="~/Content/Images/CCDefaultPlaceholder.gif" alt="@item.CharityEventName">
+                        <a href="@Url.Action("Details", "Charity", new { id = item.charity.ID })">
+                            <img class="col-2 " src="~/Content/Images/CCDefaultPlaceholder.gif" alt="@item.CharityEventName" title="View Charity">
+                        </a>
                         <div class="col-8">
                             <a class="" title="Details" href="@Url.Action("Details", "CharityEvent", new { id = item.Event_ID })">
-                                <h2> @item.CharityEventName</h2>
+                                <h2 title="Event Details"> @item.CharityEventName</h2>
                             </a>
                             <h3>Hosted by: @item.charity.CharityName</h3>
                             <h4>@item.CharityEventStatus</h4>
@@ -33,7 +35,9 @@
                             }
                         </div>
                         <div class="col-1">
-                            <img style="padding-top:0px;" src="@(("/Content/Images/" + item.charity.Category.Category_Image.Trim() + ".svg"))" id="paw" title="@(item.charity.Category.Category_Desc) ">
+                            <a href="@Url.Action("CategoryView", "CharityEvent", new { id = item.charity.Category.ID })">
+                                <img style="padding-top:0px;" src="@(("/Content/Images/" + item.charity.Category.Category_Image.Trim() + ".svg"))" id="paw" title="@(item.charity.Category.Category_Desc) ">
+                            </a>
                         </div>
                     </div>
                     <!--<div class="card-body">
