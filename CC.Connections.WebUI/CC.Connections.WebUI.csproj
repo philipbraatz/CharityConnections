@@ -205,6 +205,7 @@
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
     <None Include="Properties\PublishProfiles\charityconnections - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\charityconnections - FTP1.pubxml" />
     <None Include="Properties\PublishProfiles\charityconnections - Web Deploy.pubxml" />
     <Content Include="TimePicker\bootstrap-timepicker.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -224,6 +225,7 @@
     <Content Include="Scripts\bootstrap.js.map" />
     <Content Include="Scripts\bootstrap.bundle.min.js.map" />
     <Content Include="Scripts\bootstrap.bundle.js.map" />
+    <None Include="Properties\PublishProfiles\charityconnections - Web Deploy1.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
