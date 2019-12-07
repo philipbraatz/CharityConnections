@@ -11,64 +11,82 @@
 {
     <p>@Html.ActionLink("Create New", "Create")</p>
 }
-<table class="table">
-    @if (Model.ToList().Count != 0)
-    {
-        foreach (var item in Model)
+    <table class="table">
+        @if (Model.ToList().Count != 0)
         {
-            <tr>
-                <td class="card">
-                    <div class="card-header row">
-                        <a href="@Url.Action("Details", "Charity", new { id = item.charity.ID })">
-                            <img class="col-2 " src="~/Content/Images/CCDefaultPlaceholder.gif" alt="@item.CharityEventName" title="View Charity">
-                        </a>
-                        <div class="col-8">
-                            <a class="" title="Details" href="@Url.Action("Details", "CharityEvent", new { id = item.Event_ID })">
-                                <h2 title="Event Details"> @item.CharityEventName</h2>
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td class="card">
+                        <div class="card-header row">
+                            <a href="@Url.Action("Details", "Charity", new { id = item.charity.ID })">
+                                <img class="col-2 " src="~/Content/Images/CCDefaultPlaceholder.gif" alt="@item.CharityEventName" title="View Charity">
                             </a>
-                            <h3>Hosted by: @item.charity.CharityName</h3>
-                            <h4>@item.CharityEventStatus</h4>
-                            @if (item.CharityEventStatus != "Completed")
-                            {
-                                <h5>Days: @item.StartDate.ToShortDateString() to @item.EndDate.ToShortDateString() </h5>
-                                <h5>Time: @item.StartTime.ToShortTimeString() to @item.EndTime.ToShortTimeString() </h5>
-                            }
+                            <div class="col-8">
+                                <a class="" title="Details" href="@Url.Action("Details", "CharityEvent", new { id = item.Event_ID })">
+                                    <h2 title="Event Details"> @item.CharityEventName</h2>
+                                </a>
+                                <h3>Hosted by: @item.charity.CharityName</h3>
+                                <h4>@item.CharityEventStatus</h4>
+                                @if (item.CharityEventStatus != "Completed")
+                                {
+                                    <h5>Days: @item.StartDate.ToShortDateString() to @item.EndDate.ToShortDateString() </h5>
+                                    <h5>Time: @item.StartTime.ToShortTimeString() to @item.EndTime.ToShortTimeString() </h5>
+                                }
+                            </div>
+                            <div class="col-1">
+                                <a href="@Url.Action("CategoryView", "CharityEvent", new { id = item.charity.Category.ID })">
+                                    <img style="padding-top:0px;" src="@(("/Content/Images/" + item.charity.Category.Category_Image.Trim() + ".svg"))" id="paw" title="@(item.charity.Category.Category_Desc) ">
+                                </a>
+                            </div>
                         </div>
-                        <div class="col-1">
-                            <a href="@Url.Action("CategoryView", "CharityEvent", new { id = item.charity.Category.ID })">
-                                <img style="padding-top:0px;" src="@(("/Content/Images/" + item.charity.Category.Category_Image.Trim() + ".svg"))" id="paw" title="@(item.charity.Category.Category_Desc) ">
-                            </a>
-                        </div>
-                    </div>
-                    <!--<div class="card-body">
+                        <!--<div class="card-body">
                         <p>item.Description</p>
                     </div>-->
-                    <div class="card-footer">
-                        <h3>Going: @item.atendees.CountGoing</h3>
-                        <h3>Interested: @item.atendees.CountInterested</h3>
-                    </div>
-                </td>
-                <!-- <td>
+                        <div class="card-footer">
+                            <h3>Going: @item.atendees.CountGoing</h3>
+                            <h3>Interested: @item.atendees.CountInterested</h3>
+                        </div>
+                    </td>
+                    <!-- <td>
                     <h5>Going: @item.atendees.CountGoing</h5>
                     Interested: @item.atendees.CountInterested
                 </td> -->
-                @if (Session["member"] != null && ((CC.Connections.BL.Password)Session["member"]).email == item.charity.ContactInfo_Email)
-                {
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.Event_ID })
-                        @Html.ActionLink("Delete", "Delete", new { id = item.Event_ID })
-                    </td>
-                }
-            </tr>
+                    @if (Session["member"] != null && ((CC.Connections.BL.Password)Session["member"]).email == item.charity.ContactInfo_Email)
+                    {
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Event_ID })
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Event_ID })
+                        </td>
+                    }
+                </tr>
+            }
         }
-    }
-    else
-    {
-        <tr>
-            <h5>No Events</h5>
-        </tr>
-    }
-</table>
+        else
+        {
+            <tr>
+                <h5>No Events</h5>
+            </tr>
+
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+        }
+    </table>
 
 <br />
 <br />
