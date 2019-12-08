@@ -351,6 +351,11 @@ namespace CC.Connections.BL
         {
             //throw new NotImplementedException();
             this.LoadAll();
+            Filter(id, sort);
+
+        }
+        public void Filter(int id, SortBy sort)
+        {
             Filterer filter = new Filterer();
             filter.FillFilter(this);
             switch (sort)
@@ -372,11 +377,10 @@ namespace CC.Connections.BL
                 default:
                     throw new Exception("Cannot use id Filterer to Sort By " + sort.GetType().GetEnumName(sort));
             }
-
         }
 
-        //Loads list using preferences filter
-        public void LoadWithPreferences(Volunteer user_preferences)
+            //Loads list using preferences filter
+            public void LoadWithPreferences(Volunteer user_preferences)
         {
             userPref = user_preferences;
             Clear();
