@@ -39,7 +39,7 @@
 <h4>@ViewBag.Message</h4>
 <div class="">
 
-    @{ if (((CC.Connections.BL.Password)Session["member"]).MemberType == CC.Connections.BL.MemberType.VOLLUNTEER &&
+    @{ if (Session["member"] != null && ((CC.Connections.BL.Password)Session["member"]).MemberType == CC.Connections.BL.MemberType.VOLLUNTEER &&
               Model.Member_Attendance != null)
         {
             if (Model.Member_Attendance.Status == CC.Connections.BL.Status.GOING)
@@ -58,11 +58,11 @@
                 @Html.ActionLink("Sign Up for Event", "Signup", new { id = Model.Event_ID }, new { @class = "btn-outline-primary btn-lg" });
             }
         }
-        else if (((CC.Connections.BL.Password)Session["member"]).MemberType == CC.Connections.BL.MemberType.GUEST)
+        else if (Session["member"] == null || ((CC.Connections.BL.Password)Session["member"]).MemberType == CC.Connections.BL.MemberType.GUEST)
         {
             @Html.ActionLink("Create an account to sign up for an event", "SignupView", "login", new { @class = "btn-outline-primary btn-lg" });
         }
-        else if (((CC.Connections.BL.Password)Session["member"]).MemberType == CC.Connections.BL.MemberType.CHARITY)
+        else if (Session["member"] != null && ((CC.Connections.BL.Password)Session["member"]).MemberType == CC.Connections.BL.MemberType.CHARITY)
         {
             @Html.ActionLink("Edit event", "Edit", "CharityEvent", new { id = Model.Event_ID }, new { @class = "btn-outline-primary btn-lg" });
         }

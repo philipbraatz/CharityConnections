@@ -119,11 +119,11 @@ namespace CC.Connections.WebUI.Controllers
         {
             try
             {
-                Charity newCharity = new Charity(csu.CharityEmail, csu.password.Pass, true);
+                Charity newCharity = new Charity(csu.CharityEmail, csu.Password.Pass, true);
                 newCharity.setCharityInfo((Charity)csu);
                 newCharity.Insert();
 
-                Session["charity"] = csu.password;
+                Session["charity"] = csu.Password;
                 if (ControllerContext.HttpContext.Request.UrlReferrer != null)
                     return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());//go back
                 else

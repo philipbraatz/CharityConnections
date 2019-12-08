@@ -26,7 +26,7 @@
                             <img class="col-2 " src="~/Content/Images/CCDefaultPlaceholder.gif" alt="@item.CharityName" title="View Charity">
                         </a>
                         <div class="col-8">
-                            <a class="" title="Details" href="@Url.Action("Details", "CharityEvent", new { id = item.ID })">
+                            <a class="" title="Details" href="@Url.Action("Details", "Charity", new { id = item.ID })">
                                 <h2 title="Charity Details"> @item.CharityName</h2>
                             </a>
                             <h3>@item.CharityEmail</h3>
@@ -34,7 +34,7 @@
 
                         </div>
                         <div class="col-1">
-                            <a href="@Url.Action("CategoryView", "CharityEvent", new { id = item.Category.ID })">
+                            <a href="@Url.Action("CategoryView", "Charity", new { id = item.Category.ID })">
                                 <img style="padding-top:0px;" src="@(("/Content/Images/" + item.Category.Category_Image.Trim() + ".svg"))" id="paw" title="@(item.Category.Category_Desc) ">
                             </a>
                         </div>

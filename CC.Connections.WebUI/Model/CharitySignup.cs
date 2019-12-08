@@ -12,7 +12,7 @@ namespace CC.Connections.WebUI.Model
         [Display(Name = "Password")]
         [DataType(DataType.Password)]
         [Required(ErrorMessage = "Password required")]
-        public Password password { get; set; }
+        public new Password Password { get; set; }
         [Display(Name = "Confirm new password")]
         [Required(ErrorMessage = "Enter Confirm Password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
@@ -22,7 +22,7 @@ namespace CC.Connections.WebUI.Model
         //and preferences here
         public CharitySignup()
         {
-            password = new Password();
+            Password = new Password();
         }
     }
 }
