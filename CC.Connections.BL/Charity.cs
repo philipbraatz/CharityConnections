@@ -349,6 +349,14 @@ namespace CC.Connections.BL
         public void load()
         {
             throw new NotImplementedException();
-        }     
+        }
+
+        public static int getCount()
+        {
+            using (CCEntities dc = new CCEntities())
+            {
+                return dc.Charities.Count();
+            }
+        }
     }
 }

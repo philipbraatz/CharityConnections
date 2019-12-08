@@ -1,0 +1,84 @@
+﻿@model IEnumerable<CC.Connections.BL.Charity>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@if (Session["member"] != null && ((CC.Connections.BL.Password)Session["member"]).MemberType == CC.Connections.BL.MemberType.CHARITY)
+{
+    <p>@Html.ActionLink("Create New", "Create")</p>
+}
+<table class="table">
+    @if (Model.ToList().Count != 0)
+    {
+        foreach (var item in Model)
+        {
+            <tr>
+                <td class="card">
+                    <div class="card-header row">
+                        <a href="@Url.Action("Details", "Charity", new { id = item.ID })">
+                            <img class="col-2 " src="~/Content/Images/CCDefaultPlaceholder.gif" alt="@item.CharityName" title="View Charity">
+                        </a>
+                        <div class="col-8">
+                            <a class="" title="Details" href="@Url.Action("Details", "CharityEvent", new { id = item.ID })">
+                                <h2 title="Charity Details"> @item.CharityName</h2>
+                            </a>
+                            <h3>@item.CharityEmail</h3>
+                            <h3>@item.URL</h3>
+
+                        </div>
+                        <div class="col-1">
+                            <a href="@Url.Action("CategoryView", "CharityEvent", new { id = item.Category.ID })">
+                                <img style="padding-top:0px;" src="@(("/Content/Images/" + item.Category.Category_Image.Trim() + ".svg"))" id="paw" title="@(item.Category.Category_Desc) ">
+                            </a>
+                        </div>
+                    </div>
+                    <!--<div class="card-body">
+                        <p>item.Description</p>
+                    </div>-->
+                    <div class="card-footer">
+                        <h3>Requirements: @item.Requirements</h3>
+                        <h3>Cause: @item.Cause</h3>
+                    </div>
+                </td>
+                <!-- <td>
+                    <h5>Going: @item..CountGoing</h5>
+                    Interested: @item..CountInterested
+                </td> -->
+                @if (Session["member"] != null && ((CC.Connections.BL.Password)Session["member"]).email == item.ContactInfo_Email)
+                {
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.ID })
+                        @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                    </td>
+                }
+            </tr>
+        }
+    }
+    else
+    {
+        <tr>
+            <h5>No Events</h5>
+        </tr>
+
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+    }
+</table>
