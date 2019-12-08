@@ -2,13 +2,13 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 12/03/2019 16:15:48
--- Generated from EDMX file: C:\Users\micha\source\repos\CharityConnections\CC.Connections.PL\CharityConnectionModel.edmx
+-- Date Created: 12/08/2019 07:23:54
+-- Generated from EDMX file: C:\Users\philo\source\repos\CharityConnections\CC.Connections.PL\CharityConnectionModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
 GO
-USE [dbCharityConnections];
+USE [braatzdb];
 GO
 IF SCHEMA_ID(N'dbo') IS NULL EXECUTE(N'CREATE SCHEMA [dbo]');
 GO
@@ -52,9 +52,6 @@ GO
 IF OBJECT_ID(N'[dbo].[Member_Action]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Member_Action];
 GO
-IF OBJECT_ID(N'[dbo].[Member_Type]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[Member_Type];
-GO
 IF OBJECT_ID(N'[dbo].[Members]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Members];
 GO
@@ -71,20 +68,6 @@ GO
 -- --------------------------------------------------
 -- Creating all tables
 -- --------------------------------------------------
-
--- Creating table 'Charity_Event'
-CREATE TABLE [dbo].[Charity_Event] (
-    [CharityEvent_ID] int  NOT NULL,
-    [CharityEventName] nvarchar(75)  NULL,
-    [CharityEventLocation_ID] int  NULL,
-    [CharityEventCharity_ID] int  NULL,
-    [CharityEventContactInfo_ID] int  NULL,
-    [CharityEventStartDate] datetime  NULL,
-    [CharityEventEndDate] datetime  NULL,
-    [CharityEventRequirements] nvarchar(500)  NULL,
-    [CharityEventDescription] nvarchar(1500)  NULL
-);
-GO
 
 -- Creating table 'Contact_Info'
 CREATE TABLE [dbo].[Contact_Info] (
@@ -141,13 +124,6 @@ CREATE TABLE [dbo].[Member_Action] (
 );
 GO
 
--- Creating table 'Member_Type'
-CREATE TABLE [dbo].[Member_Type] (
-    [MemberType_ID] int  NOT NULL,
-    [MemberTypeDescription] nvarchar(75)  NULL
-);
-GO
-
 -- Creating table 'Members'
 CREATE TABLE [dbo].[Members] (
     [Member_ID] int  NOT NULL,
@@ -196,23 +172,31 @@ CREATE TABLE [dbo].[Charities] (
     [Charity_EIN] nvarchar(50)  NULL,
     [Charity_Deductibility] bit  NULL,
     [Charity_URL] nvarchar(75)  NULL,
-    [Charity_Cause] nvarchar(50)  NULL,
+    [Charity_Cause] nvarchar(255)  NULL,
     [Charity_Email] nvarchar(75)  NULL,
     [Charity_Category_ID] int  NULL,
     [Location_ID] int  NULL,
-    [Charity_Requirements] nvarchar(500)  NULL
+    [Charity_Requirements] nvarchar(50)  NULL
+);
+GO
+
+-- Creating table 'Charity_Event'
+CREATE TABLE [dbo].[Charity_Event] (
+    [CharityEvent_ID] int  NOT NULL,
+    [CharityEventName] nvarchar(75)  NULL,
+    [CharityEventLocation_ID] int  NULL,
+    [CharityEventCharity_ID] int  NULL,
+    [CharityEventContactInfo_ID] int  NULL,
+    [CharityEventStartDate] datetime  NULL,
+    [CharityEventEndDate] datetime  NULL,
+    [CharityEventRequirements] nvarchar(500)  NULL,
+    [CharityEventDescription] nvarchar(1500)  NULL
 );
 GO
 
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
-
--- Creating primary key on [CharityEvent_ID] in table 'Charity_Event'
-ALTER TABLE [dbo].[Charity_Event]
-ADD CONSTRAINT [PK_Charity_Event]
-    PRIMARY KEY CLUSTERED ([CharityEvent_ID] ASC);
-GO
 
 -- Creating primary key on [Contact_Info_ID] in table 'Contact_Info'
 ALTER TABLE [dbo].[Contact_Info]
@@ -250,12 +234,6 @@ ADD CONSTRAINT [PK_Member_Action]
     PRIMARY KEY CLUSTERED ([MemberAction_ID] ASC);
 GO
 
--- Creating primary key on [MemberType_ID] in table 'Member_Type'
-ALTER TABLE [dbo].[Member_Type]
-ADD CONSTRAINT [PK_Member_Type]
-    PRIMARY KEY CLUSTERED ([MemberType_ID] ASC);
-GO
-
 -- Creating primary key on [Member_ID] in table 'Members'
 ALTER TABLE [dbo].[Members]
 ADD CONSTRAINT [PK_Members]
@@ -290,6 +268,12 @@ GO
 ALTER TABLE [dbo].[Charities]
 ADD CONSTRAINT [PK_Charities]
     PRIMARY KEY CLUSTERED ([Charity_ID] ASC);
+GO
+
+-- Creating primary key on [CharityEvent_ID] in table 'Charity_Event'
+ALTER TABLE [dbo].[Charity_Event]
+ADD CONSTRAINT [PK_Charity_Event]
+    PRIMARY KEY CLUSTERED ([CharityEvent_ID] ASC);
 GO
 
 -- --------------------------------------------------

@@ -341,7 +341,8 @@ namespace CC.Connections.BL
                 using (CCEntities dc = new CCEntities()){
                     if(dc.Charities.ToList().Count != 0)
                         dc.Charities.ToList().ForEach(c =>{ 
-                            this.Add(new Charity(c.Charity_ID));});
+                            if(!(c.Charity_ID ==0))
+                                this.Add(new Charity(c.Charity_ID));});
                 }
             }
             catch (Exception e) { throw e; }

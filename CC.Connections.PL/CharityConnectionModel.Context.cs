@@ -25,19 +25,18 @@ namespace CC.Connections.PL
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Charity_Event> Charity_Event { get; set; }
         public virtual DbSet<Contact_Info> Contact_Info { get; set; }
         public virtual DbSet<Event_Attendance> Event_Attendance { get; set; }
         public virtual DbSet<Helping_Action> Helping_Action { get; set; }
         public virtual DbSet<Location> Locations { get; set; }
         public virtual DbSet<Log_in> Log_in { get; set; }
         public virtual DbSet<Member_Action> Member_Action { get; set; }
-        public virtual DbSet<Member_Type> Member_Type { get; set; }
         public virtual DbSet<Member> Members { get; set; }
         public virtual DbSet<Preference> Preferences { get; set; }
         public virtual DbSet<Preferred_Category> Preferred_Category { get; set; }
         public virtual DbSet<Preferred_Charity> Preferred_Charity { get; set; }
         public virtual DbSet<Categories> Categories { get; set; }
         public virtual DbSet<Charities> Charities { get; set; }
+        public virtual DbSet<Charity_Event> Charity_Event { get; set; }
     }
 }

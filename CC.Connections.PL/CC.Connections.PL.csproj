@@ -99,9 +99,6 @@
     <Compile Include="Member_Action.cs">
       <DependentUpon>CharityConnectionModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Member_Type.cs">
-      <DependentUpon>CharityConnectionModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Preference.cs">
       <DependentUpon>CharityConnectionModel.tt</DependentUpon>
     </Compile>
@@ -133,6 +130,7 @@
       <DependentUpon>CharityConnectionModel.edmx</DependentUpon>
       <LastGenOutput>CharityConnectionModel.Context.cs</LastGenOutput>
     </Content>
+    <Content Include="CharityConnectionModel.edmx.sql" />
     <Content Include="CharityConnectionModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>CharityConnectionModel.edmx</DependentUpon>
