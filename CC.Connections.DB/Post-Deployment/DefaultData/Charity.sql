@@ -6,5 +6,5 @@
 	(1,'United Way', 'cause 1', '12-3456789', 2, 'unitedway@gmail.com', 'www.unitedway.org', 1, 1, 'Must have drivers license'),
 	(2,'St.Jude', 'cause 2', '98-7654321', 32, 'stjude@gmail.com', 'www.stjude.org', 2, 2, 'Must be 18 or over'),
 	(3,'Salvation Army', 'cause 3', '11-2323455', 22, 'salvationarmy@gmail.com', 'www.salvationarmy.org', 3, 3, 'Background check'),
-	(2,'AutoCharity', 'For a good Cause', '98-7654321', 77, 'auto@login.net', 'www.autoparts.org', 2, 2, 'Must be a robot'),
+	(4,'AutoCharity', 'For a good Cause', '98-7654321', 77, 'auto@login.net', 'www.autoparts.org', 2, 2, 'Must be a robot'),
 END
