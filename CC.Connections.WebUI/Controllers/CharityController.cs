@@ -9,7 +9,7 @@ namespace CC.Connections.WebUI.Controllers
 {
     public class CharityController : Controller
     {
-        // GET: Charity
+        // GET: Charity Profile
         public ActionResult CharityView(string returnUrl)
         {
              ViewBag.ReturnUrl = returnUrl;
@@ -20,6 +20,42 @@ namespace CC.Connections.WebUI.Controllers
                 return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());//go back
             else
                 return RedirectToAction("Index", "Home");//go to index
+        }
+
+
+        // GET: List of Charities
+        public ActionResult Index()
+        {
+            if (ViewBag.Title == null)
+                ViewBag.Title = "Charities";
+
+            //load
+            CharityList allCharities = new CharityList();
+            if (Session != null && Session["charities"] != null)
+            {
+                allCharities = ((CharityList)Session["charities"]);
+                if (allCharities.Count != CharityList.getCount())//reload to catch missing
+                {
+                    allCharities.LoadList();
+                    //if (Session != null && Session["member"] != null)
+                        //foreach (var ev in allCharities) ;
+                            //ev.Member_Attendance = new AbsEventAtendee(ev.Event_ID, ((Password)Session["member"]).email);
+                }
+            }
+            else
+            {
+                //convert to Model
+                allCharities = new CharityList();
+                allCharities.LoadList();
+                //if (Session != null && Session["member"] != null)
+                    //foreach (var ev in allCharities)
+                        //ev.Member_Attendance = new AbsEventAtendee(ev.Event_ID, ((Password)Session["member"]).email);
+
+                //save
+                Session["charities"] = allCharities;
+            }
+
+            return View(allCharities);
         }
 
         // GET: Charity/Edit/5
