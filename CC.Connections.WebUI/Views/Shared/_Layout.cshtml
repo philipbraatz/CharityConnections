@@ -279,11 +279,7 @@
                     <li class="col-1">
                         @foreach (var category in categoryList)
                         {
-                            <!--hides first category, can remove when tables are fixed-->
-                            if (category.ID != 0)
-                            {
-                                <li class="nav-item overout col-1 volunteer-category-bar" id="@category.Category_Image.Trim()" title="@category.Category_Desc"><a href="@Url.Action("CategoryView", "CharityEvent", new { id = category.ID })"><img src="@("../../Content/Images/" + category.Category_Image.Trim() + ".svg")" /></a></li>
-                            }
+                            <li class="nav-item overout col-1 volunteer-category-bar" id="@category.Category_Image.Trim()" title="@category.Category_Desc"><a href="@Url.Action("CategoryView", "CharityEvent", new { id = category.ID })"><img src="@("../../Content/Images/" + category.Category_Image.Trim() + ".svg")" /></a></li>
                         }
                     </ul>
             </div>

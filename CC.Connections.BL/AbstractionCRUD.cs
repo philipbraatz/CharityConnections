@@ -370,22 +370,33 @@ namespace CC.Connections.BL
                 //it always thinks the first id matches current id.
                 //FIRST entry in database is skipped
                 bool fixFirstFound = false;
+                TEntity firstObject = null;
                 List<TEntity> tDebugVarible = table.ToList();
                 foreach (var col in table)
                 {
                     if (fixFirstFound)
                     {
                         //instance = where( entry in the table == this ID)
-                        if ((getValue(col, propName).ToString())==(tempID.ToString()))
+                        if ((getValue(col, propName).ToString()) == (tempID.ToString()))
                         {
                             instance = col;//sets all properties
                             found = true;
                             break;
                         }
                     }
-                    else
+                    else//keep first entry to check later
+                    {
+                        firstObject = col;
                         fixFirstFound = true;
+                    }
                 }
+                //check first entry
+                if (firstObject != null && (getValue(firstObject, propName).ToString()) == (tempID.ToString()))
+                {
+                    instance = firstObject;
+                    found = true;
+                }
+
                 if (!found)
                     throw new Exception(instance.GetType().Name + " could not be found with ID = " + ID);
 
