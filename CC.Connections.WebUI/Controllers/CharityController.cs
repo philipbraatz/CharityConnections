@@ -10,16 +10,9 @@ namespace CC.Connections.WebUI.Controllers
     public class CharityController : Controller
     {
         // GET: Charity Profile
-        public ActionResult CharityView(string returnUrl)
+        public ActionResult Details(int id)
         {
-             ViewBag.ReturnUrl = returnUrl;
-             Password p = (Password)Session["member"];
-             if (p != null)
-                 return View(new Charity(p));//go to charity
-             else if(ControllerContext.HttpContext.Request.UrlReferrer != null)
-                return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());//go back
-            else
-                return RedirectToAction("Index", "Home");//go to index
+            return View(new Charity(id));
         }
 
 

@@ -3,7 +3,7 @@
 <br />
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Event Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @Html.ActionLink("Back to List", "Index", new { @class = "btn-outline-secondary" });
@@ -33,7 +33,14 @@
         }
         <p> @Html.DisplayFor(model => model.Description)</p>
     </div>
-    <p class="card-footer"><b>Requirements: </b>@Model.CharityEventRequirements</p>
+    <div class="card-footer">
+        <p><b>Requirements: </b>@Model.CharityEventRequirements</p>
+        <div>
+            <h5>@Model.Location.ContactInfoAddress</h5>
+            <h5>@Model.Location.ContactInfoCity</h5>
+            <h5>@Model.Location.ContactInfoState</h5>
+        </div>
+    </div>
 
 </div>
 <h4>@ViewBag.Message</h4>

@@ -1,0 +1,70 @@
+﻿@model CC.Connections.BL.Charity
+
+<br />
+
+@{
+    ViewBag.Title = "Charity Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@Html.ActionLink("Back to List", "Index", new { @class = "btn-outline-secondary" });
+<br />
+
+<div class="card">
+    <div class="card-header row">
+        <img class="col-2 " src="~/Content/Images/CCDefaultPlaceholder.gif" alt="@(Model.CharityName) logo" title="View Charity"> @* scr="/Content/Images/" + Model.charity.Charity_Image + ".svg" *@
+    <div class="col-8">
+        <h2>@Html.DisplayFor(model => model.CharityName)</h2>
+        <a href="@Model.URL"><h4>@Model.URL</h4></a>
+        <h4>@Model.ContactInfo_Phone</h4>
+        <div>
+            <h5>@Model.Location.ContactInfoAddress</h5>
+            <h5>@Model.Location.ContactInfoCity</h5>
+            <h5>@Model.Location.ContactInfoState</h5>
+        </div>
+    </div>
+        <a href="@Url.Action("CategoryView", "CharityEvent", new { id = Model.Category.ID })">
+            <img class="btn-outline-info col-1" style="padding-top:0px;" src="@(("/Content/Images/" + Model.Category.Category_Image + ".svg"))" id="@(Model.Category.Category_Image)" title="@(Model.Category.Category_Desc) ">
+        </a>
+    </div>
+    <div class="card-body">
+        <p> @Html.DisplayFor(model => model.Cause)</p>
+    </div>
+    <div class="card-footer">
+        <p><b>Requirements: </b>model.Requirements</p>
+        <dt>
+            @Html.DisplayNameFor(model => model.EIN)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EIN)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Deductibility)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Deductibility)
+        </dd>
+    </div>
+
+</div>
+<h4>@ViewBag.Message</h4>
+<div class="">
+
+    @if (Session["member"] != null && ((CC.Connections.BL.Password)Session["member"]).MemberType == CC.Connections.BL.MemberType.CHARITY)
+    {
+        @Html.ActionLink("Edit Profile", "Edit", "Charity", new { id = Model.ID }, new { @class = "btn-outline-primary btn-lg" });
+    }
+</div>
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />

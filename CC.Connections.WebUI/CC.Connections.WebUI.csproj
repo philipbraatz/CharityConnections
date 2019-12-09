@@ -277,7 +277,7 @@
     <Content Include="Views\CharityEvent\Index.cshtml" />
     <Content Include="Views\CharityEvent\Details.cshtml" />
     <Content Include="Views\Login\CharitySignupView.cshtml" />
-    <Content Include="Views\Charity\CharityView.cshtml" />
+    <Content Include="Views\Charity\Details.cshtml" />
     <Content Include="Views\Time\Index.cshtml" />
     <Content Include="TimePicker\LICENSE" />
     <Content Include="Views\CharityEvent\Delete.cshtml" />
