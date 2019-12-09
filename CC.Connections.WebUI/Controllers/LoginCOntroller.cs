@@ -69,16 +69,24 @@ namespace CC.Connections.WebUI.Controllers
                 }
                 else
                 {
-                    ViewBag.Message = "Incorrect Credentials";
+                    if (Request.IsLocal)
+                        ViewBag.Message = "Incorrect Credentials (try using briandoe@gmail.com or stjude@gmail.com)";
+                    else
+                        ViewBag.Message = "Incorrect Credentials (try using briandoe@gmail.com or stjude@gmail.com)";
                     return View(passValue);
                 }
             }
             catch (Exception ex)
             {
                 if (ex.Message != "The underlying provider failed on Open.")
-                    ViewBag.Message = ex.Message;
+                    if (Request.IsLocal)
+                        ViewBag.Message = "Error: " + ex.InnerException.Message;
+                    else
+                        ViewBag.Message = "not an error... move along";
+                else if (Request.IsLocal)
+                    ViewBag.Message = "Error: could not access the database, check database connection. The underlying provider failed on Open.";//local error
                 else
-                    ViewBag.Message = "Unable to process any login's at this time.";//specialized error handler
+                    ViewBag.Message = "Unable to process any sign up's at this time.";//specialized error handler
 
                 return View(passValue);
             }
@@ -106,7 +114,12 @@ namespace CC.Connections.WebUI.Controllers
             catch (Exception ex)
             {
                 if (ex.Message != "The underlying provider failed on Open.")
-                    ViewBag.Message = ex.Message;
+                    if (Request.IsLocal)
+                        ViewBag.Message = "Error: " + ex.InnerException.Message;
+                    else
+                        ViewBag.Message = "not an error... move along";
+                else if (Request.IsLocal)
+                    ViewBag.Message = "Error: could not access the database, check database connection. The underlying provider failed on Open.";//local error
                 else
                     ViewBag.Message = "Unable to process any sign up's at this time.";//specialized error handler
 
@@ -132,9 +145,15 @@ namespace CC.Connections.WebUI.Controllers
             catch (Exception ex)
             {
                 if (ex.Message != "The underlying provider failed on Open.")
-                    ViewBag.Message = ex.Message;
+                    if (Request.IsLocal)
+                        ViewBag.Message = "Error: " + ex.InnerException.Message;
+                    else
+                        ViewBag.Message = "not an error... move along";
+                else if (Request.IsLocal)
+                    ViewBag.Message = "Error: could not access the database, check database connection. The underlying provider failed on Open.";//local error
                 else
                     ViewBag.Message = "Unable to process any sign up's at this time.";//specialized error handler
+
 
                 return View(csu);
             }

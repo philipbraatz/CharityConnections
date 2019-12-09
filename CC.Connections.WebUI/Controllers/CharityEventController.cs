@@ -136,10 +136,10 @@ namespace CC.Connections.WebUI.Controllers
             }
             else
             {
-                //ViewBag.Message = "Only charities can create a event.";
-                ViewBag.Message = "Debug: Defaulting to charity ID =  1";
-                evnt.Charity_ID = 1;
-                evnt.charity.ID = 1;
+                ViewBag.Message = "Only charities can create a event.";
+                //ViewBag.Message = "Debug: Defaulting to charity ID =  1";
+                //evnt.Charity_ID = 1;
+                //evnt.charity.ID = 1;
             }
             Session["charityID"] = evnt.Charity_ID = 1;
             return View(new CharityEvent_WithTime(evnt));
@@ -169,7 +169,10 @@ namespace CC.Connections.WebUI.Controllers
             }
             catch (Exception e)
             {
-                ViewBag.Message = "Error: " + e.Message;
+                if (Request.IsLocal)
+                    ViewBag.Message = "Error: " + e.Message;
+                else
+                    ViewBag.Message = "not an error... move along";
                 return View();
             }
         }
@@ -238,7 +241,10 @@ namespace CC.Connections.WebUI.Controllers
             }
             catch (Exception e)
             {
-                ViewBag.Message = e.Message;
+                if (Request.IsLocal)
+                    ViewBag.Message = "Error: " + e.Message;
+                else
+                    ViewBag.Message = "not an error... move along";
                 return View();
             }
         }
