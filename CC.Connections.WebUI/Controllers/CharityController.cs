@@ -14,6 +14,20 @@ namespace CC.Connections.WebUI.Controllers
         {
             return View(new Charity(id));
         }
+        
+        public ActionResult CharityProfile()
+        {
+            if (Session != null && Session["member"] != null && ((Password)Session["Member"]).MemberType == MemberType.CHARITY)
+            {
+                Charity c = new Charity(((Password)Session["Member"]));
+                int id = c.ID;
+                return RedirectToAction("Details",new { id = new Charity(((Password)Session["Member"])).ID});
+            }
+            else if (ControllerContext.HttpContext.Request.UrlReferrer != null)
+                return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());//go back
+            else
+                return RedirectToAction("Index", "Home");//go to index
+        }
 
 
         // GET: List of Charities
@@ -75,7 +89,7 @@ namespace CC.Connections.WebUI.Controllers
             try
             {
                 // TODO: Add update logic here
-                c.Update();
+                c.Update((Password)Session["member"]);
                 return RedirectToAction("Index", "Home");
             }
             catch

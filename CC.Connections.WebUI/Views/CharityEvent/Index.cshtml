@@ -29,7 +29,7 @@
                         <a class="" title="Details" href="@Url.Action("Details", "CharityEvent", new { id = item.Event_ID })">
                             <h2 title="Event Details"> @item.CharityEventName</h2>
                         </a>
-                        <h3>Hosted by: @item.charity.CharityName</h3>
+                        <h3>Hosted by: @item.charity.Charity_Name</h3>
                         <h4>@item.CharityEventStatus</h4>
                         @if (item.CharityEventStatus != "Completed")
                         {
@@ -57,7 +57,7 @@
         <h5>Going: @item.atendees.CountGoing</h5>
         Interested: @item.atendees.CountInterested
     </td> -->
-            @if (Session["member"] != null && ((CC.Connections.BL.Password)Session["member"]).email == item.charity.ContactInfo_Email)
+            @if (Session["member"] != null && ((CC.Connections.BL.Password)Session["member"]).email == item.charity.Charity_Email)
             {
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.Event_ID })

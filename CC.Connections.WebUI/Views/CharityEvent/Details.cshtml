@@ -12,10 +12,10 @@
 <div class="card">
     <div class="card-header row">
         <a href="@Url.Action("Details", "Charity", new { id = Model.charity.ID })">
-            <img class="col-2 " src="~/Content/Images/CCDefaultPlaceholder.gif" alt="@(Model.charity.CharityName) logo" title="View Charity"> @* scr="/Content/Images/" + Model.charity.Charity_Image + ".svg" *@
+            <img class="col-2 " src="~/Content/Images/CCDefaultPlaceholder.gif" alt="@(Model.charity.Charity_Name) logo" title="View Charity"> @* scr="/Content/Images/" + Model.charity.Charity_Image + ".svg" *@
         </a>
         <div class="col-8">
-            <h2>@Html.DisplayFor(model => model.charity.CharityName)</h2>
+            <h2>@Html.DisplayFor(model => model.charity.Charity_Name)</h2>
             <h4>Going: @Model.atendees.CountGoing</h4>
             <h4>Interested: @Model.atendees.CountInterested</h4>
             <h4><b>@Model.CharityEventStatus</b></h4>
@@ -45,7 +45,7 @@
 </div>
 <h4>@ViewBag.Message</h4>
 <div class="">
-
+    <!--todo orginize this, edit does not show up when signed in-->
     @{ if (Session["member"] != null && ((CC.Connections.BL.Password)Session["member"]).MemberType == CC.Connections.BL.MemberType.VOLLUNTEER &&
                Model.Member_Attendance != null)
         {
@@ -69,7 +69,7 @@
         {
             @Html.ActionLink("Create an account to sign up for an event", "SignupView", "login", new { @class = "btn-outline-primary btn-lg" });
         }
-        else if (Session["member"] != null && ((CC.Connections.BL.Password)Session["member"]).email == Model.charity.ContactInfo_Email)
+        else if (Session["member"] != null && ((CC.Connections.BL.Password)Session["member"]).email == Model.charity.Charity_Email)
         {
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = Model.Event_ID }, new { @class = "btn-outline-primary btn-lg" })

@@ -1,16 +1,13 @@
-﻿using System;
+﻿using CC.Connections.PL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CC.Connections.PL;
 
 namespace CC.Connections.BL
 {
     public class Volunteer : AbsContact
     {
         public new int ID { get; set; }
-        public Password Password { get; set; }
         public AbsCategoryPreferences Prefered_Categories { get; set; }
         public CharityList Prefered_Charities { get; set; }
         public AbsMemberActionList Prefered_helping_Actions { get; set; }
@@ -40,7 +37,6 @@ namespace CC.Connections.BL
 
             Pref = new AbsPreference((int)entry.MemberPreference_ID);
             Location = new AbsLocation((int)entry.Location_ID);
-            Password = new Password(ContactInfo_Email);
 
             Prefered_Categories.LoadPreferences(ID);
             //Prefered_Charities.load();
@@ -74,10 +70,6 @@ namespace CC.Connections.BL
                     }
 
                     this.ContactInfo_Email = contactEmail;
-                    if (password != string.Empty)
-                        Password = new Password(contactEmail, password,MemberType.VOLLUNTEER, hashed);//standard
-                    else
-                        Password = new Password(contactEmail, false);//new
 
                     //will LOAD nothing if NEW ID but will SET preference ID
                     //needed for adding and removing items
@@ -130,7 +122,6 @@ namespace CC.Connections.BL
         //only clears BLclass varibles
         private new void Clear()
         {
-            Password = new Password();
             Prefered_Categories = new AbsCategoryPreferences(ID);
             Prefered_Charities = new CharityList();
             Prefered_helping_Actions = new AbsMemberActionList(ID);
@@ -164,8 +155,7 @@ namespace CC.Connections.BL
                         Location_ID = Location.ID
                     };
                     dc.Members.Add(entry);//adding prior to everything else
-
-                    Password.Insert(ID);
+                    //TODO create password
 
                     //do not handle member preference lists here
 
@@ -183,7 +173,7 @@ namespace CC.Connections.BL
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invalid");
 
-                    Password.Delete();
+                    //TODO Password.Delete();
                     Pref.Delete();
                     Location.Delete();
                     base.Delete();
@@ -214,7 +204,6 @@ namespace CC.Connections.BL
 
                     PL.Member entry = dc.Members.Where(c => c.Member_ID == this.ID).FirstOrDefault();
                     base.Update();
-                    Password.Update();
                     Pref.Update();
                     //Member_Type.Update();
                     Location.Update();
@@ -252,8 +241,6 @@ namespace CC.Connections.BL
                     PL.Log_in login = dc.Log_in.FirstOrDefault(c => c.ContactInfoEmail == this.ContactInfo_Email);
                     if (login == null)
                         throw new Exception("Log in does not exist for Member with email " + this.ContactInfo_Email);
-
-                    this.Password = new Password(login.ContactInfoEmail, login.LogInPassword, (MemberType)login.MemberType, true);
 
                     if (entry.MemberPreference_ID == null)
                         throw new Exception("Preference ID is null and cannot be loaded");
@@ -294,8 +281,6 @@ namespace CC.Connections.BL
                     PL.Log_in login = dc.Log_in.FirstOrDefault(c => c.ContactInfoEmail == email);
                     if (login == null)
                         throw new Exception("Log in does not exist for Member with email " + email);
-
-                    this.Password = new Password(login.ContactInfoEmail, login.LogInPassword,(MemberType)login.MemberType, true);
 
                     if (entry.MemberPreference_ID == null)
                         throw new Exception("Preference ID is null and cannot be loaded");
@@ -355,7 +340,6 @@ namespace CC.Connections.BL
                             Volunteer newMem = Volunteer.loadContactInfo(c.MemberContact_ID);
                             newMem.ID = c.Member_ID;
                             newMem.Pref = new AbsPreference((int)c.MemberPreference_ID);
-                            newMem.Password = new Password(newMem.ContactInfo_Email);
                             newMem.Location = new AbsLocation((int)c.Location_ID);
 
                             newMem.Prefered_Categories.LoadPreferences(c.Member_ID);

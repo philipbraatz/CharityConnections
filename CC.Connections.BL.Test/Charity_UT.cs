@@ -36,7 +36,7 @@ namespace CC.Connections.BL.Test
             Charity cat = allTable.Where(c => c.ContactInfo_Email.Equals(desc)).FirstOrDefault();
             if (cat == null)
             {
-                Charity cat2 = allTable.Where(c => c.CharityEmail.Equals(desc)).FirstOrDefault();
+                Charity cat2 = allTable.Where(c => c.Charity_Email.Equals(desc)).FirstOrDefault();
                 if (cat2 == null)
                 {
                     if (!isNull)
@@ -59,14 +59,14 @@ namespace CC.Connections.BL.Test
                 ContactInfo_FName = VALUE1,//Name of charity
                 ContactInfo_Phone = VALUE1,
                 DateOfBirth = DateTime.Now,//Start of charity orginization
-                EIN = VALUE1,
-                Deductibility =true,
-                URL = testingSite,
-                Cause = VALUE1,
+                Charity_EIN = VALUE1,
+                Charity_Deductibility =true,
+                Charity_URL = testingSite,
+                Charity_Cause = VALUE1,
                 Category = new AbsCategory(CATEGORY_ID),
                 Location = new AbsLocation(LOCATION_ID),
-                Requirements = VALUE1,
-                CharityEmail = testing_ID2,
+                Charity_Requirements = VALUE1,
+                Charity_Email = testing_ID2,
                 Password = new Password(testing_ID1,VALUE1,MemberType.CHARITY)
             };
             newt.Insert();
@@ -93,12 +93,12 @@ namespace CC.Connections.BL.Test
             Assert.IsTrue(test.Location.ContactInfoCity== new AbsLocation(LOCATION_ID).ContactInfoCity);
             Assert.IsTrue(test.Category.ID == CATEGORY_ID);
 
-            Assert.IsTrue(test.EIN == VALUE1);
-            Assert.IsTrue(test.Cause == VALUE1);
-            Assert.IsTrue(test.Requirements == VALUE1);
+            Assert.IsTrue(test.Charity_EIN == VALUE1);
+            Assert.IsTrue(test.Charity_Cause == VALUE1);
+            Assert.IsTrue(test.Charity_Requirements == VALUE1);
             Assert.IsTrue(test.ContactInfo_Email == testing_ID2);
-            Assert.IsTrue(test.Deductibility == true);
-            Assert.IsTrue(test.URL== testingSite);
+            Assert.IsTrue(test.Charity_Deductibility == true);
+            Assert.IsTrue(test.Charity_URL== testingSite);
             //Assert.AreNotEqual(0, test.Prefered_Charity_ID_List.Count);
             Assert.IsTrue(test.Location.ContactInfoCity == "Appleton");
         }
@@ -108,10 +108,10 @@ namespace CC.Connections.BL.Test
             test = new Charity(getID_fromDesc( testing_ID2));
             Charity updated = new Charity(getID_fromDesc(testing_ID2));
 
-            updated.EIN = VALUE2;
-            updated.Deductibility = false;
-            updated.Cause = VALUE2;
-            updated.Requirements = VALUE2;
+            updated.Charity_EIN = VALUE2;
+            updated.Charity_Deductibility = false;
+            updated.Charity_Cause = VALUE2;
+            updated.Charity_Requirements = VALUE2;
            
             //updated.Member_Type.Desc = VALUE2;
             updated.Password.Pass = VALUE2;
@@ -121,11 +121,11 @@ namespace CC.Connections.BL.Test
             updated = null;//clear
             updated = new Charity(getID_fromDesc(testing_ID2));//load again
 
-            Assert.IsTrue(updated.EIN == VALUE2);
+            Assert.IsTrue(updated.Charity_EIN == VALUE2);
             //Assert.IsTrue(updated.Member_Type.Desc == VALUE2);
-            Assert.IsFalse(updated.Deductibility);
-            Assert.IsTrue(updated.Cause == VALUE2);
-            Assert.IsTrue(updated.Requirements== VALUE2);
+            Assert.IsFalse(updated.Charity_Deductibility);
+            Assert.IsTrue(updated.Charity_Cause == VALUE2);
+            Assert.IsTrue(updated.Charity_Requirements== VALUE2);
         }
         [TestMethod]
         public void Delete()

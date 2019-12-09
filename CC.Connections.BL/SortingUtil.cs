@@ -171,7 +171,7 @@ namespace CC.Connections.BL
                             continue;
                         }
                         if (deductable != null &&
-                            new Charity((int)c.Charity_ID).Deductibility != deductable)
+                            new Charity((int)c.Charity_ID).Charity_Deductibility != deductable)
                         {
                             valid = false;
                             debugInvalidator = "deductible: " + deductable;
@@ -367,7 +367,7 @@ namespace CC.Connections.BL
                             continue;
                         }
                         if (deductable != null &&
-                            new Charity((int)c.Charity_ID).Deductibility != deductable)
+                            new Charity((int)c.Charity_ID).Charity_Deductibility != deductable)
                         {
                             valid = false;
                             debugInvalidator = "deductable: " + deductable;

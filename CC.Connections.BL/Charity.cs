@@ -13,103 +13,125 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CC.Connections.BL
 {
-    public class Charity : AbsContact
+    public class Charity : ColumnEntry<PL.Charities>
     {
-        //AbsContact properties
-        //ContactInfo_Email = Support Email
-        //ContactInfo_FName = Name of Charity
-        //ContactInfo_Phone = phone #
-        //DateOfBirth = Start of Charity organization
+        //id
+        public new int ID
+        {
+            get { return (int)base.ID; }
+            set { base.ID = value; }
+        }
 
-        //ContactInfo_LName = Not used
-        //ContactInfo_FullName = Not used
-        
-        [DisplayName("Charity Name (Required)")]
-        public string CharityName { get; set; }
+        [DisplayName("Charity Email")]
+        public string Charity_Email
+        {
+            get { return (string)base.getProperty("Charity_Email"); }
+            set { setProperty("Charity_Email", value); }
+        }
 
-        public new int ID { get; set; }
-        [DisplayName("Federal Tax ID# (Required)")]
-        public string EIN { get; set; }
+        [DisplayName("Charity Name")]
+        public string Charity_Name
+        {
+            get { return (string)base.getProperty("Charity_Name"); }
+            set { setProperty("Charity_Name", value); }
+        }
+
+        [DisplayName("Federal Tax ID# (EIN)")]
+        public string Charity_EIN
+        {
+            get { return (string)base.getProperty("Charity_EIN"); }
+            set { setProperty("Charity_EIN", value); }
+        }
 
         [DisplayName("Is Deductible")]
-        public bool Deductibility { get; set; }
+        public bool Charity_Deductibility
+        {
+            get { return (bool)base.getProperty("Charity_Deductibility"); }
+            set { setProperty("Charity_Deductibility", value); }
+        }
 
-        [DisplayName("Charity Web Site (Required)")]
-        public string URL { get; set; }
+        [DisplayName("Charity Web Site")]
+        public string Charity_URL
+        {
+            get { return (string)base.getProperty("Charity_URL"); }
+            set { setProperty("Charity_URL", value); }
+        }
 
-        [DisplayName("Charities Cause (Required)")]
-        public string Cause { get; set; }
+        [DisplayName("Charities Cause")]
+        public string Charity_Cause
+        {
+            get { return (string)base.getProperty("Charity_Cause"); }
+            set { setProperty("Charity_Cause", value); }
+        }
+        [DisplayName("Charities Requirements")]
+        public string Charity_Requirements
+        {
+            get { return (string)base.getProperty("Charity_Requirements"); }
+            set { setProperty("Charity_Requirements", value); }
+        }
 
         public AbsCategory Category { get; set; }//never delete
         public AbsLocation Location { get; set; }//delete when removed
-
-        [DisplayName("Charities Requirements (Required)")]
-        public string Requirements { get; set; }
-
-        [DisplayName("Charity Email (Required)")]
-        public string CharityEmail { get; set; }
-
-        public Password Password { get; set; }//delete when removed
-
-        public CharityEventList charityEvents { get; set; }
 
         internal static bool Exists(CCEntities dc, int id)
         {
             return dc.Charities.Where(c => c.Charity_ID == id).FirstOrDefault() != null;
         }
-        /*public string CharityName { 
-            get { return ContactInfo_LName; }
-            set { ContactInfo_LName = value; }
-        }*/
 
-        public Charity()
-        {
-
-        }
-        public Charity(Password p) :this(p.email)
+        public Charity() { }
+        //does not verify password
+        public Charity(Password p) : this(p.email)
         {
         }
+        public Charity(PL.Charities entry) : base(entry)
+        {
+            this.Category = new AbsCategory((int)entry.Charity_Category_ID);
+            this.Location = new AbsLocation((int)entry.Location_ID);
 
-        public Charity(Contact_Info entry) :
-            base(entry)
-        { }
-        public Charity(int id)
-        {
-            Clear();
-            LoadId(id);
         }
-        public Charity(PL.Charities entry)
+        public Charity(int id) : base(new CCEntities().Charities, id)
         {
-            Clear();
-            //this.setContactInfo((Charity)AbsContact.ContactInfo_Email(entry.Charity_Email.ToString));
-            //this.setContactInfo((Charity)AbsContact.fromNumID(entry.Charity_Contact_ID.Value));
-            this.ID                 = entry.Charity_ID;
-            this.CharityName        = entry.Charity_Name;
-            this.Deductibility      = entry.Charity_Deductibility.Value;
-            this.EIN                = entry.Charity_EIN;
-            this.ContactInfo_Email  = entry.Charity_Email;
-            this.URL                = entry.Charity_URL;
-            this.Requirements       = entry.Charity_Requirements;
-            this.Cause              = entry.Charity_Cause;
-            this.Category = new AbsCategory(entry.Charity_Category_ID.Value);
-            this.Location = new AbsLocation(entry.Location_ID.Value);
+            try
+            {
+                using (CCEntities dc = new CCEntities())
+                {
+                    PL.Charities charityPL = dc.Charities.Where(c => c.Charity_ID == id).FirstOrDefault();
+                    this.Category = new AbsCategory((int)charityPL.Charity_Category_ID);
+                    this.Location = new AbsLocation((int)charityPL.Location_ID);
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public void setCharityInfo(Charity charityInfo)
         {
-            this.CharityName = charityInfo.CharityName ?? "";
-            this.CharityEmail = charityInfo.CharityEmail ?? "";
-            this.Cause = charityInfo.Cause ?? "";
-            this.URL = charityInfo.URL ?? "";
-            this.Deductibility = charityInfo.Deductibility;
-            this.EIN = charityInfo.EIN;
-            this.Requirements = charityInfo.Requirements;
+            this.Charity_Name = charityInfo.Charity_Name ?? "";
+            this.Charity_Email = charityInfo.Charity_Email ?? "";
+            this.Charity_Cause = charityInfo.Charity_Cause ?? "";
+            this.Charity_URL = charityInfo.Charity_URL ?? "";
+            this.Charity_Deductibility = charityInfo.Charity_Deductibility;
+            this.Charity_EIN = charityInfo.Charity_EIN;
+            this.Charity_Requirements = charityInfo.Charity_Requirements;
         }
-
+        public void setCharityInfo(PL.Charities charityInfo)
+        {
+            this.ID = charityInfo.Charity_ID;
+            this.Charity_Name = charityInfo.Charity_Name ?? "";
+            this.Charity_Email = charityInfo.Charity_Email ?? "";
+            this.Charity_Cause = charityInfo.Charity_Cause ?? "";
+            this.Charity_URL = charityInfo.Charity_URL ?? "";
+            this.Charity_Deductibility = (bool)charityInfo.Charity_Deductibility;
+            this.Charity_EIN = charityInfo.Charity_EIN;
+            this.Charity_Requirements = charityInfo.Charity_Requirements;
+        }
 
         public Charity(string charityEmail, string password = "", bool hashed = false, bool debug = false)
         {
-            //get ID and password from other tables
             try
             {
                 using (CCEntities dc = new CCEntities())
@@ -117,34 +139,22 @@ namespace CC.Connections.BL
                     Clear();
 
                     //set new id for preferred lists
-                    if (dc.Members.ToList().Count > 0)
-                        ID = dc.Members.Max(c => c.Member_ID) + 1;
+                    if (dc.Charities.ToList().Count > 0)
+                        ID = dc.Charities.Max(c => c.Charity_ID) + 1;
                     else
                         ID = 0;//first entry
 
                     //try to load existing ID
-                    PL.Contact_Info cID = dc.Contact_Info.Where(c => c.ContactInfo_Email == charityEmail).FirstOrDefault();
-                    PL.Member mID;
-                    if (cID != null)
-                    {
-                        mID = dc.Members.Where(c => c.MemberContact_ID == cID.Contact_Info_ID).FirstOrDefault();
-                        if (mID != null)
-                            ID = mID.Member_ID;
-                    }
-
-                    this.ContactInfo_Email = charityEmail;
-                    if (password != string.Empty)
-                        Password = new Password(charityEmail, password, MemberType.CHARITY, hashed);//standard
+                    PL.Charities charityPL = dc.Charities.Where(c => c.Charity_Email == charityEmail).FirstOrDefault();
+                    if (charityPL != null)
+                        setCharityInfo(charityPL);
                     else
-                        Password = new Password(charityEmail, false);//new
+                        Clear();//new Charity
 
-                    //will LOAD nothing if NEW ID but will SET preference ID
-                    //needed for adding and removing items
-                    //Prefered_helping_Actions.LoadPreferences(ID);
-                    //Prefered_Categories.LoadPreferences(ID);
-                    //Prefered_Charities.LoadPreferences(ID);
+                    //TODO create new password if new
 
-                    //this.LoadId();
+                    this.Category = new AbsCategory((int)charityPL.Charity_Category_ID);
+                    this.Location = new AbsLocation((int)charityPL.Location_ID);
                 }
             }
             catch (Exception e)
@@ -158,176 +168,77 @@ namespace CC.Connections.BL
         }
 
 
-        private new void Clear()
-        {
-            base.Clear();
-            CharityName = string.Empty;
-            CharityEmail = string.Empty;
-            EIN = string.Empty;
-            Deductibility = false;
-            URL = string.Empty;
-            Cause = string.Empty;
-            Category = new AbsCategory();
-            Location = new Location();
-            Requirements = string.Empty;
-        }
+        //turns a PL class into a BL equivelent example: 
+        //Category pl = new Category();
+        //...
+        //AbsCategory bl = (AbsCategory)pl
+        public static implicit operator Charity(PL.Charities entry)
+        { return new Charity(entry); }
 
-        internal static List<int> LoadMembersIdList(CCEntities dc, int member_ID)
+        public void LoadId()
         {
-            throw new NotImplementedException();
-        }
-
-        public void LoadId(int charity_id)
-        {
-            this.ID = charity_id;
-            LoadId();
-        }
-        public new void LoadId()
-        {
-                try
+            try
             {
                 using (CCEntities dc = new CCEntities())
                 {
+                    base.LoadId(dc.Charities);
+
                     PL.Charities entry = dc.Charities.Where(c => c.Charity_ID == this.ID).FirstOrDefault();
-                    if (entry != null)
-                        this.ID = entry.Charity_ID;
-                    else
-                        throw new Exception("Charity ID " + this.ID + " does not have a Charity associated with it");
-
-                    Clear();
-
-                    //base.setContactInfo(AbsContact.fromNumID(entry.Charity_Contact_ID));
-                    this.EIN            = entry.Charity_EIN;
-                    this.CharityName         = entry.Charity_Name;
-                    this.Deductibility  = entry.Charity_Deductibility.Value;
-                    this.URL            = entry.Charity_URL;
-                    this.Cause          = entry.Charity_Cause;
-                    this.CharityEmail   = entry.Charity_Email;
-                    this.Category   = new  AbsCategory(entry.Charity_Category_ID.Value);
-                    this.Location   = new  AbsLocation(entry.Location_ID.Value);
-                    this.Requirements   = entry.Charity_Requirements;
-
                     this.Category = new AbsCategory(entry.Charity_Category_ID.Value);
                     this.Location = new AbsLocation(entry.Location_ID.Value);
-                    this.Password = new Password(   entry.Charity_Email);
                 }
             }
             catch (Exception e)
-            {throw e;}
+            { throw e; }
         }
-
-        public new int Insert()
+        public void LoadId(int id)
         {
-            {
-                base.Insert();
+            ID = id;
+            LoadId();
+        }
+        public int Insert(Password password)
+        {
 
-                try
-                {
-                    //if (ID == string.Empty)
-                    //    throw new Exception("Description cannot be empty");
-                    using (CCEntities dc = new CCEntities())
-                    {
-                        //double check ID before insert
-                        if (dc.Charities.Where(c => c.Charity_ID == ID) != null)
-                            ID = dc.Charities.Max(c => c.Charity_ID) + 1;
-                        
-                        PL.Charities entry = new PL.Charities
-                        {
-                            Charity_ID = ID,
-                            Charity_Name = this.CharityName,
-                            Charity_EIN = EIN,
-                            Charity_Deductibility = Deductibility,
-                            Charity_URL = URL,
-                            Charity_Cause = Cause,
-                            Charity_Email = CharityEmail,
-                            Charity_Category_ID = this.Category.ID,
-                            Location_ID = this.Location.ID,
-                            Charity_Requirements = Requirements
-                        };
-                        dc.Charities.Add(entry);
-                        Location.Insert();
-                        Password.Insert(ID);//match Charity ID with given password
-                        
-                        return dc.SaveChanges();
-                    }
-                }
-                catch (Exception e) { throw e; }
+            using (CCEntities dc = new CCEntities())
+            {
+                return base.Insert(dc, dc.Charities) +
+                    this.Location.Insert() +
+                    (password.Insert() ? 1 : 0);
+            }
+        }
+        public int Update(Password password)
+        {
+            using (CCEntities dc = new CCEntities())
+            {
+                return base.Update(dc, dc.Charities) +
+                    this.Location.Update() +
+                    password.Update();
+            }
+        }
+        public int Delete(Password password)
+        {
+            using (CCEntities dc = new CCEntities())
+            {
+                //dc.Categories.Remove(this);
+                //return dc.SaveChanges();
+                return base.Delete(dc, dc.Charities) +
+                    this.Location.Delete() +
+                    password.Delete();
             }
         }
 
-        public new int Update()
+        internal static Charity fromCharityID(int charity_ID)
         {
             try
-            {           
+            {
                 using (CCEntities dc = new CCEntities())
                 {
-                    PL.Charities entry = dc.Charities.Where(c => c.Charity_ID == this.ID).FirstOrDefault();
-                    entry.Charity_Category_ID = this.Category.ID;
-                    entry.Charity_Cause = this.Cause;
-                    entry.Charity_Name = this.CharityName;
-                    entry.Charity_Deductibility = this.Deductibility;
-                    entry.Charity_EIN = this.EIN;
-                    entry.Charity_Email = this.CharityEmail;
-                    entry.Charity_ID = this.ID;
-                    entry.Charity_Requirements = this.Requirements;
-                    entry.Charity_URL = this.URL;
-                    entry.Location_ID = this.Location.ID;
-                    
-                    base.Update();
-                    return dc.SaveChanges();
+                    return new Charity(dc.Charities.FirstOrDefault(c => c.Charity_ID == charity_ID));
                 }
             }
             catch (Exception e) { throw e; }
         }
-
-        public new int Delete()
-        {
-            try
-            {
-                using (CCEntities dc = new CCEntities())
-                {                  
-                    base.Delete();
-
-                    dc.Charities.Remove(dc.Charities.Where(c => c.Charity_ID == ID).FirstOrDefault());
-                    
-                    Clear();
-                    return dc.SaveChanges();
-                }
-            }
-            catch (Exception e) { throw e; }
-        }
-
-        internal static Charity fromCharityID(int? charity_ID)
-        {
-            try
-            {
-                using (CCEntities dc = new CCEntities())
-                {
-                    Charity retChar = new Charity();
-                    PL.Charities entryCharity = dc.Charities.FirstOrDefault(c => c.Charity_ID == charity_ID);
-                    if (entryCharity == null)
-                        throw new Exception("Charity does not exist: Charity ID '" + retChar.ID + "'"); ;
-
-                    //retChar = (Charity)AbsContact.fromNumID(entryCharity.Charity_Contact_ID.Value);
-                    retChar.ID = entryCharity.Charity_ID;
-                    retChar.CharityName = entryCharity.Charity_Name;
-                    retChar.Category = new AbsCategory( entryCharity.Charity_Category_ID.Value);
-                    retChar.Deductibility = entryCharity.Charity_Deductibility.Value;
-                    retChar.EIN = entryCharity.Charity_EIN;
-                    retChar.ContactInfo_Email = entryCharity.Charity_Email;
-                    retChar.Location = new AbsLocation( entryCharity.Location_ID.Value);
-                    retChar.URL = entryCharity.Charity_URL;
-                    retChar.Requirements = entryCharity.Charity_Requirements;
-                    retChar.Cause = entryCharity.Charity_Cause;
-                    return retChar;
-                }
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-    }    
+    }
 
     public class CharityList :
         List<Charity>
@@ -337,11 +248,15 @@ namespace CC.Connections.BL
 
         public void LoadList()
         {
-            try{
-                using (CCEntities dc = new CCEntities()){
-                    if(dc.Charities.ToList().Count != 0)
-                        dc.Charities.ToList().ForEach(c =>{ 
-                            this.Add(new Charity(c.Charity_ID));});
+            try
+            {
+                using (CCEntities dc = new CCEntities())
+                {
+                    if (dc.Charities.ToList().Count != 0)
+                        dc.Charities.ToList().ForEach(c =>
+                        {
+                            this.Add(new Charity(c.Charity_ID));
+                        });
                 }
             }
             catch (Exception e) { throw e; }

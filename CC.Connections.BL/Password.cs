@@ -64,8 +64,7 @@ namespace CC.Connections.BL
                     GenerateDefault(email);//generate
                                            //insert
                     using (CCEntities dc = new CCEntities())
-                        this.Insert(dc.Log_in.Max(c =>
-                            c.LogInMember_ID).GetValueOrDefault());
+                        this.Insert();
                     }
                     catch (Exception)
                     {
@@ -91,7 +90,7 @@ namespace CC.Connections.BL
             else
                 this.Pass = password;
             this.MemberType = memberType;
-            Insert(0);
+            Insert();
         }
 
         private bool loadId()
@@ -122,8 +121,9 @@ namespace CC.Connections.BL
         }
 
 
-        internal bool Insert(int iD)
+        internal bool Insert()
         {
+            int iD;
             using (CCEntities dc = new CCEntities())
             {
                 if (dc.Log_in.ToList().Count > 0)
@@ -147,25 +147,25 @@ namespace CC.Connections.BL
             }
         }
 
-        internal void Delete()
+        internal int Delete()
         {
             using (CCEntities dc = new CCEntities())
             {
                 dc.Log_in.Remove(dc.Log_in.Where(c => c.ContactInfoEmail == email).FirstOrDefault());
                 this.email = string.Empty;
                 this.hash = string.Empty;
-                dc.SaveChanges();
+                return dc.SaveChanges();
             }
         }
 
-        internal void Update()
+        internal int Update()
         {
             using (CCEntities dc = new CCEntities())
             {
                 PL.Log_in entry = dc.Log_in.Where(c => c.ContactInfoEmail == this.email).FirstOrDefault();
                 entry.LogInPassword = hash;
                 entry.MemberType = (int)this.MemberType;
-                dc.SaveChanges();
+                return dc.SaveChanges();
             }
         }
 

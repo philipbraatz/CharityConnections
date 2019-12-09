@@ -132,11 +132,12 @@ namespace CC.Connections.WebUI.Controllers
         {
             try
             {
-                Charity newCharity = new Charity(csu.CharityEmail, csu.Password.Pass, true);
-                newCharity.setCharityInfo((Charity)csu);
-                newCharity.Insert();
-
                 Session["charity"] = csu.Password;
+                Charity newCharity = new Charity(csu.Charity_Email, csu.Password.Pass, true);
+                newCharity.setCharityInfo((Charity)csu);
+                newCharity.Insert((Password)Session["charity"]);
+
+
                 if (ControllerContext.HttpContext.Request.UrlReferrer != null)
                     return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());//go back
                 else

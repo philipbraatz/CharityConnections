@@ -11,11 +11,10 @@
 
 <div class="card">
     <div class="card-header row">
-        <img class="col-2 " src="~/Content/Images/CCDefaultPlaceholder.gif" alt="@(Model.CharityName) logo" title="View Charity"> @* scr="/Content/Images/" + Model.charity.Charity_Image + ".svg" *@
+        <img class="col-2 " src="~/Content/Images/CCDefaultPlaceholder.gif" alt="@(Model.Charity_Name) logo" title="View Charity"> @* scr="/Content/Images/" + Model.charity.Charity_Image + ".svg" *@
     <div class="col-8">
-        <h2>@Html.DisplayFor(model => model.CharityName)</h2>
-        <a href="@Model.URL"><h4>@Model.URL</h4></a>
-        <h4>@Model.ContactInfo_Phone</h4>
+        <h2>@Html.DisplayFor(model => model.Charity_Name)</h2>
+        <a href="@Model.Charity_URL"><h4>@Model.Charity_URL</h4></a>
         <div>
             <h5>@Model.Location.ContactInfoAddress</h5>
             <h5>@Model.Location.ContactInfoCity</h5>
@@ -27,23 +26,23 @@
         </a>
     </div>
     <div class="card-body">
-        <p> @Html.DisplayFor(model => model.Cause)</p>
+        <p> @Html.DisplayFor(model => model.Charity_Cause)</p>
     </div>
     <div class="card-footer">
-        <p><b>Requirements: </b>@Model.Requirements</p>
+        <p><b>Requirements: </b>@Model.Charity_Requirements</p>
         <dt>
-            @Html.DisplayNameFor(model => model.EIN)
+            @Html.DisplayNameFor(model => model.Charity_EIN)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.EIN)
+            @Html.DisplayFor(model => model.Charity_EIN)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Deductibility)
+            @Html.DisplayNameFor(model => model.Charity_Deductibility)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Deductibility)
+            @Html.DisplayFor(model => model.Charity_Deductibility)
         </dd>
     </div>
 

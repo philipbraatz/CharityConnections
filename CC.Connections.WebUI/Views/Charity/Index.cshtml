@@ -23,14 +23,14 @@
                 <td class="p-3 mb-2 bg-gradient-info text-white">
                     <div class="card-header row">
                         <a href="@Url.Action("Details", "Charity", new { id = item.ID })">
-                            <img class="col-2 " src="~/Content/Images/CCDefaultPlaceholder.gif" alt="@item.CharityName" title="View Charity">
+                            <img class="col-2 " src="~/Content/Images/CCDefaultPlaceholder.gif" alt="@item.Charity_Name" title="View Charity">
                         </a>
                         <div class="col-8">
                             <a class="" title="Details" href="@Url.Action("Details", "Charity", new { id = item.ID })">
-                                <h2 title="Charity Details"> @item.CharityName</h2>
+                                <h2 title="Charity Details"> @item.Charity_Name</h2>
                             </a>
-                            <h3>@item.CharityEmail</h3>
-                            <h3>@item.URL</h3>
+                            <h3>@item.Charity_Email</h3>
+                            <h3>@item.Charity_URL</h3>
 
                         </div>
                         <div class="col-1">
@@ -43,15 +43,15 @@
                         <p>item.Description</p>
                     </div>-->
                     <div class="card-footer bg-info">
-                        <h3>Requirements: @item.Requirements</h3>
-                        <h3>Cause: @item.Cause</h3>
+                        <h3>Requirements: @item.Charity_Requirements</h3>
+                        <h3>Cause: @item.Charity_Cause</h3>
                     </div>
                 </td>
                 <!-- <td>
                     <h5>Going: @item..CountGoing</h5>
                     Interested: @item..CountInterested
                 </td> -->
-                @if (Session["member"] != null && ((CC.Connections.BL.Password)Session["member"]).email == item.ContactInfo_Email)
+                @if (Session["member"] != null && ((CC.Connections.BL.Password)Session["member"]).email == item.Charity_Email)
                 {
                     <td>
                         @Html.ActionLink("Edit", "Edit", new { id = item.ID })
