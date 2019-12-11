@@ -11,7 +11,7 @@
 
 @if (Session["member"] != null && ((CC.Connections.BL.Password)Session["member"]).MemberType == CC.Connections.BL.MemberType.CHARITY)
 {
-    <p>@Html.ActionLink("Create New", "Create")</p>
+    <p>@Html.ActionLink("Create New Volunteer Opportunity", "Create")</p>
 }
     <table class="table">
         @if (Model.ToList().Count != 0)
