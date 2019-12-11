@@ -46,7 +46,7 @@ namespace CC.Connections.BL
         [DisplayName("Is Deductible")]
         public bool Charity_Deductibility
         {
-            get { return (bool)base.getProperty("Charity_Deductibility"); }
+            get { return false; }//return (bool)base.getProperty("Charity_Deductibility"); }
             set { setProperty("Charity_Deductibility", value); }
         }
 
