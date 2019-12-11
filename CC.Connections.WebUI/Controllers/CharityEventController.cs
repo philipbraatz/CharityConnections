@@ -141,7 +141,7 @@ namespace CC.Connections.WebUI.Controllers
                 //evnt.Charity_ID = 1;
                 //evnt.charity.ID = 1;
             }
-            Session["charityID"] = evnt.Charity_ID = 1;
+            Session["charityId"] = evnt.charity.ID;
             return View(new CharityEvent_WithTime(evnt));
         }
 
@@ -159,7 +159,7 @@ namespace CC.Connections.WebUI.Controllers
                 else
                     events = ((CharityEventList)Session["charityEvents"]);
 
-                charityEvent.charity = new Charity(((int)Session["charityID"]));
+                charityEvent.charity = new Charity((int)Session["charityId"]);
                 charityEvent.Charity_ID = charityEvent.charity.ID;
                 charityEvent.Insert();
                 events.Add(charityEvent);
