@@ -296,6 +296,10 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CC.Abstract\CC.Abstract.csproj">
+      <Project>{5092B2FA-C711-4102-9D62-2B34C6F44395}</Project>
+      <Name>CC.Abstract</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CC.Connections.BL\CC.Connections.BL.csproj">
       <Project>{f4cc55d1-6ba6-4aa9-8ff6-d245f1b64101}</Project>
       <Name>CC.Connections.BL</Name>
@@ -358,7 +362,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties content_4bootstrap_1css_1map__JsonSchema="" content_4bootstrap-grid_1css_1map__JsonSchema="" />
+      <UserProperties content_4bootstrap-grid_1css_1map__JsonSchema="" content_4bootstrap_1css_1map__JsonSchema="" />
     </VisualStudio>
   </ProjectExtensions>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
