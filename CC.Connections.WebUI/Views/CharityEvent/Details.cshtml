@@ -16,8 +16,8 @@
         </a>
         <div class="col-8">
             <h2>@Html.DisplayFor(model => model.charity.Charity_Name)</h2>
-            <h4>Going: @Model.atendees.CountGoing</h4>
-            <h4>Interested: @Model.atendees.CountInterested</h4>
+            <h4>Going: @Model.atendees.CountGoingR</h4>
+            <h4>Interested: @Model.atendees.CountInterestedR</h4>
             <h4><b>@Model.CharityEventStatus</b></h4>
         </div>
         <a href="@Url.Action("CategoryView", "CharityEvent", new { id = Model.charity.Category.ID })">
