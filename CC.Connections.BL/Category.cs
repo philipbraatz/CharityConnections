@@ -101,6 +101,23 @@ namespace CC.Connections.BL
 
             }
         }
+        //hides categories that are unused
+        public new void LoadUsed()
+        {
+            try{
+                using (CCEntities dc = new CCEntities()){
+                    //base.LoadAll(dc.Categories);
+                    foreach (var c in dc.Categories.ToList())
+                        if(dc.Charities.Where(d=>d.Charity_Category_ID == c.Category_ID).Count() != 0)
+                            base.Add(new AbsCategory(c));
+                }
+            }
+            catch (EntityException e)
+            {
+                throw e.InnerException;
+
+            }
+        }
     }
     public class AbsCategoryPreferences : AbsListJoin<AbsCategory, Categories, Preferred_Category>
     {

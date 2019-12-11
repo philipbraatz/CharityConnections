@@ -223,8 +223,6 @@ namespace CC.Connections.BL
         //    table = tableUsed;
         //}
 
-
-        //TODO use Activators to not require any instances
         protected void createInstance() => 
             createInstance((TEntity)Activator.CreateInstance(typeof(TEntity), new object[] { }));
         protected void createInstance(TEntity entry)
