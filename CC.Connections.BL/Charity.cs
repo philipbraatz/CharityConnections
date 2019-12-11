@@ -46,7 +46,7 @@ namespace CC.Connections.BL
         [DisplayName("Is Deductible")]
         public bool Charity_Deductibility
         {
-            get { return false; }//return (bool)base.getProperty("Charity_Deductibility"); }
+            get { return false; }//{ return (bool)base.getProperty("Charity_Deductibility"); }//
             set { setProperty("Charity_Deductibility", value); }
         }
 
@@ -150,8 +150,8 @@ namespace CC.Connections.BL
                         setCharityInfo(charityPL);
                     else
                         Clear();//new Charity
-
-                    //TODO create new password if new
+                    Password newPassword = new Password(charityEmail, password, MemberType.CHARITY, false);
+                    newPassword.Insert();
 
                     this.Category = new AbsCategory((int)charityPL.Charity_Category_ID);
                     this.Location = new AbsLocation((int)charityPL.Location_ID);

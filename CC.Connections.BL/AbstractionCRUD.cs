@@ -444,7 +444,7 @@ namespace CC.Connections.BL
         //    properties = type.GetProperties();
         //}
 
-            //TODO reimpliment
+        //TODO reimpliment
         public void LoadAll(DbSet<TEntity> table)
         {
            //this.Clear();
