@@ -104,6 +104,49 @@ namespace CC.Connections.WebUI.Controllers
         {
             try
             {
+                if( con.confirmPassword.Pass == null ||  
+                    con.ContactInfo_Email == null ||
+                    con.ContactInfo_FName == null ||
+                    con.ContactInfo_LName == null ||
+                    con.ContactInfo_Phone == null ||
+                    con.DateOfBirth == null ||
+                    con.password == null
+                    )
+                {
+                    ViewBag.Message = "Please fill out every required field";
+                    return View(con);
+                }
+                else if(con.confirmPassword.Pass != con.password.Pass)
+                {
+                    ViewBag.Message = "Passwords do not match";
+                    return View(con);
+                }
+                else if(con.DateOfBirth.Year - DateTime.Now.Year < 13)
+                {
+                    ViewBag.Message = "You must be 13 years or older to register as a member";
+                    return View(con);
+                }
+                else if(!(con.ContactInfo_Email.Contains('@') && con.ContactInfo_Email.Contains('.') && con.ContactInfo_Email.Length > 6))
+                {
+                    ViewBag.Message = "Email is invalid";
+                    return View(con);
+                }
+                else if(false)//TODO check for valid phone number
+                {
+                    ViewBag.Message = "Phone number is invalid";
+                    return View(con);
+                }
+                else if (con.ContactInfo_FName.Trim().Length > 3)
+                {
+                    ViewBag.Message = "First name must be at least 3 characters long";
+                    return View(con);
+                }
+                else if (con.ContactInfo_LName.Trim().Length > 3)
+                {
+                    ViewBag.Message = "Last name must be at least 3 characters long";
+                    return View(con);
+                }
+
                 Volunteer newMember = new Volunteer(con.ContactInfo_Email, con.password.Pass, true);
                 newMember.setContactInfo((AbsContact)con);
                 newMember.Insert();
@@ -132,6 +175,40 @@ namespace CC.Connections.WebUI.Controllers
         {
             try
             {
+                if (csu.confirmPassword.Pass == null ||
+                    csu.Charity_Email == null ||
+                    csu.Category == null ||
+                    csu.Charity_Cause == null ||
+                    csu.Charity_Deductibility == null ||
+                    csu.Charity_EIN == null ||
+                    csu.Password == null ||
+                    csu.Charity_Name == null
+                    )
+                {
+                    ViewBag.Message = "Please fill out every required field";
+                    return View(csu);
+                }
+                else if (csu.confirmPassword.Pass != csu.Password.Pass)
+                {
+                    ViewBag.Message = "Passwords do not match";
+                    return View(csu);
+                }
+                else if (csu.Charity_Name.Trim().Length > 3)
+                {
+                    ViewBag.Message = "Charity name must be at least 3 characters long";
+                    return View(csu);
+                }
+                else if (csu.Charity_Email.Contains('@') && csu.Charity_Email.Contains('.') && csu.Charity_Email.Length > 6)
+                {
+                    ViewBag.Message = "Email is invalid";
+                    return View(csu);
+                }
+                else if (false)//TODO check for valid phone number
+                {
+                    ViewBag.Message = "Phone number is invalid";
+                    return View(csu);
+                }
+
                 Session["charity"] = csu.Password;
                 Charity newCharity = new Charity(csu.Charity_Email, csu.Password.Pass, true);
                 newCharity.setCharityInfo((Charity)csu);
