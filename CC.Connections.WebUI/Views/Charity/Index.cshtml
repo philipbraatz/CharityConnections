@@ -47,10 +47,6 @@
                         <h3>Cause: @item.Charity_Cause</h3>
                     </div>
                 </td>
-                <!-- <td>
-                    <h5>Going: @item..CountGoing</h5>
-                    Interested: @item..CountInterested
-                </td> -->
                 @if (Session["member"] != null && ((CC.Connections.BL.Password)Session["member"]).email == item.Charity_Email)
                 {
                     <td>

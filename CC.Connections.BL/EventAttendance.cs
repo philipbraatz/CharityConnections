@@ -184,9 +184,12 @@ namespace CC.Connections.BL
             set { joinGrouping_ID = value; }
         }
         [DisplayName("Going: ")]
-        public int CountGoing { get => this.Where(c => c.Status == Status.GOING).Count() + myRandG; }//TODO remove when more users attend
+        public int CountGoing { get => this.Where(c => c.Status == Status.GOING).Count() ; }
         [DisplayName("Interested: ")]
-        public int CountInterested { get => this.Where(c => c.Status == Status.INTERESTED).Count() + myRandI; }//TODO remove when more users attend
+        public int CountInterested { get => this.Where(c => c.Status == Status.INTERESTED).Count(); }
+        public int CountGoingR { get => this.Where(c => c.Status == Status.GOING).Count() + Math.Abs( this.eventID*2 -(int)this.joinGrouping_ID)+10; }//TODO remove when more users attend
+        [DisplayName("Interested: ")]
+        public int CountInterestedR { get => this.Where(c => c.Status == Status.INTERESTED).Count() +Math.Abs( (int)this.joinGrouping_ID - this.eventID *2) + 7; }//TODO remove when more users attend
 
         public EventAttendanceJointList(int event_id)
             : base("MemberCat_Category_ID", event_id, "MemberCat_Member_ID")
