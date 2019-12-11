@@ -63,7 +63,6 @@ namespace CC.Connections.BL.Test
             test = new Volunteer(testingID);
 
             Assert.IsTrue(test.ContactInfo_Phone == "1234567");
-            Assert.IsFalse(test.Password.Pass == VALUE1.Trim());
             Assert.IsTrue(test.Pref.Distance == INT1);
 
             Assert.IsTrue(test.Prefered_helping_Actions.Count > 0);
@@ -81,7 +80,6 @@ namespace CC.Connections.BL.Test
                 ContactInfo_LName = VALUE2
             };
             //updated.Member_Type.Desc = VALUE2;
-            updated.Password.Pass = VALUE2;
             updated.Pref.Distance = INT2;
             updated.Location.ContactInfoCity = VALUE2;
             //updated.Prefered_Charity_ID_List.Clear();
@@ -92,7 +90,6 @@ namespace CC.Connections.BL.Test
 
             Assert.IsTrue(updated.ContactInfo_LName == VALUE2);
             //Assert.IsTrue(updated.Member_Type.Desc == VALUE2);
-            Assert.IsFalse(updated.Password.Pass == test.Password.Pass);
             Assert.IsTrue(updated.Pref.Distance == INT2);
             Assert.IsTrue(updated.Location.ContactInfoCity == VALUE2);
         }

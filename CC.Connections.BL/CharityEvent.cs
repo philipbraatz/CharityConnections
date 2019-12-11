@@ -25,9 +25,8 @@ namespace CC.Connections.BL
         public EventAttendanceList atendees { get; set; }
 
         //TODO make PRIVATE
-
-        public DateTime _start { get; set; }
-        public DateTime _end { get; set; }
+        private DateTime _start { get; set; }
+        private DateTime _end { get; set; }
 
         [DisplayName("Start Date")]
         [DataType(DataType.Date)]

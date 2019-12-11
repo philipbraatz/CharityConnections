@@ -128,8 +128,7 @@ namespace CC.Connections.BL
             Pref = new AbsPreference();
             Location = new AbsLocation();
         }
-
-        public new int Insert()
+        public new int Insert(Password password)
         {
             base.Insert();
 
@@ -155,7 +154,7 @@ namespace CC.Connections.BL
                         Location_ID = Location.ID
                     };
                     dc.Members.Add(entry);//adding prior to everything else
-                    //TODO create password
+                    password.Insert();
 
                     //do not handle member preference lists here
 
@@ -164,7 +163,7 @@ namespace CC.Connections.BL
             }
             catch (Exception e) { throw e; }
         }
-        public new int Delete()
+        public new int Delete(Password password)
         {
             try
             {
@@ -173,7 +172,7 @@ namespace CC.Connections.BL
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invalid");
 
-                    //TODO Password.Delete();
+                    password.Delete();
                     Pref.Delete();
                     Location.Delete();
                     base.Delete();
@@ -184,14 +183,14 @@ namespace CC.Connections.BL
                     Prefered_Categories.DeleteAllPreferences();
                     //Prefered_Charities.DeleteAllPreferences();
                     Prefered_helping_Actions.DeleteAllPreferences();
-
+                    
                     Clear();
                     return dc.SaveChanges();
                 }
             }
             catch (Exception e) { throw e; }
         }
-        public new int Update()
+        public new int Update(Password password)
         {
             try
             {
@@ -207,6 +206,7 @@ namespace CC.Connections.BL
                     Pref.Update();
                     //Member_Type.Update();
                     Location.Update();
+                    password.Update();
 
                     //do not handle member preference lists here
 

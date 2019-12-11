@@ -21,7 +21,7 @@
             <h5>@Model.Location.ContactInfoState</h5>
         </div>
     </div>
-        <a href="@Url.Action("CategoryView", "CharityEvent", new { id = Model.Category.ID })">
+        <a href="@Url.Action("CategoryView", "Charity", new { id = Model.Category.ID })">
             <img class="btn-outline-info col-1" style="padding-top:0px;" src="@(("/Content/Images/" + Model.Category.Category_Image + ".svg"))" id="@(Model.Category.Category_Image)" title="@(Model.Category.Category_Desc) ">
         </a>
     </div>

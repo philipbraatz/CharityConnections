@@ -42,11 +42,7 @@ namespace CC.Connections.BL
         }
 
         [DisplayName("Account Type")]
-        public new MemberType MemberType { get; set; }//TODO inherit AbsColumn
-        //{
-            //get { return (MemberType)base.getProperty("MemberType"); }
-            //set { setProperty("MemberType", value); }
-        //}
+        public new MemberType MemberType { get; set; }
 
         public Password() { }
         //existing Password

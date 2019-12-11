@@ -31,9 +31,9 @@ namespace CC.Connections.BL.Test
         private int getID_fromDesc(string desc,bool isNull =false)
         {
             CharityList allTable = new CharityList();
-            allTable.LoadList();
+            allTable.LoadAll();
 
-            Charity cat = allTable.Where(c => c.ContactInfo_Email.Equals(desc)).FirstOrDefault();
+            Charity cat = allTable.Where(c => c.Charity_Email.Equals(desc)).FirstOrDefault();
             if (cat == null)
             {
                 Charity cat2 = allTable.Where(c => c.Charity_Email.Equals(desc)).FirstOrDefault();
@@ -55,10 +55,7 @@ namespace CC.Connections.BL.Test
         {
             Charity newt = new Charity()
             {
-                ContactInfo_Email = testing_ID1,
-                ContactInfo_FName = VALUE1,//Name of charity
-                ContactInfo_Phone = VALUE1,
-                DateOfBirth = DateTime.Now,//Start of charity orginization
+                Charity_Name = VALUE1,//Name of charity
                 Charity_EIN = VALUE1,
                 Charity_Deductibility =true,
                 Charity_URL = testingSite,
@@ -66,29 +63,25 @@ namespace CC.Connections.BL.Test
                 Category = new AbsCategory(CATEGORY_ID),
                 Location = new AbsLocation(LOCATION_ID),
                 Charity_Requirements = VALUE1,
-                Charity_Email = testing_ID2,
-                Password = new Password(testing_ID1,VALUE1,MemberType.CHARITY)
+                Charity_Email = testing_ID1
             };
-            newt.Insert();
+            newt.Insert(new Password(VALUE1,VALUE2,MemberType.CHARITY,false));
         }
 
         [TestMethod]
         public void LoadAll()
         {
             CharityList table = new CharityList();
-            table.LoadList();
+            table.LoadAll();
 
             Assert.AreNotEqual(0, table.Count);
 
-            Assert.AreEqual(testing_ID2, table.Find(f => f.ContactInfo_FName == VALUE1).ContactInfo_Email);
+            Assert.AreEqual(testing_ID1, table.Find(f => f.Charity_Name == VALUE1).Charity_Email);
         }
         [TestMethod]
         public void Load()
         {
             test = new Charity(getID_fromDesc(testing_ID2));
-
-            Assert.IsTrue(test.ContactInfo_Phone == VALUE1);
-            Assert.IsFalse(test.Password.Pass == VALUE1);
 
             Assert.IsTrue(test.Location.ContactInfoCity== new AbsLocation(LOCATION_ID).ContactInfoCity);
             Assert.IsTrue(test.Category.ID == CATEGORY_ID);
@@ -96,7 +89,7 @@ namespace CC.Connections.BL.Test
             Assert.IsTrue(test.Charity_EIN == VALUE1);
             Assert.IsTrue(test.Charity_Cause == VALUE1);
             Assert.IsTrue(test.Charity_Requirements == VALUE1);
-            Assert.IsTrue(test.ContactInfo_Email == testing_ID2);
+            Assert.IsTrue(test.Charity_Email == testing_ID1);
             Assert.IsTrue(test.Charity_Deductibility == true);
             Assert.IsTrue(test.Charity_URL== testingSite);
             //Assert.AreNotEqual(0, test.Prefered_Charity_ID_List.Count);
@@ -114,10 +107,8 @@ namespace CC.Connections.BL.Test
             updated.Charity_Requirements = VALUE2;
            
             //updated.Member_Type.Desc = VALUE2;
-            updated.Password.Pass = VALUE2;
             updated.Location.ContactInfoCity= VALUE2;
 
-            updated.Update();//update database
             updated = null;//clear
             updated = new Charity(getID_fromDesc(testing_ID2));//load again
 
@@ -131,10 +122,10 @@ namespace CC.Connections.BL.Test
         public void Delete()
         {
             test = new Charity(getID_fromDesc(testing_ID2));
-            test.Delete();//delete
+            test.Delete(new Password(test.Charity_Email,true));//delete
 
             CharityList table = new CharityList();
-            table.LoadList();//load updated table
+            table.LoadAll();//load updated table
 
             Assert.AreEqual(-12345,getID_fromDesc(testing_ID2,true));
             //TODO check that users preferences are gone

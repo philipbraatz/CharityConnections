@@ -43,7 +43,7 @@ namespace CC.Connections.WebUI.Controllers
                 allCharities = ((CharityList)Session["charities"]);
                 if (allCharities.Count != CharityList.getCount())//reload to catch missing
                 {
-                    allCharities.LoadList();
+                    allCharities.LoadAll();
                     //if (Session != null && Session["member"] != null)
                         //foreach (var ev in allCharities) ;
                             //ev.Member_Attendance = new AbsEventAtendee(ev.Event_ID, ((Password)Session["member"]).email);
@@ -53,7 +53,7 @@ namespace CC.Connections.WebUI.Controllers
             {
                 //convert to Model
                 allCharities = new CharityList();
-                allCharities.LoadList();
+                allCharities.LoadAll();
                 //if (Session != null && Session["member"] != null)
                     //foreach (var ev in allCharities)
                         //ev.Member_Attendance = new AbsEventAtendee(ev.Event_ID, ((Password)Session["member"]).email);
@@ -63,6 +63,33 @@ namespace CC.Connections.WebUI.Controllers
             }
 
             return View(allCharities);
+        }
+
+        // GET: CharityEvent/CategoryView/2
+        public ActionResult CategoryView(int id)
+        {
+            ViewBag.Title = new AbsCategory(id).Category_Desc;
+
+            //load
+            CharityList allCharities = new CharityList();
+            if (Session != null && Session["charityList"] != null)
+            {
+                allCharities = ((CharityList)Session["charityList"]);//TODO have all views use Session for speed increase
+                allCharities.Filter(id, SortBy.CATEGORY);
+                if (allCharities.Count != CharityEventList.getCount())//reload to catch missing
+                    allCharities.LoadWithFilter(id, SortBy.CATEGORY);
+            }
+            else
+            {
+                //convert to Model
+                allCharities = new CharityList();
+                allCharities.LoadWithFilter(id, SortBy.CATEGORY);
+
+                //save
+                Session["charityList"] = allCharities;
+            }
+
+            return View("Index", allCharities);
         }
 
         // GET: Charity/Edit/5

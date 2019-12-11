@@ -8,8 +8,8 @@ namespace CC.Connections.WebUI.Model
 {
     public class CharityEvent_WithTime : CharityEvent
     {
-        private string time_start;
-        private string time_end;
+        private string time_start = "{12/11/2019 12:00:00 AM}";
+        private string time_end = "{12/11/2019 12:00:00 AM}";
 
         public CharityEvent_WithTime() { }
         public CharityEvent_WithTime(CharityEvent evnt)

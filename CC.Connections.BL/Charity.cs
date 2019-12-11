@@ -46,7 +46,7 @@ namespace CC.Connections.BL
         [DisplayName("Is Deductible")]
         public bool Charity_Deductibility
         {
-            get { return false; }//return (bool)base.getProperty("Charity_Deductibility"); }
+            get { return (bool)base.getProperty("Charity_Deductibility"); }//{ return false; }//
             set { setProperty("Charity_Deductibility", value); }
         }
 
@@ -150,8 +150,8 @@ namespace CC.Connections.BL
                         setCharityInfo(charityPL);
                     else
                         Clear();//new Charity
-
-                    //TODO create new password if new
+                    Password newPassword = new Password(charityEmail, password, MemberType.CHARITY, false);
+                    newPassword.Insert();
 
                     this.Category = new AbsCategory((int)charityPL.Charity_Category_ID);
                     this.Location = new AbsLocation((int)charityPL.Location_ID);
@@ -243,27 +243,112 @@ namespace CC.Connections.BL
     public class CharityList :
         List<Charity>
     {
-        public string locationCity;
-        public string locationState;
+        //only used for Event lists
+        private int? Sort_ID { get; set; }
+        private SortBy sorter { get; set; }
+        private Volunteer userPref { get; set; }
 
-        public void LoadList()
+        private const string Event_LOAD_ERROR = "Events not loaded, please loadEvents with a Charity ID";
+
+        public CharityList()
         {
+            sorter = SortBy.NONE;
+        }
+        public CharityList(int id, SortBy sort, Volunteer user_pref = default)
+        {
+            Sort_ID = id;
+            sorter = sort;
+            userPref = user_pref;
+            LoadAll();
+        }
+
+        public void setPreferences(Volunteer user_pref)
+        {
+            userPref = user_pref;
+        }
+
+        public void LoadAll()
+        {
+            sorter = SortBy.NONE;
             try
             {
                 using (CCEntities dc = new CCEntities())
                 {
-                    if (dc.Charities.ToList().Count != 0)
-                        dc.Charities.ToList().ForEach(c =>
-                        {
-                            this.Add(new Charity(c.Charity_ID));
-                        });
+                    var test = dc.Charities.ToList();
+                    dc.Charities.ToList().ForEach(c => this.Add(c, true));
                 }
             }
-            catch (Exception e) { throw e; }
+            catch (Exception) { throw; }
         }
-        public void load()
+
+        public void LoadWithFilter(int id, SortBy sort)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+            this.LoadAll();
+            Filter(id, sort);
+
+        }
+        public void Filter(int id, SortBy sort)
+        {
+            Filterer filter = new Filterer();
+            filter.FillFilter(this);
+            switch (sort)
+            {
+                case SortBy.CATEGORY:
+                    filter.Whitelist_Remaining(new List<int> { id },new List<int>());
+                    this.Clear();
+
+                    foreach (var item in filter.GetRemainingCharities())
+                        this.Add(item);
+                    break;
+                case SortBy.HELPING_ACTION:
+                    throw new NotImplementedException();
+                    break;
+                case SortBy.CHARITY:
+                    throw new NotImplementedException();
+                    break;
+                default:
+                    throw new Exception("Cannot use id Filterer to Sort By " + sort.GetType().GetEnumName(sort));
+            }
+        }
+
+        //Loads list using preferences filter
+        public void LoadWithPreferences(Volunteer user_preferences)
+        {
+            userPref = user_preferences;
+            Clear();
+            Filterer filter = new Filterer();
+            filter.CutCharitiesByPreferences(userPref);
+            foreach (var item in filter.GetRemainingCharities())
+                this.Add(item, true);
+        }
+
+        public new void Clear()
+        {
+            base.Clear();
+            Sort_ID = null;
+        }
+
+        private void Add(Charity item, bool overrideMethod = true)
+        {
+            if (item.ID != null)
+                base.Add(item);
+        }
+        private void Remove(Charity item, bool overrideMethod = true)
+        {
+            base.Remove(item);
+        }
+        public new void Add(Charity item)
+        {
+            if (Sort_ID != null)
+                throw new Exception("Currently being used as a preference list. Please use AddPreference instead");
+            base.Add(item);
+        }
+        public new void Remove(Charity item)
+        {
+            if (Sort_ID != null)
+                throw new Exception("Currently being used as a preference list. Please use DeletePreference instead");
+            base.Remove(item);
         }
 
         public static int getCount()
@@ -272,6 +357,11 @@ namespace CC.Connections.BL
             {
                 return dc.Charities.Count();
             }
+        }
+
+        public static implicit operator List<object>(CharityList v)
+        {
+            throw new NotImplementedException();
         }
     }
 }
