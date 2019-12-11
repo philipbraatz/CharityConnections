@@ -31,7 +31,7 @@ namespace CC.Connections.BL.Test
         private int getID_fromDesc(string desc,bool isNull =false)
         {
             CharityList allTable = new CharityList();
-            allTable.LoadList();
+            allTable.LoadAll();
 
             Charity cat = allTable.Where(c => c.Charity_Email.Equals(desc)).FirstOrDefault();
             if (cat == null)
@@ -72,7 +72,7 @@ namespace CC.Connections.BL.Test
         public void LoadAll()
         {
             CharityList table = new CharityList();
-            table.LoadList();
+            table.LoadAll();
 
             Assert.AreNotEqual(0, table.Count);
 
@@ -125,7 +125,7 @@ namespace CC.Connections.BL.Test
             test.Delete(new Password(test.Charity_Email,true));//delete
 
             CharityList table = new CharityList();
-            table.LoadList();//load updated table
+            table.LoadAll();//load updated table
 
             Assert.AreEqual(-12345,getID_fromDesc(testing_ID2,true));
             //TODO check that users preferences are gone
