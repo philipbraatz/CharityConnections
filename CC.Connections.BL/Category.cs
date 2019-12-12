@@ -3,11 +3,12 @@ using CC.Connections.PL;
 using System.ComponentModel;
 using System.Data.Entity;
 using System.Data.Entity.Core;
+using CC.Abstract;
 
 namespace CC.Connections.BL
 {
     //TODO rename to just Category
-    public class AbsCategory : ColumnEntry<PL.Categories>//PRES inheritence
+    public class Category : ColumnEntry<PL.Categories>//PRES inheritence
     {
         //Parameters
 
@@ -91,7 +92,7 @@ namespace CC.Connections.BL
             {
                 //base.LoadAll(dc.Categories);
                 foreach (var c in dc.Categories.ToList())
-                    base.Add(new AbsCategory(c));
+                    base.Add(new Category(c));
             }
             }
             catch (EntityException e)
