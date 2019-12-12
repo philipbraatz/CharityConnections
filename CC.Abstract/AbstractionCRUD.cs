@@ -280,7 +280,7 @@ namespace CC.Abstract
                             p.p.SetValue(instance, new DateTime());
                             break;
                         default:
-                            p.p.SetValue(instance, default);
+                            p.p.SetValue(instance, default);//PRES C# 7.1 Default literal
                             break;
                     }
         }
@@ -432,6 +432,7 @@ namespace CC.Abstract
         }
 
         //TODO reimpliment
+        //PRES
         public void LoadWithJoin(DbSet<TEntity> entities, DbSet<TEntityJoin> join_table,
                                  object join_id)
         {
@@ -463,8 +464,7 @@ namespace CC.Abstract
             //                    Tcrud crud = ColumnEntry<TEntity>.ConvertToBL<Tcrud>(entry);//from Tentity to Tcrud
             //                    if (colentity_ID.Equals(Utils.getValue(entry, properties[0].Name)))
             //                        base.Add(crud);
-            //
-            //
+
             //                }
             //                catch (Exception e)
             //                {

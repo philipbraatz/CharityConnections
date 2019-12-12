@@ -3,18 +3,20 @@ using CC.Connections.PL;
 using System.ComponentModel;
 using System.Data.Entity;
 using System.Data.Entity.Core;
-using CC.Abstract;
 
 namespace CC.Connections.BL
 {
-    public class Category : ColumnEntry<PL.Categories>
+    //TODO rename to just Category
+    public class AbsCategory : ColumnEntry<PL.Categories>//PRES inheritence
     {
         //Parameters
 
+
+        //PRES id and other properties
         //id
         public new int ID
         {
-            get { return (int)base.ID; }
+            get { return (int)base.ID; }//ID is first column
             set { base.ID = value; }
         }
 
@@ -37,18 +39,19 @@ namespace CC.Connections.BL
             set { setProperty("Category_Image", value); }
         }
 
-        public Category() : 
+        //PRES constructor and CRUD
+        public AbsCategory() : 
             base(){ }
-        public Category(PL.Categories entry) : 
+        public AbsCategory(PL.Categories entry) : 
             base(entry) { }
-        public Category(int id) : 
+        public AbsCategory(int id) : 
             base(new CCEntities().Categories, id){}
         //turns a PL class into a BL equivelent example: 
         //Category pl = new Category();
         //...
         //AbsCategory bl = (AbsCategory)pl
-        public static implicit operator Category(PL.Categories entry)
-        {return new Category(entry);}
+        public static implicit operator AbsCategory(PL.Categories entry)
+        {return new AbsCategory(entry);}
 
         public void LoadId(){
             using (CCEntities dc = new CCEntities()){
@@ -65,25 +68,20 @@ namespace CC.Connections.BL
                 return base.Insert(dc, dc.Categories);
             }
         }
-        public int Update()
-        {
-            using (CCEntities dc = new CCEntities())
-            {
+        public int Update(){
+            using (CCEntities dc = new CCEntities()){
                 return base.Update(dc, dc.Categories);
             }
         }
-        public int Delete()
-        {
-            using (CCEntities dc = new CCEntities())
-            {
-                //dc.Categories.Remove(this);
-                //return dc.SaveChanges();
+        public int Delete(){
+            using (CCEntities dc = new CCEntities()){
                 return base.Delete(dc, dc.Categories);
             }
         }
     }
 
-    public class CategoryList : AbsList<Category, Categories>
+    //STOP HERE
+    public class AbsCategoryList : AbsList<AbsCategory, Categories>
     {
         public new void LoadAll()
         {
@@ -93,7 +91,7 @@ namespace CC.Connections.BL
             {
                 //base.LoadAll(dc.Categories);
                 foreach (var c in dc.Categories.ToList())
-                    base.Add(new Category(c));
+                    base.Add(new AbsCategory(c));
             }
             }
             catch (EntityException e)
@@ -110,7 +108,7 @@ namespace CC.Connections.BL
                     //base.LoadAll(dc.Categories);
                     foreach (var c in dc.Categories.ToList())
                         if(dc.Charities.Where(d=>d.Charity_Category_ID == c.Category_ID).Count() != 0)
-                            base.Add(new Category(c));
+                            base.Add(new AbsCategory(c));
                 }
             }
             catch (EntityException e)
@@ -120,7 +118,7 @@ namespace CC.Connections.BL
             }
         }
     }
-    public class AbsCategoryPreferences : AbsListJoin<Category, Categories, Preferred_Category>
+    public class AbsCategoryPreferences : AbsListJoin<AbsCategory, Categories, Preferred_Category>
     {
         int memberID
         {
@@ -144,7 +142,7 @@ namespace CC.Connections.BL
                 if (dc.Categories.ToList().Count != 0)
                     dc.Preferred_Category
                         .Where(c => c.MemberCat_Member_ID == memberID).ToList()
-                        .ForEach(b => base.Add(new Category(dc.Categories
+                        .ForEach(b => base.Add(new AbsCategory(dc.Categories
                             .Where(d =>
                                 d.Category_ID == b.MemberCat_Category_ID
                             ).FirstOrDefault()))
@@ -156,12 +154,12 @@ namespace CC.Connections.BL
                 base.DeleteAllPreferences(dc, dc.Preferred_Category);
             }
         }
-        public new void Add(Category category){
+        public new void Add(AbsCategory category){
             using (CCEntities dc = new CCEntities()){
                 base.Add(dc, dc.Preferred_Category,new Preferred_Category(), category);
             }
         }
-        public new void Remove(Category category){
+        public new void Remove(AbsCategory category){
             using (CCEntities dc = new CCEntities()){
                 base.Remove(dc, dc.Preferred_Category,category);
             }
