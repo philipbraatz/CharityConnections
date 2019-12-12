@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CC.Abstract;
 using CC.Connections.PL;
 
 namespace CC.Connections.BL
@@ -18,7 +19,7 @@ namespace CC.Connections.BL
             get { return (int)base.ID; }
             set { base.ID = value; }
         }
-        public AbsCategory category { get; set; }
+        public Category category { get; set; }
         public string Action {
             get { return (string)base.getProperty("HelpingActionDescription"); }
             set { setProperty("HelpingActionDescription", value); }
@@ -27,7 +28,7 @@ namespace CC.Connections.BL
         private void Clear()
         {
             Action = string.Empty;
-            category = new AbsCategory();
+            category = new Category();
         }
 
         public AbsHelping_Action() :

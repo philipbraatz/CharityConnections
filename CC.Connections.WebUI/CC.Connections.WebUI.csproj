@@ -278,7 +278,6 @@
     <Content Include="Views\CharityEvent\Details.cshtml" />
     <Content Include="Views\Login\CharitySignupView.cshtml" />
     <Content Include="Views\Charity\Details.cshtml" />
-    <Content Include="Views\Time\Index.cshtml" />
     <Content Include="TimePicker\LICENSE" />
     <Content Include="Views\CharityEvent\Delete.cshtml" />
     <Content Include="Views\CharityEvent\Edit.cshtml" />
@@ -296,6 +295,10 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CC.Abstract\CC.Abstract.csproj">
+      <Project>{5092B2FA-C711-4102-9D62-2B34C6F44395}</Project>
+      <Name>CC.Abstract</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CC.Connections.BL\CC.Connections.BL.csproj">
       <Project>{f4cc55d1-6ba6-4aa9-8ff6-d245f1b64101}</Project>
       <Name>CC.Connections.BL</Name>

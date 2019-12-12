@@ -1,15 +1,10 @@
-﻿using CC.Connections.PL;
-using System;
-using System.Collections.Generic;
+﻿using CC.Abstract;
+using CC.Connections.PL;
 using System.ComponentModel;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CC.Connections.BL
 {
-    public class AbsLocation : ColumnEntry<PL.Location>
+    public class Location : ColumnEntry<PL.Location>
     {
         public static CCEntities dc = new CCEntities();
 
@@ -46,12 +41,12 @@ namespace CC.Connections.BL
             get { return ContactInfoAddress + " ," + ContactInfoCity + " ," + ContactInfoState; }
         }
 
-        public AbsLocation() :
-            base(new Location()){ }
-        public AbsLocation(PL.Location entry) :
+        public Location() :
+            base(new PL.Location()){ }
+        public Location(PL.Location entry) :
             base(entry)
         { }
-        public AbsLocation(int id) :
+        public Location(int id) :
             base(new CCEntities().Locations,id)
         {
             Clear();
@@ -59,8 +54,8 @@ namespace CC.Connections.BL
             LoadId();
         }
 
-        public static implicit operator AbsLocation(PL.Location entry)
-        { return new AbsLocation(entry); }
+        public static implicit operator Location(PL.Location entry)
+        { return new Location(entry); }
 
         public int Insert(){
             using (CCEntities dc = new CCEntities()){
@@ -81,18 +76,18 @@ namespace CC.Connections.BL
                 base.LoadId(dc.Locations);
         }}
 
-        public double distanceFrom(AbsLocation from)
+        public double distanceFrom(Location from)
         {
             return MapAPI.GetDistanceFromLocations(this.Full_Location,from.Full_Location);
         }
 
-        public static double getDistanceBetween(AbsLocation start,AbsLocation end)
+        public static double getDistanceBetween(Location start,Location end)
         {
             return MapAPI.GetDistanceFromLocations(start.Full_Location, end.Full_Location);
         }
     }
 
-    public class AbsLocationList : AbsList<AbsLocation, Location>
+    public class LocationList : AbsList<Location, PL.Location>
     {
         public new void LoadAll()
         {
