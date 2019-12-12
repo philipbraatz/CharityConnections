@@ -6,14 +6,17 @@ using System.Data.Entity.Core;
 
 namespace CC.Connections.BL
 {
-    public class AbsCategory : ColumnEntry<PL.Categories>
+    //TODO rename to just Category
+    public class AbsCategory : ColumnEntry<PL.Categories>//PRES inheritence
     {
         //Parameters
 
+
+        //PRES id and other properties
         //id
         public new int ID
         {
-            get { return (int)base.ID; }
+            get { return (int)base.ID; }//ID is first column
             set { base.ID = value; }
         }
 
@@ -36,6 +39,7 @@ namespace CC.Connections.BL
             set { setProperty("Category_Image", value); }
         }
 
+        //PRES constructor and CRUD
         public AbsCategory() : 
             base(){ }
         public AbsCategory(PL.Categories entry) : 
@@ -64,24 +68,19 @@ namespace CC.Connections.BL
                 return base.Insert(dc, dc.Categories);
             }
         }
-        public int Update()
-        {
-            using (CCEntities dc = new CCEntities())
-            {
+        public int Update(){
+            using (CCEntities dc = new CCEntities()){
                 return base.Update(dc, dc.Categories);
             }
         }
-        public int Delete()
-        {
-            using (CCEntities dc = new CCEntities())
-            {
-                //dc.Categories.Remove(this);
-                //return dc.SaveChanges();
+        public int Delete(){
+            using (CCEntities dc = new CCEntities()){
                 return base.Delete(dc, dc.Categories);
             }
         }
     }
 
+    //STOP HERE
     public class AbsCategoryList : AbsList<AbsCategory, Categories>
     {
         public new void LoadAll()

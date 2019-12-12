@@ -58,7 +58,7 @@ namespace CC.Connections.BL
             return facets.ToDictionary(o => o.Name, o => o.Value);
         }
 
-
+        //Needs testing
         public static ReadOnlyMetadataCollection<Facet> GetFacets<T>(this DbContext context, Expression<Func<T, string>> column)
         {
             ReadOnlyMetadataCollection<Facet> result = null;
@@ -349,7 +349,7 @@ namespace CC.Connections.BL
                             p.p.SetValue(instance, new DateTime());
                             break;
                         default:
-                            p.p.SetValue(instance, default);
+                            p.p.SetValue(instance, default);//PRES C# 7.1 Default literal
                             break;
                     }
         }
@@ -483,6 +483,7 @@ namespace CC.Connections.BL
         }
 
         //TODO reimpliment
+        //PRES
         public void LoadWithJoin(DbSet<TEntity> entities, DbSet<TEntityJoin> join_table,
                                  object join_id)
         {
@@ -514,8 +515,7 @@ namespace CC.Connections.BL
             //                    Tcrud crud = ColumnEntry<TEntity>.ConvertToBL<Tcrud>(entry);//from Tentity to Tcrud
             //                    if (colentity_ID.Equals(Utils.getValue(entry, properties[0].Name)))
             //                        base.Add(crud);
-            //
-            //
+
             //                }
             //                catch (Exception e)
             //                {
