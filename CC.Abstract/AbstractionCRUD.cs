@@ -8,6 +8,7 @@ using System.Data.Entity.Core.Metadata.Edm;
 using System.Linq.Expressions;
 using System.Data.Entity.Infrastructure;
 using System.Globalization;
+using System.Runtime.Serialization;
 
 namespace CC.Connections.BL
 {
@@ -96,6 +97,8 @@ namespace CC.Connections.BL
         }
     }
 
+    //PropertyInfo with custom info
+    //Max
     public class PropertyDB_Info<TEntity>
     {
         public int max { get; private set; }
@@ -116,6 +119,19 @@ namespace CC.Connections.BL
             }
         }
     }
+    public class PropertyException : Exception
+    {
+        public PropertyException() : base() { }
+        public PropertyException(Type tEntity,string propertyName) : base(tEntity + " does not have the property " + propertyName)
+        {}
+
+        public PropertyException(Type tEntity, string propertyName, Exception innerException) : base(tEntity + " does not have the property " + propertyName,innerException)
+        { }
+
+        protected PropertyException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {}
+    }
+
     public class ColumnEntry<TEntity> where TEntity : class
     {
         //the ID is what ever parameter is first in the class
@@ -151,7 +167,7 @@ namespace CC.Connections.BL
                     return default;
             }
             else
-                throw new Exception(typeof(TEntity) + " does not have a " + propertyName + " property");
+                throw new PropertyException(typeof(TEntity), propertyName);
         }
         private void setValue(TEntity prop, string propertyName, object value)
         {
@@ -160,7 +176,7 @@ namespace CC.Connections.BL
             if (propinf != null)
                 propinf.SetValue(prop, value);
             else
-                throw new Exception(typeof(TEntity) + " does not have a " + propertyName + " property");
+                throw new PropertyException(typeof(TEntity), propertyName);
         }
 
         //gets this instance
@@ -176,7 +192,7 @@ namespace CC.Connections.BL
                     return default;
             }
             else
-                throw new Exception(typeof(TEntity) + " does not have a " + propertyName + " property");
+                throw new PropertyException(typeof(TEntity), propertyName);
         }
         protected void setProperty(string propertyName, object value, bool forceInt =true)
         {
@@ -199,8 +215,6 @@ namespace CC.Connections.BL
                             else
                                 propinf.p.SetValue(instance, value);
                         }
-                        else if (value.GetType().Name == "Status")
-                            propinf.p.SetValue(instance, (int)value);
                         else
                             propinf.p.SetValue(instance, value);
                     else if (propinf.p.PropertyType.Name == "String" &&
@@ -210,7 +224,7 @@ namespace CC.Connections.BL
                         propinf.p.SetValue(instance, value);
                 }
                 else
-                    throw new Exception(typeof(TEntity) + " does not have a " + propertyName + " property");
+                    throw new PropertyException(typeof(TEntity), propertyName);
             }
             catch (Exception e)
             {
