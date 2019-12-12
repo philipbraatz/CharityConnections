@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CC.Connections.PL;
 
+//TODO DEPERCIATED delete file
 namespace CC.Connections.BL
 {
     //Entry

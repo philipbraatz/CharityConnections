@@ -39,7 +39,7 @@ namespace CC.Connections.BL.Test
 
         private int getID_fromDesc(string desc)
         {
-            AbsEventAttendanceList eventAttenders = new AbsEventAttendanceList();
+            EventAttendanceList eventAttenders = new EventAttendanceList();
             eventAttenders.LoadAll();
 
             AbsEventAtendee cat = eventAttenders.Where(c => c.email == desc).FirstOrDefault();
@@ -65,7 +65,7 @@ namespace CC.Connections.BL.Test
         {
             int eventID = getEventID_fromDesc(NAME_OF_EVENT);
             int memberID = getID_fromDesc(testingID);
-            EventAttendanceList table = new EventAttendanceList(eventID);
+            EventAttendanceJointList table = new EventAttendanceJointList(eventID);
 
             Assert.AreNotEqual(0, table.Count);
         AbsEventAtendee atendee = table.Where(c =>

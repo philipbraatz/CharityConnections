@@ -5,11 +5,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5092B2FA-C711-4102-9D62-2B34C6F44395}</ProjectGuid>
+    <ProjectGuid>{BF7436AD-1642-4D97-B263-4652977BD829}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CC.Abstract</RootNamespace>
-    <AssemblyName>CC.Abstract</AssemblyName>
+    <RootNamespace>CC.Abstract.UT</RootNamespace>
+    <AssemblyName>CC.Abstract.UT</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -51,15 +51,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AbstractColumn.cs" />
-    <Compile Include="AbstractionCRUD.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PropertyHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CC.Connections.PL\CC.Connections.PL.csproj">
-      <Project>{754d3507-7b50-49b2-bc6b-2881cd7a2084}</Project>
-      <Name>CC.Connections.PL</Name>
+    <ProjectReference Include="..\CC.Abstract\CC.Abstract.csproj">
+      <Project>{5092b2fa-c711-4102-9d62-2b34c6f44395}</Project>
+      <Name>CC.Abstract</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

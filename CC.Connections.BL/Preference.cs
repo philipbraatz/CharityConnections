@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Linq;
+using CC.Abstract;
 using CC.Connections.PL;
 
 namespace CC.Connections.BL
 {
-    public class AbsPreference : ColumnEntry<PL.Preference>
+    public class Preference : ColumnEntry<PL.Preference>
     {
         private static CCEntities dc;
 
@@ -19,19 +20,19 @@ namespace CC.Connections.BL
             set { setProperty("Distance", value); }
         }
 
-        public AbsPreference() :
+        public Preference() :
             base(new PL.Preference()) { }
-        public AbsPreference(PL.Preference entry) :
+        public Preference(PL.Preference entry) :
             base(entry){ }
-        public AbsPreference(int id) :
+        public Preference(int id) :
             base(new CCEntities().Preferences, id)
         {
             Clear();
             ID = id;
             LoadId();
         }
-        public static implicit operator AbsPreference(PL.Preference entry)
-        { return new AbsPreference(entry); }
+        public static implicit operator Preference(PL.Preference entry)
+        { return new Preference(entry); }
 
         public void LoadId(){
             using (CCEntities dc = new CCEntities()){
@@ -61,7 +62,7 @@ namespace CC.Connections.BL
         }
     }
 
-    public class AbsPreferenceList : AbsList<AbsPreference, Preference>
+    public class AbsPreferenceList : AbsList<Preference, PL.Preference>
     {
         public new void LoadAll()
         {

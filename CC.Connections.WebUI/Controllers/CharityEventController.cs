@@ -24,10 +24,18 @@ namespace CC.Connections.WebUI.Controllers
                 allEvents = ((CharityEventList)Session["charityEvents"]);
                 if (allEvents.Count != CharityEventList.getCount())//reload to catch missing
                 {
-                    allEvents.LoadAll();
-                    if (Session != null && Session["member"] != null && ((Password)Session["member"]).MemberType == MemberType.VOLLUNTEER)
-                        foreach (var ev in allEvents)
-                            ev.Member_Attendance = new AbsEventAtendee(ev.Event_ID, ((Password)Session["member"]).email);
+                    try
+                    {
+                        allEvents.LoadAll();
+                        if (Session != null && Session["member"] != null && ((Password)Session["member"]).MemberType == MemberType.VOLLUNTEER)
+                            foreach (var ev in allEvents)
+                                ev.Member_Attendance = new AbsEventAtendee(ev.Event_ID, ((Password)Session["member"]).email);
+                    }
+                    catch(Exception e)
+                    {
+                        ViewBag.Message = e.Message;
+                        return View(allEvents);
+                    }
                 }
             }
             else
@@ -49,7 +57,7 @@ namespace CC.Connections.WebUI.Controllers
         // GET: CharityEvent/CategoryView/2
         public ActionResult CategoryView(int id)
         {
-            ViewBag.Title = new AbsCategory(id).Category_Desc;
+            ViewBag.Title = new Category(id).Category_Desc;
 
             //load
             CharityEventList allEvents = new CharityEventList();
@@ -123,7 +131,7 @@ namespace CC.Connections.WebUI.Controllers
 
             CharityEvent evnt = new CharityEvent
             {
-                Location = new AbsLocation(),
+                Location = new Location(),
             };
             Password credentals = (Password)Session["member"];
             if (credentals == null)

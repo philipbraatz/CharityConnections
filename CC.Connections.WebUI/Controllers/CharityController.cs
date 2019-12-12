@@ -68,7 +68,7 @@ namespace CC.Connections.WebUI.Controllers
         // GET: CharityEvent/CategoryView/2
         public ActionResult CategoryView(int id)
         {
-            ViewBag.Title = new AbsCategory(id).Category_Desc;
+            ViewBag.Title = new Category(id).Category_Desc;
 
             //load
             CharityList allCharities = new CharityList();

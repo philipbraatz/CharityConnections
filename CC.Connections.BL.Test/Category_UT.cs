@@ -9,9 +9,9 @@ namespace CC.Connections.BL.Test
     [TestClass]
     public class CategoryUT
     {
-        public AbsCategoryList allTable;
+        public CategoryList allTable;
 
-        public AbsCategory test;
+        public Category test;
         public const int TEST_MEMBER_ID = -1;
         public string memberEmail = "test@test.com";
         public const string INSERT_1 = "test 1 for categories";
@@ -24,10 +24,10 @@ namespace CC.Connections.BL.Test
         private int getID_fromDesc(string desc)
         {
             if (allTable == null)
-                allTable = new BL.AbsCategoryList();
+                allTable = new BL.CategoryList();
             allTable.LoadAll();
 
-            AbsCategory cat = allTable.Where(c => c.Category_Desc == desc).FirstOrDefault();
+            Category cat = allTable.Where(c => c.Category_Desc == desc).FirstOrDefault();
             if (cat == null)
                 Assert.Fail();
             return cat.ID;
@@ -36,14 +36,14 @@ namespace CC.Connections.BL.Test
         [TestMethod]
         public void Insert()
         {
-            AbsCategory newt = new AbsCategory
+            Category newt = new Category
             {
                 Category_Desc = INSERT_1
             };
 
             newt.Insert();
 
-            newt = new AbsCategory
+            newt = new Category
             {
                 Category_Desc = INSERT_2
             };
@@ -54,7 +54,7 @@ namespace CC.Connections.BL.Test
         [TestMethod]
         public void LoadAll()
         {
-            AbsCategoryList table = new BL.AbsCategoryList();
+            CategoryList table = new BL.CategoryList();
             table.LoadAll();
 
             Assert.AreNotEqual(0, table.Count);
@@ -70,11 +70,11 @@ namespace CC.Connections.BL.Test
             table.LoadPreferences();
             //Assert.AreEqual(0, table.Count);//make sure its empty
 
-            AbsCategoryList allTable = new BL.AbsCategoryList();
+            CategoryList allTable = new BL.CategoryList();
             allTable.LoadAll();
 
-            table.Add(new AbsCategory(getID_fromDesc(INSERT_1)));//add a AbsCategory ID
-            table.Add(new AbsCategory(getID_fromDesc(INSERT_2)));//add a AbsCategory ID
+            table.Add(new Category(getID_fromDesc(INSERT_1)));//add a AbsCategory ID
+            table.Add(new Category(getID_fromDesc(INSERT_2)));//add a AbsCategory ID
 
             //compare to all
 
@@ -92,26 +92,26 @@ namespace CC.Connections.BL.Test
         public void Update()
         {
             if (allTable == null)
-                allTable = new BL.AbsCategoryList();
+                allTable = new BL.CategoryList();
             allTable.LoadAll();
             int tableCount = allTable.Count;
 
-            test = new AbsCategory(getID_fromDesc(INSERT_1));
-            AbsCategory updated = new AbsCategory(getID_fromDesc(INSERT_1))
+            test = new Category(getID_fromDesc(INSERT_1));
+            Category updated = new Category(getID_fromDesc(INSERT_1))
             {
                 Category_Desc = UPDATE_1
             };
             updated.Update();//update database
 
             //update both categories
-            updated = new AbsCategory(getID_fromDesc(INSERT_2))
+            updated = new Category(getID_fromDesc(INSERT_2))
             {
                 Category_Desc = UPDATE_2
             };
             updated.Update();//update database
 
             updated = null;//clear
-            updated = new AbsCategory(getID_fromDesc(UPDATE_2));//load again with new value
+            updated = new Category(getID_fromDesc(UPDATE_2));//load again with new value
             //Assert.IsTrue(updated.Category_Desc == UPDATE_2);
             allTable.LoadAll();
             //Assert.AreEqual(tableCount,allTable.Count);//count unchanged
@@ -126,16 +126,16 @@ namespace CC.Connections.BL.Test
             Volunteer mtest = new Volunteer(memberEmail);
             AbsCategoryPreferences table = new BL.AbsCategoryPreferences(mtest.ID);
 
-            AbsCategoryList allTable = new BL.AbsCategoryList();
+            CategoryList allTable = new BL.CategoryList();
             allTable.LoadAll();
 
             table.LoadPreferences();
             //Assert.AreEqual(2, table.Count);
 
-            table.Remove(new AbsCategory(getID_fromDesc(UPDATE_1)));
+            table.Remove(new Category(getID_fromDesc(UPDATE_1)));
             //Assert.AreEqual(1, table.Count);
 
-            table.Remove(new AbsCategory(getID_fromDesc(UPDATE_2)));
+            table.Remove(new Category(getID_fromDesc(UPDATE_2)));
             //Assert.AreEqual(0, table.Count);
 
             //CLEAR
@@ -147,7 +147,7 @@ namespace CC.Connections.BL.Test
         [TestMethod]
         public void Load()
         {
-            test = new AbsCategory(getID_fromDesc(INSERT_1));
+            test = new Category(getID_fromDesc(INSERT_1));
 
             Assert.IsTrue(test.Category_Desc == INSERT_1);
         }
@@ -157,7 +157,7 @@ namespace CC.Connections.BL.Test
             AbsCategoryPreferences allTable = new BL.AbsCategoryPreferences(getID_fromDesc(INSERT_1));
             allTable.LoadPreferences();
 
-            test = new AbsCategory(getID_fromDesc(INSERT_1));
+            test = new Category(getID_fromDesc(INSERT_1));
 
             Assert.IsTrue(test.Category_Desc == INSERT_1);
         }
@@ -165,12 +165,12 @@ namespace CC.Connections.BL.Test
         [TestMethod]
         public void Delete()
         {
-            test = new AbsCategory(getID_fromDesc(UPDATE_1));
+            test = new Category(getID_fromDesc(UPDATE_1));
             test.Delete();//delete
-            test = new AbsCategory(getID_fromDesc(UPDATE_2));
+            test = new Category(getID_fromDesc(UPDATE_2));
             test.Delete();//delete both to avoid testing overflow
             
-            AbsCategoryList table = new AbsCategoryList();
+            CategoryList table = new CategoryList();
             table.LoadAll();//load updated table
             
             Assert.IsNull(table.Find(f => f.Category_Desc == UPDATE_2));//may need to test for different nonexistant value

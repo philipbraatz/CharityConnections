@@ -20,9 +20,9 @@ namespace CC.Connections.BL
         [DisplayName("Charity Event")]
         public string CharityEventName { get; set; }
         [DisplayName("Location")]
-        public AbsLocation Location { get; set; }
+        public Location Location { get; set; }
 
-        public EventAttendanceList atendees { get; set; }
+        public EventAttendanceJointList atendees { get; set; }
 
         //TODO make PRIVATE
         private DateTime _start { get; set; }
@@ -162,8 +162,8 @@ namespace CC.Connections.BL
 
         private void Clear()
         {
-            this.Location = new Location();
-            this.atendees = new EventAttendanceList(this.Event_ID);
+            this.Location = new PL.Location();
+            this.atendees = new EventAttendanceJointList(this.Event_ID);
         }
 
         protected void setEventInfo(PL.Charity_Event char_event)
@@ -176,9 +176,9 @@ namespace CC.Connections.BL
             this._end = (DateTime)char_event.CharityEventEndDate;
             if (char_event.CharityEventLocation_ID == null)
                 throw new Exception("Charity Event ID " + this.Event_ID + " doesn't not have a location set");
-            this.Location = new AbsLocation((int)char_event.CharityEventLocation_ID);
+            this.Location = new Location((int)char_event.CharityEventLocation_ID);
             this.Description = char_event.CharityEventDescription;
-            this.atendees = new EventAttendanceList(char_event.CharityEvent_ID);
+            this.atendees = new EventAttendanceJointList(char_event.CharityEvent_ID);
         }
         protected void setEventInfo(CharityEvent evnt)
         {
@@ -190,7 +190,7 @@ namespace CC.Connections.BL
             this._end = evnt._end;
             this.Location = evnt.Location;
             this.Description = evnt.Description;
-            this.atendees = new EventAttendanceList(evnt.Event_ID);
+            this.atendees = new EventAttendanceJointList(evnt.Event_ID);
         }
 
         public new int Insert()

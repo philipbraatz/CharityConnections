@@ -43,35 +43,35 @@ namespace CC.Connections.BL
         {
             int size = 0;
             if (filterCharities.Count > 0)
-                size += CutCharitiesWithFilter(NONE, NONE, new AbsLocation(), null, null, deductable);
+                size += CutCharitiesWithFilter(NONE, NONE, new Location(), null, null, deductable);
             if (filterEvents.Count > 0)
-                size += CutEventsByFilter(NONE, NONE, NONE, new AbsLocation(), null, null, null, deductable);
+                size += CutEventsByFilter(NONE, NONE, NONE, new Location(), null, null, null, deductable);
             return size;
         }
         public int Whitelist_Remaining(List<int> category, List<int> helping_action)
         {
             int size = 0;
             if (filterCharities.Count > 0)
-                size += CutCharitiesWithFilter(category, helping_action, new AbsLocation(), null, null, null);
+                size += CutCharitiesWithFilter(category, helping_action, new Location(), null, null, null);
             if (filterEvents.Count > 0)
-                size += CutEventsByFilter(category, helping_action, NONE, new AbsLocation(), null, null, null, null);
+                size += CutEventsByFilter(category, helping_action, NONE, new Location(), null, null, null, null);
             return size;
         }
         public int Whitelist_Remaining_Events(List<int> charity)
         {
             if (filterEvents.Count > 0)
-                return CutEventsByFilter(NONE, NONE, charity, new AbsLocation(), null, null, null, null);
+                return CutEventsByFilter(NONE, NONE, charity, new Location(), null, null, null, null);
             else
                 return 0;
         }
         public int Whitelist_Remaining_Events(List<int> category, List<int> charity, List<int> helping_action)
         {
             if (filterEvents.Count > 0)
-                return CutEventsByFilter(category, helping_action, charity, new AbsLocation(), null, null, null, null);
+                return CutEventsByFilter(category, helping_action, charity, new Location(), null, null, null, null);
             else
                 return 0;
         }
-        public int Whitelist_Remaining(AbsLocation location, double distance)
+        public int Whitelist_Remaining(Location location, double distance)
         {
             int size = 0;
             if (filterCharities.Count > 0)
@@ -83,12 +83,12 @@ namespace CC.Connections.BL
         public int Whitelist_Remaining(DateTime? start, DateTime? end)
         {
             if (filterEvents.Count > 0)
-                return CutEventsByFilter(NONE, NONE, NONE, new AbsLocation(), null, start, end, null);
+                return CutEventsByFilter(NONE, NONE, NONE, new Location(), null, start, end, null);
             else
                 return 0;
         }
         public int Whitelist_Remaining(List<int> category, List<int> helpingAction,
-                                        AbsLocation location, double? distance,
+                                        Location location, double? distance,
                                          bool? deductable)
         {
             int size = 0;
@@ -99,7 +99,7 @@ namespace CC.Connections.BL
             return size;
         }
         public int Whitelist_Remaining_Events(List<int> category, List<int> helpingAction, List<int> charity,
-                                    AbsLocation location, double? distance,
+                                    Location location, double? distance,
                                     DateTime? start, DateTime? end, bool? deductable)
         {
             return CutEventsByFilter(category, helpingAction, charity, location, distance, start, end, deductable);
@@ -115,7 +115,7 @@ namespace CC.Connections.BL
         }
 
         private int CutEventsByFilter(List<int> category, List<int> helpingAction, List<int> charity,
-                                        AbsLocation location, double? distance,
+                                        Location location, double? distance,
                                         DateTime? start, DateTime? end, bool? deductable)
         {
             List<CharityEvent> events = new List<CharityEvent>();
@@ -156,7 +156,7 @@ namespace CC.Connections.BL
                             continue;
                         }
                         if (distance != null &&
-                            new AbsLocation((int)c.Charity_ID).distanceFrom(
+                            new Location((int)c.Charity_ID).distanceFrom(
                                     location) > distance)
                         {
                             valid = false;
@@ -232,7 +232,7 @@ namespace CC.Connections.BL
                             //    debugInvalidator = "start: " + userPref.Pref.StartDate;
                             //    continue;
                             //}
-                            if (new AbsLocation((int)c.Charity_ID).distanceFrom(
+                            if (new Location((int)c.Charity_ID).distanceFrom(
                                         userPref.Location) > (double)userPref.Pref.Distance)
                             {
                                 valid = false;
@@ -326,7 +326,7 @@ namespace CC.Connections.BL
             catch (Exception e) { throw e; }
         }
 
-        private int CutCharitiesWithFilter(List<int> category, List<int> helpingAction, AbsLocation location, double? distance,
+        private int CutCharitiesWithFilter(List<int> category, List<int> helpingAction, Location location, double? distance,
                                         DateTime? startDate, bool? deductable)
         {
             List<Charity> charities = new List<Charity>();
@@ -359,7 +359,7 @@ namespace CC.Connections.BL
                             continue;
                         }
                         if (distance != null &&
-                            new AbsLocation((int)c.Charity_ID).distanceFrom(
+                            new Location((int)c.Charity_ID).distanceFrom(
                                     location) > distance)
                         {
                             valid = false;
@@ -427,7 +427,7 @@ namespace CC.Connections.BL
                             //    debugInvalidator = "start: " + userPref.Pref.StartDate;
                             //    continue;
                             //}
-                            if (new AbsLocation((int)c.Charity_ID).distanceFrom(
+                            if (new Location((int)c.Charity_ID).distanceFrom(
                                         userPref.Location) > (double)userPref.Pref.Distance)
                             {
                                 valid = false;

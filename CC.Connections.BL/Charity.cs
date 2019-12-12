@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using CC.Connections.PL;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using CC.Abstract;
 
 
 
@@ -70,8 +71,8 @@ namespace CC.Connections.BL
             set { setProperty("Charity_Requirements", value); }
         }
 
-        public AbsCategory Category { get; set; }//never delete
-        public AbsLocation Location { get; set; }//delete when removed
+        public Category Category { get; set; }//never delete
+        public Location Location { get; set; }//delete when removed
 
         internal static bool Exists(CCEntities dc, int id)
         {
@@ -85,8 +86,8 @@ namespace CC.Connections.BL
         }
         public Charity(PL.Charities entry) : base(entry)
         {
-            this.Category = new AbsCategory((int)entry.Charity_Category_ID);
-            this.Location = new AbsLocation((int)entry.Location_ID);
+            this.Category = new Category((int)entry.Charity_Category_ID);
+            this.Location = new Location((int)entry.Location_ID);
 
         }
         public Charity(int id) : base(new CCEntities().Charities, id)
@@ -96,8 +97,8 @@ namespace CC.Connections.BL
                 using (CCEntities dc = new CCEntities())
                 {
                     PL.Charities charityPL = dc.Charities.Where(c => c.Charity_ID == id).FirstOrDefault();
-                    this.Category = new AbsCategory((int)charityPL.Charity_Category_ID);
-                    this.Location = new AbsLocation((int)charityPL.Location_ID);
+                    this.Category = new Category((int)charityPL.Charity_Category_ID);
+                    this.Location = new Location((int)charityPL.Location_ID);
                 }
 
             }
@@ -153,8 +154,8 @@ namespace CC.Connections.BL
                     Password newPassword = new Password(charityEmail, password, MemberType.CHARITY, false);
                     newPassword.Insert();
 
-                    this.Category = new AbsCategory((int)charityPL.Charity_Category_ID);
-                    this.Location = new AbsLocation((int)charityPL.Location_ID);
+                    this.Category = new Category((int)charityPL.Charity_Category_ID);
+                    this.Location = new Location((int)charityPL.Location_ID);
                 }
             }
             catch (Exception e)
@@ -184,8 +185,8 @@ namespace CC.Connections.BL
                     base.LoadId(dc.Charities);
 
                     PL.Charities entry = dc.Charities.Where(c => c.Charity_ID == this.ID).FirstOrDefault();
-                    this.Category = new AbsCategory(entry.Charity_Category_ID.Value);
-                    this.Location = new AbsLocation(entry.Location_ID.Value);
+                    this.Category = new Category(entry.Charity_Category_ID.Value);
+                    this.Location = new Location(entry.Location_ID.Value);
                 }
             }
             catch (Exception e)
@@ -275,10 +276,10 @@ namespace CC.Connections.BL
                 using (CCEntities dc = new CCEntities())
                 {
                     var test = dc.Charities.ToList();
-                    dc.Charities.ToList().ForEach(c => this.Add(c, true));
+                    dc.Charities.ToList().ForEach(c => { if (c != null) this.Add(c, true); });
                 }
             }
-            catch (Exception) { throw; }
+            catch (Exception e) { throw e; }
         }
 
         public void LoadWithFilter(int id, SortBy sort)

@@ -278,7 +278,6 @@
     <Content Include="Views\CharityEvent\Details.cshtml" />
     <Content Include="Views\Login\CharitySignupView.cshtml" />
     <Content Include="Views\Charity\Details.cshtml" />
-    <Content Include="Views\Time\Index.cshtml" />
     <Content Include="TimePicker\LICENSE" />
     <Content Include="Views\CharityEvent\Delete.cshtml" />
     <Content Include="Views\CharityEvent\Edit.cshtml" />
@@ -362,7 +361,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties content_4bootstrap-grid_1css_1map__JsonSchema="" content_4bootstrap_1css_1map__JsonSchema="" />
+      <UserProperties content_4bootstrap_1css_1map__JsonSchema="" content_4bootstrap-grid_1css_1map__JsonSchema="" />
     </VisualStudio>
   </ProjectExtensions>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

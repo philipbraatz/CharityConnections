@@ -13,8 +13,8 @@ namespace CC.Connections.BL
         public AbsMemberActionList Prefered_helping_Actions { get; set; }
         //depreciated
         //public Role Role { get; set; }
-        public AbsPreference Pref { get; set; }
-        public AbsLocation Location { get; set; }
+        public Preference Pref { get; set; }
+        public Location Location { get; set; }
 
         internal static bool Exists(CCEntities dc, int id)
         {
@@ -35,8 +35,8 @@ namespace CC.Connections.BL
             Clear();
             base.setContactInfo( AbsContact.fromNumID(entry.MemberContact_ID));
 
-            Pref = new AbsPreference((int)entry.MemberPreference_ID);
-            Location = new AbsLocation((int)entry.Location_ID);
+            Pref = new Preference((int)entry.MemberPreference_ID);
+            Location = new Location((int)entry.Location_ID);
 
             Prefered_Categories.LoadPreferences(ID);
             //Prefered_Charities.load();
@@ -125,8 +125,8 @@ namespace CC.Connections.BL
             Prefered_Categories = new AbsCategoryPreferences(ID);
             Prefered_Charities = new CharityList();
             Prefered_helping_Actions = new AbsMemberActionList(ID);
-            Pref = new AbsPreference();
-            Location = new AbsLocation();
+            Pref = new Preference();
+            Location = new Location();
         }
         public new int Insert(Password password)
         {
@@ -244,8 +244,8 @@ namespace CC.Connections.BL
 
                     if (entry.MemberPreference_ID == null)
                         throw new Exception("Preference ID is null and cannot be loaded");
-                    this.Pref = new AbsPreference((int)entry.MemberPreference_ID);
-                    this.Location = new AbsLocation((int)entry.Location_ID);
+                    this.Pref = new Preference((int)entry.MemberPreference_ID);
+                    this.Location = new Location((int)entry.Location_ID);
 
                     this.Prefered_Categories.LoadPreferences(entry.Member_ID);
                     this.Prefered_helping_Actions.LoadPreferences(entry.Member_ID);
@@ -284,8 +284,8 @@ namespace CC.Connections.BL
 
                     if (entry.MemberPreference_ID == null)
                         throw new Exception("Preference ID is null and cannot be loaded");
-                    this.Pref = new AbsPreference((int)entry.MemberPreference_ID);
-                    this.Location = new AbsLocation((int)entry.Location_ID);
+                    this.Pref = new Preference((int)entry.MemberPreference_ID);
+                    this.Location = new Location((int)entry.Location_ID);
 
                     this.Prefered_Categories.LoadPreferences(entry.Member_ID);
                     this.Prefered_helping_Actions.LoadPreferences(entry.Member_ID);
@@ -339,8 +339,8 @@ namespace CC.Connections.BL
                         {
                             Volunteer newMem = Volunteer.loadContactInfo(c.MemberContact_ID);
                             newMem.ID = c.Member_ID;
-                            newMem.Pref = new AbsPreference((int)c.MemberPreference_ID);
-                            newMem.Location = new AbsLocation((int)c.Location_ID);
+                            newMem.Pref = new Preference((int)c.MemberPreference_ID);
+                            newMem.Location = new Location((int)c.Location_ID);
 
                             newMem.Prefered_Categories.LoadPreferences(c.Member_ID);
                             newMem.Prefered_helping_Actions.LoadPreferences(c.Member_ID);
