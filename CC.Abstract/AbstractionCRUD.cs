@@ -8,94 +8,14 @@ using System.Data.Entity.Core.Metadata.Edm;
 using System.Linq.Expressions;
 using System.Data.Entity.Infrastructure;
 using System.Globalization;
+using System.Runtime.Serialization;
+using CC.Abstract;
 
-namespace CC.Connections.BL
+namespace CC.Abstract
 {
-    public static class Utils
-    {
-        public static bool HasProperty(this Type obj, string propertyName)
-        {
-            return obj.GetProperty(propertyName) != null;
-        }
 
-        //gets and varibles values
-        public static object getValue<TEntity>(TEntity prop, string propertyName)
-        {
-            Type type = typeof(TEntity);//maybe make property
-            PropertyInfo[] props = type.GetProperties();
-            PropertyInfo ret = props.Where(c => c.Name == propertyName).FirstOrDefault();
-            if (ret != null)
-                return ret.GetValue(prop);
-            else
-                throw new Exception(typeof(TEntity)+" does not have the property '"+propertyName+"'");
-        }
-        public static void setValue<TEntity>(TEntity prop, string propertyName, object value)
-        {
-            Type type = typeof(TEntity);//maybe make property
-            PropertyInfo[] props = type.GetProperties();
-            PropertyInfo setter = props.Where(c => c.Name == propertyName).FirstOrDefault();
-            if(setter != null)
-                setter.SetValue(prop, value);
-            else
-                throw new Exception(typeof(TEntity) + " does not have the property '" + propertyName + "'");
-        }
-
-        // get MaxLength as an extension method to the DbContext
-        public static int? GetMaxLength<T>(this DbContext context, Expression<Func<T, string>> column)
-        {
-            return (int?)context.GetFacets<T>(column)["MaxLength"].Value;
-        }
-
-        // get MaxLength as an extension method to the Facets (I think the extension belongs here)
-        public static int? GetMaxLength(this ReadOnlyMetadataCollection<Facet> facets)
-        {
-            return (int?)facets["MaxLength"].Value;
-        }
-
-        // just for fun: get all the facet values as a Dictionary 
-        public static Dictionary<string, object> AsDictionary(this ReadOnlyMetadataCollection<Facet> facets)
-        {
-            return facets.ToDictionary(o => o.Name, o => o.Value);
-        }
-
-        //Needs testing
-        public static ReadOnlyMetadataCollection<Facet> GetFacets<T>(this DbContext context, Expression<Func<T, string>> column)
-        {
-            ReadOnlyMetadataCollection<Facet> result = null;
-
-            var entType = typeof(T);
-            var columnName = ((MemberExpression)column.Body).Member.Name;
-
-            var objectContext = ((IObjectContextAdapter)context).ObjectContext;
-            var test = objectContext.MetadataWorkspace.GetItems(DataSpace.CSpace);
-
-            if (test == null)
-                return null;
-
-            var q = test
-                .Where(m => m.BuiltInTypeKind == BuiltInTypeKind.EntityType)
-                .SelectMany(meta => ((EntityType)meta).Properties
-                .Where(p => p.Name == columnName && p.TypeUsage.EdmType.Name == "String"));
-
-            var queryResult = q.Where(p =>
-            {
-                var match = p.DeclaringType.Name == entType.Name;
-                if (!match)
-                    match = entType.Name == p.DeclaringType.Name;
-
-                return match;
-
-            })
-                .Select(sel => sel)
-                .FirstOrDefault();
-
-            result = queryResult.TypeUsage.Facets;
-
-            return result;
-
-        }
-    }
-
+    //PropertyInfo with custom info
+    //Max
     public class PropertyDB_Info<TEntity>
     {
         public int max { get; private set; }
@@ -111,11 +31,24 @@ namespace CC.Connections.BL
                 max = -1;
             else
             {
-                int? nmax = Utils.GetMaxLength<TEntity>(context, (x) => (string)p.GetValue(entity));
+                int? nmax = PropertyHelper.GetMaxLength<TEntity>(context, (x) => (string)p.GetValue(entity));
                 max = nmax != null ? (int)nmax : -1;
             }
         }
     }
+    public class PropertyException : Exception
+    {
+        public PropertyException() : base() { }
+        public PropertyException(Type tEntity,string propertyName) : base(tEntity + " does not have the property " + propertyName)
+        {}
+
+        public PropertyException(Type tEntity, string propertyName, Exception innerException) : base(tEntity + " does not have the property " + propertyName,innerException)
+        { }
+
+        protected PropertyException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {}
+    }
+
     public class ColumnEntry<TEntity> where TEntity : class
     {
         //the ID is what ever parameter is first in the class
@@ -151,7 +84,7 @@ namespace CC.Connections.BL
                     return default;
             }
             else
-                throw new Exception(typeof(TEntity) + " does not have a " + propertyName + " property");
+                throw new PropertyException(typeof(TEntity), propertyName);
         }
         private void setValue(TEntity prop, string propertyName, object value)
         {
@@ -160,7 +93,7 @@ namespace CC.Connections.BL
             if (propinf != null)
                 propinf.SetValue(prop, value);
             else
-                throw new Exception(typeof(TEntity) + " does not have a " + propertyName + " property");
+                throw new PropertyException(typeof(TEntity), propertyName);
         }
 
         //gets this instance
@@ -176,7 +109,7 @@ namespace CC.Connections.BL
                     return default;
             }
             else
-                throw new Exception(typeof(TEntity) + " does not have a " + propertyName + " property");
+                throw new PropertyException(typeof(TEntity), propertyName);
         }
         protected void setProperty(string propertyName, object value, bool forceInt =true)
         {
@@ -199,8 +132,6 @@ namespace CC.Connections.BL
                             else
                                 propinf.p.SetValue(instance, value);
                         }
-                        else if (value.GetType().Name == "Status")
-                            propinf.p.SetValue(instance, (int)value);
                         else
                             propinf.p.SetValue(instance, value);
                     else if (propinf.p.PropertyType.Name == "String" &&
@@ -210,7 +141,7 @@ namespace CC.Connections.BL
                         propinf.p.SetValue(instance, value);
                 }
                 else
-                    throw new Exception(typeof(TEntity) + " does not have a " + propertyName + " property");
+                    throw new PropertyException(typeof(TEntity), propertyName);
             }
             catch (Exception e)
             {
@@ -444,14 +375,32 @@ namespace CC.Connections.BL
         //    properties = type.GetProperties();
         //}
 
-        //TODO reimpliment
+        //TODO needs testing
         public void LoadAll(DbSet<TEntity> table)
         {
-           //this.Clear();
-           //if (table.ToList().Count != 0)
-           //    foreach (var c in table.ToList())
-           //        base.Add(Tcrud.ToBL<Tcrud>(c));//converting problem
+           this.Clear();
+           if (table.ToList().Count != 0)
+               foreach (var c in table.ToList())
+                   base.Add((Tcrud)new ColumnEntry<TEntity>(c));//converting problem
         }
+    }
+
+    public class SingleSortList<Tcrud, TEntity> : AbsList<Tcrud, TEntity>
+    where TEntity : class
+    where Tcrud : ColumnEntry<TEntity>
+    {
+        private object sort_Id { get; set; }
+        private int sort_col { get; set; }
+
+        //permently delete entries
+        public void DeleteAllMatching(DbSet<TEntity> table) { }
+        //keep all that match filter
+        public void KeepMatching(DbSet<TEntity> table, object matching_ID)
+        { }
+        //remove all that match filter
+        public void RemoveMatching(DbSet<TEntity> table, object matching_ID) { }
+        public void Add(CCEntities dc, DbSet<TEntity> table, TEntity entry) { }
+        public void Remove(CCEntities dc, DbSet<TEntity> table, TEntity entry) { }
     }
 
     public class AbsListJoin<Tcrud, TEntity, TEntityJoin> : AbsList<Tcrud, TEntity>
@@ -530,7 +479,7 @@ namespace CC.Connections.BL
         public void DeleteAllPreferences(CCEntities dc, DbSet<TEntityJoin> join_table)
         {
             foreach (var col in join_table)
-                if (joinGrouping_ID.Equals(Utils.getValue(col, joinGrouping_ID_name)))
+                if (joinGrouping_ID.Equals(PropertyHelper.getValue(col, joinGrouping_ID_name)))
                     join_table.Remove(col);
             dc.SaveChanges();
             this.Clear();
@@ -547,20 +496,20 @@ namespace CC.Connections.BL
                     int max = 0;
                     foreach (var t in joinTable)
                     {
-                        int comp = (int)Utils.getValue(t, joinTable_Properties[0].Name);
+                        int comp = (int)PropertyHelper.getValue(t, joinTable_Properties[0].Name);
                         if (comp > max)
                             max = comp;
                     }
                     newID = max + 1;
                 }
                 //set primary key
-                Utils.setValue(joinInstance, joinTable_Properties[0].Name, newID);//instance_PK = newID using ("join_Property_ID")
+                PropertyHelper.setValue(joinInstance, joinTable_Properties[0].Name, newID);//instance_PK = newID using ("join_Property_ID")
             }
             //set ID for group
-            Utils.setValue(joinInstance, joinGrouping_ID_name,joinGrouping_ID);//instance_Grouping_ID = join_Grouping_ID using ("join_Grouping_ID")
+            PropertyHelper.setValue(joinInstance, joinGrouping_ID_name,joinGrouping_ID);//instance_Grouping_ID = join_Grouping_ID using ("join_Grouping_ID")
             //set ID of entry being added
-            Utils.setValue(joinInstance, joinForeign_ID_name,           //instance_FK using("join_FK") = 
-                            Utils.getValue(entry, properties[0].Name)); // entry_ID using("entry_ID")
+            PropertyHelper.setValue(joinInstance, joinForeign_ID_name,           //instance_FK using("join_FK") = 
+                            PropertyHelper.getValue(entry, properties[0].Name)); // entry_ID using("entry_ID")
 
             joinTable.Add(joinInstance);//add
             dc.SaveChanges();
@@ -570,9 +519,9 @@ namespace CC.Connections.BL
         {
             foreach (var join in joinTable)
             {
-                if (joinGrouping_ID.Equals(Utils.getValue(join, joinGrouping_ID_name)) &&//ID for this group matches
-                    Utils.getValue(entry, properties[0].Name).Equals(
-                                   Utils.getValue(join, joinForeign_ID_name))
+                if (joinGrouping_ID.Equals(PropertyHelper.getValue(join, joinGrouping_ID_name)) &&//ID for this group matches
+                    PropertyHelper.getValue(entry, properties[0].Name).Equals(
+                                   PropertyHelper.getValue(join, joinForeign_ID_name))
                     )//ID for this entry matches
                     joinTable.Remove(join);
             }

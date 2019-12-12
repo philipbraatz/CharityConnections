@@ -1,4 +1,5 @@
-﻿using CC.Connections.PL;
+﻿using CC.Abstract;
+using CC.Connections.PL;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -161,7 +162,7 @@ namespace CC.Connections.BL
         }
     }
 
-    public class AbsEventAttendanceList : AbsList<AbsEventAtendee, Event_Attendance>
+    public class EventAttendanceList : AbsList<AbsEventAtendee, Event_Attendance>
     {
         public new void LoadAll()
         {
@@ -173,7 +174,7 @@ namespace CC.Connections.BL
             }
         }
     }
-    public class EventAttendanceList : AbsListJoin<AbsEventAtendee, Event_Attendance, CharityEvent>
+    public class EventAttendanceJointList : AbsListJoin<AbsEventAtendee, Event_Attendance, CharityEvent>
     {
         private static Random rand = new Random();
         private int myRandG, myRandI;
@@ -190,7 +191,7 @@ namespace CC.Connections.BL
         [DisplayName("Interested: ")]
         public int CountInterestedR { get => this.Where(c => c.Status == Status.INTERESTED).Count() +Math.Abs( (int)this.joinGrouping_ID - this.eventID *2) + 7; }//TODO remove when more users attend
 
-        public EventAttendanceList(int event_id)
+        public EventAttendanceJointList(int event_id)
             : base("MemberCat_Category_ID", event_id, "MemberCat_Member_ID")
         {
             Charity c = new Charity { ID = event_id };

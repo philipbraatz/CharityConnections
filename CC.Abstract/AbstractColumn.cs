@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CC.Connections.PL;
 
+//TODO DEPERCIATED delete file
 namespace CC.Connections.BL
 {
     //Entry
@@ -22,12 +23,13 @@ namespace CC.Connections.BL
     }
 
     //Table or Junction table join
-    public interface ICrudList<TEntity> where TEntity : class
+    public interface ISortable<TEntity> where TEntity : class
     {
         void Clear();
         void LoadAll(DbSet<TEntity> table);
         void DeleteAllMatching(DbSet<TEntity> table);
-        void LoadMatching(DbSet<TEntity> table, object matching_ID);
+
+        void KeepMatching(DbSet<TEntity> table, object matching_ID);
         void RemoveMatching(DbSet<TEntity> table, object matching_ID);
         void Add(CCEntities dc, DbSet<TEntity> table, TEntity entry);
         void Remove(CCEntities dc, DbSet<TEntity> table, TEntity entry);

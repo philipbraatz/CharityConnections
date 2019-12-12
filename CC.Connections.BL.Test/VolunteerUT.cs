@@ -43,7 +43,7 @@ namespace CC.Connections.BL.Test
             //newt.Prefered_Charity_ID_List.Add(loadChar[0].ID);
 
             newt.Prefered_helping_Actions.Add(new AbsHelping_Action(ACTION1));
-            newt.Prefered_Categories.Add(new AbsCategory(CATEGORY_ID));
+            newt.Prefered_Categories.Add(new Category(CATEGORY_ID));
             newt.Prefered_helping_Actions.Add(new AbsHelping_Action(ACTION_ID));
         }
 

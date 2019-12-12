@@ -60,8 +60,8 @@ namespace CC.Connections.BL.Test
                 Charity_Deductibility =true,
                 Charity_URL = testingSite,
                 Charity_Cause = VALUE1,
-                Category = new AbsCategory(CATEGORY_ID),
-                Location = new AbsLocation(LOCATION_ID),
+                Category = new Category(CATEGORY_ID),
+                Location = new Location(LOCATION_ID),
                 Charity_Requirements = VALUE1,
                 Charity_Email = testing_ID1
             };
@@ -83,7 +83,7 @@ namespace CC.Connections.BL.Test
         {
             test = new Charity(getID_fromDesc(testing_ID2));
 
-            Assert.IsTrue(test.Location.ContactInfoCity== new AbsLocation(LOCATION_ID).ContactInfoCity);
+            Assert.IsTrue(test.Location.ContactInfoCity== new Location(LOCATION_ID).ContactInfoCity);
             Assert.IsTrue(test.Category.ID == CATEGORY_ID);
 
             Assert.IsTrue(test.Charity_EIN == VALUE1);

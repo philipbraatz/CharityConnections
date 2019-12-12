@@ -173,8 +173,15 @@
 
 </head>
 @{ 
-    CC.Connections.BL.AbsCategoryList categoryList = new CC.Connections.BL.AbsCategoryList();
-    categoryList.LoadUsed();
+    CC.Connections.BL.CategoryList categoryList = new CC.Connections.BL.CategoryList();
+    try
+    {
+        categoryList.LoadUsed();
+    }
+    catch (Exception e)
+    {
+        ViewBag.Message = e;
+    }
 }
 
 <body>

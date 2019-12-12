@@ -1,4 +1,5 @@
-﻿using CC.Connections.PL;
+﻿using CC.Abstract;
+using CC.Connections.PL;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -185,7 +186,7 @@ namespace CC.Connections.BL
         }
     }
 
-    public class AbsContactList : AbsList<AbsContact, Contact_Info>
+    public class ContactList : AbsList<AbsContact, Contact_Info>
     {
         public new void LoadAll(){
             using (CCEntities dc = new CCEntities()){

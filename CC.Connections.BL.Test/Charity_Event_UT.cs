@@ -45,7 +45,7 @@ namespace CC.Connections.BL.Test
                 Charity_ID =CHARITY_ID,
                 EndDate = DateTime.Now,
                 StartDate = DateTime.Now,
-                Location = new AbsLocation(LOC_ID)
+                Location = new Location(LOC_ID)
             };
             newt.Insert();
         }
@@ -71,7 +71,7 @@ namespace CC.Connections.BL.Test
                 Charity_ID = CHARITY_ID,
                 EndDate = DateTime.Now,
                 StartDate = DateTime.Now,
-                Location = new AbsLocation(LOC_ID)
+                Location = new Location(LOC_ID)
             };
 
             CharityEventList table = new BL.CharityEventList();
@@ -112,7 +112,7 @@ namespace CC.Connections.BL.Test
             CharityEvent updated = new CharityEvent(getID_fromDesc(NAME_OF_EVENT))
             {
                 CharityEventName = UPDATE_1,
-                Location = new AbsLocation()
+                Location = new Location()
             };
             updated.Update();//update database
    
