@@ -243,9 +243,9 @@ namespace CC.Connections.BL
 
             using (CCEntities dc = new CCEntities())
             {
-                this.setProperty
+                this.Location.Insert();
+                this.setProperty("Location_ID", this.Location.ID);
                 return base.Insert(dc, dc.Charities) +
-                    this.Location.Insert() +
                     (password.Insert() ? 1 : 0);
             }
         }
