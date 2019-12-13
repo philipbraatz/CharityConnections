@@ -79,19 +79,24 @@ namespace CC.Connections.BL
             return dc.Charities.Where(c => c.Charity_ID == id).FirstOrDefault() != null;
         }
 
-        public Charity() { }
+        public Charity() {
+            this.Charity_Deductibility = false;
+        }
         //does not verify password
         public Charity(Password p) : this(p.email)
         {
+            this.Charity_Deductibility = false;
         }
         public Charity(PL.Charities entry) : base(entry)
         {
             this.Category = new Category((int)entry.Charity_Category_ID);
             this.Location = new Location((int)entry.Location_ID);
 
+            this.Charity_Deductibility = false;
         }
         public Charity(int id) : base(new CCEntities().Charities, id)
         {
+            this.Charity_Deductibility = false;
             try
             {
                 using (CCEntities dc = new CCEntities())
@@ -133,6 +138,7 @@ namespace CC.Connections.BL
 
         public Charity(string charityEmail, string password = "", bool hashed = false, bool debug = false)
         {
+            this.Charity_Deductibility = false;
             try
             {
                 using (CCEntities dc = new CCEntities())
