@@ -49,9 +49,6 @@ namespace CC.Connections.BL
         public Location(int id) :
             base(new CCEntities().Locations,id)
         {
-            Clear();
-            ID = id;
-            LoadId();
         }
 
         public static implicit operator Location(PL.Location entry)

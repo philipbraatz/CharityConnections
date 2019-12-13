@@ -80,7 +80,7 @@ namespace CC.Connections.BL
                 return category;
             }
             set { 
-                value = category;
+                category =value;
                 if (value != null)
                     base.setProperty("Charity_Category_ID",value.ID);
                 } 
@@ -96,7 +96,7 @@ namespace CC.Connections.BL
             }
             set
             {
-                value = loc;
+                loc = value;
                 if(value != null)
                  base.setProperty("Location_ID", value.ID);
             }
@@ -243,6 +243,7 @@ namespace CC.Connections.BL
 
             using (CCEntities dc = new CCEntities())
             {
+                this.setProperty
                 return base.Insert(dc, dc.Charities) +
                     this.Location.Insert() +
                     (password.Insert() ? 1 : 0);

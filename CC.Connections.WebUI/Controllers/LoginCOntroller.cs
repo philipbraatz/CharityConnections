@@ -218,7 +218,8 @@ namespace CC.Connections.WebUI.Controllers
                 csu.Password.email = csu.Charity_Email;
                 csu.Password.MemberType = MemberType.CHARITY;
                 Session["member"] = csu.Password;
-                csu.Location = new Location(2);//TEMP always set to location 2 because its currently null
+               // Location loc = new Location(2);
+                //csu.Location = loc;//TEMP always set to location 2 because its currently null
                 csu.Insert((Password)Session["member"]);
 
 
