@@ -97,6 +97,7 @@ namespace CC.Connections.WebUI.Controllers
         {
             try
             {
+                //TODO add location not null
                 if( con.confirmPassword.Pass == null ||  
                     con.ContactInfo_Email == null ||
                     con.ContactInfo_FName == null ||
@@ -114,7 +115,7 @@ namespace CC.Connections.WebUI.Controllers
                     ViewBag.Message = "Passwords do not match";
                     return View(con);
                 }
-                else if(con.DateOfBirth.Year - DateTime.Now.Year < 13)
+                else if (DateTime.Now.Year - con.DateOfBirth.Year < 13)
                 {
                     ViewBag.Message = "You must be 13 years or older to register as a member";
                     return View(con);
@@ -129,12 +130,12 @@ namespace CC.Connections.WebUI.Controllers
                     ViewBag.Message = "Phone number is invalid";
                     return View(con);
                 }
-                else if (con.ContactInfo_FName.Trim().Length > 3)
+                else if (con.ContactInfo_FName.Trim().Length < 3)
                 {
                     ViewBag.Message = "First name must be at least 3 characters long";
                     return View(con);
                 }
-                else if (con.ContactInfo_LName.Trim().Length > 3)
+                else if (con.ContactInfo_LName.Trim().Length < 3)
                 {
                     ViewBag.Message = "Last name must be at least 3 characters long";
                     return View(con);
@@ -142,7 +143,9 @@ namespace CC.Connections.WebUI.Controllers
 
                 Volunteer newMember = new Volunteer(con.ContactInfo_Email, con.password.Pass, true);
                 newMember.setContactInfo((AbsContact)con);
-                newMember.Insert();
+                con.password.email = con.ContactInfo_Email;
+                con.password.MemberType = MemberType.VOLLUNTEER;
+                newMember.Insert(con.password);
 
                 Session["member"] = con.password;
                 return RedirectToAction("ProfileView", "VolunteerProfile");

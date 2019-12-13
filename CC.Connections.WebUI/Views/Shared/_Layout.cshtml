@@ -25,7 +25,8 @@
             // Displays the volunteer category nav bar when hovering over "find volunteer opportunities"
             $("#findVolunteerBtn").mouseenter(function () {
 
-                $("#volunteerBar").slideToggle();
+                $("#volunteerBar").slideToggle(750);
+
             })
 
             // Changes the picture (different color) when hovering over link
@@ -131,12 +132,7 @@
         #nav-logo {
             width: 100%;
             float: left;
-        }
-        
-        #volunteerBar {
-            /* Hides the volunteer navbar on screen load */
-            display: none;
-        }
+        }      
 
         .volunteer-category-bar {
             /* Spaces medallion links out */
@@ -270,28 +266,30 @@
 
 
     <!-- VOLUNTEER CATEGORIES NAVBAR -->
-    <nav class="navbar navbar-custom justify-content-center navbar-expand-lg navbar-light bg-light navbar-fixed-top" id="volunteerBar">
-        <!-- Added in this hr line because appending the second nav caused a line to appear under it -->
-        <div class="container">
-            <!--#region Removed this div to remove hamburger menu button from the mobile view -->
-            <!-- <div class="navbar-header"> -->
-            <!-- <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation"> -->
-            <!-- <span class="navbar-toggler-icon"></span> -->
-            <!-- </button> -->
-            <!-- @Html.ActionLink("Charity Connections", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })-->
-            <!-- </div> -->
-            <!--#endregion-->
-            <div class="navbar-collapse " id="navbarColor03">
-                <ul class="nav navbar-nav mr-auto row">
-                    <li class="col-1">
-                        @foreach (var category in categoryList)
-                        {
-                            <li class="nav-item overout col-1 volunteer-category-bar" id="@category.Category_Image.Trim()" title="@category.Category_Desc"><a href="@Url.Action("CategoryView", "CharityEvent", new { id = category.ID })"><img src="@("../../Content/Images/" + category.Category_Image.Trim() + ".svg")" /></a></li>
-                        }
+    <div id="volunteerBar">
+        <nav class="navbar navbar-custom justify-content-center navbar-expand-lg navbar-light bg-light navbar-fixed-top" >
+            <!-- Added in this hr line because appending the second nav caused a line to appear under it -->
+            <div class="container">
+                <!--#region Removed this div to remove hamburger menu button from the mobile view -->
+                <!-- <div class="navbar-header"> -->
+                <!-- <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation"> -->
+                <!-- <span class="navbar-toggler-icon"></span> -->
+                <!-- </button> -->
+                <!-- @Html.ActionLink("Charity Connections", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })-->
+                <!-- </div> -->
+                <!--#endregion-->
+                <div class="navbar-collapse " id="navbarColor03">
+                    <ul class="nav navbar-nav mr-auto row">
+                        <li class="col-1">
+                            @foreach (var category in categoryList)
+                             {
+                                <li class="nav-item overout col-1 volunteer-category-bar" id="@category.Category_Image.Trim()" title="@category.Category_Desc"><a href="@Url.Action("CategoryView", "CharityEvent", new { id = category.ID })"><img src="@("../../Content/Images/" + category.Category_Image.Trim() + ".svg")" /></a></li>
+                             }
                     </ul>
+                </div>
             </div>
-        </div>
-    </nav>
+        </nav>
+    </div>
     <div class="container body-content">
         @RenderBody()
         <hr />
