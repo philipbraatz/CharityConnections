@@ -71,8 +71,36 @@ namespace CC.Connections.BL
             set { setProperty("Charity_Requirements", value); }
         }
 
-        public Category Category { get; set; }//never delete
-        public Location Location { get; set; }//delete when removed
+        private Category category;
+        private Location loc;
+        public Category Category 
+        {   get {
+                if (category == null)
+                    category = new Category((int)base.getProperty("Charity_Category_ID"));
+                return category;
+            }
+            set { 
+                value = category;
+                if (value != null)
+                    base.setProperty("Charity_Category_ID",value.ID);
+                } 
+        }
+        public Location Location
+        {
+            get
+            {
+                var prop = base.getProperty("Location_ID");
+                if (loc == null && prop != null)
+                    loc = new Location((int)prop);
+                return loc;
+            }
+            set
+            {
+                value = loc;
+                if(value != null)
+                 base.setProperty("Location_ID", value.ID);
+            }
+        }
 
         internal static bool Exists(CCEntities dc, int id)
         {
@@ -123,6 +151,7 @@ namespace CC.Connections.BL
             this.Charity_Deductibility = charityInfo.Charity_Deductibility;
             this.Charity_EIN = charityInfo.Charity_EIN;
             this.Charity_Requirements = charityInfo.Charity_Requirements;
+            this.Location = charityInfo.Location;
         }
         public void setCharityInfo(PL.Charities charityInfo)
         {
@@ -154,14 +183,20 @@ namespace CC.Connections.BL
                     //try to load existing ID
                     PL.Charities charityPL = dc.Charities.Where(c => c.Charity_Email == charityEmail).FirstOrDefault();
                     if (charityPL != null)
+                    {
                         setCharityInfo(charityPL);
+                        this.Category = new Category((int)charityPL.Charity_Category_ID);
+                        this.Location = new Location((int)charityPL.Location_ID);
+                    }
                     else
+                    {
                         Clear();//new Charity
-                    Password newPassword = new Password(charityEmail, password, MemberType.CHARITY, false);
-                    newPassword.Insert();
+                        Password newPassword = new Password(charityEmail, password, MemberType.CHARITY, hashed);
+                        newPassword.Insert();
+                        this.Location.Insert();
+                    }
 
-                    this.Category = new Category((int)charityPL.Charity_Category_ID);
-                    this.Location = new Location((int)charityPL.Location_ID);
+                    
                 }
             }
             catch (Exception e)

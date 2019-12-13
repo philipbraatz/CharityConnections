@@ -22,7 +22,14 @@ namespace CC.Connections.WebUI.Model
         //and preferences here
         public CharitySignup()
         {
+            Location = new Location();
             Password = new Password();
+            Category = new Category();
+        }
+        //take a prefilled charity
+        public CharitySignup(Charity c)
+        {
+            base.setCharityInfo(c);
         }
     }
 }

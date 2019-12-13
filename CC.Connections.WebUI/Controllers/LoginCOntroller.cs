@@ -92,13 +92,6 @@ namespace CC.Connections.WebUI.Controllers
             }
         }
 
-        //Fake successful login
-        //[HttpPost]
-        //public ActionResult Login()
-        //{
-        //    return RedirectToAction("Index", "Home");
-        //}
-
         [HttpPost]
         public ActionResult SignUpView(ContactInfoSignup con)
         {
@@ -177,13 +170,13 @@ namespace CC.Connections.WebUI.Controllers
             {
                 if (csu.confirmPassword.Pass == null ||
                     csu.Charity_Email == null ||
-                    csu.Category == null ||
+                    //csu.Category == null ||//TODO Category picker
                     csu.Charity_Cause == null ||
                     csu.Charity_Deductibility == null ||
                     csu.Charity_EIN == null ||
                     csu.Password == null ||
                     csu.Charity_Name == null
-                    )
+                    )//TODO check location
                 {
                     ViewBag.Message = "Please fill out every required field";
                     return View(csu);
@@ -193,12 +186,12 @@ namespace CC.Connections.WebUI.Controllers
                     ViewBag.Message = "Passwords do not match";
                     return View(csu);
                 }
-                else if (csu.Charity_Name.Trim().Length > 3)
+                else if (csu.Charity_Name.Trim().Length < 3)
                 {
                     ViewBag.Message = "Charity name must be at least 3 characters long";
                     return View(csu);
                 }
-                else if (csu.Charity_Email.Contains('@') && csu.Charity_Email.Contains('.') && csu.Charity_Email.Length > 6)
+                else if (!(csu.Charity_Email.Contains('@') && csu.Charity_Email.Contains('.') && csu.Charity_Email.Length > 6))
                 {
                     ViewBag.Message = "Email is invalid";
                     return View(csu);
@@ -208,17 +201,25 @@ namespace CC.Connections.WebUI.Controllers
                     ViewBag.Message = "Phone number is invalid";
                     return View(csu);
                 }
+                Random r = new Random();
+                CC.Connections.BL.CategoryList categoryList = new CC.Connections.BL.CategoryList();
+                try
+                {
+                    categoryList.LoadAll();
+                    csu.Category = new Category(r.Next(1, categoryList.Count-1));
+                }
+                catch (Exception e)
+                {
+                    ViewBag.Message = e;
+                }
+                csu.Password.email = csu.Charity_Email;
+                csu.Password.MemberType = MemberType.CHARITY;
+                Session["member"] = csu.Password;
+                csu.Location = new Location(2);//TEMP always set to location 2 because its currently null
+                csu.Insert((Password)Session["member"]);
 
-                Session["charity"] = csu.Password;
-                Charity newCharity = new Charity(csu.Charity_Email, csu.Password.Pass, true);
-                newCharity.setCharityInfo((Charity)csu);
-                newCharity.Insert((Password)Session["charity"]);
 
-
-                if (ControllerContext.HttpContext.Request.UrlReferrer != null)
-                    return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());//go back
-                else
-                    return RedirectToAction("Index", "Home");//go to index
+                return RedirectToAction("CharityProfile", "Charity");//go to profile
             }
             catch (Exception ex)
             {
