@@ -9,26 +9,26 @@
 @Html.ActionLink("Back to List", "Index", new { @class = "btn-outline-secondary" });
 <br />
 
-<div class="card">
+<div class="p-3 mb-2 bg-gradient-info text-white">
     <div class="card-header row">
         <img class="col-2 " src="~/Content/Images/CCDefaultPlaceholder.gif" alt="@(Model.Charity_Name) logo" title="View Charity"> @* scr="/Content/Images/" + Model.charity.Charity_Image + ".svg" *@
-    <div class="col-8">
-        <h2>@Html.DisplayFor(model => model.Charity_Name)</h2>
-        <a href="@Model.Charity_URL"><h4>@Model.Charity_URL</h4></a>
-        <div>
-            <h5>@Model.Location.ContactInfoAddress</h5>
-            <h5>@Model.Location.ContactInfoCity</h5>
-            <h5>@Model.Location.ContactInfoState</h5>
+        <div class="col-8">
+            <h2>@Html.DisplayFor(model => model.Charity_Name)</h2>
+            <a href="@Model.Charity_URL"><h4>@Model.Charity_URL</h4></a>
+            <div>
+                <h5>@Model.Location.ContactInfoAddress</h5>
+                <h5>@Model.Location.ContactInfoCity</h5>
+                <h5>@Model.Location.ContactInfoState</h5>
+            </div>
         </div>
-    </div>
         <a href="@Url.Action("CategoryView", "Charity", new { id = Model.Category.ID })">
             <img class="btn-outline-info col-1" style="padding-top:0px;" src="@(("/Content/Images/" + Model.Category.Category_Image + ".svg"))" id="@(Model.Category.Category_Image)" title="@(Model.Category.Category_Desc) ">
         </a>
     </div>
-    <div class="card-body">
+    <!-- <div class="card-body">
         <p> @Html.DisplayFor(model => model.Charity_Cause)</p>
-    </div>
-    <div class="card-footer">
+    </div> -->
+    <div class="card-footer bg-info">
         <p><b>Requirements: </b>@Model.Charity_Requirements</p>
         <dt>
             @Html.DisplayNameFor(model => model.Charity_EIN)
