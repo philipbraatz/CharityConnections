@@ -82,7 +82,7 @@ namespace CC.Connections.WebUI.Controllers
                     else if(passValue.MemberType == MemberType.VOLLUNTEER)
                         return RedirectToAction("CharityProfile", "Charity");
                     else
-                        RedirectToAction("index", "home");
+                        return RedirectToAction("index", "home");
                 }
                 else
                 {
@@ -105,6 +105,7 @@ namespace CC.Connections.WebUI.Controllers
 
                 return View(passValue);
             }
+            RedirectToAction("index", "home");
         }
 
         [HttpPost]
