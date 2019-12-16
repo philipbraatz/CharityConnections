@@ -77,13 +77,19 @@ namespace CC.Connections.WebUI.Controllers
                     //    return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());//go back
                     //else
                     //    return RedirectToAction("Index", "Home");//go to index
-                    return RedirectToAction("ProfileView", "VolunteerProfile");
+                    if(passValue.MemberType == MemberType.VOLLUNTEER)
+                        return RedirectToAction("ProfileView", "VolunteerProfile");
+                    else if(passValue.MemberType == MemberType.VOLLUNTEER)
+                        return RedirectToAction("CharityProfile", "Charity");
+                    else
+                        RedirectToAction("index", "home");
                 }
                 else
                 {
                     ViewBag.Message = "Incorrect Credentials ";
                     return View(passValue);
                 }
+                RedirectToAction("index", "home");
             }
             catch (Exception ex)
             {
