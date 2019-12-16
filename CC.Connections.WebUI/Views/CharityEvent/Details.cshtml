@@ -50,17 +50,17 @@
     @{ if (Session["member"] != null && ((CC.Connections.BL.Password)Session["member"]).MemberType == CC.Connections.BL.MemberType.VOLLUNTEER &&
                   Model.Member_Attendance != null)
         {
-            if (Model.Member_Attendance.Status == CC.Connections.BL.Status.GOING)
+            if (Model.Member_Attendance.Status == CC.Connections.BL.Status.GOING && "SKIP for temp fix" != "change to == for temp fix")
             {
                 @Html.ActionLink("Show Interest", "Interested", new { id = Model.Event_ID }, new { @class = "btn-outline-primary btn-lg" });
                 @Html.ActionLink("Leave Event", "Signup", new { id = Model.Event_ID }, new { @class = "btn-outline-info btn-lg" });
             }
-            else if (Model.Member_Attendance.Status == CC.Connections.BL.Status.INTERESTED)
+            else if (Model.Member_Attendance.Status == CC.Connections.BL.Status.INTERESTED  && "SKIP for temp fix" != "==")
             {
                 @Html.ActionLink("Remove Interest", "Interested", new { id = Model.Event_ID }, new { @class = "btn-outline-info btn-lg" });
                 @Html.ActionLink("Sign Up for Event", "Signup", new { id = Model.Event_ID }, new { @class = "btn-outline-primary btn-lg" });
             }
-            else
+            else if(Model.Member_Attendance.Status == CC.Connections.BL.Status.NOT_GOING)
             {
                 @Html.ActionLink("Interested", "Interested", new { id = Model.Event_ID }, new { @class = "btn-outline-primary btn-lg" });
                 @Html.ActionLink("Sign Up for Event", "Signup", new { id = Model.Event_ID }, new { @class = "btn-outline-primary btn-lg" });
