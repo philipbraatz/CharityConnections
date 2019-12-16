@@ -314,7 +314,7 @@ namespace CC.Connections.WebUI.Controllers
             }
             if (evnt == null || evnt.Event_ID <= 0)
             {
-                ViewBag.Message = "This Event does not exists :(";//should not happen
+                ViewBag.Message = "That Event does not exists :(";//should not happen
                 return RedirectToAction("Index", "CharityEvent");
             }
 

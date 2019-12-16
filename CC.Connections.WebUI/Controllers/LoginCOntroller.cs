@@ -56,23 +56,32 @@ namespace CC.Connections.WebUI.Controllers
         {
             try
             {
+                if(passValue.email == null)
+                {
+                    ViewBag.Message = "Please enter your email (try using briandoe@gmail.com or stjude@gmail.com)";
+                    return View(passValue);
+                }
+                else if(passValue.Pass == null)
+                {
+                    ViewBag.Message = "Please enter your password";
+                    return View(passValue);
+                }
+
                 passValue.Login();
                 if (passValue.MemberType != MemberType.GUEST)
                 {
                     Session["member"] = passValue;
                     ViewBag.Message = "You have been logged in";
-                    if (ControllerContext.HttpContext.Request.UrlReferrer != null && 
-                        ControllerContext.HttpContext.Request.UrlReferrer.LocalPath !=  "/Login/LoginView")
-                        return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());//go back
-                    else
-                        return RedirectToAction("Index", "Home");//go to index
+                    //if (ControllerContext.HttpContext.Request.UrlReferrer != null && 
+                    //    ControllerContext.HttpContext.Request.UrlReferrer.LocalPath !=  "/Login/LoginView")
+                    //    return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());//go back
+                    //else
+                    //    return RedirectToAction("Index", "Home");//go to index
+                    return RedirectToAction("ProfileView", "VolunteerProfile");
                 }
                 else
                 {
-                    if (Request.IsLocal)
-                        ViewBag.Message = "Incorrect Credentials (try using briandoe@gmail.com or stjude@gmail.com)";
-                    else
-                        ViewBag.Message = "Incorrect Credentials (try using briandoe@gmail.com or stjude@gmail.com)";
+                    ViewBag.Message = "Incorrect Credentials ";
                     return View(passValue);
                 }
             }

@@ -251,26 +251,15 @@ namespace CC.Connections.BL
 
             }
         }
-        public new void Remove(string category)
+        public new void Remove(string email)
         {
             using (CCEntities dc = new CCEntities())
             {
                 foreach (var item in dc.Event_Attendance)
-                    if (item.Event_ID == (int?)base.joinGrouping_ID)
+                    if (item.Member_ID == new Volunteer(email).ID)
                     {
                         dc.Event_Attendance.Remove(item);
-                    }
-                dc.SaveChanges();
-            }
-        }
-        public new void RemoveAttendee(string category)
-        {
-            using (CCEntities dc = new CCEntities())
-            {
-                foreach (var item in dc.Event_Attendance)
-                    if (item.Event_ID == (int?)base.joinGrouping_ID)
-                    {
-                        dc.Event_Attendance.Remove(item);
+                        break;
                     }
                 dc.SaveChanges();
             }

@@ -206,6 +206,7 @@
     <Content Include="Content\bootstrap-grid.css.map" />
     <None Include="Properties\PublishProfiles\charityconnections - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\charityconnections - FTP1.pubxml" />
+    <None Include="Properties\PublishProfiles\charityconnections - Use this one.pubxml" />
     <None Include="Properties\PublishProfiles\charityconnections - Web Deploy.pubxml" />
     <Content Include="TimePicker\bootstrap-timepicker.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -225,7 +226,6 @@
     <Content Include="Scripts\bootstrap.js.map" />
     <Content Include="Scripts\bootstrap.bundle.min.js.map" />
     <Content Include="Scripts\bootstrap.bundle.js.map" />
-    <None Include="Properties\PublishProfiles\charityconnections - Web Deploy1.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -361,7 +361,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties content_4bootstrap-grid_1css_1map__JsonSchema="" content_4bootstrap_1css_1map__JsonSchema="" />
+      <UserProperties content_4bootstrap_1css_1map__JsonSchema="" content_4bootstrap-grid_1css_1map__JsonSchema="" />
     </VisualStudio>
   </ProjectExtensions>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

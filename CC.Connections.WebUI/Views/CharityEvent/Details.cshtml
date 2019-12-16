@@ -15,7 +15,7 @@
             <img class="col-2 " src="~/Content/Images/CCDefaultPlaceholder.gif" alt="@(Model.charity.Charity_Name) logo" title="View Charity"> @* scr="/Content/Images/" + Model.charity.Charity_Image + ".svg" *@
         </a>
         <div class="col-8">
-            <h2>@Html.DisplayFor(model => model.charity.Charity_Name)</h2>
+            <h3>@Html.DisplayFor(model => model.charity.Charity_Name)</h3>
             <h4>Going: @Model.atendees.CountGoingR</h4>
             <h4>Interested: @Model.atendees.CountInterestedR</h4>
             <h4><b>@Model.CharityEventStatus</b></h4>
@@ -25,7 +25,7 @@
         </a>
     </div>
     <div class="card-body">
-        <h4> @Html.DisplayFor(model => model.CharityEventName)</h4>
+        <h2> @Html.DisplayFor(model => model.CharityEventName)</h2>
         @if (Model.CharityEventStatus != "Completed")
         {
             <h5>Days: @Model.StartDate.ToShortDateString() to @Model.EndDate.ToShortDateString() </h5>
@@ -34,11 +34,12 @@
         <p> @Html.DisplayFor(model => model.Description)</p>
     </div>
     <div class="card-footer">
-        <p><b>Requirements: </b>@Model.CharityEventRequirements</p>
+        <h5><b>Requirements: </b></h5><p>@Model.CharityEventRequirements</p>
+        <h6>Location</h6>
         <div>
-            <h5>@Model.Location.ContactInfoAddress</h5>
-            <h5>@Model.Location.ContactInfoCity</h5>
-            <h5>@Model.Location.ContactInfoState</h5>
+            <p>@Model.Location.ContactInfoAddress</p>
+            <p>@Model.Location.ContactInfoCity</p>
+            <p>@Model.Location.ContactInfoState</p>
         </div>
     </div>
 
@@ -47,7 +48,7 @@
 <div class="">
     <!--todo orginize this, edit does not show up when signed in-->
     @{ if (Session["member"] != null && ((CC.Connections.BL.Password)Session["member"]).MemberType == CC.Connections.BL.MemberType.VOLLUNTEER &&
-               Model.Member_Attendance != null)
+                  Model.Member_Attendance != null)
         {
             if (Model.Member_Attendance.Status == CC.Connections.BL.Status.GOING)
             {
@@ -67,14 +68,16 @@
         }
         else if (Session["member"] == null || ((CC.Connections.BL.Password)Session["member"]).MemberType == CC.Connections.BL.MemberType.GUEST)
         {
-            @Html.ActionLink("Create an account to sign up for an event", "SignupView", "login", new { @class = "btn-outline-primary btn-lg" });
+            <div class="btn-outline-primary btn-lg">
+                @Html.ActionLink("Create an account to sign up for an event", "SignupView", "Login")
+            </div>
         }
         else if (Session["member"] != null && ((CC.Connections.BL.Password)Session["member"]).email == Model.charity.Charity_Email)
         {
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = Model.Event_ID }, new { @class = "btn-outline-primary btn-lg" })
-                    @Html.ActionLink("Delete", "Delete", new { id = Model.Event_ID }, new { @class = "btn-outline-danger btn-lg" })
-                </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = Model.Event_ID }, new { @class = "btn-outline-primary btn-lg" })
+                @Html.ActionLink("Delete", "Delete", new { id = Model.Event_ID }, new { @class = "btn-outline-danger btn-lg" })
+            </td>
             @Html.ActionLink("Edit event", "Edit", "CharityEvent", new { id = Model.Event_ID }, new { @class = "btn-outline-primary btn-lg" });
         }
     }
