@@ -9,7 +9,7 @@
 @Html.ActionLink("Back to List", "Index", new { @class = "btn-outline-secondary" });
 <br />
 
-<div class="card">
+<div class="p-3 mb-2 bg-gradient-info text-white">
     <div class="card-header row">
         <a href="@Url.Action("Details", "Charity", new { id = Model.charity.ID })">
             <img class="col-2 " src="~/Content/Images/CCDefaultPlaceholder.gif" alt="@(Model.charity.Charity_Name) logo" title="View Charity"> @* scr="/Content/Images/" + Model.charity.Charity_Image + ".svg" *@
@@ -33,7 +33,7 @@
         }
         <p> @Html.DisplayFor(model => model.Description)</p>
     </div>
-    <div class="card-footer">
+    <div class="card-footer bg-info">
         <h5><b>Requirements: </b></h5><p>@Model.CharityEventRequirements</p>
         <h6>Location</h6>
         <div>
