@@ -56,6 +56,7 @@ a{
 
 footer {
     background-color: #F63;
+    position: relative;
 }
 
 .main-tagline {
@@ -63,6 +64,7 @@ footer {
     font-family: Garamond;
     font: 36px bold;
     margin-bottom: 0px;  
+
 }
 
 td {
