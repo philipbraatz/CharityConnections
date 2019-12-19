@@ -77,7 +77,7 @@ namespace CC.Connections.BL
         public Category Category 
         {   get {
                 if (category == null)
-                    category = new Category((int)base.getProperty("Charity_Category_ID"));
+                    category = new Category((int)(base.getProperty("Charity_Category_ID") ?? 1)) ;
                 return category;
             }
             set { 
@@ -121,16 +121,22 @@ namespace CC.Connections.BL
             this.Category = new Category((int)entry.Charity_Category_ID);
             this.Location = new Location((int)entry.Location_ID);
 
-            this.Charity_Deductibility = false;
+            //this.Charity_Deductibility = false;
         }
         public Charity(int id,bool preloaded =true) : base(new CCEntities().Charities, id, preloaded)
         {
+            this.ID = id;
             if (preloaded)
                 LoadId(true);
             else
             {
-                this.Category = new Category(((int)base.getProperty("Charity_Category_ID")));
-                this.Location = new Location(((int)base.getProperty("Location_ID")));
+                using (CCEntities dc = new CCEntities())
+                {
+                    //TODO refactor
+                    PL.Charities charityPL = dc.Charities.Where(c => c.Charity_ID == id).FirstOrDefault();
+                    this.Category = new Category((int)charityPL.Charity_Category_ID);
+                    this.Location = new Location((int)charityPL.Location_ID);
+                }
             }
         }
 
@@ -147,6 +153,7 @@ namespace CC.Connections.BL
             this.Charity_EIN = charityInfo.Charity_EIN;
             this.Charity_Requirements = charityInfo.Charity_Requirements;
             this.Location = charityInfo.Location;
+            this.Category = charityInfo.Category;
         }
         public void setCharityInfo(PL.Charities charityInfo)
         {
@@ -247,7 +254,7 @@ namespace CC.Connections.BL
             ID = id;
             LoadId(preloaded);
         }
-        public int Insert(Password password)
+        public void Insert(Password password)
         {
             if (password == null)
                 throw new ArgumentNullException(nameof(password));
@@ -255,22 +262,24 @@ namespace CC.Connections.BL
             {
                 this.Location.Insert();
                 this.setProperty("Location_ID", this.Location.ID);
-                return base.Insert(dc, dc.Charities) +
-                    (password.Insert() ? 1 : 0);
+                base.Insert(dc, dc.Charities);
+                password.Insert();
+                CharityList.AddToInstance(this);
             }
         }
-        public int Update(Password password)
+        public void Update(Password password)
         {
             if (password == null)
                 throw new ArgumentNullException(nameof(password));
             using (CCEntities dc = new CCEntities())
             {
-                return base.Update(dc, dc.Charities) +
-                    this.Location.Update() +
-                    password.Update();
+                base.Update(dc, dc.Charities);
+                this.Location.Update();
+                password.Update();
+                CharityList.AddToInstance(this);
             }
         }
-        public int Delete(Password password)
+        public void Delete(Password password)
         {
             if (password == null)
                 throw new ArgumentNullException(nameof(password));
@@ -278,9 +287,10 @@ namespace CC.Connections.BL
             {
                 //dc.Categories.Remove(this);
                 //return dc.SaveChanges();
-                return base.Delete(dc, dc.Charities) +
-                    this.Location.Delete() +
-                    password.Delete();
+                base.Delete(dc, dc.Charities);
+                this.Location.Delete();
+                password.Delete();
+                CharityList.RemoveInstance(this);
             }
         }
     }
@@ -288,24 +298,33 @@ namespace CC.Connections.BL
     public class CharityList :
         List<Charity>
     {
-        public static CharityList INSTANCE { get; } = LoadInstance();
+        private static CharityList INS = new CharityList();
+        public static CharityList INSTANCE 
+        { get {
+                if(INS == null || INS.Count ==0)
+                    INS = LoadInstance();
+                return INS;
+            }
+            private set => INS = value;
+         }
 
         public static CharityList LoadInstance()
         {
             try
             {
+                INSTANCE = new CharityList();
                 using (CCEntities dc = new CCEntities())
                 {
                     foreach (var c in dc.Charities.ToList())
-                        INSTANCE.Add(new Charity(c));
+                        INS.Add(new Charity(c));
                 }
-                return INSTANCE;
+                return INS;
             }
             catch (EntityException e) { throw e.InnerException; }
         }
         public static void AddToInstance(Charity charity)
         {
-            INSTANCE.Add(charity);
+            INS.Add(charity);
         }
         //Might be able to optimize better
         internal static void UpdateInstance(Charity charity)
@@ -347,7 +366,7 @@ namespace CC.Connections.BL
         {
             sorter = SortBy.NONE;
             this.Clear();
-            this.AddRange(INSTANCE);
+            this.AddRange(INS);
             //try
             //{
             //    using (CCEntities dc = new CCEntities())

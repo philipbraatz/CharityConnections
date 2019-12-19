@@ -48,6 +48,7 @@ namespace CC.Connections.BL
             base(entry) { }
         public Category(int id,bool preloaded =true) :
             base(new CCEntities().Categories, id,preloaded) {
+            this.ID = id;
             if (preloaded)
                 LoadId(true);
         }
@@ -108,23 +109,35 @@ namespace CC.Connections.BL
     //STOP HERE
     public class CategoryList : AbsList<Category, Categories>
     {
-        public static CategoryList INSTANCE { get; } = LoadInstance();
+        private static CategoryList INS = new CategoryList();
+        public static CategoryList INSTANCE
+        {
+            get
+            {
+                if (INS == null || INS.Count == 0)
+                    INS = LoadInstance();
+                return INS;
+            }
+            private set => INS = value;
+        }
+
         public static CategoryList LoadInstance()
         {
             try
             {
+                INSTANCE = new CategoryList();
                 using (CCEntities dc = new CCEntities())
                 {
                     foreach (var c in dc.Categories.ToList())
-                        INSTANCE.Add(new Category(c));
+                        INS.Add(new Category(c));
                 }
-                return INSTANCE;
+                return INS;
             }
             catch (EntityException e) { throw e.InnerException; }
         }
         public static void AddToInstance(Category category)
         {
-            INSTANCE.Add(category);
+            INS.Add(category);
         }
         //Might be able to optimize better
         internal static void UpdateInstance(Category category)
@@ -141,7 +154,7 @@ namespace CC.Connections.BL
         public void LoadAll()
         {
             this.Clear();
-            this.AddRange(INSTANCE);
+            this.AddRange(INS);
         }
         //hides categories that are unused
         public new void LoadUsed()
