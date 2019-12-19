@@ -153,17 +153,26 @@
 
                                 <tbody class="col-md-10">
                                     <tr>
-                                        <td>
 
-                                            @Html.DropDownListFor(model => model.strTimeStart, (IEnumerable<SelectListItem>
-                                                         )ViewBag.TimeList, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "text-danger" })
-                                        </td>
-                                        <td>
-                                            @Html.DropDownListFor(model => model.strTimeEnd, (IEnumerable<SelectListItem>
-                                                         )ViewBag.TimeList, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
-                                        </td>
+                                        @{try
+                                            {
+                                                <td>
+                                                    @Html.DropDownListFor(model => model.strTimeStart, (IEnumerable<SelectListItem>
+                                                              )ViewBag.TimeList, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.StartTime, "", new { @class = "text-danger" })
+                                                </td>
+                                                <td>
+                                                    @Html.DropDownListFor(model => model.strTimeEnd, (IEnumerable<SelectListItem>
+                                                                 )ViewBag.TimeList, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => model.EndTime, "", new { @class = "text-danger" })
+                                                </td>
+                                            }
+                                            catch (Exception e)
+                                            {
+                                                <p>@e.Message</p>;
+                                            }
+                                        }
+
 
                                     </tr>
                                 </tbody>

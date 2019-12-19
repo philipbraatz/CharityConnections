@@ -155,10 +155,51 @@ namespace CC.Connections.WebUI.Controllers
 
         // POST: CharityEvent/Create
         [HttpPost]
-        public ActionResult Create(CharityEvent_WithTime charityEvent)
+        public ActionResult Create(CharityEvent_WithTime cevent)
         {
+            ViewBag.TimeList = TimeUtils.TimeList;
             try
             {
+                cevent.charity = new Charity((int)Session["charityId"]);
+                cevent.Charity_ID = (int)Session["charityId"];
+
+                if (cevent.charity == null ||
+                   cevent.CharityEventName == null ||
+                   cevent.Description == null ||
+                   cevent.EndDate == null || cevent.EndDate == DateTime.MinValue ||
+                   cevent.EndTime == null ||
+                   cevent.StartDate == null || cevent.StartDate == DateTime.MinValue ||
+                   cevent.StartTime == null
+                   )//TODO check location
+                {
+                    ViewBag.Message = "Please fill out every required field";
+                    return View(cevent);
+                }
+                else if (cevent.CharityEventName.Trim().Length < 3)
+                {
+                    ViewBag.Message = "Name must be at least 3 characters long";
+                    return View(cevent);
+                }
+                else if (cevent.Description.Trim().Length < 15)
+                {
+                    ViewBag.Message = "Description must be at least 15 characters long";
+                    return View(cevent);
+                }
+                else if (cevent.CharityEventRequirements.Trim().Length < 4)
+                {
+                    cevent.CharityEventRequirements = "None";
+                }
+                else if (cevent.StartDate > DateTime.Now || cevent.StartDate.Date > cevent.EndDate.Date)
+                {
+                    ViewBag.Message = "Cannot start on "+cevent.StartDate+" and end on "+cevent.EndDate;
+                    return View(cevent);
+                }
+                else if (cevent.EndTime - cevent.StartTime == new TimeSpan(0, 0, 0))//Event that last 0 seconds
+                {
+                    ViewBag.Message = "Start time can not be the same as the End time";
+                    return View(cevent);
+                }
+
                 CharityEventList events;
                 if (Session == null || Session["charityEvents"] == null)
                 {
@@ -167,10 +208,10 @@ namespace CC.Connections.WebUI.Controllers
                 else
                     events = ((CharityEventList)Session["charityEvents"]);
 
-                charityEvent.charity = new Charity((int)Session["charityId"]);
-                charityEvent.Charity_ID = charityEvent.charity.ID;
-                charityEvent.Insert();
-                events.Add(charityEvent);
+                cevent.charity = new Charity((int)Session["charityId"]);
+                cevent.Charity_ID = cevent.charity.ID;
+                cevent.Insert();
+                events.Add(cevent);
                 Session["charityEvents"] = events;
 
                 return RedirectToAction("Index", "CharityEvent");
@@ -227,6 +268,7 @@ namespace CC.Connections.WebUI.Controllers
         [HttpPost]
         public ActionResult Edit(int id, CharityEvent_WithTime collection)
         {
+            ViewBag.TimeList = TimeUtils.TimeList;
             try
             {
                 CharityEventList events;
