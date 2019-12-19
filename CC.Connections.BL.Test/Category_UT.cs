@@ -66,7 +66,7 @@ namespace CC.Connections.BL.Test
         public void insertPreferences_AndLoad()
         {
             Volunteer mtest = new Volunteer(memberEmail);//get a member id
-            AbsCategoryPreferences table = new BL.AbsCategoryPreferences(mtest.ID);
+            CategoryPreferences table = new BL.CategoryPreferences(mtest.ID);
             table.LoadPreferences();
             //Assert.AreEqual(0, table.Count);//make sure its empty
 
@@ -124,7 +124,7 @@ namespace CC.Connections.BL.Test
         public void removePreferences()
         {
             Volunteer mtest = new Volunteer(memberEmail);
-            AbsCategoryPreferences table = new BL.AbsCategoryPreferences(mtest.ID);
+            CategoryPreferences table = new BL.CategoryPreferences(mtest.ID);
 
             CategoryList allTable = new BL.CategoryList();
             allTable.LoadAll();
@@ -154,7 +154,7 @@ namespace CC.Connections.BL.Test
         [TestMethod]
         public void LoadPreferences()
         {
-            AbsCategoryPreferences allTable = new BL.AbsCategoryPreferences(getID_fromDesc(INSERT_1));
+            CategoryPreferences allTable = new BL.CategoryPreferences(getID_fromDesc(INSERT_1));
             allTable.LoadPreferences();
 
             test = new Category(getID_fromDesc(INSERT_1));

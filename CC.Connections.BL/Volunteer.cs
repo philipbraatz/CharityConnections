@@ -8,7 +8,7 @@ namespace CC.Connections.BL
     public class Volunteer : AbsContact
     {
         public new int ID { get; set; }
-        public AbsCategoryPreferences Prefered_Categories { get; set; }
+        public CategoryPreferences Prefered_Categories { get; set; }
         public CharityList Prefered_Charities { get; set; }
         public AbsMemberActionList Prefered_helping_Actions { get; set; }
         //depreciated
@@ -122,7 +122,7 @@ namespace CC.Connections.BL
         //only clears BLclass varibles
         private new void Clear()
         {
-            Prefered_Categories = new AbsCategoryPreferences(ID);
+            Prefered_Categories = new CategoryPreferences(ID);
             Prefered_Charities = new CharityList();
             Prefered_helping_Actions = new AbsMemberActionList(ID);
             Pref = new Preference();

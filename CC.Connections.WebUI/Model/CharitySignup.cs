@@ -29,7 +29,7 @@ namespace CC.Connections.WebUI.Model
         //take a prefilled charity
         public CharitySignup(Charity c)
         {
-            base.setCharityInfo(c);
+            base.setCharity(c);
         }
     }
 }
