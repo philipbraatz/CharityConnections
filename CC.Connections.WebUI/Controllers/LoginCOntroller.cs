@@ -97,7 +97,7 @@ namespace CC.Connections.WebUI.Controllers
                     if (Request.IsLocal)
                         ViewBag.Message = "Error: " + ex.InnerException.Message;
                     else
-                        ViewBag.Message = "not an error... move along";
+                        ViewBag.Message = "Error: " + ex.InnerException.Message;
                 else if (Request.IsLocal)
                     ViewBag.Message = "Error: could not access the database, check database connection. The underlying provider failed on Open.";//local error
                 else
@@ -172,7 +172,7 @@ namespace CC.Connections.WebUI.Controllers
                     if (Request.IsLocal)
                         ViewBag.Message = "Error: " + ex.InnerException.Message;
                     else
-                        ViewBag.Message = "not an error... move along";
+                        ViewBag.Message = "Error: " + ex.InnerException.Message;
                 else if (Request.IsLocal)
                     ViewBag.Message = "Error: could not access the database, check database connection. The underlying provider failed on Open.";//local error
                 else
@@ -247,7 +247,7 @@ namespace CC.Connections.WebUI.Controllers
                     if (Request.IsLocal)
                         ViewBag.Message = "Error: " + ex.InnerException.Message;
                     else
-                        ViewBag.Message = "not an error... move along";
+                        ViewBag.Message = "Error: " + ex.InnerException.Message;
                 else if (Request.IsLocal)
                     ViewBag.Message = "Error: could not access the database, check database connection. The underlying provider failed on Open.";//local error
                 else

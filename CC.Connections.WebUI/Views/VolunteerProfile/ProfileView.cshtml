@@ -35,11 +35,11 @@
             <td> Phone:</td>
             <td>@Model.ContactInfo_Phone</td>
         </tr>
-        <!--<tr>
+        <tr>
             <td>Birth date: </td>
             <td>Model.DateOfBirth.Date</td>
         </tr>
-            -->
+            
 
     </tbody>
 </table>
@@ -52,7 +52,7 @@
             @Html.ActionLink("Edit Profile", "Edit", new { id = Model.contact_ID })
         </td>
         <td>
-            <!--Html.ActionLink("Delete Profile", "Delete", new { id = Model.contact_ID })-->
+            @Html.ActionLink("Delete Profile", "Delete", new { id = Model.contact_ID })
         </td>
     </tr>
 </table>

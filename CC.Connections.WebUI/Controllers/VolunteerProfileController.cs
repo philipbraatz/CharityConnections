@@ -23,7 +23,7 @@ namespace CC.Connections.WebUI.Controllers
                     if (Request.IsLocal)
                         ViewBag.Message = "Error: " + e.Message;
                     else
-                        ViewBag.Message = "not an error... move along";
+                        ViewBag.Message = "Error: " + e.Message;
                     return View(new AbsContact());//should not happen
                 }
             else if (ControllerContext.HttpContext.Request.UrlReferrer != null)
