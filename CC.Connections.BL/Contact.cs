@@ -84,8 +84,8 @@ namespace CC.Connections.BL
             base(new PL.Contact_Info()){ Clear(); }
         public AbsContact(PL.Contact_Info entry) :
         base(entry){ }
-        public AbsContact(string email) :
-            base(new CCEntities().Contact_Info,email, "ContactInfo_Email")
+        public AbsContact(string email,bool preloaded =true) :
+            base(new CCEntities().Contact_Info,email, preloaded,"ContactInfo_Email")
         {
             ContactInfo_Email = email;
             LoadId();

@@ -176,7 +176,7 @@ namespace CC.Abstract
         //create from exist instance
         public ColumnEntry(TEntity entry) => createInstance(entry);
         //load from database
-        public ColumnEntry(DbSet<TEntity> table, object id,string load_AlternativeField = "")
+        public ColumnEntry(DbSet<TEntity> table, object id,bool preload = false,string load_AlternativeField = "")
         {
             try
             {
@@ -189,7 +189,8 @@ namespace CC.Abstract
                 else
                     throw new Exception("Could not connect to database: " + e.InnerException.Message);
             }
-            LoadId(table, id,load_AlternativeField);
+            if(!preload)
+                LoadId(table, id,load_AlternativeField);
         }
 
         public void Clear()

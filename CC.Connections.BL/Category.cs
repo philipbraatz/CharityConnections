@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data.Entity;
 using System.Data.Entity.Core;
 using CC.Abstract;
+using System;
 
 namespace CC.Connections.BL
 {
@@ -26,57 +27,80 @@ namespace CC.Connections.BL
         //must be the same name as the PL class
         public string Category_Desc
         {
-            get { return (string)base.getProperty("Category_Desc"); }
-            set { setProperty("Category_Desc", value); }
+            get { return (string)getProperty(nameof(Category_Desc)); }
+            set { setProperty(nameof(Category_Desc), value); }
         }
         public string Category_Color
         {
-            get { return (string)base.getProperty("Category_Color"); }
-            set { setProperty("Category_Color", value); }
+            get { return (string)base.getProperty(nameof(Category_Color)); }
+            set { setProperty(nameof(Category_Color), value); }
         }
         public string Category_Image
         {
-            get { return (string)base.getProperty("Category_Image"); }
-            set { setProperty("Category_Image", value); }
+            get { return (string)base.getProperty(nameof(Category_Image)); }
+            set { setProperty(nameof(Category_Image), value); }
         }
 
         //PRES constructor and CRUD
-        public Category() : 
-            base(){ }
-        public Category(PL.Categories entry) : 
+        public Category() :
+            base() { }
+        public Category(PL.Categories entry) :
             base(entry) { }
-        public Category(int id) : 
-            base(new CCEntities().Categories, id){}
+        public Category(int id,bool preloaded =true) :
+            base(new CCEntities().Categories, id,preloaded) {
+            if (preloaded)
+                LoadId(true);
+        }
         //turns a PL class into a BL equivelent example: 
         //Category pl = new Category();
         //...
         //AbsCategory bl = (AbsCategory)pl
         public static implicit operator Category(PL.Categories entry)
-        {return new Category(entry);}
+        { return new Category(entry); }
+        public void SetCategory(Category c)
+        {
+            this.ID = c.ID;
+            this.Category_Color = c.Category_Color;
+            this.Category_Desc = c.Category_Desc;
+            this.Category_Image = c.Category_Image;
+        }
 
-        public void LoadId(){
-            using (CCEntities dc = new CCEntities()){
-                base.LoadId(dc.Categories);
+
+        public void LoadId(bool preloaded =true){
+            if (preloaded == false)//definitly needs to be taken from database
+                using (CCEntities dc = new CCEntities()){
+                    base.LoadId(dc.Categories);//should only need to be called from INSTANCE
+                }
+            else
+            {
+                Category loadC = CategoryList.INSTANCE.Where(c => c.ID == this.ID).FirstOrDefault();
+                if (loadC != null)//retreive from existing
+                    this.SetCategory(loadC);
+                else//load from database
+                    LoadId(false);
             }
         }
-        public void LoadId(int id)
+        public void LoadId(int id,bool preloaded =true)
         {
             ID = id;
-            LoadId();
+            LoadId(preloaded);
         }
-        public int Insert() {
+        public void Insert() {
             using (CCEntities dc = new CCEntities()){
-                return base.Insert(dc, dc.Categories);
+                base.Insert(dc, dc.Categories);
+                CategoryList.AddToInstance(this);
             }
         }
-        public int Update(){
+        public void Update(){
             using (CCEntities dc = new CCEntities()){
-                return base.Update(dc, dc.Categories);
+                base.Update(dc, dc.Categories);
+                CategoryList.UpdateInstance(this);
             }
         }
-        public int Delete(){
+        public void Delete(){
             using (CCEntities dc = new CCEntities()){
-                return base.Delete(dc, dc.Categories);
+                base.Insert(dc, dc.Categories);
+                CategoryList.RemoveInstance(this);
             }
         }
     }
@@ -84,22 +108,40 @@ namespace CC.Connections.BL
     //STOP HERE
     public class CategoryList : AbsList<Category, Categories>
     {
-        public new void LoadAll()
+        public static CategoryList INSTANCE { get; } = LoadInstance();
+        public static CategoryList LoadInstance()
         {
             try
             {
-            using (CCEntities dc = new CCEntities())
-            {
-                //base.LoadAll(dc.Categories);
-                foreach (var c in dc.Categories.ToList())
-                    base.Add(new Category(c));
+                using (CCEntities dc = new CCEntities())
+                {
+                    foreach (var c in dc.Categories.ToList())
+                        INSTANCE.Add(new Category(c));
+                }
+                return INSTANCE;
             }
-            }
-            catch (EntityException e)
-            {
-                throw e.InnerException;
+            catch (EntityException e) { throw e.InnerException; }
+        }
+        public static void AddToInstance(Category category)
+        {
+            INSTANCE.Add(category);
+        }
+        //Might be able to optimize better
+        internal static void UpdateInstance(Category category)
+        {
+            RemoveInstance(category);
+            AddToInstance(category);
+        }
 
-            }
+        internal static void RemoveInstance(Category category)
+        {
+            INSTANCE.Remove(category);
+        }
+
+        public void LoadAll()
+        {
+            this.Clear();
+            this.AddRange(INSTANCE);
         }
         //hides categories that are unused
         public new void LoadUsed()
@@ -107,9 +149,9 @@ namespace CC.Connections.BL
             try{
                 using (CCEntities dc = new CCEntities()){
                     //base.LoadAll(dc.Categories);
-                    foreach (var c in dc.Categories.ToList())
-                        if(dc.Charities.Where(d=>d.Charity_Category_ID == c.Category_ID).Count() != 0)
-                            base.Add(new Category(c));
+                    foreach (var c in INSTANCE)
+                        if(CharityList.INSTANCE.Where(d=>d.Category.ID == c.ID).Any())
+                            base.Add(c);
                 }
             }
             catch (EntityException e)
@@ -118,8 +160,9 @@ namespace CC.Connections.BL
 
             }
         }
+
     }
-    public class AbsCategoryPreferences : AbsListJoin<Category, Categories, Preferred_Category>
+    public class CategoryPreferences : AbsListJoin<Category, Categories, Preferred_Category>
     {
         int memberID
         {
@@ -128,7 +171,7 @@ namespace CC.Connections.BL
         }
 
 
-        public AbsCategoryPreferences(int member_id)
+        public CategoryPreferences(int member_id)
             : base("MemberCat_Category_ID",member_id, "MemberCat_Member_ID")
         {
             Preferred_Category c = new Preferred_Category { MemberCat_Member_ID = member_id };
