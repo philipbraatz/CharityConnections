@@ -22,26 +22,33 @@
             <!--<td class="card text-white border-info style="max-width: 70rem;">-->
             <td class="p-3 mb-2 bg-gradient-info text-white">
                 <div class="card-header row ">
-                    <a href="@Url.Action("Details", "Charity", new { id = item.charity.ID })">
-                        <img class="col-2 " src="~/Content/Images/CCDefaultPlaceholder.gif" alt="@item.CharityEventName" title="View Charity">
-                    </a>
-                    <div class="col-10">
-                        <a class="" title="Details" href="@Url.Action("Details", "CharityEvent", new { id = item.Event_ID })">
-                            <h2 title="Event Details"> @item.CharityEventName</h2>
+                    @if (item.charity != null)
+                    {
+                        <a href="@Url.Action("Details", "Charity", new { id = item.charity.ID })">
+                            <img class="col-2 " src="~/Content/Images/CCDefaultPlaceholder.gif" alt="@item.CharityEventName" title="View Charity">
                         </a>
-                        <h3>Hosted by: @item.charity.Charity_Name</h3>
-                        <h4>@item.CharityEventStatus</h4>
-                        @if (item.CharityEventStatus != "Completed")
-                        {
-                            <h5>Days: @item.StartDate.ToShortDateString() to @item.EndDate.ToShortDateString() </h5>
-                            <h5>Time: @item.StartTime.ToShortTimeString() to @item.EndTime.ToShortTimeString() </h5>
-                        }
-                    </div>
-                    <div class="col-1">
-                        <a href="@Url.Action("CategoryView", "CharityEvent", new { id = item.charity.Category.ID })">
-                            <img style="padding-top:0px;" src="@(("/Content/Images/" + item.charity.Category.Category_Image.Trim() + ".svg"))" id="paw" title="@(item.charity.Category.Category_Desc) ">
-                        </a>
-                    </div>
+                        <div class="col-10">
+                            <a class="" title="Details" href="@Url.Action("Details", "CharityEvent", new { id = item.Event_ID })">
+                                <h2 title="Event Details"> @item.CharityEventName</h2>
+                            </a>
+                            <h3>Hosted by: @item.charity.Charity_Name</h3>
+                            <h4>@item.CharityEventStatus</h4>
+                            @if (item.CharityEventStatus != "Completed")
+                            {
+                                <h5>Days: @item.StartDate.ToShortDateString() to @item.EndDate.ToShortDateString() </h5>
+                                <h5>Time: @item.StartTime.ToShortTimeString() to @item.EndTime.ToShortTimeString() </h5>
+                            }
+                        </div>
+                        <div class="col-1">
+                            <a href="@Url.Action("CategoryView", "CharityEvent", new { id = item.charity.Category.ID })">
+                                <img style="padding-top:0px;" src="@(("/Content/Images/" + item.charity.Category.Category_Image.Trim() + ".svg"))" id="paw" title="@(item.charity.Category.Category_Desc) ">
+                            </a>
+                        </div>
+                    }
+                    else
+                    {
+                        <h2>Charity could not be found</h2>
+                    }
                 </div>
                 <!--<div class="card-body">
             <p>item.Description</p>

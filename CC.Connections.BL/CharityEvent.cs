@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CC.Connections.PL;
 using CC.Connections.BL;
+using System.Data.Entity.Core;
 
 namespace CC.Connections.BL
 {
@@ -121,24 +122,11 @@ namespace CC.Connections.BL
         {
             Clear();
         }
-        public CharityEvent(int charity_event_ID)
-        {
-            this.Event_ID = charity_event_ID;
-            Clear();
-            LoadId();
-            this.charity = new Charity(this.Charity_ID);
-        }
-        public CharityEvent(Charity charity, int charity_event_ID)
+        public CharityEvent(int charity_event_ID, Charity charity = null, string member_email ="")
         {
             this.charity = charity;
-            this.Event_ID = charity_event_ID;
-            Clear();
-            LoadId();
-        }
-        public CharityEvent(Charity charity, int charity_event_ID, string member_email)
-        {
-            this.charity = charity;
-            this.Member_Attendance = new AbsEventAtendee(charity_event_ID, member_email);
+            if(!string.IsNullOrEmpty(member_email))
+                this.Member_Attendance = new AbsEventAtendee(charity_event_ID, member_email);
             this.Event_ID = charity_event_ID;
             Clear();
             LoadId();
@@ -193,6 +181,7 @@ namespace CC.Connections.BL
             this.atendees = new EventAttendanceJointList(evnt.Event_ID);
         }
 
+        //TODO refactor to use CC.Abstract
         public new int Insert()
         {
             this.Location.Insert();
@@ -219,6 +208,7 @@ namespace CC.Connections.BL
                         CharityEventName = this.CharityEventName,
                         CharityEventDescription = this.Description
                     });
+                    CharityEventList.AddToInstance(this);
                     return dc.SaveChanges();
                 }
             }
@@ -241,6 +231,7 @@ namespace CC.Connections.BL
                     dc.Charity_Event.Remove(dc.Charity_Event.Where(c => c.CharityEvent_ID == this.Event_ID).FirstOrDefault());
                     Location.Delete();
                     atendees.DeleteAttendance();
+                    CharityEventList.RemoveInstance(this);
                     return dc.SaveChanges();
                 }
             }
@@ -266,32 +257,43 @@ namespace CC.Connections.BL
                     entry.CharityEventStartDate = StartDate;
                     entry.CharityEventDescription = Description;
 
+                    CharityEventList.RemoveInstance(this);
                     return dc.SaveChanges();
                 }
             }
             catch (Exception e) { throw e; }
         }
-        public new void LoadId()
+        public new void LoadId(bool preloaded =true)
         {
-            try
-            {
-                using (CCEntities dc = new CCEntities())
+            if (preloaded == false)//definitly needs to be taken from database
+                try
                 {
-                    //if (this.ID == Guid.Empty)
-                    //    throw new Exception("ID is invalid");
+                    using (CCEntities dc = new CCEntities())
+                    {
+                        //if (this.ID == Guid.Empty)
+                        //    throw new Exception("ID is invalid");
 
-                    PL.Charity_Event entry = dc.Charity_Event.FirstOrDefault(c => c.CharityEvent_ID == this.Event_ID)
-                        ?? throw new Exception("Event does not exist ID: " + Event_ID);
-                    //if (entry.CharityEventContactInfo_ID == null)
-                    //    throw new Exception("Event does not have a Contact Info");
-                    setEventInfo(entry);//LOADS
-                    atendees.LoadByEvent(entry.CharityEvent_ID);
+                        PL.Charity_Event entry = dc.Charity_Event.FirstOrDefault(c => c.CharityEvent_ID == this.Event_ID)
+                            ?? throw new Exception("Event does not exist ID: " + Event_ID);
+                        //if (entry.CharityEventContactInfo_ID == null)
+                        //    throw new Exception("Event does not have a Contact Info");
+                        setEventInfo(entry);//LOADS
+                        atendees.LoadByEvent(entry.CharityEvent_ID);
+                    }
                 }
-            }
-            catch (Exception e)
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            else
             {
-                throw e;
+                CharityEvent loadC = CharityEventList.INSTANCE.Where(c => c.Event_ID == this.Event_ID).FirstOrDefault();
+                if (loadC != null)//retreive from existing
+                    this.setEventInfo(loadC);
+                else//load from database
+                    LoadId(false);
             }
+            
         }
 
 
@@ -308,6 +310,37 @@ namespace CC.Connections.BL
     public class CharityEventList
         : List<CharityEvent>
     {
+        public static CharityEventList INSTANCE { get; private set; } = LoadInstance();
+        public static CharityEventList LoadInstance()
+        {
+            try
+            {
+                INSTANCE = new CharityEventList();
+                using (CCEntities dc = new CCEntities())
+                {
+                    foreach (var c in dc.Charity_Event.ToList())
+                        INSTANCE.Add(new CharityEvent(c));
+                }
+                return INSTANCE;
+            }
+            catch (EntityException e) { throw e.InnerException; }
+        }
+        public static void AddToInstance(CharityEvent category)
+        {
+            INSTANCE.Add(category);
+        }
+        //Might be able to optimize better
+        internal static void UpdateInstance(CharityEvent category)
+        {
+            RemoveInstance(category);
+            AddToInstance(category);
+        }
+
+        internal static void RemoveInstance(CharityEvent category)
+        {
+            INSTANCE.Remove(category);
+        }
+
         //only used for Event lists
         private int? Sort_ID { get; set; }
         private SortBy sorter { get; set; }
@@ -335,15 +368,19 @@ namespace CC.Connections.BL
         public void LoadAll()
         {
             sorter = SortBy.NONE;
-            try
+            foreach (var item in INSTANCE)
             {
-                using (CCEntities dc = new CCEntities())
-                {
-                    var test = dc.Charity_Event.ToList();
-                    dc.Charity_Event.ToList().ForEach(c => this.Add(c, true));
-                }
+                this.Add(item, true);
             }
-            catch (Exception) { throw; }
+            //try
+            //{
+            //    using (CCEntities dc = new CCEntities())
+            //    {
+            //        var test = dc.Charity_Event.ToList();
+            //        dc.Charity_Event.ToList().ForEach(c => this.Add(c, true));
+            //    }
+            //}
+            //catch (Exception) { throw; }
         }
 
         public void LoadWithFilter(int id, SortBy sort)
