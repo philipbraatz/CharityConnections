@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using CC.Connections.BL;
+using CC.Connections.WebUI.Model;
 
 namespace CC.Connections.WebUI.Controllers
 {
@@ -95,11 +96,11 @@ namespace CC.Connections.WebUI.Controllers
         // GET: Charity/Edit/5
         public ActionResult Edit(int id)
         {
-            Charity c = new Charity();
+            CharitySignup c = new CharitySignup();
 
             Password p = (Password)Session["member"];
             if (p != null)
-                c = new Charity(id);
+                c = new CharitySignup(new Charity(id));
             else
             {
                 ViewBag.Message = "You are not signed in yet";
@@ -111,17 +112,90 @@ namespace CC.Connections.WebUI.Controllers
 
         // POST: Charity/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, Charity c)
+        public ActionResult Edit(int id, CharitySignup csu)
         {
             try
             {
-                // TODO: Add update logic here
-                c.Update((Password)Session["member"]);
+                csu.Location = new Charity(id).Location;//TEMP FIX for location missing
+                try
+                {
+                    if (
+                        //csu.confirmPassword.Pass == null ||
+                        csu.Charity_Email == null ||
+                        //csu.Category == null ||//TODO Category picker
+                        csu.Charity_Cause == null ||
+                        csu.Charity_Deductibility == null ||
+                        csu.Charity_EIN == null ||
+                        csu.Password == null ||
+                        csu.Charity_Name == null
+                        )//TODO check location
+                    {
+                        ViewBag.Message = "Please fill in every field";
+                        return View(csu);
+                    }
+                    //else if (csu.confirmPassword.Pass != csu.Password.Pass)
+                    //{
+                    //    ViewBag.Message = "Passwords do not match";
+                    //    return View(csu);
+                    //}
+                    else if (csu.Charity_Name.Trim().Length < 3)
+                    {
+                        ViewBag.Message = "Charity name must be at least 3 characters long";
+                        return View(csu);
+                    }
+                    else if (!(csu.Charity_Email.Contains('@') && csu.Charity_Email.Contains('.') && csu.Charity_Email.Length > 6))
+                    {
+                        ViewBag.Message = "Email is invalid";
+                        return View(csu);
+                    }
+                    else if (false)//TODO check for valid phone number
+                    {
+                        ViewBag.Message = "Phone number is invalid";
+                        return View(csu);
+                    }
+                    Random r = new Random();
+                    CC.Connections.BL.CategoryList categoryList = new CC.Connections.BL.CategoryList();
+                    try
+                    {
+                        categoryList.LoadAll();
+                        csu.Category = new Category(r.Next(1, categoryList.Count - 1));
+                    }
+                    catch (Exception e)
+                    {
+                        ViewBag.Message = e;
+                    }
+                    csu.Password.email = csu.Charity_Email;
+                    csu.Password.MemberType = MemberType.CHARITY;
+                    Session["member"] = csu.Password;
+                    // Location loc = new Location(2);
+                    //csu.Location = loc;//TEMP always set to location 2 because its currently null
+                    csu.Update((Password)Session["member"]);
+
+
+                    return RedirectToAction("Index", "Charity");//go to profile
+                }
+                catch (Exception ex)
+                {
+                    if (ex.Message != "The underlying provider failed on Open.")
+                        if (Request.IsLocal)
+                            ViewBag.Message = "Error: " + ex.InnerException.Message;
+                        else
+                            ViewBag.Message = "Error: " + ex.InnerException.Message;
+                    else if (Request.IsLocal)
+                        ViewBag.Message = "Error: could not access the database, check database connection. The underlying provider failed on Open.";//local error
+                    else
+                        ViewBag.Message = "Unable to process any sign up's at this time.";//specialized error handler
+
+
+                    return View(csu);
+                }
+
+                csu.Update((Password)Session["member"]);
                 return RedirectToAction("Index", "Home");
             }
             catch
             {
-                return View(c);
+                return View(csu);
             }
         }
     }

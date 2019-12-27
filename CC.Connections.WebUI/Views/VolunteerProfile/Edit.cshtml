@@ -16,15 +16,6 @@
     }
 </style>
 
-
-
-<p class="account-display">Currently logged in as</p>
-@Html.EditorFor(model => model.ContactInfo_FName, new { htmlAttributes = new { @class = "account-display" } })
-@{
-    ViewBag.Title = "Edit";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
@@ -36,7 +27,8 @@
 
 
     <div class="form-horizontal">
-        <h4>Edit Profile Information</h4>
+        <h2>Edit Profile Information</h2>
+        <h3>@ViewBag.Message</h3>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group" style="display:none">
