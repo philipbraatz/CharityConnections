@@ -14,8 +14,8 @@ namespace CC.Connections.PL
     
     public partial class Preferred_Category
     {
-        public int PreferredCategory_ID { get; set; }
-        public Nullable<int> MemberCat_Category_ID { get; set; }
-        public Nullable<int> MemberCat_Member_ID { get; set; }
+        public System.Guid ID { get; set; }
+        public Nullable<System.Guid> Category_ID { get; set; }
+        public string Volunteer_Email { get; set; }
     }
 }

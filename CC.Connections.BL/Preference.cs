@@ -10,9 +10,9 @@ namespace CC.Connections.BL
         private static CCEntities dc;
 
         //id
-        public new int ID
+        public new Guid ID
         {
-            get { return (int)base.ID; }
+            get { return (Guid)base.ID; }
             set { base.ID = value; }
         }
         public new decimal Distance {
@@ -24,7 +24,7 @@ namespace CC.Connections.BL
             base(new PL.Preference()) { }
         public Preference(PL.Preference entry) :
             base(entry){ }
-        public Preference(int id) :
+        public Preference(Guid id) :
             base(new CCEntities().Preferences, id)
         {
             Clear();

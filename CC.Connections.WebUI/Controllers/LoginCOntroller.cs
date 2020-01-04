@@ -188,13 +188,12 @@ namespace CC.Connections.WebUI.Controllers
             try
             {
                 if (csu.confirmPassword.Pass == null ||
-                    csu.Charity_Email == null ||
+                    csu.Email == null ||
                     //csu.Category == null ||//TODO Category picker
-                    csu.Charity_Cause == null ||
-                    csu.Charity_Deductibility == null ||
-                    csu.Charity_EIN == null ||
+                    csu.Cause == null ||
+                    csu.EIN == null ||
                     csu.Password == null ||
-                    csu.Charity_Name == null
+                    csu.Name == null
                     )//TODO check location
                 {
                     ViewBag.Message = "Please fill out every required field";
@@ -205,12 +204,12 @@ namespace CC.Connections.WebUI.Controllers
                     ViewBag.Message = "Passwords do not match";
                     return View(csu);
                 }
-                else if (csu.Charity_Name.Trim().Length < 3)
+                else if (csu.Name.Trim().Length < 3)
                 {
                     ViewBag.Message = "Charity name must be at least 3 characters long";
                     return View(csu);
                 }
-                else if (!(csu.Charity_Email.Contains('@') && csu.Charity_Email.Contains('.') && csu.Charity_Email.Length > 6))
+                else if (!(csu.Email.Contains('@') && csu.Email.Contains('.') && csu.Email.Length > 6))
                 {
                     ViewBag.Message = "Email is invalid";
                     return View(csu);
@@ -225,13 +224,13 @@ namespace CC.Connections.WebUI.Controllers
                 try
                 {
                     categoryList.LoadAll();
-                    csu.Category = new Category(r.Next(1, categoryList.Count-1));
+                    csu.Category = CategoryList.INSTANCE.ElementAt(r.Next(1, categoryList.Count-1));
                 }
                 catch (Exception e)
                 {
                     ViewBag.Message = e;
                 }
-                csu.Password.email = csu.Charity_Email;
+                csu.Password.email = csu.Email;
                 csu.Password.MemberType = MemberType.CHARITY;
                 Session["member"] = csu.Password;
                // Location loc = new Location(2);

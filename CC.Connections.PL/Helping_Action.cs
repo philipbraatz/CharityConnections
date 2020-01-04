@@ -20,9 +20,9 @@ namespace CC.Connections.PL
             this.Member_Action = new HashSet<Member_Action>();
         }
     
-        public int Helping_Action_ID { get; set; }
-        public Nullable<int> HelpingActionCategory_ID { get; set; }
-        public string HelpingActionDescription { get; set; }
+        public System.Guid ID { get; set; }
+        public Nullable<System.Guid> Category_ID { get; set; }
+        public string Description { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Member_Action> Member_Action { get; set; }

@@ -7,7 +7,6 @@ namespace CC.Connections.BL
 {
     public class Volunteer : AbsContact
     {
-        public new int ID { get; set; }
         public CategoryPreferences Prefered_Categories { get; set; }
         public CharityList Prefered_Charities { get; set; }
         public AbsMemberActionList Prefered_helping_Actions { get; set; }
@@ -16,9 +15,9 @@ namespace CC.Connections.BL
         public Preference Pref { get; set; }
         public Location Location { get; set; }
 
-        internal static bool Exists(CCEntities dc, int id)
+        internal static bool Exists(CCEntities dc, string id)
         {
-            return dc.Members.Where(c => c.Member_ID == id).FirstOrDefault() != null;
+            return dc.Volunteers.Where(c => c.Volunteer_Email == id).FirstOrDefault() != null;
         }
 
         //required for login controller
@@ -29,18 +28,18 @@ namespace CC.Connections.BL
         public Volunteer(Contact_Info entry) :
             base(entry)
         { }
-        public Volunteer(PL.Member entry)
+        public Volunteer(PL.Volunteer entry)
         {
-            ID = entry.Member_ID;
+            ContactInfo_Email = entry.Volunteer_Email;
             Clear();
-            base.setContactInfo( AbsContact.fromNumID(entry.MemberContact_ID));
+            base.setContactInfo( new AbsContact(entry.Volunteer_Email));
 
-            Pref = new Preference((int)entry.MemberPreference_ID);
-            Location = new Location((int)entry.Location_ID);
+            Pref = new Preference((Guid)entry.Preference_ID);
+            Location = new Location((Guid)entry.Location_ID);
 
-            Prefered_Categories.LoadPreferences(ID);
+            Prefered_Categories.LoadPreferences(ContactInfo_Email);
             //Prefered_Charities.load();
-            Prefered_helping_Actions.LoadPreferences(ID);
+            Prefered_helping_Actions.LoadPreferences(ContactInfo_Email);
         }
         //new member, member_type is hardcoded as guess
         //DOES NOT try to LOAD from database
@@ -51,39 +50,28 @@ namespace CC.Connections.BL
             {
                 using (CCEntities dc = new CCEntities())
                 {
-                    Clear();
-
-                    //set new id for prefered lists
-                    if (dc.Members.ToList().Count > 0)
-                        ID = dc.Members.Max(c => c.Member_ID) + 1;
-                    else
-                        ID = 0;//first entry
+                    ContactInfo_Email = contactEmail;//first entry
 
                     //try to load existing ID
-                    PL.Contact_Info cID = dc.Contact_Info.Where(c => c.ContactInfo_Email == contactEmail).FirstOrDefault();
-                    PL.Member mID;
+                    PL.Contact_Info cID = dc.Contact_Info.Where(c => c.Member_Email == contactEmail).FirstOrDefault();
                     if (cID != null)
                     {
-                        mID = dc.Members.Where(c => c.MemberContact_ID == cID.Contact_Info_ID).FirstOrDefault();
-                        if (mID != null)
-                            ID = mID.Member_ID;
+                        base.setContactInfo(new AbsContact(cID));
+
+                        //will LOAD nothing if NEW ID but will SET preference ID
+                        //needed for adding and removing items
+                        Prefered_helping_Actions.LoadPreferences(ContactInfo_Email);
+                        Prefered_Categories.LoadPreferences(ContactInfo_Email);
+                        //Prefered_Charities.LoadPreferences(ID);
+
+                        //this.LoadId();
                     }
-
-                    this.ContactInfo_Email = contactEmail;
-
-                    //will LOAD nothing if NEW ID but will SET preference ID
-                    //needed for adding and removing items
-                    Prefered_helping_Actions.LoadPreferences(ID);
-                    Prefered_Categories.LoadPreferences(ID);
-                    //Prefered_Charities.LoadPreferences(ID);
-
-                    //this.LoadId();
                 }
             }
             catch (Exception e)
             {
                 if (e.Message != "The underlying provider failed on Open.")
-                    throw e;
+                    throw;
                 else
                     throw e.InnerException;//database error
                 
@@ -97,7 +85,7 @@ namespace CC.Connections.BL
             {
                 using (CCEntities dc = new CCEntities())
                 {
-                    PL.Contact_Info cID = dc.Contact_Info.Where(c => c.ContactInfo_Email == email).FirstOrDefault();
+                    PL.Contact_Info cID = dc.Contact_Info.Where(c => c.Member_Email == email).FirstOrDefault();
                     if (cID == null)
                         throw new Exception("Email " + email + " does not have a contact info");
                     //else
@@ -122,9 +110,9 @@ namespace CC.Connections.BL
         //only clears BLclass varibles
         private new void Clear()
         {
-            Prefered_Categories = new CategoryPreferences(ID);
+            Prefered_Categories = new CategoryPreferences(ContactInfo_Email);
             Prefered_Charities = new CharityList();
-            Prefered_helping_Actions = new AbsMemberActionList(ID);
+            Prefered_helping_Actions = new AbsMemberActionList(ContactInfo_Email);
             Pref = new Preference();
             Location = new Location();
         }
@@ -139,21 +127,19 @@ namespace CC.Connections.BL
                 using (CCEntities dc = new CCEntities())
                 {
                     //double check ID before insert
-                    if (dc.Members.Count() != 0)
-                        ID = dc.Members.Max(c => c.Member_ID) + 1;//unique id
+                    if (String.IsNullOrEmpty(ContactInfo_Email))
+                        throw new NullReferenceException("Cannot insert an empty email");
 
                     Pref.Insert();
                     //Member_Type.Insert();
                     Location.Insert();
-                    PL.Member entry = new PL.Member
+                    PL.Volunteer entry = new PL.Volunteer
                     {
-                        Member_ID = ID,
-                        MemberContact_ID = contact_ID,
-                        //Role_ID = Role.ID,
-                        MemberPreference_ID = Pref.ID,
+                        Volunteer_Email = ContactInfo_Email,
+                        Preference_ID = Pref.ID,
                         Location_ID = Location.ID
                     };
-                    dc.Members.Add(entry);//adding prior to everything else
+                    dc.Volunteers.Add(entry);//adding prior to everything else
                     password.Insert();
 
                     //do not handle member preference lists here
@@ -178,7 +164,7 @@ namespace CC.Connections.BL
                     base.Delete();
                     //dc.Roles.Remove(dc.Roles.Where(c => c.Role_ID == ID).FirstOrDefault());
 
-                    dc.Members.Remove(dc.Members.Where(c => c.Member_ID == ID).FirstOrDefault());
+                    dc.Volunteers.Remove(dc.Volunteers.Where(c => c.Volunteer_Email == ContactInfo_Email).FirstOrDefault());
 
                     Prefered_Categories.DeleteAllPreferences();
                     //Prefered_Charities.DeleteAllPreferences();
@@ -201,7 +187,7 @@ namespace CC.Connections.BL
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invalid");
 
-                    PL.Member entry = dc.Members.Where(c => c.Member_ID == this.ID).FirstOrDefault();
+                    PL.Volunteer entry = dc.Volunteers.Where(c => c.Volunteer_Email == this.ContactInfo_Email).FirstOrDefault();
                     base.Update();
                     Pref.Update();
                     //Member_Type.Update();
@@ -227,28 +213,28 @@ namespace CC.Connections.BL
                     //    throw new Exception("ID is invalid");
                     int contactId;
 
-                    PL.Member entry = dc.Members.Where(c => c.Member_ID == id).FirstOrDefault();
+                    PL.Volunteer entry = dc.Volunteers.Where(c => c.Volunteer_Email == ContactInfo_Email).FirstOrDefault();
                     if (entry != null)
                     {
-                        this.ID = entry.Member_ID;
+                        this.ContactInfo_Email = entry.Volunteer_Email;
                         Clear();//make sure member fields are created
-                        base.setContactInfo(AbsContact.fromNumID( (int)entry.MemberContact_ID));
+                        base.setContactInfo(new AbsContact(entry.Volunteer_Email));
                     }
                     else
                         throw new Exception("ID = " + id + ", does not have a Member associated with it");
                     ///all good Login in related values
                     
-                    PL.Log_in login = dc.Log_in.FirstOrDefault(c => c.ContactInfoEmail == this.ContactInfo_Email);
+                    PL.Log_in login = dc.Log_in.FirstOrDefault(c => c.Member_Email == this.ContactInfo_Email);
                     if (login == null)
                         throw new Exception("Log in does not exist for Member with email " + this.ContactInfo_Email);
 
-                    if (entry.MemberPreference_ID == null)
+                    if (entry.Preference_ID == null)
                         throw new Exception("Preference ID is null and cannot be loaded");
-                    this.Pref = new Preference((int)entry.MemberPreference_ID);
-                    this.Location = new Location((int)entry.Location_ID);
+                    this.Pref = new Preference((Guid)entry.Preference_ID);
+                    this.Location = new Location((Guid)entry.Location_ID);
 
-                    this.Prefered_Categories.LoadPreferences(entry.Member_ID);
-                    this.Prefered_helping_Actions.LoadPreferences(entry.Member_ID);
+                    this.Prefered_Categories.LoadPreferences(entry.Volunteer_Email);
+                    this.Prefered_helping_Actions.LoadPreferences(entry.Volunteer_Email);
                     //this.Prefered_Charities.LoadPreferences( entry.Member_ID);
 
 
@@ -270,25 +256,25 @@ namespace CC.Connections.BL
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invalid");
 
-                    PL.Member entry = dc.Members.Where(c => c.MemberContact_ID == this.contact_ID).FirstOrDefault();
+                    PL.Volunteer entry = dc.Volunteers.Where(c => c.Volunteer_Email == email).FirstOrDefault();
                     if (entry != null)
-                        this.ID = entry.Member_ID;
+                        this.ContactInfo_Email = email;
                     else
                         throw new Exception("Contact info " + email + " does not have a Member associated with it");
                     ///all good Login in related values
                     Clear();//make sure member fields are created
 
-                    PL.Log_in login = dc.Log_in.FirstOrDefault(c => c.ContactInfoEmail == email);
+                    PL.Log_in login = dc.Log_in.FirstOrDefault(c => c.Member_Email == this.ContactInfo_Email);
                     if (login == null)
-                        throw new Exception("Log in does not exist for Member with email " + email);
+                        throw new Exception("Log in does not exist for Member with email " + this.ContactInfo_Email);
 
-                    if (entry.MemberPreference_ID == null)
+                    if (entry.Preference_ID == null)
                         throw new Exception("Preference ID is null and cannot be loaded");
-                    this.Pref = new Preference((int)entry.MemberPreference_ID);
-                    this.Location = new Location((int)entry.Location_ID);
+                    this.Pref = new Preference((Guid)entry.Preference_ID);
+                    this.Location = new Location((Guid)entry.Location_ID);
 
-                    this.Prefered_Categories.LoadPreferences(entry.Member_ID);
-                    this.Prefered_helping_Actions.LoadPreferences(entry.Member_ID);
+                    this.Prefered_Categories.LoadPreferences(entry.Volunteer_Email);
+                    this.Prefered_helping_Actions.LoadPreferences(entry.Volunteer_Email);
                     //this.Prefered_Charities.LoadPreferences( entry.Member_ID);
 
 
@@ -301,9 +287,9 @@ namespace CC.Connections.BL
         }
 
         //loads contact info only
-        internal static Volunteer loadContactInfo(int? memberContact_ID)
+        internal static Volunteer loadContactInfo(string memberContact_ID)
         {
-            AbsContact info = AbsContact.fromNumID(memberContact_ID);
+            AbsContact info = new AbsContact(memberContact_ID);
             return new Volunteer
             {
                 ContactInfo_Email = info.ContactInfo_Email,
@@ -334,16 +320,16 @@ namespace CC.Connections.BL
             {
                 using (CCEntities dc = new CCEntities())
                 {
-                    if (dc.Members.ToList().Count != 0)
-                        dc.Members.ToList().ForEach(c =>
+                    if (dc.Volunteers.ToList().Count != 0)
+                        dc.Volunteers.ToList().ForEach(c =>
                         {
-                            Volunteer newMem = Volunteer.loadContactInfo(c.MemberContact_ID);
-                            newMem.ID = c.Member_ID;
-                            newMem.Pref = new Preference((int)c.MemberPreference_ID);
-                            newMem.Location = new Location((int)c.Location_ID);
+                            Volunteer newMem = Volunteer.loadContactInfo(c.Volunteer_Email);
+                            newMem.ContactInfo_Email = c.Volunteer_Email;
+                            newMem.Pref = new Preference((Guid)c.Preference_ID);
+                            newMem.Location = new Location((Guid)c.Location_ID);
 
-                            newMem.Prefered_Categories.LoadPreferences(c.Member_ID);
-                            newMem.Prefered_helping_Actions.LoadPreferences(c.Member_ID);
+                            newMem.Prefered_Categories.LoadPreferences(c.Volunteer_Email);
+                            newMem.Prefered_helping_Actions.LoadPreferences(c.Volunteer_Email);
 
                             this.Add(newMem);
                         });

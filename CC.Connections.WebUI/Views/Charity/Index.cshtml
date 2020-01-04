@@ -22,36 +22,32 @@
             <tr>
                 <td class="p-3 mb-2 bg-gradient-info text-white">
                     <div class="card-header row">
-                        <a href="@Url.Action("Details", "Charity", new { id = item.ID })">
-                            <img class="col-2 " src="~/Content/Images/CCDefaultPlaceholder.gif" alt="@item.Charity_Name" title="View Charity">
+                        <a href="@Url.Action("Details", "Charity", new { id = item.Email })">
+                            <img class="col-2 " src="~/Content/Images/CCDefaultPlaceholder.gif" alt="@item.Name" title="View Charity">
                         </a>
                         <div class="col-8">
-                            <a class="" title="Details" href="@Url.Action("Details", "Charity", new { id = item.ID })">
-                                <h2 title="Charity Details"> @item.Charity_Name</h2>
+                            <a class="" title="Details" href="@Url.Action("Details", "Charity", new { id = item.Email })">
+                                <h2 title="Charity Details"> @item.Name</h2>
                             </a>
-                            <h3>@item.Charity_Email</h3>
-                            <h3>@item.Charity_URL</h3>
+                            <h3>@item.Email</h3>
+                            <h3>@item.URL</h3>
 
                         </div>
                         <div class="col-1">
                             <a href="@Url.Action("CategoryView", "Charity", new { id = item.Category.ID })">
-                                <img style="padding-top:0px;" src="@(("/Content/Images/" + item.Category.Category_Image.Trim() + ".svg"))" id="paw" title="@(item.Category.Category_Desc) ">
+                                <img style="padding-top:0px;" src="@(("/Content/Images/" + item.Category.Image.Trim() + ".svg"))" id="paw" title="@(item.Category.Desc) ">
                             </a>
                         </div>
                     </div>
                     <!--<div class="card-body">
                         <p>item.Description</p>
                     </div>-->
-                    <div class="card-footer bg-info">
-                        <h3>Requirements: @item.Charity_Requirements</h3>
-                        <h3>Cause: @item.Charity_Cause</h3>
-                    </div>
                 </td>
-                @if (Session["member"] != null && ((CC.Connections.BL.Password)Session["member"]).email == item.Charity_Email)
+                @if (Session["member"] != null && ((CC.Connections.BL.Password)Session["member"]).email == item.Email)
                 {
                     <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.ID })
-                        @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Email })
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Email })
                     </td>
                 }
             </tr>

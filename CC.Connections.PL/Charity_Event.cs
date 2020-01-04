@@ -14,14 +14,13 @@ namespace CC.Connections.PL
     
     public partial class Charity_Event
     {
-        public int CharityEvent_ID { get; set; }
-        public string CharityEventName { get; set; }
-        public Nullable<int> CharityEventLocation_ID { get; set; }
-        public Nullable<int> CharityEventCharity_ID { get; set; }
-        public Nullable<int> CharityEventContactInfo_ID { get; set; }
-        public Nullable<System.DateTime> CharityEventStartDate { get; set; }
-        public Nullable<System.DateTime> CharityEventEndDate { get; set; }
-        public string CharityEventRequirements { get; set; }
-        public string CharityEventDescription { get; set; }
+        public System.Guid ID { get; set; }
+        public string Name { get; set; }
+        public Nullable<System.DateTime> StartDate { get; set; }
+        public Nullable<System.DateTime> EndDate { get; set; }
+        public string Requirements { get; set; }
+        public string Description { get; set; }
+        public Nullable<System.Guid> Location_ID { get; set; }
+        public string Charity_Email { get; set; }
     }
 }

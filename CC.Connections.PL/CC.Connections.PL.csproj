@@ -54,10 +54,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Categories.cs">
+    <Compile Include="Category.cs">
       <DependentUpon>CharityConnectionModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Charities.cs">
+    <Compile Include="Charity.cs">
       <DependentUpon>CharityConnectionModel.tt</DependentUpon>
     </Compile>
     <Compile Include="CharityConnectionModel.Context.cs">
@@ -93,9 +93,6 @@
     <Compile Include="Log_in.cs">
       <DependentUpon>CharityConnectionModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Member.cs">
-      <DependentUpon>CharityConnectionModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Member_Action.cs">
       <DependentUpon>CharityConnectionModel.tt</DependentUpon>
     </Compile>
@@ -109,6 +106,9 @@
       <DependentUpon>CharityConnectionModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Volunteer.cs">
+      <DependentUpon>CharityConnectionModel.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
@@ -130,13 +130,13 @@
       <DependentUpon>CharityConnectionModel.edmx</DependentUpon>
       <LastGenOutput>CharityConnectionModel.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="CharityConnectionModel.edmx.sql" />
     <Content Include="CharityConnectionModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>CharityConnectionModel.edmx</DependentUpon>
       <LastGenOutput>CharityConnectionModel.cs</LastGenOutput>
     </Content>
-    <Content Include="DBconnection.edmx.sql" />
+    <Content Include="CharityConnectionModel12-30.edmx.sql" />
+    <Content Include="CharityConnectionModel12-31.edmx.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

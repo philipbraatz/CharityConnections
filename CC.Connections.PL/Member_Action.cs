@@ -14,9 +14,9 @@ namespace CC.Connections.PL
     
     public partial class Member_Action
     {
-        public int MemberAction_ID { get; set; }
-        public Nullable<int> MemberActionMember_ID { get; set; }
-        public Nullable<int> MemberActionAction_ID { get; set; }
+        public System.Guid ID { get; set; }
+        public string Member_Email { get; set; }
+        public Nullable<System.Guid> Action_ID { get; set; }
     
         public virtual Helping_Action Helping_Action { get; set; }
     }

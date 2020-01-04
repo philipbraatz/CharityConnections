@@ -29,7 +29,7 @@ namespace CC.Connections.WebUI.Controllers
                         allEvents.LoadAll();
                         if (Session != null && Session["member"] != null && ((Password)Session["member"]).MemberType == MemberType.VOLLUNTEER)
                             foreach (var ev in allEvents)
-                                ev.Member_Attendance = new AbsEventAtendee(ev.Event_ID, ((Password)Session["member"]).email);
+                                ev.Member_Attendance = new AbsEventAtendee(ev.ID, ((Password)Session["member"]).email);
                     }
                     catch(Exception e)
                     {
@@ -45,7 +45,7 @@ namespace CC.Connections.WebUI.Controllers
                 allEvents.LoadAll();
                 if (Session != null && Session["member"] != null && ((Password)Session["member"]).MemberType == MemberType.VOLLUNTEER)
                     foreach (var ev in allEvents)
-                        ev.Member_Attendance = new AbsEventAtendee(ev.Event_ID, ((Password)Session["member"]).email);
+                        ev.Member_Attendance = new AbsEventAtendee(ev.ID, ((Password)Session["member"]).email);
 
                 //save
                 Session["charityEvents"] = allEvents;
@@ -55,9 +55,9 @@ namespace CC.Connections.WebUI.Controllers
         }
 
         // GET: CharityEvent/CategoryView/2
-        public ActionResult CategoryView(int id)
+        public ActionResult CategoryView(Guid id)
         {
-            ViewBag.Title = new Category(id).Category_Desc;
+            ViewBag.Title = new Category(id).Desc;
 
             //load
             CharityEventList allEvents = new CharityEventList();
@@ -70,7 +70,7 @@ namespace CC.Connections.WebUI.Controllers
                     allEvents.LoadWithFilter(id, SortBy.CATEGORY);
                     if (Session != null && Session["member"] != null && ((Password)Session["member"]).MemberType == MemberType.VOLLUNTEER)
                         foreach (var ev in allEvents)
-                            ev.Member_Attendance = new AbsEventAtendee(ev.Event_ID, ((Password)Session["member"]).email);
+                            ev.Member_Attendance = new AbsEventAtendee(ev.ID, ((Password)Session["member"]).email);
                 }
             }
             else
@@ -80,7 +80,7 @@ namespace CC.Connections.WebUI.Controllers
                 allEvents.LoadWithFilter(id, SortBy.CATEGORY);
                 if (Session != null && Session["member"] != null && ((Password)Session["member"]).MemberType == MemberType.VOLLUNTEER)
                     foreach (var ev in allEvents)
-                        ev.Member_Attendance = new AbsEventAtendee(ev.Event_ID, ((Password)Session["member"]).email);
+                        ev.Member_Attendance = new AbsEventAtendee(ev.ID, ((Password)Session["member"]).email);
 
                 //save
                 Session["charityEvents"] = allEvents;
@@ -90,17 +90,17 @@ namespace CC.Connections.WebUI.Controllers
         }
 
         // GET: CharityEvent/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(Guid id)
         {
             CharityEventList allEvents = new CharityEventList();
             CharityEvent detailEvent;
             if (Session != null && Session["charityEvents"] != null)
             {
                 allEvents = ((CharityEventList)Session["charityEvents"]);
-                detailEvent = allEvents.Where(c => c.Event_ID == id).FirstOrDefault();//grab the one we need
+                detailEvent = allEvents.Where(c => c.ID == id).FirstOrDefault();//grab the one we need
                 if (detailEvent == null)
                 {
-                    detailEvent = new CharityEvent(id);
+                    detailEvent = new CharityEvent(id,true);
                     allEvents.Add(detailEvent);//add it because it was missing
                     if (Session != null && Session["member"] != null && ((Password)Session["member"]).MemberType == MemberType.VOLLUNTEER)
                         Session["charityEvents"] = allEvents;
@@ -108,7 +108,7 @@ namespace CC.Connections.WebUI.Controllers
             }
             else
             {
-                detailEvent = new CharityEvent(id);
+                detailEvent = new CharityEvent(id,true);
                 allEvents.Add(detailEvent);//load the only one we need and save it to list
                 if (Session != null && Session["member"] != null && ((Password)Session["member"]).MemberType == MemberType.VOLLUNTEER)
                     Session["charityEvents"] = allEvents;
@@ -118,7 +118,7 @@ namespace CC.Connections.WebUI.Controllers
             if (Session != null && Session["member"] != null && ((Password)Session["member"]).MemberType == MemberType.VOLLUNTEER)
             {
                 member = (Password)Session["member"];
-                detailEvent.Member_Attendance = new AbsEventAtendee(detailEvent.Event_ID, member.email);
+                detailEvent.Member_Attendance = new AbsEventAtendee(detailEvent.ID, member.email);
             }
 
             return View(detailEvent);
@@ -138,9 +138,9 @@ namespace CC.Connections.WebUI.Controllers
                 return RedirectToAction("LoginView", "Login");
             if (credentals.MemberType == MemberType.CHARITY)
             {
-                evnt.charity = new Charity((Password)Session["member"]);//charity id is set
-                evnt.Charity_ID = evnt.charity.ID;
-                evnt.charity.ID = evnt.Charity_ID;
+                evnt.Charity = new Charity((Password)Session["member"]);//charity id is set
+                evnt.Charity_Email = evnt.Charity.Email;
+                evnt.Charity.Email = evnt.Charity_Email;
             }
             else
             {
@@ -149,7 +149,7 @@ namespace CC.Connections.WebUI.Controllers
                 //evnt.Charity_ID = 1;
                 //evnt.charity.ID = 1;
             }
-            Session["charityId"] = evnt.charity.ID;
+            Session["charityId"] = evnt.Charity.Email;
             return View(new CharityEvent_WithTime(evnt));
         }
 
@@ -160,11 +160,11 @@ namespace CC.Connections.WebUI.Controllers
             ViewBag.TimeList = TimeUtils.TimeList;
             try
             {
-                cevent.charity = new Charity((int)Session["charityId"]);
-                cevent.Charity_ID = (int)Session["charityId"];
+                cevent.Charity = new Charity((string)Session["charityId"],true);
+                cevent.Charity_Email = (string)Session["charityId"];
 
-                if (cevent.charity == null ||
-                   cevent.CharityEventName == null ||
+                if (cevent.Charity == null ||
+                   cevent.Name == null ||
                    cevent.Description == null ||
                    cevent.EndDate == null || cevent.EndDate == DateTime.MinValue ||
                    cevent.EndTime == null ||
@@ -175,7 +175,7 @@ namespace CC.Connections.WebUI.Controllers
                     ViewBag.Message = "Please fill out every required field";
                     return View(cevent);
                 }
-                else if (cevent.CharityEventName.Trim().Length < 3)
+                else if (cevent.Name.Trim().Length < 3)
                 {
                     ViewBag.Message = "Name must be at least 3 characters long";
                     return View(cevent);
@@ -185,9 +185,9 @@ namespace CC.Connections.WebUI.Controllers
                     ViewBag.Message = "Description must be at least 15 characters long";
                     return View(cevent);
                 }
-                else if (cevent.CharityEventRequirements.Trim().Length < 4)
+                else if (cevent.Requirements.Trim().Length < 4)
                 {
-                    cevent.CharityEventRequirements = "None";
+                    cevent.Requirements = "None";
                 }
                 else if (cevent.StartDate > DateTime.Now || cevent.StartDate.Date > cevent.EndDate.Date)
                 {
@@ -208,8 +208,8 @@ namespace CC.Connections.WebUI.Controllers
                 else
                     events = ((CharityEventList)Session["charityEvents"]);
 
-                cevent.charity = new Charity((int)Session["charityId"]);
-                cevent.Charity_ID = cevent.charity.ID;
+                cevent.Charity = new Charity((string)Session["charityId"],true);
+                cevent.Charity_Email = cevent.Charity.Email;
                 cevent.Insert();
                 events.Add(cevent);
                 Session["charityEvents"] = events;
@@ -227,7 +227,7 @@ namespace CC.Connections.WebUI.Controllers
         }
 
         // GET: CharityEvent/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(Guid id)
         {
             ViewBag.TimeList = TimeUtils.TimeList;
 
@@ -236,10 +236,10 @@ namespace CC.Connections.WebUI.Controllers
             if (Session != null && Session["charityEvents"] != null)
             {
                 allEvents = ((CharityEventList)Session["charityEvents"]);
-                detailEvent = allEvents.Where(c => c.Event_ID == id).FirstOrDefault();//grab the one we need
+                detailEvent = allEvents.Where(c => c.ID == id).FirstOrDefault();//grab the one we need
                 if (detailEvent == null)
                 {
-                    detailEvent = new CharityEvent(id);
+                    detailEvent = new CharityEvent(id,true);
                     allEvents.Add(detailEvent);//add it because it was missing
                     if (Session == null || Session["charityEvents"] == null)
                         Session["charityEvents"] = allEvents;
@@ -247,7 +247,7 @@ namespace CC.Connections.WebUI.Controllers
             }
             else
             {
-                detailEvent = new CharityEvent(id);
+                detailEvent = new CharityEvent(id,true);
                 allEvents.Add(detailEvent);//load the only one we need and save it to list
                 if (Session == null || Session["charityEvents"] == null)
                     Session["charityEvents"] = allEvents;
@@ -266,7 +266,7 @@ namespace CC.Connections.WebUI.Controllers
 
         // POST: CharityEvent/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, CharityEvent_WithTime collection)
+        public ActionResult Edit(Guid id, CharityEvent_WithTime collection)
         {
             ViewBag.TimeList = TimeUtils.TimeList;
             try
@@ -276,13 +276,13 @@ namespace CC.Connections.WebUI.Controllers
                 {
                     events = new CharityEventList
                     {
-                        new CharityEvent(id)
+                        new CharityEvent(id,true)
                     };//should not happen
                 }
                 else
                     events = ((CharityEventList)Session["charityEvents"]);
 
-                CharityEvent editEvent = events.Where(c => c.Event_ID == id).FirstOrDefault();
+                CharityEvent editEvent = events.Where(c => c.ID == id).FirstOrDefault();
                 collection.Update();
                 editEvent = collection;
                 Session["charityEvents"] = events;
@@ -300,20 +300,20 @@ namespace CC.Connections.WebUI.Controllers
         }
 
         // GET: CharityEvent/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(Guid id)
         {
             CharityEventList events;
             if (Session == null || Session["charityEvents"] == null)
             {
                 events = new CharityEventList
                 {
-                    new CharityEvent(id)
+                    new CharityEvent(id,true)
                 };//should not happen
             }
             else
                 events = ((CharityEventList)Session["charityEvents"]);
 
-            CharityEvent deleteEvent = events.Where(c => c.Event_ID == id).FirstOrDefault();
+            CharityEvent deleteEvent = events.Where(c => c.ID == id).FirstOrDefault();
             deleteEvent.Delete();
             events.Remove(deleteEvent);
             Session["charityEvents"] = events;
@@ -321,9 +321,9 @@ namespace CC.Connections.WebUI.Controllers
             return RedirectToAction("Index", "CharityEvent");
         }
 
-        public ActionResult Signup(int id)
+        public ActionResult Signup(Guid id)
         {
-            CharityEvent evnt = new CharityEvent(id);
+            CharityEvent evnt = new CharityEvent(id,true);
             if (Session != null && Session["member"] != null)
             {
                 AbsEventAtendee atendee = new AbsEventAtendee(id, ((Password)Session["member"]).email);
@@ -337,7 +337,7 @@ namespace CC.Connections.WebUI.Controllers
 
                 //update
                 CharityEventList sesEvents = ((CharityEventList)Session["charityEvents"]);
-                sesEvents.Remove(sesEvents.Where(c => c.Event_ID == id).FirstOrDefault());
+                sesEvents.Remove(sesEvents.Where(c => c.ID == id).FirstOrDefault());
                 sesEvents.Add(evnt);
                 Session["charityEvents"] = sesEvents;
             }
@@ -346,15 +346,15 @@ namespace CC.Connections.WebUI.Controllers
             return RedirectToAction("details", new { id = id });
         }
 
-        public ActionResult Interested(int id)
+        public ActionResult Interested(Guid id)
         {
             CharityEvent evnt = new CharityEvent();
             if (Session != null && Session["charityEvents"] != null)
             {
-                evnt = ((CharityEventList)Session["charityEvents"]).Where(c => c.Event_ID == id).FirstOrDefault();
+                evnt = ((CharityEventList)Session["charityEvents"]).Where(c => c.ID == id).FirstOrDefault();
 
             }
-            if (evnt == null || evnt.Event_ID <= 0)
+            if (evnt == null || evnt.ID == null)
             {
                 ViewBag.Message = "That Event does not exists :(";//should not happen
                 return RedirectToAction("Index", "CharityEvent");
@@ -373,7 +373,7 @@ namespace CC.Connections.WebUI.Controllers
 
                 //update
                 CharityEventList sesEvents = ((CharityEventList)Session["charityEvents"]);
-                sesEvents.Remove(sesEvents.Where(c => c.Event_ID == id).FirstOrDefault());
+                sesEvents.Remove(sesEvents.Where(c => c.ID == id).FirstOrDefault());
                 sesEvents.Add(evnt);
                 Session["charityEvents"] = sesEvents;
             }

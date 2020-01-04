@@ -32,7 +32,7 @@ namespace CC.Connections.BL.Test
             CharityEvent cat = allTable.Where(c => c.CharityEventName == desc).FirstOrDefault();
             if (cat == null)
                 Assert.Fail("Could not find item with discription \""+desc+"\" in table");
-            return cat.Event_ID;
+            return cat.ID;
         }
     
         [TestMethod]
@@ -41,8 +41,8 @@ namespace CC.Connections.BL.Test
             CharityEvent newt = new CharityEvent
             {
                 CharityEventName = NAME_OF_EVENT,
-                CharityEventRequirements= INSERT_1,
-                Charity_ID =CHARITY_ID,
+                Requirements= INSERT_1,
+                Charity_Email =CHARITY_ID,
                 EndDate = DateTime.Now,
                 StartDate = DateTime.Now,
                 Location = new Location(LOC_ID)
@@ -67,8 +67,8 @@ namespace CC.Connections.BL.Test
             CharityEvent newt = new CharityEvent
             {
                 CharityEventName = NAME_OF_EVENT,
-                CharityEventRequirements = INSERT_1,
-                Charity_ID = CHARITY_ID,
+                Requirements = INSERT_1,
+                Charity_Email = CHARITY_ID,
                 EndDate = DateTime.Now,
                 StartDate = DateTime.Now,
                 Location = new Location(LOC_ID)

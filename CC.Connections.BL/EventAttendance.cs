@@ -21,25 +21,23 @@ namespace CC.Connections.BL
         //Parameters
 
         //id
-        public new int ID
+        public Guid ID
         {
-            get { return (int)base.ID; }
+            get { return (Guid)base.ID; }
             set { base.ID = value; }
         }
 
         //other parameters from PL.Categories
-        public int Event_ID
+        public Guid Event_ID
         {
-            get { return (int)base.getProperty("Event_ID"); }
+            get { return (Guid)base.getProperty("Event_ID"); }
             set { setProperty("Event_ID", value); }
         }
-        public int Member_ID
+        public string Member_ID
         {
-            get { return (int)base.getProperty("Member_ID"); }
+            get { return (string)base.getProperty("Member_ID"); }
             set { setProperty("Member_ID", value); }
         }
-
-        public string email { get; set; }
 
         [DisplayName("Status")]
         //must be the same name as the PL class
@@ -52,30 +50,25 @@ namespace CC.Connections.BL
         public AbsEventAtendee() :
             base()
         { }
-        public AbsEventAtendee(int event_id, string email) :
+        public AbsEventAtendee(Guid event_id, string email) :
             base()
         {
 
             this.Event_ID = event_id;
-            this.email = email;
-            this.Member_ID = new Volunteer(email).ID;
-            //this.Status = Status.NOT_GOING;//default
+            this.Member_ID = email;
             TryFindMatching();
         }
         public AbsEventAtendee(PL.Event_Attendance entry) :
             base(entry)
         {
             Volunteer v = new Volunteer();
-            v.LoadId(entry.Member_ID);
-            this.email = v.ContactInfo_Email;
-            //this.Status = Status.NOT_GOING;
+            v.LoadId(entry.Volunteer_Email);
         }
         public AbsEventAtendee(int id) :
             base(new CCEntities().Event_Attendance, id)
         {
             Volunteer v = new Volunteer();
             v.LoadId(this.Member_ID);
-            this.email = v.ContactInfo_Email;
         }
         //turns a PL class into a BL equivelent example: 
         //Category pl = new Category();
@@ -88,7 +81,7 @@ namespace CC.Connections.BL
         {
             using (CCEntities dc = new CCEntities())
             {
-                return dc.Event_Attendance.Where(c => c.Event_ID == this.Event_ID && c.Member_ID == this.Member_ID).FirstOrDefault() != null;
+                return dc.Event_Attendance.Where(c => c.Event_ID == this.Event_ID && c.Volunteer_Email == this.Member_ID).FirstOrDefault() != null;
             }
         }
         public void LoadId()
@@ -103,23 +96,23 @@ namespace CC.Connections.BL
             using (CCEntities dc = new CCEntities())
             {
                 List<Event_Attendance> debugList = dc.Event_Attendance.ToList();
-                Event_Attendance eat = dc.Event_Attendance.Where(c => c.Event_ID == this.Event_ID && c.Member_ID == this.Member_ID).FirstOrDefault();
+                Event_Attendance eat = dc.Event_Attendance.Where(c => c.Event_ID == this.Event_ID && c.Volunteer_Email == this.Member_ID).FirstOrDefault();
                 if (eat == null)
                 {
-                    this.ID = -1;
+                    this.ID = Guid.NewGuid();
                     this.Status = Status.NOT_GOING;
                     return false;
                 }
 
-                this.ID = eat.EventAttendance_ID;
-                this.Member_ID = (int)eat.Member_ID;
-                this.Event_ID = (int)eat.Event_ID;
-                this.Status = (Status)eat.Status;
+                this.ID = eat.ID;
+                this.Member_ID = (string)eat.Volunteer_Email;
+                this.Event_ID = (Guid)eat.Event_ID;
+                this.Status = (Status)eat.Volunteer_Status;
                 return true;
             }
         }
 
-        public void LoadId(int id)
+        public void LoadId(Guid id)
         {
             ID = id;
             LoadId();
@@ -178,24 +171,20 @@ namespace CC.Connections.BL
     {
         private static Random rand = new Random();
         private int myRandG, myRandI;
-        int eventID
+        Guid eventID
         {
-            get { return (int)joinGrouping_ID; }
+            get { return (Guid)joinGrouping_ID; }
             set { joinGrouping_ID = value; }
         }
         [DisplayName("Going: ")]
         public int CountGoing { get => this.Where(c => c.Status == Status.GOING).Count() ; }
         [DisplayName("Interested: ")]
         public int CountInterested { get => this.Where(c => c.Status == Status.INTERESTED).Count(); }
-        public int CountGoingR { get => this.Where(c => c.Status == Status.GOING).Count() + Math.Abs( this.eventID*2 -(int)this.joinGrouping_ID)+10; }//TODO remove when more users attend
-        [DisplayName("Interested: ")]
-        public int CountInterestedR { get => this.Where(c => c.Status == Status.INTERESTED).Count() +Math.Abs( (int)this.joinGrouping_ID - this.eventID *2) + 7; }//TODO remove when more users attend
-
-        public EventAttendanceJointList(int event_id)
+        public EventAttendanceJointList(Guid event_id)
             : base("MemberCat_Category_ID", event_id, "MemberCat_Member_ID")
         {
-            Charity c = new Charity { ID = event_id };
-            base.joinGrouping_ID = c.ID;
+            Charity c = new Charity(new CharityEvent(eventID,true).Charity_Email,true);
+            base.joinGrouping_ID = c.Email;
             LoadByEvent();
 
             myRandG = rand.Next(5, 30);
@@ -203,22 +192,22 @@ namespace CC.Connections.BL
         }
 
         public void LoadByEvent()
-        { LoadByEvent((int)base.joinGrouping_ID); }
-        public void LoadByEvent(int event_id)
+        { LoadByEvent((Guid)base.joinGrouping_ID); }
+        public void LoadByEvent(Guid event_id)
         {
             using (CCEntities dc = new CCEntities())
             {
                 eventID = event_id;
                 if (dc.Event_Attendance.ToList().Count != 0)
                 {
-                    List<Charity_Event> debugList = dc.Charity_Event.Where(c => c.CharityEvent_ID == eventID).ToList();
+                    List<Charity_Event> debugList = dc.Charity_Event.Where(c => c.ID == eventID).ToList();
                     dc.Charity_Event
-                        .Where(c => c.CharityEvent_ID == eventID).ToList()
+                        .Where(c => c.ID == eventID).ToList()
                         .ForEach(b =>
                         {
                             dc.Event_Attendance
                                 .Where(d =>
-                                   d.Event_ID == b.CharityEvent_ID
+                                   d.Event_ID == b.ID
                                 ).ToList().ForEach(eat => 
                                     base.Add(new AbsEventAtendee(eat)));
                         });
@@ -231,7 +220,7 @@ namespace CC.Connections.BL
             using (CCEntities dc = new CCEntities())
             {
                 foreach (var item in dc.Event_Attendance)
-                    if (item.Event_ID == (int?)base.joinGrouping_ID)
+                    if (item.Event_ID == (Guid)base.joinGrouping_ID)
                         dc.Event_Attendance.Remove(item);
                 dc.SaveChanges();
                 this.Clear();
@@ -241,11 +230,9 @@ namespace CC.Connections.BL
         {
             using (CCEntities dc = new CCEntities())
             {
-                int newID = 0;
-                if (dc.Event_Attendance.ToList().Count != 0)
-                    newID = dc.Event_Attendance.Max(c => c.EventAttendance_ID) + 1;
+                Guid newID = Guid.NewGuid();
 
-                AbsEventAtendee evntAtt = new AbsEventAtendee((int)base.joinGrouping_ID, attendee);
+                AbsEventAtendee evntAtt = new AbsEventAtendee((Guid)base.joinGrouping_ID, attendee);
                 dc.Event_Attendance.Add(evntAtt.GetPL());
                 this.Add(evntAtt);
 
@@ -256,7 +243,7 @@ namespace CC.Connections.BL
             using (CCEntities dc = new CCEntities())
             {
                 foreach (var item in dc.Event_Attendance)
-                    if (item.Member_ID == new Volunteer(email).ID)
+                    if (item.Volunteer_Email == email)
                     {
                         dc.Event_Attendance.Remove(item);
                         break;

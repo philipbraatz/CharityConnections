@@ -126,7 +126,6 @@
     <None Include="Post-Deployment\DefaultData\Charity.sql" />
     <None Include="Post-Deployment\DefaultData\CharityEvents.sql" />
     <None Include="Post-Deployment\DefaultData\Location.sql" />
-    <None Include="CC.Connections.DB.publish.xml" />
     <None Include="Local.DB.publish.xml" />
     <None Include="Post-Deployment\DefaultData\Categories.sql" />
     <None Include="Post-Deployment\DefaultData\PreferredCategories.sql" />
@@ -137,8 +136,7 @@
     <None Include="Post-Deployment\DefaultData\HelpingActions.sql" />
     <None Include="Post-Deployment\DefaultData\Login.sql" />
     <None Include="Post-Deployment\DefaultData\MemberAction.sql" />
-    <None Include="Post-Deployment\DefaultData\MemberType.sql" />
-    <None Include="Post-Deployment\DefaultData\Member.sql" />
+    <None Include="Post-Deployment\DefaultData\Volunteers.sql" />
     <None Include="Post-Deployment\DefaultData\Preferences.sql" />
     <None Include="Post-Deployment\DefaultData\PreferredCharity.sql" />
   </ItemGroup>

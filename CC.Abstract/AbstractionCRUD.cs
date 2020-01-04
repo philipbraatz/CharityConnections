@@ -120,23 +120,36 @@ namespace CC.Abstract
             try
             {
                 PropertyDB_Info<TEntity> propinf = properties.Where(c => c.p.Name == propertyName).FirstOrDefault();
+                Type propType = propinf.p.PropertyType;
+
                 if (propinf != null)
                 {
-                    if(value == null)
+                    propinf.p.SetValue(instance,value);
+                    if (value == null)
                         propinf.p.SetValue(instance, null);//deal with null right away
-                    else if (propinf.p.PropertyType.Name == "Nullable`1")
-                        if (propinf.p.PropertyType.GenericTypeArguments.Length > 0)
+                    else if (propType.Name == "Nullable`1")
+                    {
+                        Type[] propGeneric = propType.GenericTypeArguments;
+
+                        if (propGeneric.Length > 0)
                         {
-                            if (propinf.p.PropertyType.GenericTypeArguments[0].Name == "DateTime")
+
+                            if (propGeneric[0].Name == "DateTime")
                                 propinf.p.SetValue(instance, (DateTime)value);
+                            else if (propGeneric[0].Name == "Guid")
+                                propinf.p.SetValue(instance, (Guid)value);
                             else
                                 propinf.p.SetValue(instance, value);
                         }
+
                         else
                             propinf.p.SetValue(instance, value);
-                    else if (propinf.p.PropertyType.Name == "String" &&
+                    }
+                    else if (propType.Name == "String" &&
                              ((string)value).Length > propinf.max)//get property index equal to current property to compare sized
+                    {
                         propinf.p.SetValue(instance, ((string)value));//.Substring(0, propinf.max - 1));//cut of larger values (zero based)
+                    }
                     else
                         propinf.p.SetValue(instance, value);
                 }
@@ -228,9 +241,12 @@ namespace CC.Abstract
         {
             try
             {
-                List<TEntity> tlist = table.ToList();
-                //get highest integer id
-                if (properties[0].p.GetValue(instance) is int)//gets type int
+                //List<TEntity> tlist = table.ToList();
+
+                //Set new ID based off of id type
+                if(properties[0].p.GetValue(instance) is Guid)
+                    ID = Guid.NewGuid();
+                else if (properties[0].p.GetValue(instance) is int)//gets type int
                     if (table.ToList().Count > 0)
                     {
                         //only works when ID is int and database orders
@@ -247,7 +263,7 @@ namespace CC.Abstract
                         throw new Exception("ID cannot be blank");
                 }
                 else
-                    throw new Exception("ID must be int or string");
+                    throw new Exception("ID of type "+ properties[0].p.GetValue(instance).GetType().Name+" is not supported");
 
                 table.Add(instance);
 
@@ -488,10 +504,15 @@ namespace CC.Abstract
 
         public void Add(CCEntities dc, DbSet<TEntityJoin> joinTable, TEntityJoin joinInstance, Tcrud entry)
         {
-            if (joinTable_Properties[0].GetValue(joinInstance) is int)//gets type int
+            
+            //Set new ID based on type
+            if (joinTable_Properties[0].GetValue(joinInstance) is Guid)
+                PropertyHelper.setValue(joinInstance, joinTable_Properties[0].Name, Guid.NewGuid());//instance_PK = newID using ("join_Property_ID")
+            else if (joinTable_Properties[0].GetValue(joinInstance) is int)//gets type int
             {
-                //get new id if int
                 int newID = 0;
+
+                //get new id if int
                 if (joinTable.ToList().Count != 0)
                 {
                     int max = 0;
@@ -506,6 +527,8 @@ namespace CC.Abstract
                 //set primary key
                 PropertyHelper.setValue(joinInstance, joinTable_Properties[0].Name, newID);//instance_PK = newID using ("join_Property_ID")
             }
+            //if its not a guid or int the ID has to be pre-set before adding
+
             //set ID for group
             PropertyHelper.setValue(joinInstance, joinGrouping_ID_name,joinGrouping_ID);//instance_Grouping_ID = join_Grouping_ID using ("join_Grouping_ID")
             //set ID of entry being added

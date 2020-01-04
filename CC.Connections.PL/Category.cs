@@ -12,11 +12,11 @@ namespace CC.Connections.PL
     using System;
     using System.Collections.Generic;
     
-    public partial class Member
+    public partial class Category
     {
-        public int Member_ID { get; set; }
-        public Nullable<int> MemberContact_ID { get; set; }
-        public Nullable<int> MemberPreference_ID { get; set; }
-        public Nullable<int> Location_ID { get; set; }
+        public System.Guid ID { get; set; }
+        public string Desc { get; set; }
+        public string Color { get; set; }
+        public string Image { get; set; }
     }
 }

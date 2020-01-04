@@ -19,8 +19,8 @@ namespace CC.Connections.WebUI.Model
         public CharityEvent_WithTime(CharityEvent evnt)
         {
 
-            this.Event_ID = evnt.Event_ID;
-            this.Charity_ID = evnt.Charity_ID;
+            this.ID = evnt.ID;
+            this.Charity_Email = evnt.Charity_Email;
             this.setEventInfo(evnt);//charity id is set
             this.time_start = TimeUtils.ToInt(this.StartTime).ToString();
             this.time_end = TimeUtils.ToInt(this.EndTime).ToString();

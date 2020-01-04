@@ -9,44 +9,44 @@ using System;
 namespace CC.Connections.BL
 {
     //TODO rename to just Category
-    public class Category : ColumnEntry<PL.Categories>//PRES inheritence
+    public class Category : ColumnEntry<PL.Category>//PRES inheritence
     {
         //Parameters
 
 
         //PRES id and other properties
         //id
-        public new int ID
+        public new Guid ID
         {
-            get { return (int)base.ID; }//ID is first column
+            get { return (Guid)base.ID; }//ID is first column
             set { base.ID = value; }
         }
 
         //other parameters from PL.Categories
         [DisplayName("Description")]
         //must be the same name as the PL class
-        public string Category_Desc
+        public string Desc
         {
-            get { return (string)getProperty(nameof(Category_Desc)); }
-            set { setProperty(nameof(Category_Desc), value); }
+            get { return (string)getProperty(nameof(Desc)); }
+            set { setProperty(nameof(Desc), value); }
         }
-        public string Category_Color
+        public string Color
         {
-            get { return (string)base.getProperty(nameof(Category_Color)); }
-            set { setProperty(nameof(Category_Color), value); }
+            get { return (string)base.getProperty(nameof(Color)); }
+            set { setProperty(nameof(Color), value); }
         }
-        public string Category_Image
+        public string Image
         {
-            get { return (string)base.getProperty(nameof(Category_Image)); }
-            set { setProperty(nameof(Category_Image), value); }
+            get { return (string)base.getProperty(nameof(Image)); }
+            set { setProperty(nameof(Image), value); }
         }
 
         //PRES constructor and CRUD
         public Category() :
             base() { }
-        public Category(PL.Categories entry) :
+        public Category(PL.Category entry) :
             base(entry) { }
-        public Category(int id,bool preloaded =true) :
+        public Category(Guid id,bool preloaded =true) :
             base(new CCEntities().Categories, id,preloaded) {
             this.ID = id;
             if (preloaded)
@@ -56,14 +56,14 @@ namespace CC.Connections.BL
         //Category pl = new Category();
         //...
         //AbsCategory bl = (AbsCategory)pl
-        public static implicit operator Category(PL.Categories entry)
+        public static implicit operator Category(PL.Category entry)
         { return new Category(entry); }
         public void SetCategory(Category c)
         {
             this.ID = c.ID;
-            this.Category_Color = c.Category_Color;
-            this.Category_Desc = c.Category_Desc;
-            this.Category_Image = c.Category_Image;
+            this.Color = c.Color;
+            this.Desc = c.Desc;
+            this.Image = c.Image;
         }
 
 
@@ -81,7 +81,7 @@ namespace CC.Connections.BL
                     LoadId(false);
             }
         }
-        public void LoadId(int id,bool preloaded =true)
+        public void LoadId(Guid id,bool preloaded =true)
         {
             ID = id;
             LoadId(preloaded);
@@ -107,7 +107,7 @@ namespace CC.Connections.BL
     }
 
     //STOP HERE
-    public class CategoryList : AbsList<Category, Categories>
+    public class CategoryList : AbsList<Category, PL.Category>
     {
         private static CategoryList INS = new CategoryList();
         public static CategoryList INSTANCE
@@ -175,33 +175,33 @@ namespace CC.Connections.BL
         }
 
     }
-    public class CategoryPreferences : AbsListJoin<Category, Categories, Preferred_Category>
+    public class CategoryPreferences : AbsListJoin<Category, PL.Category, Preferred_Category>
     {
-        int memberID
+        string volunteerEmail
         {
-            get { return (int)joinGrouping_ID; }
+            get { return (string)joinGrouping_ID; }
             set { joinGrouping_ID = value; }
         }
 
 
-        public CategoryPreferences(int member_id)
+        public CategoryPreferences(string member_id)
             : base("MemberCat_Category_ID",member_id, "MemberCat_Member_ID")
         {
-            Preferred_Category c = new Preferred_Category { MemberCat_Member_ID = member_id };
-            base.joinGrouping_ID = c.MemberCat_Member_ID;
+            Preferred_Category c = new Preferred_Category { Volunteer_Email = member_id };
+            base.joinGrouping_ID = c.Volunteer_Email;
         }
 
         public new void LoadPreferences()
-        { LoadPreferences((int)base.joinGrouping_ID); }
-        public new void LoadPreferences(int member_id){
+        { LoadPreferences((string)base.joinGrouping_ID); }
+        public new void LoadPreferences(string volunteer_Email){
             using (CCEntities dc = new CCEntities()){
-                memberID = member_id;
+                volunteerEmail = volunteer_Email;
                 if (dc.Categories.ToList().Count != 0)
                     dc.Preferred_Category
-                        .Where(c => c.MemberCat_Member_ID == memberID).ToList()
+                        .Where(c => c.Volunteer_Email == volunteerEmail).ToList()
                         .ForEach(b => base.Add(new Category(dc.Categories
                             .Where(d =>
-                                d.Category_ID == b.MemberCat_Category_ID
+                                d.ID == b.Category_ID
                             ).FirstOrDefault()))
                         );
             }

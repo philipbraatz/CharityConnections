@@ -25,7 +25,8 @@ namespace CC.Connections.BL
     {
         public List<Charity> filterCharities = new List<Charity>();
         public List<CharityEvent> filterEvents = new List<CharityEvent>();
-        public static readonly List<int> NONE = new List<int>();
+        public static readonly List<Guid> NONE_GUID = new List<Guid>();
+        public static readonly List<string> NONE_STR = new List<string>();
         public void FillFilter(List<Charity> charities) { filterCharities = charities; }
         public void FillFilter(List<CharityEvent> charities) { filterEvents = charities; }
 
@@ -43,28 +44,28 @@ namespace CC.Connections.BL
         {
             int size = 0;
             if (filterCharities.Count > 0)
-                size += CutCharitiesWithFilter(NONE, NONE, new Location(), null, null, deductable);
+                size += CutCharitiesWithFilter(NONE_GUID, NONE_GUID, new Location(), null, null, deductable);
             if (filterEvents.Count > 0)
-                size += CutEventsByFilter(NONE, NONE, NONE, new Location(), null, null, null, deductable);
+                size += CutEventsByFilter(NONE_GUID, NONE_GUID, NONE_STR, new Location(), null, null, null, deductable);
             return size;
         }
-        public int Whitelist_Remaining(List<int> category, List<int> helping_action)
+        public int Whitelist_Remaining(List<Guid> category, List<Guid> helping_action)
         {
             int size = 0;
             if (filterCharities.Count > 0)
                 size += CutCharitiesWithFilter(category, helping_action, new Location(), null, null, null);
             if (filterEvents.Count > 0)
-                size += CutEventsByFilter(category, helping_action, NONE, new Location(), null, null, null, null);
+                size += CutEventsByFilter(category, helping_action, NONE_STR, new Location(), null, null, null, null);
             return size;
         }
-        public int Whitelist_Remaining_Events(List<int> charity)
+        public int Whitelist_Remaining_Events(List<String> charity)
         {
             if (filterEvents.Count > 0)
-                return CutEventsByFilter(NONE, NONE, charity, new Location(), null, null, null, null);
+                return CutEventsByFilter(NONE_GUID, NONE_GUID, charity, new Location(), null, null, null, null);
             else
                 return 0;
         }
-        public int Whitelist_Remaining_Events(List<int> category, List<int> charity, List<int> helping_action)
+        public int Whitelist_Remaining_Events(List<Guid> category, List<String> charity, List<Guid> helping_action)
         {
             if (filterEvents.Count > 0)
                 return CutEventsByFilter(category, helping_action, charity, new Location(), null, null, null, null);
@@ -75,19 +76,19 @@ namespace CC.Connections.BL
         {
             int size = 0;
             if (filterCharities.Count > 0)
-                size += CutCharitiesWithFilter(NONE, NONE, location, distance, null, null);
+                size += CutCharitiesWithFilter(NONE_GUID, NONE_GUID, location, distance, null, null);
             if (filterEvents.Count > 0)
-                size += CutEventsByFilter(NONE, NONE, NONE, location, distance, null, null, null);
+                size += CutEventsByFilter(NONE_GUID, NONE_GUID, NONE_STR, location, distance, null, null, null);
             return size;
         }
         public int Whitelist_Remaining(DateTime? start, DateTime? end)
         {
             if (filterEvents.Count > 0)
-                return CutEventsByFilter(NONE, NONE, NONE, new Location(), null, start, end, null);
+                return CutEventsByFilter(NONE_GUID, NONE_GUID, NONE_STR, new Location(), null, start, end, null);
             else
                 return 0;
         }
-        public int Whitelist_Remaining(List<int> category, List<int> helpingAction,
+        public int Whitelist_Remaining(List<Guid> category, List<Guid> helpingAction,
                                         Location location, double? distance,
                                          bool? deductable)
         {
@@ -95,10 +96,10 @@ namespace CC.Connections.BL
             if (filterCharities.Count > 0)
                 size += CutCharitiesWithFilter(category, helpingAction, location, distance, null, deductable);
             if (filterEvents.Count > 0)
-                size += CutEventsByFilter(NONE, NONE, NONE, location, distance, null, null, null);
+                size += CutEventsByFilter(NONE_GUID, NONE_GUID, NONE_STR, location, distance, null, null, null);
             return size;
         }
-        public int Whitelist_Remaining_Events(List<int> category, List<int> helpingAction, List<int> charity,
+        public int Whitelist_Remaining_Events(List<Guid> category, List<Guid> helpingAction, List<string> charity,
                                     Location location, double? distance,
                                     DateTime? start, DateTime? end, bool? deductable)
         {
@@ -114,7 +115,7 @@ namespace CC.Connections.BL
             return filterEvents;
         }
 
-        private int CutEventsByFilter(List<int> category, List<int> helpingAction, List<int> charity,
+        private int CutEventsByFilter(List<Guid> category, List<Guid> helpingAction, List<String> charity,
                                         Location location, double? distance,
                                         DateTime? start, DateTime? end, bool? deductable)
         {
@@ -130,7 +131,7 @@ namespace CC.Connections.BL
                         //list of IF statements to try to make it invalid
                         foreach (var item in category)
                             if (category.Count != 0 &&
-                                new Charity(c.Charity_ID).Category.ID != item)
+                                new Charity(c.Charity_Email,true).Category.ID != item)
                             {
                                 valid = false;
                                 debugInvalidator = "category: " + category;
@@ -142,7 +143,7 @@ namespace CC.Connections.BL
                         //    valid = false;
                         foreach (var item in charity)
                             if (charity.Count != 0 &&
-                                c.Charity_ID != item)
+                                c.Charity_Email != item)
                             {
                                 valid = false;
                                 debugInvalidator = "charity: " + charity;
@@ -156,7 +157,7 @@ namespace CC.Connections.BL
                             continue;
                         }
                         if (distance != null &&
-                            new Location((int)c.Charity_ID).distanceFrom(
+                            c.Location.distanceFrom(
                                     location) > distance)
                         {
                             valid = false;
@@ -171,28 +172,28 @@ namespace CC.Connections.BL
                             continue;
                         }
                         if (deductable != null &&
-                            new Charity((int)c.Charity_ID).Charity_Deductibility != deductable)
+                            new Charity(c.Charity_Email,true).Deductibility != deductable)
                         {
                             valid = false;
                             debugInvalidator = "deductible: " + deductable;
                             continue;
                         }
-                        if (location.ContactInfoCity != null &&
-                            new Charity((int)c.Charity_ID).Location.ContactInfoCity != location.ContactInfoCity)
+                        if (location.City != null &&
+                            new Charity(c.Charity_Email,true).Location.City != location.City)
                         {
                             valid = false;
                             debugInvalidator = "location: city " + location;
                             continue;
                         }
-                        if (location.ContactInfoState != null &&
-                            new Charity((int)c.Charity_ID).Location.ContactInfoState != location.ContactInfoState)
+                        if (location.State != null &&
+                            new Charity(c.Charity_Email,true).Location.State != location.State)
                         {
                             valid = false;
                             debugInvalidator = "location: state " + location;
                             continue;
                         }
-                        if (location.ContactInfoZip != null &&
-                            new Charity((int)c.Charity_ID).Location.ContactInfoZip != location.ContactInfoZip)
+                        if (location.Zip != null &&
+                            new Charity(c.Charity_Email,true).Location.Zip != location.Zip)
                         {
                             valid = false;
                             debugInvalidator = "location: zip " + location;
@@ -232,7 +233,7 @@ namespace CC.Connections.BL
                             //    debugInvalidator = "start: " + userPref.Pref.StartDate;
                             //    continue;
                             //}
-                            if (new Location((int)c.Charity_ID).distanceFrom(
+                            if (c.Location.distanceFrom(
                                         userPref.Location) > (double)userPref.Pref.Distance)
                             {
                                 valid = false;
@@ -251,22 +252,22 @@ namespace CC.Connections.BL
                             //    debugInvalidator = "deductable: " + userPref.Pref.Deductable;
                             //    continue;
                             //}
-                            if (new Charity((int)c.Charity_ID).Location.ContactInfoCity != userPref.Location.ContactInfoCity)
+                            if (new Charity(c.Charity_Email,true).Location.City != userPref.Location.City)
                             {
                                 valid = false;
-                                debugInvalidator = "location: city " + userPref.Location.ContactInfoCity;
+                                debugInvalidator = "location: city " + userPref.Location.City;
                                 continue;
                             }
-                            if (new Charity((int)c.Charity_ID).Location.ContactInfoState != userPref.Location.ContactInfoState)
+                            if (new Charity(c.Charity_Email,true).Location.State != userPref.Location.State)
                             {
                                 valid = false;
-                                debugInvalidator = "location: state " + userPref.Location.ContactInfoState;
+                                debugInvalidator = "location: state " + userPref.Location.State;
                                 continue;
                             }
-                            if (new Charity((int)c.Charity_ID).Location.ContactInfoZip != userPref.Location.ContactInfoZip)
+                            if (new Charity(c.Charity_Email,true).Location.Zip != userPref.Location.Zip)
                             {
                                 valid = false;
-                                debugInvalidator = "location: zip " + userPref.Location.ContactInfoZip;
+                                debugInvalidator = "location: zip " + userPref.Location.Zip;
                                 continue;
                             }
 
@@ -326,7 +327,7 @@ namespace CC.Connections.BL
             catch (Exception e) { throw e; }
         }
 
-        private int CutCharitiesWithFilter(List<int> category, List<int> helpingAction, Location location, double? distance,
+        private int CutCharitiesWithFilter(List<Guid> category, List<Guid> helpingAction, Location location, double? distance,
                                         DateTime? startDate, bool? deductable)
         {
             List<Charity> charities = new List<Charity>();
@@ -341,7 +342,7 @@ namespace CC.Connections.BL
                         //list of IF statements to try to make it invalid
                         foreach (var item in category)
                             if (category.Count != 0 &&
-                                new Charity((int)c.Charity_ID).Category.ID != item)
+                                new Charity((string)c.Charity_Email,true).Category.ID != item)
                             {
                                 valid = false;
                                 debugInvalidator = "category: " + category;
@@ -351,7 +352,7 @@ namespace CC.Connections.BL
                         //    new Charity((int)c.Charity_ID).Helping_Action.ID == helpingAction)
                         //    valid = false;
                         if (startDate != null &&
-                            AbsContact.fromNumID(c.Charity_ID).DateOfBirth >= startDate)
+                            new AbsContact(c.Charity_Email).DateOfBirth >= startDate)
                             //AbsContact.fromNumID(c.Charity_Contact_ID).DateOfBirth >= startDate)
                         {
                             valid = false;
@@ -359,7 +360,7 @@ namespace CC.Connections.BL
                             continue;
                         }
                         if (distance != null &&
-                            new Location((int)c.Charity_ID).distanceFrom(
+                            new Location((Guid)c.Location_ID).distanceFrom(
                                     location) > distance)
                         {
                             valid = false;
@@ -367,28 +368,28 @@ namespace CC.Connections.BL
                             continue;
                         }
                         if (deductable != null &&
-                            new Charity((int)c.Charity_ID).Charity_Deductibility != deductable)
+                            new Charity((string)c.Charity_Email, true).Deductibility != deductable)
                         {
                             valid = false;
                             debugInvalidator = "deductable: " + deductable;
                             continue;
                         }
-                        if (location.ContactInfoCity != null &&
-                            new Charity((int)c.Charity_ID).Location.ContactInfoCity != location.ContactInfoCity)
+                        if (location.City != null &&
+                            new Charity((string)c.Charity_Email, true).Location.City != location.City)
                         {
                             valid = false;
                             debugInvalidator = "location: city " + location;
                             continue;
                         }
-                        if (location.ContactInfoState != null &&
-                            new Charity((int)c.Charity_ID).Location.ContactInfoState != location.ContactInfoState)
+                        if (location.State != null &&
+                            new Charity((string)c.Charity_Email, true).Location.State != location.State)
                         {
                             valid = false;
                             debugInvalidator = "location: state " + location;
                             continue;
                         }
-                        if (location.ContactInfoZip != null &&
-                            new Charity((int)c.Charity_ID).Location.ContactInfoZip != location.ContactInfoZip)
+                        if (location.Zip != null &&
+                            new Charity((string)c.Charity_Email, true).Location.Zip != location.Zip)
                         {
                             valid = false;
                             debugInvalidator = "location: zip " + location;
@@ -427,7 +428,7 @@ namespace CC.Connections.BL
                             //    debugInvalidator = "start: " + userPref.Pref.StartDate;
                             //    continue;
                             //}
-                            if (new Location((int)c.Charity_ID).distanceFrom(
+                            if (new Location((Guid)c.Location_ID).distanceFrom(
                                         userPref.Location) > (double)userPref.Pref.Distance)
                             {
                                 valid = false;

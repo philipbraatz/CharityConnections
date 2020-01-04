@@ -18,9 +18,8 @@ Post-Deployment Script Template
 :r .\DefaultData\HelpingActions.sql
 :r .\DefaultData\Location.sql
 :r .\DefaultData\Login.sql
-:r .\DefaultData\Member.sql
+:r .\DefaultData\Volunteers.sql
 :r .\DefaultData\MemberAction.sql
-:r .\DefaultData\MemberType.sql
 :r .\DefaultData\Preferences.sql
 :r .\DefaultData\PreferredCategories.sql
 :r .\DefaultData\PreferredCharity.sql

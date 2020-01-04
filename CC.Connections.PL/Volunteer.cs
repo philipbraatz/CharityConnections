@@ -12,11 +12,10 @@ namespace CC.Connections.PL
     using System;
     using System.Collections.Generic;
     
-    public partial class Event_Attendance
+    public partial class Volunteer
     {
-        public System.Guid ID { get; set; }
-        public System.Guid Event_ID { get; set; }
         public string Volunteer_Email { get; set; }
-        public Nullable<int> Volunteer_Status { get; set; }
+        public Nullable<System.Guid> Preference_ID { get; set; }
+        public Nullable<System.Guid> Location_ID { get; set; }
     }
 }

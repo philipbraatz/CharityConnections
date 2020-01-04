@@ -76,22 +76,22 @@ namespace CC.Connections.BL
     }
     public class AbsMemberActionList : AbsListJoin<AbsHelping_Action, Helping_Action, PL.Member_Action>
     {
-        int memberID {
-            get { return (int)joinGrouping_ID; }
+        string memberID {
+            get { return (string)joinGrouping_ID; }
             set { joinGrouping_ID = value; }
         }
 
-        public AbsMemberActionList(int member_id)
+        public AbsMemberActionList(string member_id)
             : base("MemberActionMember_ID",//Helping_Action ID
                    member_id,
                    "MemberActionAction_ID")
         {
-            Member_Action c = new Member_Action { MemberActionMember_ID = member_id };
-            base.joinGrouping_ID = c.MemberActionMember_ID;
+            Member_Action c = new Member_Action { Member_Email = member_id };
+            base.joinGrouping_ID = c.Member_Email;
         }//  Member ID
 
         
-        public new void LoadPreferences(int member_id){
+        public new void LoadPreferences(string member_id){
             using (CCEntities dc = new CCEntities()){
                 //base.LoadWithJoin(dc.Helping_Action, dc.Member_Action,
                 //                  new Member_Action { MemberActionMember_ID = member_id }.MemberActionMember_ID);
@@ -99,11 +99,11 @@ namespace CC.Connections.BL
                 if (dc.Member_Action.ToList().Count != 0)
                 {
                     List<Member_Action> member_Actions = dc.Member_Action
-                        .Where(c => c.MemberActionMember_ID == memberID).ToList();
+                        .Where(c => c.Member_Email == memberID).ToList();
                     if (member_Actions.Count != 0)
                     {
                         member_Actions.ForEach(b => base.Add(new AbsHelping_Action(dc.Helping_Action
-                                .Where(d => d.Helping_Action_ID == b.MemberActionAction_ID)
+                                .Where(d => d.ID == b.Action_ID)
                                 .FirstOrDefault())
                         ));
                     }

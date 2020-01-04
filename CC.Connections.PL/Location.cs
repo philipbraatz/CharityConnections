@@ -14,10 +14,10 @@ namespace CC.Connections.PL
     
     public partial class Location
     {
-        public int Location_ID { get; set; }
-        public string ContactInfoAddress { get; set; }
-        public string ContactInfoCity { get; set; }
-        public string ContactInfoState { get; set; }
-        public string ContactInfoZip { get; set; }
+        public System.Guid ID { get; set; }
+        public string Address { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public string Zip { get; set; }
     }
 }

@@ -14,9 +14,8 @@ namespace CC.Connections.PL
     
     public partial class Log_in
     {
-        public string ContactInfoEmail { get; set; }
+        public string Member_Email { get; set; }
         public Nullable<int> MemberType { get; set; }
-        public Nullable<int> LogInMember_ID { get; set; }
-        public string LogInPassword { get; set; }
+        public string Password { get; set; }
     }
 }

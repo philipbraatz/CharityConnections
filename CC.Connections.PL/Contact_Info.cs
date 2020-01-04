@@ -14,11 +14,10 @@ namespace CC.Connections.PL
     
     public partial class Contact_Info
     {
-        public int Contact_Info_ID { get; set; }
-        public string ContactInfo_FName { get; set; }
-        public string ContactInfo_LName { get; set; }
-        public string ContactInfo_Phone { get; set; }
-        public string ContactInfo_Email { get; set; }
+        public string Member_Email { get; set; }
+        public string FName { get; set; }
+        public string LName { get; set; }
+        public string Phone { get; set; }
         public Nullable<System.DateTime> DateOfBirth { get; set; }
     }
 }

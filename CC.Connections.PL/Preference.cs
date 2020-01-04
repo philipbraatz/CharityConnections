@@ -14,7 +14,7 @@ namespace CC.Connections.PL
     
     public partial class Preference
     {
-        public int Preference_ID { get; set; }
+        public System.Guid ID { get; set; }
         public Nullable<decimal> Distance { get; set; }
     }
 }

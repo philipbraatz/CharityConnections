@@ -11,9 +11,9 @@ namespace CC.Connections.WebUI.Controllers
     public class CharityController : Controller
     {
         // GET: Charity Profile
-        public ActionResult Details(int id)
+        public ActionResult Details(string id)
         {
-            return View(new Charity(id));
+            return View(new Charity(id,true));
         }
         
         public ActionResult CharityProfile()
@@ -21,8 +21,7 @@ namespace CC.Connections.WebUI.Controllers
             if (Session != null && Session["member"] != null && ((Password)Session["Member"]).MemberType == MemberType.CHARITY)
             {
                 Charity c = new Charity(((Password)Session["Member"]));
-                int id = c.ID;
-                return RedirectToAction("Details",new { id = new Charity(((Password)Session["Member"])).ID});
+                return RedirectToAction("Details",new { id = new Charity(((Password)Session["Member"])).Email});
             }
             else if (ControllerContext.HttpContext.Request.UrlReferrer != null)
                 return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());//go back
@@ -67,9 +66,9 @@ namespace CC.Connections.WebUI.Controllers
         }
 
         // GET: CharityEvent/CategoryView/2
-        public ActionResult CategoryView(int id)
+        public ActionResult CategoryView(Guid id)
         {
-            ViewBag.Title = new Category(id).Category_Desc;
+            ViewBag.Title = new Category(id).Desc;
 
             //load
             CharityList allCharities = new CharityList();
@@ -94,13 +93,13 @@ namespace CC.Connections.WebUI.Controllers
         }
 
         // GET: Charity/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string id)
         {
             CharitySignup c = new CharitySignup();
 
             Password p = (Password)Session["member"];
             if (p != null)
-                c = new CharitySignup(new Charity(id));
+                c = new CharitySignup(new Charity(id,true));
             else
             {
                 ViewBag.Message = "You are not signed in yet";
@@ -112,22 +111,21 @@ namespace CC.Connections.WebUI.Controllers
 
         // POST: Charity/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, CharitySignup csu)
+        public ActionResult Edit(string id, CharitySignup csu)
         {
             try
             {
-                csu.Location = new Charity(id).Location;//TEMP FIX for location missing
+                csu.Location = new Charity(id,true).Location;//TEMP FIX for location missing
                 try
                 {
                     if (
                         //csu.confirmPassword.Pass == null ||
-                        csu.Charity_Email == null ||
+                        csu.Email == null ||
                         //csu.Category == null ||//TODO Category picker
-                        csu.Charity_Cause == null ||
-                        csu.Charity_Deductibility == null ||
-                        csu.Charity_EIN == null ||
+                        csu.Cause == null ||
+                        csu.EIN == null ||
                         csu.Password == null ||
-                        csu.Charity_Name == null
+                        csu.Name == null
                         )//TODO check location
                     {
                         ViewBag.Message = "Please fill in every field";
@@ -138,12 +136,12 @@ namespace CC.Connections.WebUI.Controllers
                     //    ViewBag.Message = "Passwords do not match";
                     //    return View(csu);
                     //}
-                    else if (csu.Charity_Name.Trim().Length < 3)
+                    else if (csu.Name.Trim().Length < 3)
                     {
                         ViewBag.Message = "Charity name must be at least 3 characters long";
                         return View(csu);
                     }
-                    else if (!(csu.Charity_Email.Contains('@') && csu.Charity_Email.Contains('.') && csu.Charity_Email.Length > 6))
+                    else if (!(csu.Email.Contains('@') && csu.Email.Contains('.') && csu.Email.Length > 6))
                     {
                         ViewBag.Message = "Email is invalid";
                         return View(csu);
@@ -154,17 +152,18 @@ namespace CC.Connections.WebUI.Controllers
                         return View(csu);
                     }
                     Random r = new Random();
+                    //TODO implement category picker
                     CC.Connections.BL.CategoryList categoryList = new CC.Connections.BL.CategoryList();
                     try
                     {
                         categoryList.LoadAll();
-                        csu.Category = new Category(r.Next(1, categoryList.Count - 1));
+                        csu.Category = CategoryList.INSTANCE.ElementAt(r.Next(0, categoryList.Count - 1));
                     }
                     catch (Exception e)
                     {
                         ViewBag.Message = e;
                     }
-                    csu.Password.email = csu.Charity_Email;
+                    csu.Password.email = csu.Email;
                     csu.Password.MemberType = MemberType.CHARITY;
                     Session["member"] = csu.Password;
                     // Location loc = new Location(2);

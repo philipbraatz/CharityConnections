@@ -12,11 +12,15 @@ namespace CC.Connections.PL
     using System;
     using System.Collections.Generic;
     
-    public partial class Categories
+    public partial class Charity
     {
-        public int Category_ID { get; set; }
-        public string Category_Desc { get; set; }
-        public string Category_Color { get; set; }
-        public string Category_Image { get; set; }
+        public string Charity_Email { get; set; }
+        public string Name { get; set; }
+        public string EIN { get; set; }
+        public Nullable<bool> Deductibility { get; set; }
+        public string URL { get; set; }
+        public string Cause { get; set; }
+        public Nullable<System.Guid> Category_ID { get; set; }
+        public Nullable<System.Guid> Location_ID { get; set; }
     }
 }

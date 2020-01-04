@@ -14,8 +14,8 @@ namespace CC.Connections.PL
     
     public partial class Preferred_Charity
     {
-        public int MemberCharity_ID { get; set; }
-        public Nullable<int> Member_ID { get; set; }
-        public Nullable<int> Charity_ID { get; set; }
+        public System.Guid ID { get; set; }
+        public string Volunteer_Email { get; set; }
+        public string Charity_Email { get; set; }
     }
 }

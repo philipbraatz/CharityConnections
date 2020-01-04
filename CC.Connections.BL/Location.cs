@@ -1,5 +1,6 @@
 ﻿using CC.Abstract;
 using CC.Connections.PL;
+using System;
 using System.ComponentModel;
 
 namespace CC.Connections.BL
@@ -9,36 +10,36 @@ namespace CC.Connections.BL
         public static CCEntities dc = new CCEntities();
 
         //id
-        public new int ID
+        public new Guid ID
         {
-            get { return (int)base.ID; }
+            get { return (Guid)base.ID; }
             set { base.ID = value; }
         }
         [DisplayName("Address")]
-        public new string ContactInfoAddress {
-            get { return (string)base.getProperty("ContactInfoAddress"); }
-            set { setProperty("ContactInfoAddress", value); }
+        public string Address {
+            get { return (string)base.getProperty(nameof(Address)); }
+            set { setProperty(nameof(Address), value); }
         }
         [DisplayName("City")]
-        public new string ContactInfoCity {
-            get { return (string)base.getProperty("ContactInfoCity"); }
-            set { setProperty("ContactInfoCity", value); }
+        public string City {
+            get { return (string)base.getProperty(nameof(City)); }
+            set { setProperty(nameof(City), value); }
         }
         [DisplayName("State")]
-        public new string ContactInfoState {
-            get { return (string)base.getProperty("ContactInfoState"); }
-            set { setProperty("ContactInfoState", value); }
+        public string State {
+            get { return (string)base.getProperty(nameof(State)); }
+            set { setProperty(nameof(State), value); }
         }
         [DisplayName("Zip")]
-        public new string ContactInfoZip {
-                        get { return (string)base.getProperty("ContactInfoZip"); }
-            set { setProperty("ContactInfoZip", value); }
+        public string Zip {
+                        get { return (string)base.getProperty(nameof(Zip)); }
+            set { setProperty(nameof(Zip), value); }
         }
         [DisplayName("Location")]
-        public string Full_Location
+        public string FullLocation
         {
             //"825 Pilgrim Way, Green Bay, WI"
-            get { return ContactInfoAddress + " ," + ContactInfoCity + " ," + ContactInfoState; }
+            get { return Address + " ," + City + " ," + State; }
         }
 
         public Location() :
@@ -46,7 +47,7 @@ namespace CC.Connections.BL
         public Location(PL.Location entry) :
             base(entry)
         { }
-        public Location(int id) :
+        public Location(Guid id) :
             base(new CCEntities().Locations,id)
         {
         }
@@ -75,12 +76,12 @@ namespace CC.Connections.BL
 
         public double distanceFrom(Location from)
         {
-            return MapAPI.GetDistanceFromLocations(this.Full_Location,from.Full_Location);
+            return MapAPI.GetDistanceFromLocations(this.FullLocation,from.FullLocation);
         }
 
         public static double getDistanceBetween(Location start,Location end)
         {
-            return MapAPI.GetDistanceFromLocations(start.Full_Location, end.Full_Location);
+            return MapAPI.GetDistanceFromLocations(start.FullLocation, end.FullLocation);
         }
     }
 
