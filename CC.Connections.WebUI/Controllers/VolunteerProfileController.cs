@@ -17,7 +17,7 @@ namespace CC.Connections.WebUI.Controllers
             Password p = (Password)Session["member"];
             if (p != null)
                 try {
-                    return View(new AbsContact(p));
+                    return View(new Contact(p));
                 }
                 catch (Exception e)
                 {
@@ -25,7 +25,7 @@ namespace CC.Connections.WebUI.Controllers
                         ViewBag.Message = "Error: " + e.Message;
                     else
                         ViewBag.Message = "Error: " + e.Message;
-                    return View(new AbsContact());//should not happen
+                    return View(new Contact());//should not happen
                 }
             else if (ControllerContext.HttpContext.Request.UrlReferrer != null)
                 return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());//go back
@@ -40,7 +40,7 @@ namespace CC.Connections.WebUI.Controllers
 
             Password p = (Password)Session["member"];
             if (p != null)
-                c.setContactInfo(new AbsContact(p));
+                c.setContactInfo(new Contact(p));
             else
             {
                 ViewBag.Message = "You are not signed in yet";
@@ -62,10 +62,10 @@ namespace CC.Connections.WebUI.Controllers
                 if (
                     //con.confirmPassword == null ||
                     //con.confirmPassword.Pass == null ||
-                    con.ContactInfo_Email == null ||
-                    con.ContactInfo_FName == null ||
-                    con.ContactInfo_LName == null ||
-                    con.ContactInfo_Phone == null ||
+                    con.Member_Email == null ||
+                    con.Fname == null ||
+                    con.LName == null ||
+                    con.Phone == null ||
                     con.DateOfBirth == null ||
                     con.password == null
                     )
@@ -83,7 +83,7 @@ namespace CC.Connections.WebUI.Controllers
                     ViewBag.Message = "You must be older than 13 years old";
                     return View(con);
                 }
-                else if (!(con.ContactInfo_Email.Contains('@') && con.ContactInfo_Email.Contains('.') && con.ContactInfo_Email.Length > 6))
+                else if (!(con.Member_Email.Contains('@') && con.Member_Email.Contains('.') && con.Member_Email.Length > 6))
                 {
                     ViewBag.Message = "Email is invalid";
                     return View(con);
@@ -93,12 +93,12 @@ namespace CC.Connections.WebUI.Controllers
                     ViewBag.Message = "Phone number is invalid";
                     return View(con);
                 }
-                else if (con.ContactInfo_FName.Trim().Length < 3)
+                else if (con.Fname.Trim().Length < 3)
                 {
                     ViewBag.Message = "First name must be at least 3 characters long";
                     return View(con);
                 }
-                else if (con.ContactInfo_LName.Trim().Length < 3)
+                else if (con.LName.Trim().Length < 3)
                 {
                     ViewBag.Message = "Last name must be at least 3 characters long";
                     return View(con);
@@ -115,17 +115,17 @@ namespace CC.Connections.WebUI.Controllers
         }
 
         // GET: VolunteerProfile/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(string id)
         {
-            AbsContact c = new AbsContact();
-            c.contact_ID = id;
+            Contact c = new Contact();
+            c.Member_Email = id;
             c.LoadId();
             return View(c);
         }
 
         // POST: VolunteerProfile/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, AbsContact c)
+        public ActionResult Delete(string id, Contact c)
         {
             try
             {

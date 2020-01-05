@@ -115,10 +115,10 @@ namespace CC.Connections.WebUI.Controllers
             {
                 //TODO add location not null
                 if( con.confirmPassword.Pass == null ||  
-                    con.ContactInfo_Email == null ||
-                    con.ContactInfo_FName == null ||
-                    con.ContactInfo_LName == null ||
-                    con.ContactInfo_Phone == null ||
+                    con.Member_Email == null ||
+                    con.Fname == null ||
+                    con.LName == null ||
+                    con.Phone == null ||
                     con.DateOfBirth == null ||
                     con.password == null
                     )
@@ -136,7 +136,7 @@ namespace CC.Connections.WebUI.Controllers
                     ViewBag.Message = "You must be 13 years or older to register as a member";
                     return View(con);
                 }
-                else if(!(con.ContactInfo_Email.Contains('@') && con.ContactInfo_Email.Contains('.') && con.ContactInfo_Email.Length > 6))
+                else if(!(con.Member_Email.Contains('@') && con.Member_Email.Contains('.') && con.Member_Email.Length > 6))
                 {
                     ViewBag.Message = "Email is invalid";
                     return View(con);
@@ -146,20 +146,20 @@ namespace CC.Connections.WebUI.Controllers
                     ViewBag.Message = "Phone number is invalid";
                     return View(con);
                 }
-                else if (con.ContactInfo_FName.Trim().Length < 3)
+                else if (con.Fname.Trim().Length < 3)
                 {
                     ViewBag.Message = "First name must be at least 3 characters long";
                     return View(con);
                 }
-                else if (con.ContactInfo_LName.Trim().Length < 3)
+                else if (con.LName.Trim().Length < 3)
                 {
                     ViewBag.Message = "Last name must be at least 3 characters long";
                     return View(con);
                 }
 
-                Volunteer newMember = new Volunteer(con.ContactInfo_Email, con.password.Pass, true);
-                newMember.setContactInfo((AbsContact)con);
-                con.password.email = con.ContactInfo_Email;
+                Volunteer newMember = new Volunteer(con.Member_Email, con.password.Pass, true);
+                newMember.setContactInfo((Contact)con);
+                con.password.email = con.Member_Email;
                 con.password.MemberType = MemberType.VOLLUNTEER;
                 newMember.Insert(con.password);
 

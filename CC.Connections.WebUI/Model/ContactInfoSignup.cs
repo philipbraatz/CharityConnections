@@ -7,7 +7,7 @@ using CC.Connections.BL;
 
 namespace CC.Connections.WebUI.Model
 {
-    public class ContactInfoSignup : AbsContact
+    public class ContactInfoSignup : Contact
     {
         [Display(Name = "Password")]
         [DataType(DataType.Password)]

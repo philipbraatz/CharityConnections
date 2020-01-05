@@ -20,7 +20,8 @@ namespace CC.Connections.BL
             set { base.ID = value; }
         }
         public Category category { get; set; }
-        public string Action {
+        public string Action
+        {
             get { return (string)base.getProperty("HelpingActionDescription"); }
             set { setProperty("HelpingActionDescription", value); }
         }
@@ -45,29 +46,43 @@ namespace CC.Connections.BL
             LoadId();
         }
 
-        public void LoadId(){
-            using (CCEntities dc = new CCEntities()){
+        public void LoadId()
+        {
+            using (CCEntities dc = new CCEntities())
+            {
                 base.LoadId(dc.Helping_Action);
-        }}
-        public int Insert(){
-            using (CCEntities dc = new CCEntities()){
+            }
+        }
+        public int Insert()
+        {
+            using (CCEntities dc = new CCEntities())
+            {
                 return base.Insert(dc, dc.Helping_Action);
-        }}
-        public int Update(){
-            using (CCEntities dc = new CCEntities()){
+            }
+        }
+        public int Update()
+        {
+            using (CCEntities dc = new CCEntities())
+            {
                 return base.Update(dc, dc.Helping_Action);
-        }}
-        public int Delete(){
-            using (CCEntities dc = new CCEntities()){
+            }
+        }
+        public int Delete()
+        {
+            using (CCEntities dc = new CCEntities())
+            {
                 return base.Delete(dc, dc.Helping_Action);
-        }}
+            }
+        }
     }
 
     public class AbsHelping_ActionList
         : AbsList<AbsHelping_Action, Helping_Action>
     {
-        public new void LoadAll(){
-            using (CCEntities dc = new CCEntities()){
+        public new void LoadAll()
+        {
+            using (CCEntities dc = new CCEntities())
+            {
                 //base.LoadAll(dc.Helping_Action);
                 foreach (var c in dc.Helping_Action.ToList())
                     base.Add(new AbsHelping_Action(c));
@@ -76,7 +91,8 @@ namespace CC.Connections.BL
     }
     public class AbsMemberActionList : AbsListJoin<AbsHelping_Action, Helping_Action, PL.Member_Action>
     {
-        string memberID {
+        string memberID
+        {
             get { return (string)joinGrouping_ID; }
             set { joinGrouping_ID = value; }
         }
@@ -90,9 +106,11 @@ namespace CC.Connections.BL
             base.joinGrouping_ID = c.Member_Email;
         }//  Member ID
 
-        
-        public new void LoadPreferences(string member_id){
-            using (CCEntities dc = new CCEntities()){
+
+        public new void LoadPreferences(string member_id)
+        {
+            using (CCEntities dc = new CCEntities())
+            {
                 //base.LoadWithJoin(dc.Helping_Action, dc.Member_Action,
                 //                  new Member_Action { MemberActionMember_ID = member_id }.MemberActionMember_ID);
                 memberID = member_id;
@@ -102,26 +120,36 @@ namespace CC.Connections.BL
                         .Where(c => c.Member_Email == memberID).ToList();
                     if (member_Actions.Count != 0)
                     {
-                        member_Actions.ForEach(b => base.Add(new AbsHelping_Action(dc.Helping_Action
-                                .Where(d => d.ID == b.Action_ID)
-                                .FirstOrDefault())
-                        ));
+                        member_Actions.ForEach(b =>
+
+                        {
+                            base.Add(new AbsHelping_Action(dc.Helping_Action
+                                  .Where(d => d.ID == b.Action_ID)
+                                  .FirstOrDefault())
+                          );
+                            });
                     }
                 }
             }
         }
-        public new void DeleteAllPreferences(){
-            using (CCEntities dc = new CCEntities()){
+        public new void DeleteAllPreferences()
+        {
+            using (CCEntities dc = new CCEntities())
+            {
                 base.DeleteAllPreferences(dc, dc.Member_Action);
             }
         }
-        public new void Add(AbsHelping_Action Helping_Action){
-            using (CCEntities dc = new CCEntities()){
+        public new void Add(AbsHelping_Action Helping_Action)
+        {
+            using (CCEntities dc = new CCEntities())
+            {
                 base.Add(dc, dc.Member_Action, new Member_Action(), Helping_Action);
             }
         }
-        public new void Remove(AbsHelping_Action Helping_Action){
-            using (CCEntities dc = new CCEntities()){
+        public new void Remove(AbsHelping_Action Helping_Action)
+        {
+            using (CCEntities dc = new CCEntities())
+            {
                 base.Remove(dc, dc.Member_Action, Helping_Action);
             }
         }

@@ -16,9 +16,9 @@
         </a>
         <div class="col-8">
             <h3>@Html.DisplayFor(model => model.Charity.Name)</h3>
-            <h4>Going: @*Model.atendees.CountGoing*@</h4>
+            <h4>Going: @Model.atendees.CountGoing</h4>
             <h4>
-                Interested: @*Model.atendees.CountInterested*@</h4>
+                Interested: @Model.atendees.CountInterested</h4>
                     <h4><b>@Model.CharityEventStatus</b></h4>
                 </div>
                 <a href="@Url.Action("CategoryView", "CharityEvent", new { id = Model.Charity.Category.ID })">
@@ -51,17 +51,17 @@
             @{ if (Session["member"] != null && ((CC.Connections.BL.Password)Session["member"]).MemberType == CC.Connections.BL.MemberType.VOLLUNTEER &&
                           Model.Member_Attendance != null)
                 {
-                    if (Model.Member_Attendance.Status == CC.Connections.BL.Status.GOING)
+                    if (Model.Member_Attendance.Volunteer_Status == CC.Connections.BL.Status.GOING)
                     {
                         @Html.ActionLink("Show Interest", "Interested", new { id = Model.ID }, new { @class = "btn-outline-primary btn-lg" });
                         @Html.ActionLink("Leave Event", "Signup", new { id = Model.ID }, new { @class = "btn-outline-info btn-lg" });
                     }
-                    else if (Model.Member_Attendance.Status == CC.Connections.BL.Status.INTERESTED)
+                    else if (Model.Member_Attendance.Volunteer_Status == CC.Connections.BL.Status.INTERESTED)
                     {
                         @Html.ActionLink("Remove Interest", "Interested", new { id = Model.ID }, new { @class = "btn-outline-info btn-lg" });
                         @Html.ActionLink("Sign Up for Event", "Signup", new { id = Model.ID }, new { @class = "btn-outline-primary btn-lg" });
                     }
-                    else if(Model.Member_Attendance.Status == CC.Connections.BL.Status.NOT_GOING)
+                    else if(Model.Member_Attendance.Volunteer_Status == CC.Connections.BL.Status.NOT_GOING)
                     {
                         @Html.ActionLink("Interested", "Interested", new { id = Model.ID }, new { @class = "btn-outline-primary btn-lg" });
                         @Html.ActionLink("Sign Up for Event", "Signup", new { id = Model.ID }, new { @class = "btn-outline-primary btn-lg" });

@@ -352,7 +352,7 @@ namespace CC.Connections.BL
                         //    new Charity((int)c.Charity_ID).Helping_Action.ID == helpingAction)
                         //    valid = false;
                         if (startDate != null &&
-                            new AbsContact(c.Charity_Email).DateOfBirth >= startDate)
+                            new Contact(c.Charity_Email).DateOfBirth >= startDate)
                             //AbsContact.fromNumID(c.Charity_Contact_ID).DateOfBirth >= startDate)
                         {
                             valid = false;

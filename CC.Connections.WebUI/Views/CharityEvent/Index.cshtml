@@ -19,54 +19,50 @@
 
         @foreach (var item in Model)
         {
-        <tr>
-            <!--<td class="card text-white border-info style="max-width: 70rem;">-->
-            <td class="p-3 mb-2 bg-gradient-info text-white">
-                <div class="card-header row ">
-                    @if (item.Charity != null)
-                    {
-                        <a href="@Url.Action("Details", "Charity", new { id = item.Charity.Email })">
-                            <img class="col-2 " src="~/Content/Images/CCDefaultPlaceholder.gif" alt="@item.Name" title="View Charity">
-                        </a>
-                        <div class="col-10">
-                            <a class="" title="Details" href="@Url.Action("Details", "CharityEvent", new { id = item.ID })">
-                                <h2 title="Event Details"> @item.Name</h2>
+            <tr>
+                <!--<td class="card text-white border-info style="max-width: 70rem;">-->
+                <td class="p-3 mb-2 bg-gradient-info text-white">
+                    <div class="card-header row ">
+                        @if (item.Charity != null)
+                        {
+                            <a href="@Url.Action("Details", "Charity", new { id = item.Charity.Email })">
+                                <img class="col-2 " src="~/Content/Images/CCDefaultPlaceholder.gif" alt="@item.Name" title="View Charity">
                             </a>
-                            <h3>Hosted by: @item.Charity.Name</h3>
-                            <h4>@item.CharityEventStatus</h4>
-                            @if (item.CharityEventStatus != "Completed")
-                            {
-                                <h5>Days: @item.StartDate.ToShortDateString() to @item.EndDate.ToShortDateString() </h5>
-                                <h5>Time: @item.StartTime.ToShortTimeString() to @item.EndTime.ToShortTimeString() </h5>
-                            }
-                        </div>
-                        <div class="col-1">
-                            <a href="@Url.Action("CategoryView", "CharityEvent", new { id = item.Charity.Category.ID })">
-                                <img style="padding-top:0px;" src="@(("/Content/Images/" + item.Charity.Category.Image.Trim() + ".svg"))" id="paw" title="@(item.Charity.Category.Desc) ">
-                            </a>
-                        </div>
-                    }
-                    else
-                    {
-                        <h2>Charity could not be found</h2>
-                    }
-                </div>
-                <!--<div class="card-body">
-            <p>item.Description</p>
-        </div>-->
-                <div class="card-footer row bg-info">
-                    <div>
-                        <h3>Going: @*item.atendees.CountGoing*@</h3>
-                        <h3>
-                            Interested: @*item.atendees.CountInterested*@
-                        </h3>
+                            <div class="col-10">
+                                <a class="" title="Details" href="@Url.Action("Details", "CharityEvent", new { id = item.ID })">
+                                    <h2 title="Event Details"> @item.Name</h2>
+                                </a>
+                                <h3>Hosted by: @item.Charity.Name</h3>
+                                <h4>@item.CharityEventStatus</h4>
+                                @if (item.CharityEventStatus != "Completed")
+                                {
+                                    <h5>Days: @item.StartDate.ToShortDateString() to @item.EndDate.ToShortDateString() </h5>
+                                    <h5>Time: @item.StartTime.ToShortTimeString() to @item.EndTime.ToShortTimeString() </h5>
+                                }
+                            </div>
+                            <div class="col-1">
+                                <a href="@Url.Action("CategoryView", "CharityEvent", new { id = item.Charity.Category.ID })">
+                                    <img style="padding-top:0px;" src="@(("/Content/Images/" + item.Charity.Category.Image.Trim() + ".svg"))" id="paw" title="@(item.Charity.Category.Desc) ">
+                                </a>
+                            </div>
+                        }
+                        else
+                        {
+                            <h2>Charity could not be found</h2>
+                        }
                     </div>
-                </div>
-            </td>
-            <!-- <td>
-                    <h5>Going: @*item.atendees.CountGoing*@</h5>
-                    Interested: @*item.atendees.CountInterested*@
-                </td> -->
+                    <!--<div class="card-body">
+                        <p>item.Description</p>
+                    </div>-->
+                    <div class="card-footer row bg-info">
+                        <div>
+                            <h3>Going: @item.atendees.CountGoing</h3>
+                            <h3>
+                                Interested: @item.atendees.CountInterested
+                            </h3>
+                        </div>
+                    </div>
+                </td>
                 @if (Session["member"] != null && ((CC.Connections.BL.Password)Session["member"]).email == item.Charity.Email)
                 {
                     <td>
@@ -75,23 +71,23 @@
                     </td>
                 }
             </tr>
-            }
+        }
 
-        </table>
-    }
-    else
-    {
-        <h4>No Events</h4>
-    }
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
+    </table>
+}
+else
+{
+    <h4>No Events</h4>
+}
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
 

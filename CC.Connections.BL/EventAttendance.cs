@@ -30,21 +30,21 @@ namespace CC.Connections.BL
         //other parameters from PL.Categories
         public Guid Event_ID
         {
-            get { return (Guid)base.getProperty("Event_ID"); }
-            set { setProperty("Event_ID", value); }
+            get { return (Guid)base.getProperty(nameof(Event_ID)); }
+            set { setProperty(nameof(Event_ID), value); }
         }
-        public string Member_ID
+        public string Volunteer_Email
         {
-            get { return (string)base.getProperty("Member_ID"); }
-            set { setProperty("Member_ID", value); }
+            get { return (string)base.getProperty(nameof(Volunteer_Email)); }
+            set { setProperty(nameof(Volunteer_Email), value); }
         }
 
         [DisplayName("Status")]
         //must be the same name as the PL class
-        public Status Status
+        public Status Volunteer_Status
         {
-            get { return (Status)base.getProperty("Status"); }
-            set { setProperty("Status", (value),true); }
+            get { return (Status)base.getProperty(nameof(Volunteer_Status)); }
+            set { setProperty(nameof(Volunteer_Status), (value),true); }
         }
 
         public AbsEventAtendee() :
@@ -55,20 +55,20 @@ namespace CC.Connections.BL
         {
 
             this.Event_ID = event_id;
-            this.Member_ID = email;
+            this.Volunteer_Email = email;
             TryFindMatching();
         }
         public AbsEventAtendee(PL.Event_Attendance entry) :
             base(entry)
         {
-            Volunteer v = new Volunteer();
-            v.LoadId(entry.Volunteer_Email);
+            //Volunteer v = new Volunteer(entry.Volunteer_Email);
+            //v.LoadId(entry.Volunteer_Email);
         }
         public AbsEventAtendee(int id) :
             base(new CCEntities().Event_Attendance, id)
         {
-            Volunteer v = new Volunteer();
-            v.LoadId(this.Member_ID);
+            //Volunteer v = new Volunteer();
+            //v.LoadId(this.Member_ID);
         }
         //turns a PL class into a BL equivelent example: 
         //Category pl = new Category();
@@ -81,7 +81,7 @@ namespace CC.Connections.BL
         {
             using (CCEntities dc = new CCEntities())
             {
-                return dc.Event_Attendance.Where(c => c.Event_ID == this.Event_ID && c.Volunteer_Email == this.Member_ID).FirstOrDefault() != null;
+                return dc.Event_Attendance.Where(c => c.Event_ID == this.Event_ID && c.Volunteer_Email == this.Volunteer_Email).FirstOrDefault() != null;
             }
         }
         public void LoadId()
@@ -96,18 +96,18 @@ namespace CC.Connections.BL
             using (CCEntities dc = new CCEntities())
             {
                 List<Event_Attendance> debugList = dc.Event_Attendance.ToList();
-                Event_Attendance eat = dc.Event_Attendance.Where(c => c.Event_ID == this.Event_ID && c.Volunteer_Email == this.Member_ID).FirstOrDefault();
+                Event_Attendance eat = dc.Event_Attendance.Where(c => c.Event_ID == this.Event_ID && c.Volunteer_Email == this.Volunteer_Email).FirstOrDefault();
                 if (eat == null)
                 {
                     this.ID = Guid.NewGuid();
-                    this.Status = Status.NOT_GOING;
+                    this.Volunteer_Status = Status.NOT_GOING;
                     return false;
                 }
 
                 this.ID = eat.ID;
-                this.Member_ID = (string)eat.Volunteer_Email;
+                this.Volunteer_Email = (string)eat.Volunteer_Email;
                 this.Event_ID = (Guid)eat.Event_ID;
-                this.Status = (Status)eat.Volunteer_Status;
+                this.Volunteer_Status = (Status)eat.Volunteer_Status;
                 return true;
             }
         }
@@ -126,7 +126,7 @@ namespace CC.Connections.BL
         }
         public int Update(Status status)
         {
-            this.Status = status;
+            this.Volunteer_Status = status;
             using (CCEntities dc = new CCEntities())
             {
                 return base.Update(dc, dc.Event_Attendance);
@@ -177,14 +177,13 @@ namespace CC.Connections.BL
             set { joinGrouping_ID = value; }
         }
         [DisplayName("Going: ")]
-        public int CountGoing { get => this.Where(c => c.Status == Status.GOING).Count() ; }
+        public int CountGoing { get => this.Where(c => c.Volunteer_Status == Status.GOING).Count() ; }
         [DisplayName("Interested: ")]
-        public int CountInterested { get => this.Where(c => c.Status == Status.INTERESTED).Count(); }
-        public EventAttendanceJointList(Guid event_id)
+        public int CountInterested { get => this.Where(c => c.Volunteer_Status == Status.INTERESTED).Count(); }
+        public EventAttendanceJointList(Guid event_id,bool preload = true)
             : base("MemberCat_Category_ID", event_id, "MemberCat_Member_ID")
         {
-            Charity c = new Charity(new CharityEvent(eventID,true).Charity_Email,true);
-            base.joinGrouping_ID = c.Email;
+            base.joinGrouping_ID =eventID;
             LoadByEvent();
 
             myRandG = rand.Next(5, 30);
@@ -205,10 +204,9 @@ namespace CC.Connections.BL
                         .Where(c => c.ID == eventID).ToList()
                         .ForEach(b =>
                         {
-                            dc.Event_Attendance
-                                .Where(d =>
-                                   d.Event_ID == b.ID
-                                ).ToList().ForEach(eat => 
+                            List<Event_Attendance> attendances = dc.Event_Attendance
+                                .Where(d => d.Event_ID == b.ID).ToList();
+                            attendances.ForEach(eat => 
                                     base.Add(new AbsEventAtendee(eat)));
                         });
                 }

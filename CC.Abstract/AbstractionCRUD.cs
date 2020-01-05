@@ -157,7 +157,7 @@ namespace CC.Abstract
                     throw new PropertyException(typeof(TEntity), propertyName);
             }
             catch (Exception e)
-            {
+            {//STOPPED HERE -------------------------------------------------object not set to an instance
                 throw new Exception(typeof(TEntity) +": "+e.Message);
             }
         }
@@ -317,7 +317,7 @@ namespace CC.Abstract
                 //FIRST entry in database is skipped
                 bool fixFirstFound = false;
                 TEntity firstObject = null;
-                List<TEntity> tDebugVarible = table.ToList();
+                //List<TEntity> tDebugVarible = table.ToList();
                 foreach (var col in table)
                 {
                     if (fixFirstFound)

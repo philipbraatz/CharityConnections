@@ -52,10 +52,7 @@ namespace CC.Connections.BL
             }
         }
 
-        public EventAttendanceJointList atendees
-        {
-            get; set;
-        }
+        public EventAttendanceJointList atendees { get; set;}
 
         //TODO use base class for datetime
         private DateTime _start { get; set; }
@@ -149,8 +146,8 @@ namespace CC.Connections.BL
 
         public void AddMember(string email, Status status)
         {
-            AbsEventAtendee atendee = new AbsEventAtendee(this.ID, email);
-            atendee.Status = status;
+            AbsEventAtendee atendee = new AbsEventAtendee(this.ID, email)
+            {Volunteer_Status = status};
             atendee.Insert();
             this.atendees.Add(atendee);
         }
@@ -181,6 +178,7 @@ namespace CC.Connections.BL
         public CharityEvent(PL.Charity_Event entry) :
            base(entry)
         {
+            this.atendees = new EventAttendanceJointList(this.ID,false);
         }
         public CharityEvent(Guid id, bool preloaded = true) :
            base(new CCEntities().Charity_Event, id, preloaded)
@@ -202,11 +200,6 @@ namespace CC.Connections.BL
             LoadId();
         }
 
-        //public CharityEvent(Charity_Event c)
-        //{
-        //    this.setEventInfo(c);
-        //    this.charity = new Charity(c.Charity_Email,true);
-        //}
 
         //public static implicit operator CharityEvent(PL.Charity_Event entry)
         //{ return new CharityEvent(entry.ID); }
@@ -366,11 +359,11 @@ namespace CC.Connections.BL
 
         public bool IsGoing(String email)
         {
-            return atendees.Where(c => c.Member_ID == email).FirstOrDefault().Status == Status.GOING;
+            return atendees.Where(c => c.Volunteer_Email == email).FirstOrDefault().Volunteer_Status == Status.GOING;
         }
         public bool IsInterested(String email)
         {
-            return atendees.Where(c => c.Member_ID == email).FirstOrDefault().Status == Status.INTERESTED;
+            return atendees.Where(c => c.Volunteer_Email == email).FirstOrDefault().Volunteer_Status == Status.INTERESTED;
         }
     }
 
@@ -378,6 +371,8 @@ namespace CC.Connections.BL
         : List<CharityEvent>
     {
         public static CharityEventList INSTANCE { get; private set; } = LoadInstance();
+
+        //Everything is loaded from here when first needed!
         public static CharityEventList LoadInstance()
         {
             try
@@ -435,7 +430,7 @@ namespace CC.Connections.BL
         public void LoadAll()
         {
             sorter = SortBy.NONE;
-            foreach (var item in INSTANCE)
+             foreach (var item in INSTANCE)
             {
                 this.Add(item, true);
             }

@@ -8,68 +8,52 @@ using System.Linq;
 
 namespace CC.Connections.BL
 {
-    public class AbsContact : ColumnEntry<PL.Contact_Info>
+    public class Contact : ColumnEntry<PL.Contact_Info>
     {
         private static CCEntities dc;
 
-        //real contact_Info_ID
-        public int contact_ID
+        [DisplayName("Email")]
+        public string Member_Email
         {
-            get { return (int)base.ID; }
+            get { return (string)base.ID; }
             set { base.ID = value; }
         }
-        //hide ID to rename it to contact_ID
-        [Obsolete("This property has been replaced with contact_ID and should no longer be used.", true)]
-        public new const object ID = null;//if you try to access this id it will alway be null
-        //{
-        //    get => throw new Exception("ID does not exist, use contact_ID instead");//if not const it could throw errors instead
-        //    set => throw new Exception("ID does not exist, use contact_ID instead");
-        //}
 
-
-        [DisplayName("Email")]
-        public new string ContactInfo_Email
-        {
-            get { return (string)base.getProperty("ContactInfo_Email"); }
-            set { setProperty("ContactInfo_Email", value); }
-        }
         [DisplayName("First Name")]
-        public new string ContactInfo_FName
+        public string Fname
         {
-            get { return (string)base.getProperty("ContactInfo_FName"); }
-            set { setProperty("ContactInfo_FName", value); }
+            get { return (string)base.getProperty(nameof(Fname)); }
+            set { setProperty(nameof(Fname), value); }
         }
         [DisplayName("Last Name")]
-        public new string ContactInfo_LName
+        public string LName
         {
-            get { return (string)base.getProperty("ContactInfo_LName"); }
-            set { setProperty("ContactInfo_LName", value); }
+            get { return (string)base.getProperty(nameof(Fname)); }
+            set { setProperty(nameof(Fname), value); }
         }
         [DisplayName("Phone #")]
-        public new string ContactInfo_Phone
+        public string Phone
         {
-            get { return (string)base.getProperty("ContactInfo_Phone"); }
-            set { setProperty("ContactInfo_Phone", value); }
+            get { return (string)base.getProperty(nameof(Phone)); }
+            set { setProperty(nameof(Phone), value); }
         }
         [DisplayName("Birth Date")]
         [DataType(DataType.Date)]
-        public new DateTime DateOfBirth
+        public DateTime DateOfBirth
         {
             get
             {
-                object ret = base.getProperty("DateOfBirth");
+                object ret = base.getProperty(nameof(DateOfBirth));
                 if (ret != null)
-                    return (DateTime)base.getProperty("DateOfBirth");
+                    return (DateTime)base.getProperty(nameof(DateOfBirth));
                 else
                     return new DateTime();
             }
             set { 
-                if(value > DateTime.Parse("1753/1/1"))
+                if(value > DateTime.Parse("1753/1/1"))//good values get set
                     setProperty("DateOfBirth", value); 
                 else
-                {
-                    setProperty("DateOfBirth", DateTime.Parse("1800/1/1"));
-                }
+                    setProperty("DateOfBirth", DateTime.Parse("1800/1/1"));//default min value
             }
         }
 
@@ -77,29 +61,29 @@ namespace CC.Connections.BL
         [DisplayName("Name")]
         public string FullName
         {
-            get { return ContactInfo_FName + " " + ContactInfo_LName; }
+            get { return Fname + " " + LName; }
         }
 
-        public AbsContact() :
+        public Contact() :
             base(new PL.Contact_Info()){ Clear(); }
-        public AbsContact(PL.Contact_Info entry) :
+        public Contact(PL.Contact_Info entry) :
         base(entry){ }
-        public AbsContact(string email,bool preloaded =true) :
+        public Contact(string email,bool preloaded =true) :
             base(new CCEntities().Contact_Info,email, preloaded,"ContactInfo_Email")
         {
-            ContactInfo_Email = email;
+            Member_Email = email;
             LoadId();
         }
-        public AbsContact(Password _password) :
+        public Contact(Password _password) :
             base(new PL.Contact_Info())
         {
-            ContactInfo_Email = _password.email;
+            Member_Email = _password.email;
             LoadId();
         }
 
         private void emailEmptyCheck()
         {
-            if (this.ContactInfo_Email == string.Empty || this.ContactInfo_Email =="")
+            if (string.IsNullOrEmpty(this.Member_Email))
                 throw new Exception("Contact Info Email cannot be blank");
         }
 
@@ -112,7 +96,7 @@ namespace CC.Connections.BL
                     return base.Insert(dc,dc.Contact_Info);
                 }
             }
-            catch (Exception e) { throw e; }
+            catch (Exception e) { throw; }
         }
         public int Delete()
         {
@@ -123,7 +107,7 @@ namespace CC.Connections.BL
                     return base.Delete(dc,dc.Contact_Info);
                 }
             }
-            catch (Exception e) { throw e; }
+            catch (Exception e) { throw; }
         }
 
         public int Update()
@@ -135,13 +119,13 @@ namespace CC.Connections.BL
                     return base.Update(dc, dc.Contact_Info);
                 }
             }
-            catch (Exception e) { throw e; }
+            catch (Exception e) { throw; }
         }
 
         //sets email then loads
         public void LoadId(string email)
         {
-            this.ContactInfo_Email = email;
+            this.Member_Email = email;
             LoadId();
         }
         //loads from pre-set email
@@ -153,40 +137,41 @@ namespace CC.Connections.BL
                 using (CCEntities dc = new CCEntities())
                 {
                     PL.Contact_Info entry = dc.Contact_Info.FirstOrDefault(c =>
-                        c.Member_Email == this.ContactInfo_Email);
+                        c.Member_Email == this.Member_Email);
                     if (entry == null)
-                        throw new Exception("Contact_Info does not exist with Email \'" + this.ContactInfo_Email+"\'" ) ;
-                    base.LoadId(dc.Contact_Info,entry.Member_Email);
+                        throw new Exception("Contact_Info does not exist with Email \'" + this.Member_Email+"\'" ) ;
+                    base.LoadId(dc.Contact_Info);
                 }
             }
             catch (Exception e) { throw; }
         }
 
         //TODO depreciate
-        internal static AbsContact fromNumID(int? memberContact_ID)
+        internal static Contact fromNumID(int? memberContact_ID)
         {
             try{
                 using (CCEntities dc = new CCEntities()){
-                    AbsContact entry = new AbsContact();
+                    Contact entry = new Contact();
                     entry.LoadId(dc.Contact_Info,memberContact_ID);
                     return entry;
                 }
             }
-            catch (Exception e) { throw e; }
+            catch (Exception e) { throw; }
         }
 
-        public void setContactInfo(AbsContact contactInfo)
+        public void setContactInfo(Contact contactInfo)
         {
-            this.ContactInfo_Email = contactInfo.ContactInfo_Email ?? "";
-            this.ContactInfo_FName = contactInfo.ContactInfo_FName ?? "";
-            this.ContactInfo_LName = contactInfo.ContactInfo_LName ?? "";
-            this.ContactInfo_Phone = contactInfo.ContactInfo_Phone ?? "";
-            this.contact_ID = contactInfo.contact_ID;
+            if (contactInfo == null)
+                throw new ArgumentNullException(nameof(contactInfo));
+            this.Fname = contactInfo.Fname ?? "";
+            this.LName = contactInfo.LName ?? "";
+            this.Phone = contactInfo.Phone ?? "";
+            this.Member_Email = contactInfo.Member_Email;
             this.DateOfBirth = contactInfo.DateOfBirth;
         }
     }
 
-    public class ContactList : AbsList<AbsContact, Contact_Info>
+    public class ContactList : AbsList<Contact, Contact_Info>
     {
         public new void LoadAll(){
             using (CCEntities dc = new CCEntities()){
