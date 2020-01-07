@@ -13,9 +13,37 @@ namespace CC.Connections.WebUI.Controllers
         // GET: Charity Profile
         public ActionResult Details(string id)
         {
-            return View(new Charity(id,true));
+            id = id.Replace('-', '.');
+            if(id == null)
+            {
+                return RedirectToAction("Index");//returns you if you enter empty id
+            }
+            Charity dCharity = new Charity(id, true);
+            if(dCharity == null)
+            {
+                ViewBag.Message = "That Charity does not exist";
+                return View();
+            }
+            return View(dCharity);
         }
-        
+
+        [ChildActionOnly]
+        public ActionResult DetailsPartial(string id)
+        {
+            id = id.Replace('-', '.');
+            if (id == null)
+            {
+                return PartialView();
+            }
+            Charity dCharity = new Charity(id, true);
+            if (dCharity == null)
+            {
+                ViewBag.Message = "That Charity does not exist";
+                return PartialView();
+            }
+            return PartialView(dCharity);
+        }
+
         public ActionResult CharityProfile()
         {
             if (Session != null && Session["member"] != null && ((Password)Session["Member"]).MemberType == MemberType.CHARITY)
@@ -99,7 +127,7 @@ namespace CC.Connections.WebUI.Controllers
 
             Password p = (Password)Session["member"];
             if (p != null)
-                c = new CharitySignup(new Charity(id,true));
+                c = new CharitySignup(new Charity(id.Replace('-', '.'), true));
             else
             {
                 ViewBag.Message = "You are not signed in yet";
@@ -115,7 +143,7 @@ namespace CC.Connections.WebUI.Controllers
         {
             try
             {
-                csu.Location = new Charity(id,true).Location;//TEMP FIX for location missing
+                csu.Location = new Charity(id.Replace('-', '.'), true).Location;//TEMP FIX for location missing
                 try
                 {
                     if (

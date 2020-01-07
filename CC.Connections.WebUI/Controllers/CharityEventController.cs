@@ -123,6 +123,40 @@ namespace CC.Connections.WebUI.Controllers
 
             return View(detailEvent);
         }
+        //[ChildActionOnly]
+        public ActionResult SideView(Guid id)
+        {
+            CharityEventList allEvents = new CharityEventList();
+            CharityEvent detailEvent;
+            if (Session != null && Session["charityEvents"] != null)
+            {
+                allEvents = ((CharityEventList)Session["charityEvents"]);
+                detailEvent = allEvents.Where(c => c.ID == id).FirstOrDefault();//grab the one we need
+                if (detailEvent == null)
+                {
+                    detailEvent = new CharityEvent(id, true);
+                    allEvents.Add(detailEvent);//add it because it was missing
+                    if (Session != null && Session["member"] != null && ((Password)Session["member"]).MemberType == MemberType.VOLLUNTEER)
+                        Session["charityEvents"] = allEvents;
+                }
+            }
+            else
+            {
+                detailEvent = new CharityEvent(id, true);
+                allEvents.Add(detailEvent);//load the only one we need and save it to list
+                if (Session != null && Session["member"] != null && ((Password)Session["member"]).MemberType == MemberType.VOLLUNTEER)
+                    Session["charityEvents"] = allEvents;
+            }
+
+            Password member;
+            if (Session != null && Session["member"] != null && ((Password)Session["member"]).MemberType == MemberType.VOLLUNTEER)
+            {
+                member = (Password)Session["member"];
+                detailEvent.Member_Attendance = new AbsEventAtendee(detailEvent.ID, member.email);
+            }
+
+            return PartialView(detailEvent);
+        }
 
         // GET: CharityEvent/Create
         public ActionResult Create()

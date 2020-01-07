@@ -1,0 +1,77 @@
+﻿@model CC.Connections.BL.CharityEvent
+
+<div class="bg-gradient-info text-white">
+    <div class="card-header row">
+        <a href="@Url.Action("Details", "Charity", new { id = Model.Charity.Email })">
+            <img class="col-2 " src="~/Content/Images/CCDefaultPlaceholder.gif" alt="@(Model.Charity.Name) logo" title="View Charity"> @* scr="/Content/Images/" + Model.charity.Charity_Image + ".svg" *@
+        </a>
+        <div class="col-8">
+            <h3>@Html.DisplayFor(model => model.Charity.Name)</h3>
+            <h4>Going: @Model.atendees.CountGoing</h4>
+            <h4>
+                Interested: @Model.atendees.CountInterested
+            </h4>
+            <h4><b>@Model.CharityEventStatus</b></h4>
+        </div>
+        <a href="@Url.Action("CategoryView", "CharityEvent", new { id = Model.Charity.Category.ID })">
+            <img class="btn-outline-info col-1" style="padding-top:0px;" src="@(("/Content/Images/" + Model.Charity.Category.Image + ".svg"))" id="@(Model.Charity.Category.Image)" title="@(Model.Charity.Category.Desc) ">
+        </a>
+    </div>
+    <div class="card-body">
+        <h2> @Html.DisplayFor(model => model.Name)</h2>
+        @if (Model.CharityEventStatus != "Completed")
+        {
+            <h5>Days: @Model.StartDate.ToShortDateString() to @Model.EndDate.ToShortDateString() </h5>
+            <h5>Time: @Model.StartTime.ToShortTimeString() to @Model.EndTime.ToShortTimeString() </h5>
+        }
+        <p> @Html.DisplayFor(model => model.Description)</p>
+    </div>
+    <div class="card-footer bg-info">
+        <h5><b>Requirements: </b></h5><p>@Model.Requirements</p>
+        <h6>Location</h6>
+        <div>
+            <p>@Model.Location.Address</p>
+            <p>@Model.Location.City</p>
+            <p>@Model.Location.State</p>
+        </div>
+    </div>
+
+</div>
+<h4>@ViewBag.Message</h4>
+<div class="">
+    <!--todo orginize this, edit does not show up when signed in-->
+    @{ if (Session["member"] != null && ((CC.Connections.BL.Password)Session["member"]).MemberType == CC.Connections.BL.MemberType.VOLLUNTEER &&
+                   Model.Member_Attendance != null)
+        {
+            if (Model.Member_Attendance.Volunteer_Status == CC.Connections.BL.Status.GOING)
+            {
+                @Html.ActionLink("Show Interest", "Interested", new { id = Model.ID }, new { @class = "btn-outline-primary btn-lg" });
+                @Html.ActionLink("Leave Event", "Signup", new { id = Model.ID }, new { @class = "btn-outline-info btn-lg" });
+            }
+            else if (Model.Member_Attendance.Volunteer_Status == CC.Connections.BL.Status.INTERESTED)
+            {
+                @Html.ActionLink("Remove Interest", "Interested", new { id = Model.ID }, new { @class = "btn-outline-info btn-lg" });
+                @Html.ActionLink("Sign Up for Event", "Signup", new { id = Model.ID }, new { @class = "btn-outline-primary btn-lg" });
+            }
+            else if (Model.Member_Attendance.Volunteer_Status == CC.Connections.BL.Status.NOT_GOING)
+            {
+                @Html.ActionLink("Interested", "Interested", new { id = Model.ID }, new { @class = "btn-outline-primary btn-lg" });
+                @Html.ActionLink("Sign Up for Event", "Signup", new { id = Model.ID }, new { @class = "btn-outline-primary btn-lg" });
+            }
+        }
+        else if (Session["member"] == null || ((CC.Connections.BL.Password)Session["member"]).MemberType == CC.Connections.BL.MemberType.GUEST)
+        {
+            <div class="btn-outline-primary btn-lg">
+                @Html.ActionLink("Create an account to sign up for an event", "SignupView", "Login")
+            </div>
+        }
+        else if (Session["member"] != null && ((CC.Connections.BL.Password)Session["member"]).email == Model.Charity.Email)
+        {
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = Model.ID }, new { @class = "btn-outline-primary btn-lg" })
+                @Html.ActionLink("Delete", "Delete", new { id = Model.ID }, new { @class = "btn-outline-danger btn-lg" })
+            </td>
+            @Html.ActionLink("Edit event", "Edit", "CharityEvent", new { id = Model.ID }, new { @class = "btn-outline-primary btn-lg" });
+        }
+    }
+</div>

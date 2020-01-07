@@ -51,7 +51,7 @@
 
     @if (Session["member"] != null && ((CC.Connections.BL.Password)Session["member"]).MemberType == CC.Connections.BL.MemberType.CHARITY)
     {
-        @Html.ActionLink("Edit Profile", "Edit", "Charity", new { id = Model.Email }, new { @class = "btn-outline-primary btn-lg" });
+        @Html.ActionLink("Edit Profile", "Edit", "Charity", new { id = Model.Email.Replace('.','-') }, new { @class = "btn-outline-primary btn-lg" });
     }
 </div>
 

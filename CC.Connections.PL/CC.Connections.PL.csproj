@@ -135,6 +135,7 @@
       <DependentUpon>CharityConnectionModel.edmx</DependentUpon>
       <LastGenOutput>CharityConnectionModel.cs</LastGenOutput>
     </Content>
+    <Content Include="CharityConnectionModel1-7.edmx.sql" />
     <Content Include="CharityConnectionModel12-30.edmx.sql" />
     <Content Include="CharityConnectionModel12-31.edmx.sql" />
   </ItemGroup>
