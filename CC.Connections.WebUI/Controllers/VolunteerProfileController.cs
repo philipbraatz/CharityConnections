@@ -17,7 +17,7 @@ namespace CC.Connections.WebUI.Controllers
             Password p = (Password)Session["member"];
             if (p != null)
                 try {
-                    return View(new Contact(p));
+                    return View(new Volunteer(p.email));
                 }
                 catch (Exception e)
                 {
@@ -25,7 +25,7 @@ namespace CC.Connections.WebUI.Controllers
                         ViewBag.Message = "Error: " + e.Message;
                     else
                         ViewBag.Message = "Error: " + e.Message;
-                    return View(new Contact());//should not happen
+                    return View(new Volunteer());//should not happen
                 }
             else if (ControllerContext.HttpContext.Request.UrlReferrer != null)
                 return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());//go back
@@ -36,11 +36,11 @@ namespace CC.Connections.WebUI.Controllers
         // GET: VolunteerProfile/Edit/5
         public ActionResult Edit(int id)
         {
-            ContactInfoSignup c = new ContactInfoSignup();
+            VolunteerSignup c = new VolunteerSignup();
 
             Password p = (Password)Session["member"];
             if (p != null)
-                c.setContactInfo(new Contact(p));
+                c.setContactInfo(new Volunteer(p.email));
             else
             {
                 ViewBag.Message = "You are not signed in yet";
@@ -52,7 +52,7 @@ namespace CC.Connections.WebUI.Controllers
 
         // POST: VolunteerProfile/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, ContactInfoSignup con)
+        public ActionResult Edit(int id, VolunteerSignup con)
         {
             try
             {
@@ -63,7 +63,7 @@ namespace CC.Connections.WebUI.Controllers
                     //con.confirmPassword == null ||
                     //con.confirmPassword.Pass == null ||
                     con.Member_Email == null ||
-                    con.Fname == null ||
+                    con.FName == null ||
                     con.LName == null ||
                     con.Phone == null ||
                     con.DateOfBirth == null ||
@@ -93,7 +93,7 @@ namespace CC.Connections.WebUI.Controllers
                     ViewBag.Message = "Phone number is invalid";
                     return View(con);
                 }
-                else if (con.Fname.Trim().Length < 3)
+                else if (con.FName.Trim().Length < 3)
                 {
                     ViewBag.Message = "First name must be at least 3 characters long";
                     return View(con);
@@ -117,7 +117,7 @@ namespace CC.Connections.WebUI.Controllers
         // GET: VolunteerProfile/Delete/5
         public ActionResult Delete(string id)
         {
-            Contact c = new Contact();
+            Volunteer c = new Volunteer();
             c.Member_Email = id;
             c.LoadId();
             return View(c);
@@ -125,7 +125,7 @@ namespace CC.Connections.WebUI.Controllers
 
         // POST: VolunteerProfile/Delete/5
         [HttpPost]
-        public ActionResult Delete(string id, Contact c)
+        public ActionResult Delete(string id, Volunteer c)
         {
             try
             {

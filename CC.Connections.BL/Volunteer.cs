@@ -30,6 +30,9 @@ namespace CC.Connections.BL
         { }
         public Volunteer(PL.Volunteer entry)
         {
+            if(entry == null)
+                entry = new PL.Volunteer();//set to blank PL
+
             Member_Email = entry.Volunteer_Email;
             Clear();
             base.setContactInfo( new Contact(entry.Volunteer_Email));
@@ -52,6 +55,7 @@ namespace CC.Connections.BL
                 {
                     Member_Email = contactEmail;//first entry
 
+
                     //try to load existing ID
                     PL.Contact_Info cID = dc.Contact_Info.Where(c => c.Member_Email == contactEmail).FirstOrDefault();
                     if (cID != null)
@@ -60,6 +64,8 @@ namespace CC.Connections.BL
 
                         //will LOAD nothing if NEW ID but will SET preference ID
                         //needed for adding and removing items
+                        Prefered_helping_Actions = new AbsMemberActionList(contactEmail);
+                        Prefered_Categories = new CategoryPreferences(contactEmail);
                         Prefered_helping_Actions.LoadPreferences(Member_Email);
                         Prefered_Categories.LoadPreferences(Member_Email);
                         //Prefered_Charities.LoadPreferences(ID);
@@ -116,38 +122,44 @@ namespace CC.Connections.BL
             Pref = new Preference();
             Location = new Location();
         }
-        public new int Insert(Password password)
+        public bool Insert(Password password)
         {
-            base.Insert();
-
-            try
-            {
-                //if (ID == string.Empty)
-                //    throw new Exception("Description cannot be empty");
-                using (CCEntities dc = new CCEntities())
+            if (base.Insert())//checks for existing
+                try
                 {
-                    //double check ID before insert
-                    if (String.IsNullOrEmpty(Member_Email))
-                        throw new NullReferenceException("Cannot insert an empty email");
-
-                    Pref.Insert();
-                    //Member_Type.Insert();
-                    Location.Insert();
-                    PL.Volunteer entry = new PL.Volunteer
+                    //if (ID == string.Empty)
+                    //    throw new Exception("Description cannot be empty");
+                    using (CCEntities dc = new CCEntities())
                     {
-                        Volunteer_Email = Member_Email,
-                        Preference_ID = Pref.ID,
-                        Location_ID = Location.ID
-                    };
-                    dc.Volunteers.Add(entry);//adding prior to everything else
-                    password.Insert();
+                        //double check ID before insert
+                        if (String.IsNullOrEmpty(Member_Email))
+                            throw new NullReferenceException("Cannot insert an empty email");
 
-                    //do not handle member preference lists here
 
-                    return dc.SaveChanges();
+                        if (Pref == null)
+                            Pref = new Preference();
+                        if (Location == null)
+                            Location = new Location();
+                        Pref.Insert();
+                        //Member_Type.Insert();
+                        Location.Insert();
+                        PL.Volunteer entry = new PL.Volunteer
+                        {
+                            Volunteer_Email = Member_Email,
+                            Preference_ID = Pref.ID,
+                            Location_ID = Location.ID
+                        };
+                        dc.Volunteers.Add(entry);//adding prior to everything else
+                        password.Insert();
+
+                        //do not handle member preference lists here
+
+                        return dc.SaveChanges() > 0;
+                    }
                 }
-            }
-            catch (Exception e) { throw e; }
+                catch (Exception e) { throw e; }
+            else
+                return false;
         }
         public new int Delete(Password password)
         {
@@ -293,7 +305,7 @@ namespace CC.Connections.BL
             return new Volunteer
             {
                 Member_Email = info.Member_Email,
-                Fname = info.Fname,
+                FName = info.FName,
                 LName = info.LName,
                 Phone = info.Phone,
                 DateOfBirth = info.DateOfBirth
@@ -304,7 +316,7 @@ namespace CC.Connections.BL
         public void setContactInfo(Contact contact)
         {
             Member_Email = contact.Member_Email;
-            Fname = contact.Fname;
+            FName = contact.FName;
             LName = contact.LName;
             Phone = contact.Phone;
             DateOfBirth = contact.DateOfBirth;

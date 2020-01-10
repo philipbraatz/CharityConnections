@@ -1,4 +1,4 @@
-﻿@model CC.Connections.BL.AbsContact
+﻿@model CC.Connections.BL.Volunteer
 @{
     ViewBag.Title = "ProfileView";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -29,11 +29,11 @@
         </tr>
         <tr>
             <td>Email:</td>
-            <td>@Model.ContactInfo_Email</td>
+            <td>@Model.Member_Email</td>
         </tr>
         <tr>
             <td> Phone:</td>
-            <td>@Model.ContactInfo_Phone</td>
+            <td>@Model.Phone</td>
         </tr>
         <tr>
             <td>Birth date: </td>
@@ -49,10 +49,10 @@
 <table>
     <tr>
         <td>
-            @Html.ActionLink("Edit Profile", "Edit", new { id = Model.contact_ID })
+            @Html.ActionLink("Edit Profile", "Edit", new { id = Model.Member_Email })
         </td>
         <td>
-            @Html.ActionLink("Delete Profile", "Delete", new { id = Model.contact_ID })
+            @Html.ActionLink("Delete Profile", "Delete", new { id = Model.Member_Email })
         </td>
     </tr>
 </table>

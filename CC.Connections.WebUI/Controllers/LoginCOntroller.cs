@@ -26,7 +26,7 @@ namespace CC.Connections.WebUI.Controllers
         public ActionResult SignUpView(string returnurl)
         {
             ViewBag.ReturnUrl = returnurl;
-            return View(new ContactInfoSignup());
+            return View(new VolunteerSignup());
         }
 
         public ActionResult CharitySignUpView(string returnurl)
@@ -109,14 +109,14 @@ namespace CC.Connections.WebUI.Controllers
         }
 
         [HttpPost]
-        public ActionResult SignUpView(ContactInfoSignup con)
+        public ActionResult SignUpView(VolunteerSignup con)
         {
             try
             {
                 //TODO add location not null
                 if( con.confirmPassword.Pass == null ||  
                     con.Member_Email == null ||
-                    con.Fname == null ||
+                    con.FName == null ||
                     con.LName == null ||
                     con.Phone == null ||
                     con.DateOfBirth == null ||
@@ -146,7 +146,7 @@ namespace CC.Connections.WebUI.Controllers
                     ViewBag.Message = "Phone number is invalid";
                     return View(con);
                 }
-                else if (con.Fname.Trim().Length < 3)
+                else if (con.FName.Trim().Length < 3)
                 {
                     ViewBag.Message = "First name must be at least 3 characters long";
                     return View(con);
@@ -161,10 +161,16 @@ namespace CC.Connections.WebUI.Controllers
                 newMember.setContactInfo((Contact)con);
                 con.password.email = con.Member_Email;
                 con.password.MemberType = MemberType.VOLLUNTEER;
-                newMember.Insert(con.password);
-
-                Session["member"] = con.password;
-                return RedirectToAction("ProfileView", "VolunteerProfile");
+                if (newMember.Insert(con.password))
+                {
+                    Session["member"] = con.password;
+                    return RedirectToAction("ProfileView", "VolunteerProfile");
+                }
+                else
+                {
+                    ViewBag.Message = "Email already in use, please use a different email.";
+                    return View(con);
+                }
             }
             catch (Exception ex)
             {

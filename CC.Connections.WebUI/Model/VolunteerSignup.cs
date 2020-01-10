@@ -7,7 +7,7 @@ using CC.Connections.BL;
 
 namespace CC.Connections.WebUI.Model
 {
-    public class ContactInfoSignup : Contact
+    public class VolunteerSignup : Volunteer
     {
         [Display(Name = "Password")]
         [DataType(DataType.Password)]
@@ -20,7 +20,7 @@ namespace CC.Connections.WebUI.Model
         public Password confirmPassword { get; set; }
         //maybe add location 
         //and preferences here
-        public ContactInfoSignup()
+        public VolunteerSignup()
         {
             password = new Password();
         }

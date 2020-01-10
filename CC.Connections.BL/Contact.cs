@@ -20,16 +20,16 @@ namespace CC.Connections.BL
         }
 
         [DisplayName("First Name")]
-        public string Fname
+        public string FName
         {
-            get { return (string)base.getProperty(nameof(Fname)); }
-            set { setProperty(nameof(Fname), value); }
+            get { return (string)base.getProperty(nameof(FName)); }
+            set { setProperty(nameof(FName), value); }
         }
         [DisplayName("Last Name")]
         public string LName
         {
-            get { return (string)base.getProperty(nameof(Fname)); }
-            set { setProperty(nameof(Fname), value); }
+            get { return (string)base.getProperty(nameof(LName)); }
+            set { setProperty(nameof(LName), value); }
         }
         [DisplayName("Phone #")]
         public string Phone
@@ -61,7 +61,7 @@ namespace CC.Connections.BL
         [DisplayName("Name")]
         public string FullName
         {
-            get { return Fname + " " + LName; }
+            get { return FName + " " + LName; }
         }
 
         public Contact() :
@@ -87,16 +87,16 @@ namespace CC.Connections.BL
                 throw new Exception("Contact Info Email cannot be blank");
         }
 
-        public int Insert()
+        public bool Insert()
         {
             try
             {
                 emailEmptyCheck();
                 using (CCEntities dc = new CCEntities()){
-                    return base.Insert(dc,dc.Contact_Info);
+                    return base.Insert(dc,dc.Contact_Info) >0;
                 }
             }
-            catch (Exception e) { throw; }
+            catch (Exception e) { return false; }//probably already exists OR bad data
         }
         public int Delete()
         {
@@ -163,7 +163,7 @@ namespace CC.Connections.BL
         {
             if (contactInfo == null)
                 throw new ArgumentNullException(nameof(contactInfo));
-            this.Fname = contactInfo.Fname ?? "";
+            this.FName = contactInfo.FName ?? "";
             this.LName = contactInfo.LName ?? "";
             this.Phone = contactInfo.Phone ?? "";
             this.Member_Email = contactInfo.Member_Email;
