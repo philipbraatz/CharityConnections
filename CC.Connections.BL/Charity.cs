@@ -45,11 +45,19 @@ namespace CC.Connections.BL
             set { setProperty(nameof(Deductibility), value); }
         }
 
+        private Uri uri;
         [DisplayName("Charity Web Site")]
         public Uri URL//TODO check if valid Uri implentation
         {
-            get { return new Uri ((string)base.getProperty(nameof(URL))); }
-            set { setProperty(nameof(URL), value.AbsoluteUri); }
+            get {
+                String stest = (string)base.getProperty(nameof(URL));
+                Uri.TryCreate(stest,UriKind.RelativeOrAbsolute,out uri); 
+                return uri; 
+            }
+            set { 
+                setProperty(nameof(URL), value.AbsoluteUri);
+                uri = value;
+            }
         }
 
         [DisplayName("Charities Cause")]
