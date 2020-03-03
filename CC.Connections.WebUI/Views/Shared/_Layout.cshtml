@@ -16,157 +16,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" type="text/javascript"></script>
     <!-- <script src="~/Scripts/custom.js"></script> --> <!-- Use this script tag after moving the jQuery to separate file, keep  -->
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-            // TODO: move the jQuery to it's own document to clean up this page
+    <script src="~/Scripts/connectionsScripts/navigation.js" type="text/javascript"></script>
 
-            $("#volunteerBar").hide();
-
-            // Displays the volunteer category nav bar when hovering over "find volunteer opportunities"
-            $("#findVolunteerBtn").mouseenter(function () {
-
-                $("#volunteerBar").slideToggle(750);
-
-            })
-
-            // Changes the picture (different color) when hovering over link
-            $("#paw").mouseenter(function () {
-                $(this).find('img').attr('src', '../../Content/Images/paw.svg').replaceWith('<img src="../../Content/Images/pawColor.svg">');
-            }).mouseleave(function () {
-                $(this).find('img').attr('src', '../../Content/Images/pawColor.svg').replaceWith('<img src="../../Content/Images/paw.svg">');
-            })
-
-            $("#book").mouseenter(function () {
-                $(this).find('img').attr('src', '../../Content/Images/book.svg').replaceWith('<img src="../../Content/Images/bookColor.svg">');
-            }).mouseleave(function () {
-                $(this).find('img').attr('src', '../../Content/Images/bookColor.svg').replaceWith('<img src="../../Content/Images/book.svg">');
-            })
-
-            $("#health").mouseenter(function () {
-                $(this).find('img').attr('src', '../../Content/Images/healthBtn.svg').replaceWith('<img src="../../Content/Images/healthColor.svg">');
-            }).mouseleave(function () {
-                $(this).find('img').attr('src', '../../Content/Images/healthColor.svg').replaceWith('<img src="../../Content/Images/health.svg">');
-            })
-
-            $("#people").mouseenter(function () {
-                $(this).find('img').attr('src', '../../Content/Images/people.svg').replaceWith('<img src="../../Content/Images/peopleColor.svg">');
-            }).mouseleave(function () {
-                $(this).find('img').attr('src', '../../Content/Images/peopleColor.svg').replaceWith('<img src="../../Content/Images/people.svg">');
-            })
-
-            $("#tree").mouseenter(function () {
-                $(this).find('img').attr('src', '../../Content/Images/tree.svg').replaceWith('<img src="../../Content/Images/treeColor.svg">');
-            }).mouseleave(function () {
-                $(this).find('img').attr('src', '../../Content/Images/treeColor.svg').replaceWith('<img src="../../Content/Images/tree.svg">');
-            })
-
-            $("#hands").mouseenter(function () {
-                $(this).find('img').attr('src', '../../Content/Images/hands.svg').replaceWith('<img src="../../Content/Images/handsColor.svg">');
-            }).mouseleave(function () {
-                $(this).find('img').attr('src', '../../Content/Images/handsColor.svg').replaceWith('<img src="../../Content/Images/hands.svg">');
-            })
-
-        });
-    </script>
-
-    <!--TODO move to seperate CSS file-->
-    <!-- changed the 'a' tag right padding so all the links fit in the header -->
-    <style>
-
-        body {
-            background: #fffff0;
-           
-        }
-
-        .navbar-custom {
-            background-color: #fffff0 !important;
-            
-        }
-
-        #cc-logo{
-            float:left;
-            width:100%;
-        }
-
-        a {
-            padding-right: 20px;
-        }
-
-        a :hover {
-            color: #FF6633;
-        }
-
-        #dropdownMenuButton{
-            background:none;
-        }
-
-        .dropdown-menu{
-            padding-left: 10px;
-            padding-bottom: 5px;
-        }
-
-        dropdown-item{
-            padding-bottom: 10px;
-        }
-
-        .row-bottom {
-            /*padding-left: 10px;*/
-        }
-       
-
-        .navbar[target] {
-            /*width: 100%;*/
-
-            padding-top: 10px;
-            padding-bottom: 10px;
-        }
-
-        .nav-item img {
-            width: 50px;
-        }
-
-        .nav-item :hover {
-            color: #FF6633;
-        }
-
-        #nav-logo {
-            width: 100%;
-            float: left;
-        }      
-
-        .volunteer-category-bar {
-            /* Spaces medallion links out */
-            margin-left: 35px;
-        }
-
-        footer {
-            background-color: #F63;
-            opacity: 0.90;
-            color: #FFFFFF;
-            width: 100%;
-            bottom: 0;
-            left: 0;
-            height: 100px;
-            text-align: center;
-            line-height: 10px;
-            font-size: 12px;
-            padding-top: 12px;
-            padding-bottom: 14px;
-        }
-
-        #footer-link :hover {
-            color: #66ccff;
-            text-decoration: none;
-            font-size: 16px;
-        }
-        
-        nav.navbar.sticky-top.navbar-expand-lg.navbar-light.bg-light.navbar-fixed-top.navbar-custom{
-            width:100%;
-            float:left;
-        }
-
-
-    </style>
+    <style type="text/css" src="~/Content/connectionsCss/layout.css"></style>
 
 </head>
 @{ 
@@ -283,8 +135,13 @@
                     <ul class="nav navbar-nav mr-auto row">
                         <li class="col-1">
                             @foreach (var category in categoryList)
-                             {
-                                <li class="nav-item overout col-1 volunteer-category-bar" id="@category.Image.Trim()" title="@category.Desc"><a href="@Url.Action("CategoryView", "CharityEvent", new { id = category.ID })"><img src="@("../../Content/Images/" + category.Image.Trim() + ".svg")" /></a></li>
+                             {//STOPPED HERE -------------------------------------------------------------------------
+                                //need unique image for each category
+                                <li class="nav-item overout col-1 volunteer-category-bar" title="@category.Desc">
+                                    <a href="@Url.Action("CategoryView", "CharityEvent", new { id = category.ID })">
+                                        <img class="catImage" id="@(category.Image.Trim())" src="@("../../Content/Images/Category/Gray/" + category.Image.Trim() + ".svg")" />
+                                    </a>
+                                </li>
                              }
                     </ul>
                 </div>
