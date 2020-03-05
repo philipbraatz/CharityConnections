@@ -1,5 +1,5 @@
 ﻿BEGIN
-	INSERT INTO Preferred_Charity(ID, Volunteer_Email, Charity_Email)
+	INSERT INTO dbo.PreferredCharities(ID, VolunteerEmail, CharityEmail)
 	VALUES
 	('6b02e58f-4427-4749-be90-c30046609104', 'jimbob@gmail.com', 'unitedway@gmail.com'),
 	('4bf824bf-184f-466c-ba14-bfa7bba7d120', 'briandoe@gmail.com', 'stjude@gmail.com'),

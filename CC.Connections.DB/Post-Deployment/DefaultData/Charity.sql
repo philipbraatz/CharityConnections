@@ -1,5 +1,5 @@
 ﻿BEGIN
-	INSERT INTO Charities(Charity_Email, [Name], EIN, Deductibility, [URL], Cause, Category_ID, Location_ID)
+	INSERT INTO Charities(CharityEmail, [Name], EIN, Deductibility, [URL], Cause, CategoryID, LocationID)
 	VALUES
 	('unitedway@gmail.com','United Way', '12-3456789', 0,'https://www.unitedway.org/',
 	'United Way advances the common good in communities across the world. Our focus is on education, income and health—the building blocks for a good quality of life.',

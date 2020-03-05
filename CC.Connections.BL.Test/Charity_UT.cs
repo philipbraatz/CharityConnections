@@ -20,8 +20,8 @@ namespace CC.Connections.BL.Test
     //    public const int INT1 = -7;
     //    public const int INT2 = -22;
     //
-    //    public const int CATEGORY_ID = 1;
-    //    public const int LOCATION_ID = 1;
+    //    public const int CategoryID = 1;
+    //    public const int LocationID = 1;
     //    public const int ACTION1 = 1;
     //    public const int ACTION2 = 1;
     //    public const int CONTACT_ID = 1;
@@ -33,10 +33,10 @@ namespace CC.Connections.BL.Test
     //        CharityList allTable = new CharityList();
     //        allTable.LoadAll();
     //
-    //        Charity cat = allTable.Where(c => c.Charity_Email.Equals(desc)).FirstOrDefault();
+    //        Charity cat = allTable.Where(c => c.CharityEmail.Equals(desc)).FirstOrDefault();
     //        if (cat == null)
     //        {
-    //            Charity cat2 = allTable.Where(c => c.Charity_Email.Equals(desc)).FirstOrDefault();
+    //            Charity cat2 = allTable.Where(c => c.CharityEmail.Equals(desc)).FirstOrDefault();
     //            if (cat2 == null)
     //            {
     //                if (!isNull)
@@ -60,10 +60,10 @@ namespace CC.Connections.BL.Test
     //            Charity_Deductibility =true,
     //            Charity_URL = testingSite,
     //            Charity_Cause = VALUE1,
-    //            Category = new Category(CATEGORY_ID),
-    //            Location = new Location(LOCATION_ID),
+    //            Category = new Category(CategoryID),
+    //            Location = new Location(LocationID),
     //            Charity_Requirements = VALUE1,
-    //            Charity_Email = testing_ID1
+    //            CharityEmail = testing_ID1
     //        };
     //        newt.Insert(new Password(VALUE1,VALUE2,MemberType.CHARITY,false));
     //    }
@@ -76,20 +76,20 @@ namespace CC.Connections.BL.Test
     //
     //        Assert.AreNotEqual(0, table.Count);
     //
-    //        Assert.AreEqual(testing_ID1, table.Find(f => f.Charity_Name == VALUE1).Charity_Email);
+    //        Assert.AreEqual(testing_ID1, table.Find(f => f.Charity_Name == VALUE1).CharityEmail);
     //    }
     //    [TestMethod]
     //    public void Load()
     //    {
     //        test = new Charity(getID_fromDesc(testing_ID2));
     //
-    //        Assert.IsTrue(test.Location.ContactInfoCity== new Location(LOCATION_ID).ContactInfoCity);
-    //        Assert.IsTrue(test.Category.ID == CATEGORY_ID);
+    //        Assert.IsTrue(test.Location.ContactInfoCity== new Location(LocationID).ContactInfoCity);
+    //        Assert.IsTrue(test.Category.ID == CategoryID);
     //
     //        Assert.IsTrue(test.Charity_EIN == VALUE1);
     //        Assert.IsTrue(test.Charity_Cause == VALUE1);
     //        Assert.IsTrue(test.Charity_Requirements == VALUE1);
-    //        Assert.IsTrue(test.Charity_Email == testing_ID1);
+    //        Assert.IsTrue(test.CharityEmail == testing_ID1);
     //        Assert.IsTrue(test.Charity_Deductibility == true);
     //        Assert.IsTrue(test.Charity_URL== testingSite);
     //        //Assert.AreNotEqual(0, test.Prefered_Charity_ID_List.Count);
@@ -122,7 +122,7 @@ namespace CC.Connections.BL.Test
     //    public void Delete()
     //    {
     //        test = new Charity(getID_fromDesc(testing_ID2));
-    //        test.Delete(new Password(test.Charity_Email,true));//delete
+    //        test.Delete(new Password(test.CharityEmail,true));//delete
     //
     //        CharityList table = new CharityList();
     //        table.LoadAll();//load updated table

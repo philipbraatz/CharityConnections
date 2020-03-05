@@ -72,20 +72,20 @@ namespace CC.Connections.BL
         public Category Category 
         {   get {
                 if (category == null)
-                    category = new Category((Guid)(base.getProperty(nameof(Category)+"_ID"))) ;
+                    category = new Category((Guid)(base.getProperty(nameof(Category)+"ID"))) ;
                 return category;
             }
             set { 
                 category =value;
                 if (value != null)
-                    base.setProperty(nameof(Category) + "_ID", value.ID);
+                    base.setProperty(nameof(Category) + "ID", value.ID);
                 } 
         }
         public Location Location
         {
             get
             {
-                var prop = base.getProperty(nameof(Location) + "_ID");
+                var prop = base.getProperty(nameof(Location) + "ID");
                 if (loc == null && prop != null)
                     loc = new Location((Guid)prop);
                 return loc;
@@ -94,13 +94,13 @@ namespace CC.Connections.BL
             {
                 loc = value;
                 if(value != null)
-                 base.setProperty(nameof(Location) + "_ID", value.ID);
+                 base.setProperty(nameof(Location) + "ID", value.ID);
             }
         }
 
         internal static bool Exists(CCEntities dc, string charity)
         {
-            return dc.Charities.Where(c => c.Charity_Email == charity).FirstOrDefault() != null;
+            return dc.Charities.Where(c => c.CharityEmail == charity).FirstOrDefault() != null;
         }
 
         public Charity() {
@@ -113,8 +113,8 @@ namespace CC.Connections.BL
         }
         public Charity(PL.Charity entry) : base(entry)
         {
-            this.Category = new Category((Guid)entry.Category_ID);
-            this.Location = new Location((Guid)entry.Location_ID);
+            this.Category = new Category((Guid)entry.CategoryID);
+            this.Location = new Location((Guid)entry.LocationID);
 
             //this.Charity_Deductibility = false;
         }
@@ -128,9 +128,9 @@ namespace CC.Connections.BL
                 using (CCEntities dc = new CCEntities())
                 {
                     //TODO refactor
-                    PL.Charity charityPL = dc.Charities.Where(c => c.Charity_Email == charity).FirstOrDefault();
-                    this.Category = new Category((Guid)charityPL.Category_ID);
-                    this.Location = new Location((Guid)charityPL.Location_ID);
+                    PL.Charity charityPL = dc.Charities.Where(c => c.CharityEmail == charity).FirstOrDefault();
+                    this.Category = new Category((Guid)charityPL.CategoryID);
+                    this.Location = new Location((Guid)charityPL.LocationID);
                 }
             }
         }
@@ -154,7 +154,7 @@ namespace CC.Connections.BL
             if (charityInfo == null)
                 throw new ArgumentNullException(nameof(charityInfo));
 
-            this.Email = charityInfo.Charity_Email;
+            this.Email = charityInfo.CharityEmail;
             this.Name = charityInfo.Name ?? "";
             this.Cause = charityInfo.Cause ?? "";
             this.URL = new Uri(charityInfo.URL);//TODO handle invalid URLs
@@ -176,12 +176,12 @@ namespace CC.Connections.BL
 
                     //TODO refactor
                     //try to load existing ID
-                    PL.Charity charityPL = dc.Charities.Where(c => c.Charity_Email == charityEmail).FirstOrDefault();
+                    PL.Charity charityPL = dc.Charities.Where(c => c.CharityEmail == charityEmail).FirstOrDefault();
                     if (charityPL != null)
                     {
                         setCharityInfo(charityPL);
-                        this.Category = new Category((Guid)charityPL.Category_ID);
-                        this.Location = new Location((Guid)charityPL.Location_ID);
+                        this.Category = new Category((Guid)charityPL.CategoryID);
+                        this.Location = new Location((Guid)charityPL.LocationID);
                     }
                     else
                     {
@@ -216,7 +216,7 @@ namespace CC.Connections.BL
         {
             if (preloaded)
             {
-                Charity loadC = CharityList.INSTANCE.Where(c => c.Email == this.Email).FirstOrDefault();
+                Charity loadC = CharityCollection.INSTANCE.Where(c => c.Email == this.Email).FirstOrDefault();
                 if (loadC != null)//retreive from existing
                     this.setCharity(loadC);
                 else
@@ -229,12 +229,12 @@ namespace CC.Connections.BL
                     {
                         base.LoadId(dc.Charities);
                         
-                        PL.Charity entry = dc.Charities.Where(c => c.Charity_Email == this.Email).FirstOrDefault();
-                        this.Category = new Category(entry.Category_ID.Value);
-                        this.Location = new Location(entry.Location_ID.Value);
+                        PL.Charity entry = dc.Charities.Where(c => c.CharityEmail == this.Email).FirstOrDefault();
+                        this.Category = new Category(entry.CategoryID.Value);
+                        this.Location = new Location(entry.LocationID.Value);
                     }
                 }
-                catch (Exception e)
+                catch (Exception)
                 { throw; }
         }
         public void LoadId(string email,bool preloaded =true)
@@ -249,10 +249,10 @@ namespace CC.Connections.BL
             using (CCEntities dc = new CCEntities())
             {
                 this.Location.Insert();
-                this.setProperty("Location_ID", this.Location.ID);
+                this.setProperty("LocationID", this.Location.ID);
                 base.Insert(dc, dc.Charities);
                 password.Insert();
-                CharityList.AddToInstance(this);
+                CharityCollection.AddToInstance(this);
             }
         }
         public void Update(Password password)
@@ -264,7 +264,7 @@ namespace CC.Connections.BL
                 base.Update(dc, dc.Charities);
                 this.Location.Update();
                 password.Update();
-                CharityList.AddToInstance(this);
+                CharityCollection.AddToInstance(this);
             }
         }
         public void Delete(Password password)
@@ -278,16 +278,16 @@ namespace CC.Connections.BL
                 base.Delete(dc, dc.Charities);
                 this.Location.Delete();
                 password.Delete();
-                CharityList.RemoveInstance(this);
+                CharityCollection.RemoveInstance(this);
             }
         }
     }
 
-    public class CharityList :
+    public class CharityCollection :
         List<Charity>
     {
-        private static CharityList INS = new CharityList();
-        public static CharityList INSTANCE 
+        private static CharityCollection INS = new CharityCollection();
+        public static CharityCollection INSTANCE 
         { get {
                 if(INS == null || INS.Count ==0)
                     INS = LoadInstance();
@@ -296,11 +296,11 @@ namespace CC.Connections.BL
             private set => INS = value;
          }
 
-        public static CharityList LoadInstance()
+        public static CharityCollection LoadInstance()
         {
             try
             {
-                INSTANCE = new CharityList();
+                INSTANCE = new CharityCollection();
                 using (CCEntities dc = new CCEntities())
                 {
                     foreach (var c in dc.Charities.ToList())
@@ -327,27 +327,28 @@ namespace CC.Connections.BL
         }
 
         //only used for Event lists
-        private int? Sort_ID { get; set; }
+        private int? SortID { get; set; }
         private SortBy sorter { get; set; }
         private Volunteer userPref { get; set; }
 
         private const string Event_LOAD_ERROR = "Events not loaded, please loadEvents with a Charity ID";
+        private const string AddPreference_ERROR = "Currently being used as a preference list. Please use AddPreference instead";
 
-        public CharityList()
+        public CharityCollection()
         {
             sorter = SortBy.NONE;
         }
-        public CharityList(int id, SortBy sort, Volunteer user_pref = default)
+        public CharityCollection(int id, SortBy sort, Volunteer user_pref = default)
         {
-            Sort_ID = id;
+            SortID = id;
             sorter = sort;
             userPref = user_pref;
             LoadAll();
         }
 
-        public void setPreferences(Volunteer user_pref)
+        public void setPreferences(Volunteer userPref)
         {
-            userPref = user_pref;
+            this.userPref = userPref ?? throw new ArgumentNullException(nameof(userPref));
         }
 
         public void LoadAll()
@@ -386,12 +387,10 @@ namespace CC.Connections.BL
                     foreach (var item in filter.GetRemainingCharities())
                         this.Add(item);
                     break;
-                case SortBy.HELPING_ACTION:
+                case SortBy.HelpingAction:
                     throw new NotImplementedException();
-                    break;
                 case SortBy.CHARITY:
                     throw new NotImplementedException();
-                    break;
                 default:
                     throw new Exception("Cannot use id Filterer to Sort By " + sort.GetType().GetEnumName(sort));
             }
@@ -411,7 +410,7 @@ namespace CC.Connections.BL
         public new void Clear()
         {
             base.Clear();
-            Sort_ID = null;
+            SortID = null;
         }
 
         private void Add(Charity item, bool overrideMethod = true)
@@ -424,13 +423,13 @@ namespace CC.Connections.BL
         }
         public new void Add(Charity item)
         {
-            if (Sort_ID != null)
-                throw new Exception("Currently being used as a preference list. Please use AddPreference instead");
+            if (SortID != null)
+                throw new Exception(AddPreference_ERROR);
             base.Add(item);
         }
         public new void Remove(Charity item)
         {
-            if (Sort_ID != null)
+            if (SortID != null)
                 throw new Exception("Currently being used as a preference list. Please use DeletePreference instead");
             base.Remove(item);
         }
@@ -444,7 +443,7 @@ namespace CC.Connections.BL
             }
         }
 
-        public static implicit operator List<object>(CharityList v)
+        public static implicit operator List<object>(CharityCollection v)
         {
             throw new NotImplementedException();
         }

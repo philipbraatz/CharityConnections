@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace TimePicker_MVC.Controllers
+namespace TimePickerMVC.Controllers
 {
     public class TimeController : Controller
     {

@@ -7,7 +7,9 @@ namespace CC.Connections.WebUI
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
+#pragma warning disable CA1062 // Validate arguments of public methods
             filters.Add(new HandleErrorAttribute());
+#pragma warning restore CA1062 // Validate arguments of public methods
         }
     }
 }

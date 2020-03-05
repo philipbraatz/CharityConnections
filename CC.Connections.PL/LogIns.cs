@@ -12,9 +12,9 @@ namespace CC.Connections.PL
     using System;
     using System.Collections.Generic;
     
-    public partial class Log_in
+    public partial class LogIns
     {
-        public string Member_Email { get; set; }
+        public string MemberEmail { get; set; }
         public Nullable<int> MemberType { get; set; }
         public string Password { get; set; }
     }

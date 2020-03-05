@@ -11,20 +11,20 @@
 */
 
 
-DROP TABLE IF EXISTS dbo.Event_Attendance
-DROP TABLE IF EXISTS dbo.Log_in
+DROP TABLE IF EXISTS dbo.EventAttendance
+DROP TABLE IF EXISTS dbo.[LogIn]
 DROP TABLE IF EXISTS dbo.Member
-DROP TABLE IF EXISTS dbo.Member_Action
-DROP TABLE IF EXISTS dbo.Member_Type
+DROP TABLE IF EXISTS dbo.MemberAction
+DROP TABLE IF EXISTS dbo.MemberType
 DROP TABLE IF EXISTS dbo.Preference
 
-DROP TABLE IF EXISTS dbo.Contact_Info
-DROP TABLE IF EXISTS dbo.Charity_Event
+DROP TABLE IF EXISTS dbo.ContactInfo
+DROP TABLE IF EXISTS dbo.CharityEvent
 
-DROP TABLE IF EXISTS dbo.Location
+DROP TABLE IF EXISTS dbo.[Location]
 DROP TABLE IF EXISTS dbo.Categories
 DROP TABLE IF EXISTS dbo.Members
 DROP TABLE IF EXISTS dbo.Charities
-DROP TABLE IF EXISTS dbo.Preferred_Categories
-DROP TABLE IF EXISTS dbo.Preferred_Charity
-DROP TABLE IF EXISTS dbo.Helping_Action
+DROP TABLE IF EXISTS dbo.PreferredCategories
+DROP TABLE IF EXISTS dbo.PreferredCharity
+DROP TABLE IF EXISTS dbo.HelpingAction

@@ -75,34 +75,34 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CharityConnectionModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Charity_Event.cs">
+    <Compile Include="CharityEvent.cs">
       <DependentUpon>CharityConnectionModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Contact_Info.cs">
+    <Compile Include="ContactInfo.cs">
       <DependentUpon>CharityConnectionModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Event_Attendance.cs">
+    <Compile Include="EventAttendance.cs">
       <DependentUpon>CharityConnectionModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Helping_Action.cs">
+    <Compile Include="HelpingAction.cs">
       <DependentUpon>CharityConnectionModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Location.cs">
       <DependentUpon>CharityConnectionModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Log_in.cs">
+    <Compile Include="LogIn.cs">
       <DependentUpon>CharityConnectionModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Member_Action.cs">
+    <Compile Include="MemberAction.cs">
       <DependentUpon>CharityConnectionModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Preference.cs">
       <DependentUpon>CharityConnectionModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Preferred_Category.cs">
+    <Compile Include="PreferredCategory.cs">
       <DependentUpon>CharityConnectionModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Preferred_Charity.cs">
+    <Compile Include="PreferredCharity.cs">
       <DependentUpon>CharityConnectionModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -138,6 +138,7 @@
     <Content Include="CharityConnectionModel1-7.edmx.sql" />
     <Content Include="CharityConnectionModel12-30.edmx.sql" />
     <Content Include="CharityConnectionModel12-31.edmx.sql" />
+    <Content Include="CharityConnectionModel3-3.edmx.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

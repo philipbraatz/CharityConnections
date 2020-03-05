@@ -14,13 +14,13 @@ namespace CC.Connections.PL
     
     public partial class Charity
     {
-        public string Charity_Email { get; set; }
+        public string CharityEmail { get; set; }
         public string Name { get; set; }
         public string EIN { get; set; }
         public Nullable<bool> Deductibility { get; set; }
         public string URL { get; set; }
         public string Cause { get; set; }
-        public Nullable<System.Guid> Category_ID { get; set; }
-        public Nullable<System.Guid> Location_ID { get; set; }
+        public Nullable<System.Guid> CategoryID { get; set; }
+        public Nullable<System.Guid> LocationID { get; set; }
     }
 }

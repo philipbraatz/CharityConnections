@@ -8,6 +8,7 @@ using CC.Connections.WebUI.Model;
 
 namespace CC.Connections.WebUI.Controllers
 {
+    //TODO rename to VolunteerController
     public class VolunteerProfileController : Controller
     {
         // GET: VolunteerProfile/ProfileView
@@ -62,7 +63,7 @@ namespace CC.Connections.WebUI.Controllers
                 if (
                     //con.confirmPassword == null ||
                     //con.confirmPassword.Pass == null ||
-                    con.Member_Email == null ||
+                    con.MemberEmail == null ||
                     con.FName == null ||
                     con.LName == null ||
                     con.Phone == null ||
@@ -83,7 +84,7 @@ namespace CC.Connections.WebUI.Controllers
                     ViewBag.Message = "You must be older than 13 years old";
                     return View(con);
                 }
-                else if (!(con.Member_Email.Contains('@') && con.Member_Email.Contains('.') && con.Member_Email.Length > 6))
+                else if (!(con.MemberEmail.Contains('@') && con.MemberEmail.Contains('.') && con.MemberEmail.Length > 6))
                 {
                     ViewBag.Message = "Email is invalid";
                     return View(con);
@@ -118,7 +119,7 @@ namespace CC.Connections.WebUI.Controllers
         public ActionResult Delete(string id)
         {
             Volunteer c = new Volunteer();
-            c.Member_Email = id;
+            c.MemberEmail = id;
             c.LoadId();
             return View(c);
         }

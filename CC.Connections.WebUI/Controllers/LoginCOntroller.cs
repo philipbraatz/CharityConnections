@@ -10,7 +10,7 @@ namespace CC.Connections.WebUI.Controllers
 {
     public class LoginController : Controller
     {
-
+        [ValidateAntiForgeryToken]
         public ActionResult LoginView(string returnurl)
         {
             Password c = (Password)Session["member"];
@@ -67,7 +67,7 @@ namespace CC.Connections.WebUI.Controllers
                     return View(passValue);
                 }
 
-                passValue.Login();
+                passValue.LogIns();
                 if (passValue.MemberType != MemberType.GUEST)
                 {
                     Session["member"] = passValue;
@@ -77,7 +77,7 @@ namespace CC.Connections.WebUI.Controllers
                     //    return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());//go back
                     //else
                     //    return RedirectToAction("Index", "Home");//go to index
-                    if(passValue.MemberType == MemberType.VOLLUNTEER)
+                    if (passValue.MemberType == MemberType.VOLLUNTEER)
                         return RedirectToAction("ProfileView", "VolunteerProfile");
                     else if(passValue.MemberType == MemberType.VOLLUNTEER)
                         return RedirectToAction("CharityProfile", "Charity");
@@ -89,7 +89,6 @@ namespace CC.Connections.WebUI.Controllers
                     ViewBag.Message = "Incorrect Credentials ";
                     return View(passValue);
                 }
-                RedirectToAction("index", "home");
             }
             catch (Exception ex)
             {
@@ -115,7 +114,7 @@ namespace CC.Connections.WebUI.Controllers
             {
                 //TODO add location not null
                 if( con.confirmPassword.Pass == null ||  
-                    con.Member_Email == null ||
+                    con.MemberEmail == null ||
                     con.FName == null ||
                     con.LName == null ||
                     con.Phone == null ||
@@ -136,7 +135,7 @@ namespace CC.Connections.WebUI.Controllers
                     ViewBag.Message = "You must be 13 years or older to register as a member";
                     return View(con);
                 }
-                else if(!(con.Member_Email.Contains('@') && con.Member_Email.Contains('.') && con.Member_Email.Length > 6))
+                else if(!(con.MemberEmail.Contains('@') && con.MemberEmail.Contains('.') && con.MemberEmail.Length > 6))
                 {
                     ViewBag.Message = "Email is invalid";
                     return View(con);
@@ -157,9 +156,9 @@ namespace CC.Connections.WebUI.Controllers
                     return View(con);
                 }
 
-                Volunteer newMember = new Volunteer(con.Member_Email, con.password.Pass, true);
+                Volunteer newMember = new Volunteer(con.MemberEmail, con.password.Pass, true);
                 newMember.setContactInfo((Contact)con);
-                con.password.email = con.Member_Email;
+                con.password.email = con.MemberEmail;
                 con.password.MemberType = MemberType.VOLLUNTEER;
                 if (newMember.Insert(con.password))
                 {
@@ -226,11 +225,11 @@ namespace CC.Connections.WebUI.Controllers
                     return View(csu);
                 }
                 Random r = new Random();
-                CC.Connections.BL.CategoryList categoryList = new CC.Connections.BL.CategoryList();
+                CC.Connections.BL.CategoryCollection categoryList = new CC.Connections.BL.CategoryCollection();
                 try
                 {
                     categoryList.LoadAll();
-                    csu.Category = CategoryList.INSTANCE.ElementAt(r.Next(1, categoryList.Count-1));
+                    csu.Category = CategoryCollection.INSTANCE.ElementAt(r.Next(1, categoryList.Count-1));
                 }
                 catch (Exception e)
                 {
@@ -265,7 +264,7 @@ namespace CC.Connections.WebUI.Controllers
 
         public ActionResult AutoV_View()
         {
-            Session["member"] = new Password("auto@login.com");
+            Session["member"] = new Password("auto@LogIns.com");
             if (ControllerContext.HttpContext.Request.UrlReferrer != null)
                 return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());//go back
             else
@@ -273,7 +272,7 @@ namespace CC.Connections.WebUI.Controllers
         }
         public ActionResult AutoC_View()
         {
-            Session["member"] = new Password("auto@login.net");
+            Session["member"] = new Password("auto@LogIns.net");
             if (ControllerContext.HttpContext.Request.UrlReferrer != null)
                 return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());//go back
             else

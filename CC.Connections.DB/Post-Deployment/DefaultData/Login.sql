@@ -1,5 +1,5 @@
 ﻿BEGIN
-	INSERT INTO Log_in(Member_Email, MemberType, [Password])
+	INSERT INTO dbo.[LogIns](MemberEmail, MemberType, [Password])
 	 	VALUES
 	('jaredpitts@gmail.com',1,	'qUqP5cyxm6YcTAhz05Hph5gvu9M='),
 	('jimbob@gmail.com',1		,'qUqP5cyxm6YcTAhz05Hph5gvu9M='),

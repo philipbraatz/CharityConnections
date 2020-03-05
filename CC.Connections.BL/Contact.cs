@@ -8,12 +8,12 @@ using System.Linq;
 
 namespace CC.Connections.BL
 {
-    public class Contact : ColumnEntry<PL.Contact_Info>
+    public class Contact : ColumnEntry<PL.ContactInfo>
     {
-        private static CCEntities dc;
+        //private static CCEntities dc;
 
         [DisplayName("Email")]
-        public string Member_Email
+        public string MemberEmail
         {
             get { return (string)base.ID; }
             set { base.ID = value; }
@@ -65,25 +65,25 @@ namespace CC.Connections.BL
         }
 
         public Contact() :
-            base(new PL.Contact_Info()){ Clear(); }
-        public Contact(PL.Contact_Info entry) :
+            base(new PL.ContactInfo()){ Clear(); }
+        public Contact(PL.ContactInfo entry) :
         base(entry){ }
         public Contact(string email,bool preloaded =true) :
-            base(new CCEntities().Contact_Info,email, preloaded,"ContactInfo_Email")
+            base(new CCEntities().ContactInfoes,email, preloaded,"ContactInfo_Email")
         {
-            Member_Email = email;
+            MemberEmail = email;
             LoadId();
         }
         public Contact(Password _password) :
-            base(new PL.Contact_Info())
+            base(new PL.ContactInfo())
         {
-            Member_Email = _password.email;
+            MemberEmail = _password.email;
             LoadId();
         }
 
         private void emailEmptyCheck()
         {
-            if (string.IsNullOrEmpty(this.Member_Email))
+            if (string.IsNullOrEmpty(this.MemberEmail))
                 throw new Exception("Contact Info Email cannot be blank");
         }
 
@@ -93,10 +93,10 @@ namespace CC.Connections.BL
             {
                 emailEmptyCheck();
                 using (CCEntities dc = new CCEntities()){
-                    return base.Insert(dc,dc.Contact_Info) >0;
+                    return base.Insert(dc,dc.ContactInfoes) >0;
                 }
             }
-            catch (Exception e) { return false; }//probably already exists OR bad data
+            catch (Exception) { return false; }//probably already exists OR bad data
         }
         public int Delete()
         {
@@ -104,10 +104,10 @@ namespace CC.Connections.BL
             {
                 emailEmptyCheck();
                 using (CCEntities dc = new CCEntities()){
-                    return base.Delete(dc,dc.Contact_Info);
+                    return base.Delete(dc,dc.ContactInfoes);
                 }
             }
-            catch (Exception e) { throw; }
+            catch (Exception ) { throw; }
         }
 
         public int Update()
@@ -116,16 +116,16 @@ namespace CC.Connections.BL
             {
                 emailEmptyCheck();
                 using (CCEntities dc = new CCEntities()){
-                    return base.Update(dc, dc.Contact_Info);
+                    return base.Update(dc, dc.ContactInfoes);
                 }
             }
-            catch (Exception e) { throw; }
+            catch (Exception ) { throw; }
         }
 
         //sets email then loads
         public void LoadId(string email)
         {
-            this.Member_Email = email;
+            this.MemberEmail = email;
             LoadId();
         }
         //loads from pre-set email
@@ -136,14 +136,14 @@ namespace CC.Connections.BL
                 emailEmptyCheck();
                 using (CCEntities dc = new CCEntities())
                 {
-                    PL.Contact_Info entry = dc.Contact_Info.FirstOrDefault(c =>
-                        c.Member_Email == this.Member_Email);
+                    PL.ContactInfo entry = dc.ContactInfoes.FirstOrDefault(c =>
+                        c.MemberEmail == this.MemberEmail);
                     if (entry == null)
-                        throw new Exception("Contact_Info does not exist with Email \'" + this.Member_Email+"\'" ) ;
-                    base.LoadId(dc.Contact_Info);
+                        throw new Exception("ContactInfo does not exist with Email \'" + this.MemberEmail+"\'" ) ;
+                    base.LoadId(dc.ContactInfoes);
                 }
             }
-            catch (Exception e) { throw; }
+            catch (Exception ) { throw; }
         }
 
         //TODO depreciate
@@ -152,11 +152,11 @@ namespace CC.Connections.BL
             try{
                 using (CCEntities dc = new CCEntities()){
                     Contact entry = new Contact();
-                    entry.LoadId(dc.Contact_Info,memberContact_ID);
+                    entry.LoadId(dc.ContactInfoes,memberContact_ID);
                     return entry;
                 }
             }
-            catch (Exception e) { throw; }
+            catch (Exception ) { throw; }
         }
 
         public void setContactInfo(Contact contactInfo)
@@ -166,16 +166,16 @@ namespace CC.Connections.BL
             this.FName = contactInfo.FName ?? "";
             this.LName = contactInfo.LName ?? "";
             this.Phone = contactInfo.Phone ?? "";
-            this.Member_Email = contactInfo.Member_Email;
+            this.MemberEmail = contactInfo.MemberEmail;
             this.DateOfBirth = contactInfo.DateOfBirth;
         }
     }
 
-    public class ContactList : AbsList<Contact, Contact_Info>
+    public class ContactCollection : AbsList<Contact, ContactInfo>
     {
-        public new void LoadAll(){
+        public void LoadAll(){
             using (CCEntities dc = new CCEntities()){
-                base.LoadAll(dc.Contact_Info);
+                base.LoadAll(dc.ContactInfoes);
             }
         }
     }

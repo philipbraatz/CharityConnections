@@ -3,11 +3,14 @@ using System.Web.Optimization;
 
 namespace CC.Connections.WebUI
 {
-    public class BundleConfig
+    public static class BundleConfig
     {
         // For more information on bundling, visit https://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
+            if (bundles == null)
+                throw new System.ArgumentNullException(nameof(bundles));
+
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 

@@ -12,10 +12,12 @@ namespace CC.Connections.PL
     using System;
     using System.Collections.Generic;
     
-    public partial class Preferred_Charity
+    public partial class MemberAction
     {
         public System.Guid ID { get; set; }
-        public string Volunteer_Email { get; set; }
-        public string Charity_Email { get; set; }
+        public string MemberEmail { get; set; }
+        public Nullable<System.Guid> ActionID { get; set; }
+    
+        public virtual HelpingAction HelpingAction { get; set; }
     }
 }

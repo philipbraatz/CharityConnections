@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Linq;
 using CC.Abstract;
 using CC.Connections.PL;
@@ -7,7 +8,7 @@ namespace CC.Connections.BL
 {
     public class Preference : ColumnEntry<PL.Preference>
     {
-        private static CCEntities dc;
+        //private static CCEntities dc;
 
         //id
         public new Guid ID
@@ -15,9 +16,20 @@ namespace CC.Connections.BL
             get { return (Guid)base.ID; }
             set { base.ID = value; }
         }
-        public new decimal Distance {
-            get { return (decimal)base.getProperty("Distance"); }
-            set { setProperty("Distance", value); }
+
+        [DisplayName("Max search Distance")]
+        public decimal Distance {
+            get {
+                try
+                {
+                    return (decimal)base.getProperty(nameof(Distance));
+                }
+                catch
+                {
+                    return 0;//probably failed because value is null
+                }
+            }
+            set { setProperty(nameof(Distance), value); }
         }
 
         public Preference() :
@@ -62,9 +74,9 @@ namespace CC.Connections.BL
         }
     }
 
-    public class AbsPreferenceList : AbsList<Preference, PL.Preference>
+    public class AbsPreferenceCollection : AbsList<Preference, PL.Preference>
     {
-        public new void LoadAll()
+        public void LoadAll()
         {
             using (CCEntities dc = new CCEntities())
             {

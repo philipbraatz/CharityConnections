@@ -1,5 +1,5 @@
 ﻿BEGIN
-	INSERT INTO dbo.Charity_Event(ID, Charity_Email , [Name], StartDate, EndDate, Location_ID, Requirements, [Description])
+	INSERT INTO dbo.CharityEvents(ID, CharityEmail , [Name], StartDate, EndDate, LocationID, Requirements, [Description])
 	VALUES
 	('b72f0be0-e835-43ab-b6f6-f4b0611ef19d', 'unitedway@gmail.com','Pet Therapy Volunteer', 
 	'2019-03-03 12:00', '2019-03-05 15:00', 

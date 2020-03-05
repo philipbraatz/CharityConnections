@@ -7,7 +7,7 @@ namespace CC.Connections.BL
 {
     public class Location : ColumnEntry<PL.Location>
     {
-        public static CCEntities dc = new CCEntities();
+        //public static CCEntities dc = new CCEntities();
 
         //id
         public new Guid ID
@@ -85,9 +85,9 @@ namespace CC.Connections.BL
         }
     }
 
-    public class LocationList : AbsList<Location, PL.Location>
+    public class LocationCollection : AbsList<Location, PL.Location>
     {
-        public new void LoadAll()
+        public void LoadAll()
         {
             using (CCEntities dc = new CCEntities())
             {

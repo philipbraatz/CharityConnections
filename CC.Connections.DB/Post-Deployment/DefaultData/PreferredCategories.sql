@@ -1,5 +1,5 @@
 ﻿BEGIN
-	INSERT INTO Preferred_Category(ID, Volunteer_Email, Category_ID)
+	INSERT INTO PreferredCategories(ID, VolunteerEmail, CategoryID)
 	VALUES
 	('12d48d7b-be71-41b1-b9e1-65861fb84bff', 'jimbob@gmail.com', '5f674367-be23-4c7a-9910-5fe0d910fce9'),
 	('b583e6ce-a6f8-4cb4-b7d5-0bb9e751f570', 'briandoe@gmail.com', '769e956e-b39d-49e6-b69c-58ee9d6b8f9a'),

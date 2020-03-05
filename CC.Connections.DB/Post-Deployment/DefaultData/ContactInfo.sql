@@ -1,5 +1,5 @@
 ﻿BEGIN
-	INSERT INTO Contact_Info(Member_Email, FName, LName, Phone, DateOfBirth)
+	INSERT INTO ContactInfoes(MemberEmail, FName, LName, Phone, DateOfBirth)
 	VALUES
 	('jimbob@gmail.com', 'Jim', 'Bob', '920-555-5555', '1999-07-23'),
 	('briandoe@gmail.com', 'Brian', 'Doe', '920-123-2233', '1991-04-14'),

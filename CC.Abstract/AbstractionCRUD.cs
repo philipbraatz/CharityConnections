@@ -120,6 +120,9 @@ namespace CC.Abstract
             try
             {
                 PropertyDB_Info<TEntity> propinf = properties.Where(c => c.p.Name == propertyName).FirstOrDefault();
+                if (propinf == null)
+                    throw new PropertyException(typeof(TEntity),propertyName);
+
                 Type propType = propinf.p.PropertyType;
 
                 if (propinf != null)
@@ -156,8 +159,7 @@ namespace CC.Abstract
                 else
                     throw new PropertyException(typeof(TEntity), propertyName);
             }
-            catch (Exception e)
-            {//STOPPED HERE -------------------------------------------------object not set to an instance
+            catch (Exception e) { 
                 throw new Exception(typeof(TEntity) +": "+e.Message);
             }
         }
@@ -406,16 +408,16 @@ namespace CC.Abstract
     where TEntity : class
     where Tcrud : ColumnEntry<TEntity>
     {
-        private object sort_Id { get; set; }
-        private int sort_col { get; set; }
+        private object sortID { get; set; }
+        private int sortCol { get; set; }
 
         //permently delete entries
         public void DeleteAllMatching(DbSet<TEntity> table) { }
         //keep all that match filter
-        public void KeepMatching(DbSet<TEntity> table, object matching_ID)
+        public void KeepMatching(DbSet<TEntity> table, object matchingID)
         { }
         //remove all that match filter
-        public void RemoveMatching(DbSet<TEntity> table, object matching_ID) { }
+        public void RemoveMatching(DbSet<TEntity> table, object matchingID) { }
         public void Add(CCEntities dc, DbSet<TEntity> table, TEntity entry) { }
         public void Remove(CCEntities dc, DbSet<TEntity> table, TEntity entry) { }
     }
@@ -425,42 +427,42 @@ namespace CC.Abstract
         where TEntity : class
         where TEntityJoin : class
     {
-        protected object joinGrouping_ID;
-        private string joinForeign_ID_name;
-        private string joinGrouping_ID_name;
+        protected object joinGroupingID;
+        private string joinForeignIDname;
+        private string joinGroupingIDname;
         private PropertyInfo[] joinTable_Properties { get; set; }
 
         //does not load list without calling load
-        public AbsListJoin(string Grouping_ID_name, object Grouping_ID, string foreign_ID_name)
+        public AbsListJoin(string GroupingIDname, object GroupingID, string foreignIDname)
         {
             Type type = typeof(Tcrud);
             properties = type.GetProperties();
 
             Type typejoin = typeof(TEntityJoin);
             joinTable_Properties = typejoin.GetProperties();
-            joinGrouping_ID = Grouping_ID;
-            joinForeign_ID_name = foreign_ID_name;
-            joinGrouping_ID_name = Grouping_ID_name;
+            joinGroupingID = GroupingID;
+            joinForeignIDname = foreignIDname;
+            joinGroupingIDname = GroupingIDname;
         }
         public new void Clear()
         {
-            joinGrouping_ID = null;
+            joinGroupingID = null;
             base.Clear();
         }
 
         //TODO reimpliment
         //PRES
-        public void LoadWithJoin(DbSet<TEntity> entities, DbSet<TEntityJoin> join_table,
-                                 object join_id)
+        public void LoadWithJoin(DbSet<TEntity> entities, DbSet<TEntityJoin> joinTable,
+                                 object joinid)
         {
             ///This is what this code is doing
             ///memberID = member_id;
-            ///if (dc.Member_Action.ToList().Count != 0)
-            ///    foreach (var col in dc.Member_Action)
+            ///if (dc.MemberActions.ToList().Count != 0)
+            ///    foreach (var col in dc.MemberActions)
             ///        if (col.MemberActionMember_ID == memberID)
-            ///            foreach (var entry in dc.Helping_Action)
-            ///                if (entry.Helping_Action_ID == col.MemberActionAction_ID)
-            ///                    base.Add(new AbsHelping_Action(entry));
+            ///            foreach (var entry in dc.HelpingActions)
+            ///                if (entry.HelpingActionID == col.MemberActionActionID)
+            ///                    base.Add(new AbsHelpingAction(entry));
             
             ///Actual implimentation
             //this.Clear();
@@ -493,11 +495,11 @@ namespace CC.Abstract
             //        }
             //    }
         }
-        public void DeleteAllPreferences(CCEntities dc, DbSet<TEntityJoin> join_table)
+        public void DeleteAllPreferences(CCEntities dc, DbSet<TEntityJoin> joinTable)
         {
-            foreach (var col in join_table)
-                if (joinGrouping_ID.Equals(PropertyHelper.getValue(col, joinGrouping_ID_name)))
-                    join_table.Remove(col);
+            foreach (var col in joinTable)
+                if (joinGroupingID.Equals(PropertyHelper.getValue(col, joinGroupingIDname)))
+                    joinTable.Remove(col);
             dc.SaveChanges();
             this.Clear();
         }
@@ -530,9 +532,9 @@ namespace CC.Abstract
             //if its not a guid or int the ID has to be pre-set before adding
 
             //set ID for group
-            PropertyHelper.setValue(joinInstance, joinGrouping_ID_name,joinGrouping_ID);//instance_Grouping_ID = join_Grouping_ID using ("join_Grouping_ID")
+            PropertyHelper.setValue(joinInstance, joinGroupingIDname,joinGroupingID);//instance_Grouping_ID = join_Grouping_ID using ("join_Grouping_ID")
             //set ID of entry being added
-            PropertyHelper.setValue(joinInstance, joinForeign_ID_name,           //instance_FK using("join_FK") = 
+            PropertyHelper.setValue(joinInstance, joinForeignIDname,           //instance_FK using("join_FK") = 
                             PropertyHelper.getValue(entry, properties[0].Name)); // entry_ID using("entry_ID")
 
             joinTable.Add(joinInstance);//add
@@ -543,9 +545,9 @@ namespace CC.Abstract
         {
             foreach (var join in joinTable)
             {
-                if (joinGrouping_ID.Equals(PropertyHelper.getValue(join, joinGrouping_ID_name)) &&//ID for this group matches
+                if (joinGroupingID.Equals(PropertyHelper.getValue(join, joinGroupingIDname)) &&//ID for this group matches
                     PropertyHelper.getValue(entry, properties[0].Name).Equals(
-                                   PropertyHelper.getValue(join, joinForeign_ID_name))
+                                   PropertyHelper.getValue(join, joinForeignIDname))
                     )//ID for this entry matches
                     joinTable.Remove(join);
             }

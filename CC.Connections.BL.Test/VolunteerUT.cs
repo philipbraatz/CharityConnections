@@ -17,8 +17,8 @@ namespace CC.Connections.BL.Test
     //    public const int INT1 = -7;
     //    public const int INT2 = -22;
     //
-    //    public const int CATEGORY_ID = 1;
-    //    public const int ACTION_ID = 1;
+    //    public const int CategoryID = 1;
+    //    public const int ActionID = 1;
     //    public const int ACTION1 = 1;
     //    public const int ACTION2 = 1;
     //    public const int GUEST_ID = 3;
@@ -43,9 +43,9 @@ namespace CC.Connections.BL.Test
     //        //loadChar.load();
     //        //newt.Prefered_Charity_ID_List.Add(loadChar[0].ID);
     //
-    //        newt.Prefered_helping_Actions.Add(new AbsHelping_Action(ACTION1));
-    //        newt.Prefered_Categories.Add(new Category(CATEGORY_ID));
-    //        newt.Prefered_helping_Actions.Add(new AbsHelping_Action(ACTION_ID));
+    //        newt.Prefered_HelpingActions.Add(new AbsHelpingAction(ACTION1));
+    //        newt.Prefered_Categories.Add(new Category(CategoryID));
+    //        newt.Prefered_HelpingActions.Add(new AbsHelpingAction(ActionID));
     //    }
     //
     //    [TestMethod]
@@ -66,7 +66,7 @@ namespace CC.Connections.BL.Test
     //        Assert.IsTrue(test.ContactInfo_Phone == "1234567");
     //        Assert.IsTrue(test.Pref.Distance == INT1);
     //
-    //        Assert.IsTrue(test.Prefered_helping_Actions.Count > 0);
+    //        Assert.IsTrue(test.Prefered_HelpingActions.Count > 0);
     //        Assert.IsTrue(test.Prefered_Categories.Count >0);
     //        Assert.IsTrue(test.Prefered_Categories[0].Category_Desc == VALUE1);
     //        //Assert.AreNotEqual(0, test.Prefered_Charity_ID_List.Count);

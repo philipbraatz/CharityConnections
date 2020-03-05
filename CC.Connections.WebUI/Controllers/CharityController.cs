@@ -65,26 +65,26 @@ namespace CC.Connections.WebUI.Controllers
                 ViewBag.Title = "Charities";
 
             //load
-            CharityList allCharities = new CharityList();
+            CharityCollection allCharities = new CharityCollection();
             if (Session != null && Session["charities"] != null)
             {
-                allCharities = ((CharityList)Session["charities"]);
-                if (allCharities.Count != CharityList.getCount())//reload to catch missing
+                allCharities = ((CharityCollection)Session["charities"]);
+                if (allCharities.Count != CharityCollection.getCount())//reload to catch missing
                 {
                     allCharities.LoadAll();
                     //if (Session != null && Session["member"] != null)
                         //foreach (var ev in allCharities) ;
-                            //ev.Member_Attendance = new AbsEventAtendee(ev.Event_ID, ((Password)Session["member"]).email);
+                            //ev.Member_Attendance = new AbsEventAtendee(ev.EventID, ((Password)Session["member"]).email);
                 }
             }
             else
             {
                 //convert to Model
-                allCharities = new CharityList();
+                allCharities = new CharityCollection();
                 allCharities.LoadAll();
                 //if (Session != null && Session["member"] != null)
                     //foreach (var ev in allCharities)
-                        //ev.Member_Attendance = new AbsEventAtendee(ev.Event_ID, ((Password)Session["member"]).email);
+                        //ev.Member_Attendance = new AbsEventAtendee(ev.EventID, ((Password)Session["member"]).email);
 
                 //save
                 Session["charities"] = allCharities;
@@ -99,18 +99,18 @@ namespace CC.Connections.WebUI.Controllers
             ViewBag.Title = new Category(id).Desc;
 
             //load
-            CharityList allCharities = new CharityList();
+            CharityCollection allCharities = new CharityCollection();
             if (Session != null && Session["charityList"] != null)
             {
-                allCharities = ((CharityList)Session["charityList"]);//TODO have all views use Session for speed increase
+                allCharities = ((CharityCollection)Session["charityList"]);//TODO have all views use Session for speed increase
                 allCharities.Filter(id, SortBy.CATEGORY);
-                if (allCharities.Count != CharityEventList.getCount())//reload to catch missing
+                if (allCharities.Count != CharityEventCollection.getCount())//reload to catch missing
                     allCharities.LoadWithFilter(id, SortBy.CATEGORY);
             }
             else
             {
                 //convert to Model
-                allCharities = new CharityList();
+                allCharities = new CharityCollection();
                 allCharities.LoadWithFilter(id, SortBy.CATEGORY);
 
                 //save
@@ -181,11 +181,11 @@ namespace CC.Connections.WebUI.Controllers
                     }
                     Random r = new Random();
                     //TODO implement category picker
-                    CC.Connections.BL.CategoryList categoryList = new CC.Connections.BL.CategoryList();
+                    CC.Connections.BL.CategoryCollection categoryList = new CC.Connections.BL.CategoryCollection();
                     try
                     {
                         categoryList.LoadAll();
-                        csu.Category = CategoryList.INSTANCE.ElementAt(r.Next(0, categoryList.Count - 1));
+                        csu.Category = CategoryCollection.INSTANCE.ElementAt(r.Next(0, categoryList.Count - 1));
                     }
                     catch (Exception e)
                     {

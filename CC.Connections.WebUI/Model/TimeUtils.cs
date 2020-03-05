@@ -5,9 +5,9 @@ using System.Web.Mvc;
 
 namespace CC.Connections.WebUI.Model
 {
-    public class TimeUtils
+    public static class TimeUtils
     {
-        public static List<SelectListItem> TimeList = new List<SelectListItem>() {
+        public static List<SelectListItem> TimeList { get; set; } = new List<SelectListItem>() {
                 new SelectListItem {
                     Text = "12:00 AM", Value = "0"},
                 new SelectListItem {

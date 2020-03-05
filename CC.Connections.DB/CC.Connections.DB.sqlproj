@@ -129,12 +129,12 @@
     <None Include="Local.DB.publish.xml" />
     <None Include="Post-Deployment\DefaultData\Categories.sql" />
     <None Include="Post-Deployment\DefaultData\PreferredCategories.sql" />
+    <None Include="Post-Deployment\DefaultData\Login.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Post-Deployment\DefaultData\ContactInfo.sql" />
     <None Include="Post-Deployment\DefaultData\EventAttendance.sql" />
     <None Include="Post-Deployment\DefaultData\HelpingActions.sql" />
-    <None Include="Post-Deployment\DefaultData\Login.sql" />
     <None Include="Post-Deployment\DefaultData\MemberAction.sql" />
     <None Include="Post-Deployment\DefaultData\Volunteers.sql" />
     <None Include="Post-Deployment\DefaultData\Preferences.sql" />

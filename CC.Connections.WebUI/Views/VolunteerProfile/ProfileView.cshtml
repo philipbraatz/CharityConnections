@@ -24,23 +24,91 @@
 <table class="table table-user-information">
     <tbody>
         <tr>
-            <td>Name:</td>
-            <td>@Model.FullName</td>
+            <td>@Html.DisplayNameFor(model => model.FullName)</td>
+            <td>@Html.DisplayFor(model => model.FullName)</td>
         </tr>
         <tr>
-            <td>Email:</td>
-            <td>@Model.Member_Email</td>
+            <td>@Html.DisplayNameFor(model => model.MemberEmail)</td>
+            <td>@Html.DisplayFor(model => model.MemberEmail)</td>
         </tr>
         <tr>
-            <td> Phone:</td>
-            <td>@Model.Phone</td>
+            <td>@Html.DisplayNameFor(model => model.Phone)</td>
+            <td>@Html.DisplayFor(model => model.Phone)</td>
         </tr>
         <tr>
-            <td>Birth date: </td>
-            <td>@Model.DateOfBirth.Date</td>
+            <td>@Html.DisplayNameFor(model => model.DateOfBirth)</td>
+            <td>@Html.DisplayFor(model => model.DateOfBirth)</td>
         </tr>
-            
+        <tr>
+            <td><h4>Preferences</h4></td>
+        </tr>
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.Pref.Distance)</td>
+            <td>@Html.DisplayFor(model => model.Pref.Distance)</td>
+        </tr>
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.PreferedCategories)</td>
+        </tr>
+        <tr>
+            @if (Model.PreferedCategories.ToList().Count != 0)
+            {
+                foreach (var item in Model.PreferedCategories)
+                {
+                    <td class="nav-item overout col-1 volunteer-category-bar" title="@item.Desc">
+                        <a href="@Url.Action("CategoryView", "CharityEvent", new { id = item.ID })">
+                            <img class="catImage" id="@(item.Image.Trim())" src="@("../../Content/Images/Category/Color/" + item.Image.Trim() + "Color.svg")" />
+                        </a>
+                    </td>
+                }
+            }
+            else
+            {
+                <td>No preferences</td>
 
+            }
+        </tr>
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.PreferedHelpingActions)</td>
+        </tr>
+        <tr>
+            @if (Model.PreferedCategories.ToList().Count != 0)
+            {
+                foreach (var item in Model.PreferedHelpingActions)
+                {
+                    <td class="nav-item overout col-1 volunteer-category-bar" title="@item.Action">
+                        <a href="@Url.Action("CategoryView", "CharityEvent", new { id = item.ID })">
+                            <img class="catImage" id="@(item.category.Image.Trim())" src="@("../../Content/Images/Category/Color/" + item.category.Image.Trim() + "Color.svg")" />
+                        </a>
+                    </td>
+                }
+            }
+            else
+            {
+                <td>No Actions</td>
+
+            }
+        </tr>
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.PreferedCharities)</td>
+        </tr>
+        <tr>
+            @if (Model.PreferedCategories.ToList().Count != 0)
+            {
+                foreach (var item in Model.PreferedCharities)
+                {
+                    <td class="nav-item overout col-1 volunteer-category-bar" title="@item.Name">
+                        <a href="@Url.Action("Details", "Charity", new { id = item.Email.Replace('.','-') })">
+                            <img class="col-2 " src="~/Content/Images/CCDefaultPlaceholder.gif" alt="@(item.Name) logo" title="View Charity">
+                        </a>
+                    </td>
+                }
+            }
+            else
+            {
+                <td>No Prefered Charities</td>
+
+            }
+        </tr>
     </tbody>
 </table>
 
@@ -49,10 +117,18 @@
 <table>
     <tr>
         <td>
-            @Html.ActionLink("Edit Profile", "Edit", new { id = Model.Member_Email })
+            @Html.ActionLink("My Events", "UserEventsView", "CharityEvent", new { id = Model.MemberEmail })
         </td>
         <td>
-            @Html.ActionLink("Delete Profile", "Delete", new { id = Model.Member_Email })
+            @Html.ActionLink("Add Prefered Charities", "UserCharitiesView", "Charity", new { id = Model.MemberEmail })
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.ActionLink("Edit Profile", "Edit", new { id = Model.MemberEmail })
+        </td>
+        <td>
+            @Html.ActionLink("Delete Profile", "Delete", new { id = Model.MemberEmail })
         </td>
     </tr>
 </table>

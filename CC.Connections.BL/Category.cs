@@ -74,7 +74,7 @@ namespace CC.Connections.BL
                 }
             else
             {
-                Category loadC = CategoryList.INSTANCE.Where(c => c.ID == this.ID).FirstOrDefault();
+                Category loadC = CategoryCollection.INSTANCE.Where(c => c.ID == this.ID).FirstOrDefault();
                 if (loadC != null)//retreive from existing
                     this.SetCategory(loadC);
                 else//load from database
@@ -89,28 +89,28 @@ namespace CC.Connections.BL
         public void Insert() {
             using (CCEntities dc = new CCEntities()){
                 base.Insert(dc, dc.Categories);
-                CategoryList.AddToInstance(this);
+                CategoryCollection.AddToInstance(this);
             }
         }
         public void Update(){
             using (CCEntities dc = new CCEntities()){
                 base.Update(dc, dc.Categories);
-                CategoryList.UpdateInstance(this);
+                CategoryCollection.UpdateInstance(this);
             }
         }
         public void Delete(){
             using (CCEntities dc = new CCEntities()){
                 base.Insert(dc, dc.Categories);
-                CategoryList.RemoveInstance(this);
+                CategoryCollection.RemoveInstance(this);
             }
         }
     }
 
     //STOP HERE
-    public class CategoryList : AbsList<Category, PL.Category>
+    public class CategoryCollection : AbsList<Category, PL.Category>
     {
-        private static CategoryList INS = new CategoryList();
-        public static CategoryList INSTANCE
+        private static CategoryCollection INS = new CategoryCollection();
+        public static CategoryCollection INSTANCE
         {
             get
             {
@@ -121,11 +121,11 @@ namespace CC.Connections.BL
             private set => INS = value;
         }
 
-        public static CategoryList LoadInstance()
+        public static CategoryCollection LoadInstance()
         {
             try
             {
-                INSTANCE = new CategoryList();
+                INSTANCE = new CategoryCollection();
                 using (CCEntities dc = new CCEntities())
                 {
                     foreach (var c in dc.Categories.ToList())
@@ -157,13 +157,13 @@ namespace CC.Connections.BL
             this.AddRange(INS);
         }
         //hides categories that are unused
-        public new void LoadUsed()
+        public void LoadUsed()
         {
             try{
                 using (CCEntities dc = new CCEntities()){
                     //base.LoadAll(dc.Categories);
                     foreach (var c in INSTANCE)
-                        if(CharityList.INSTANCE.Where(d=>d.Category.ID == c.ID).Any())
+                        if(CharityCollection.INSTANCE.Where(d=>d.Category.ID == c.ID).Any())
                             base.Add(c);
                 }
             }
@@ -175,50 +175,50 @@ namespace CC.Connections.BL
         }
 
     }
-    public class CategoryPreferences : AbsListJoin<Category, PL.Category, Preferred_Category>
+    public class CategoryPreferenceCollection : AbsListJoin<Category, PL.Category, PreferredCategory>
     {
         string volunteerEmail
         {
-            get { return (string)joinGrouping_ID; }
-            set { joinGrouping_ID = value; }
+            get { return (string)joinGroupingID; }
+            set { joinGroupingID = value; }
         }
 
 
-        public CategoryPreferences(string member_id)
-            : base("MemberCat_Category_ID",member_id, "MemberCat_Member_ID")
+        public CategoryPreferenceCollection(string member_id)
+            : base("MemberCat_CategoryID",member_id, "MemberCat_Member_ID")
         {
-            Preferred_Category c = new Preferred_Category { Volunteer_Email = member_id };
-            base.joinGrouping_ID = c.Volunteer_Email;
+            PreferredCategory c = new PreferredCategory { VolunteerEmail = member_id };
+            base.joinGroupingID = c.VolunteerEmail;
         }
 
-        public new void LoadPreferences()
-        { LoadPreferences((string)base.joinGrouping_ID); }
-        public new void LoadPreferences(string volunteer_Email){
+        public void LoadPreferences()
+        { LoadPreferences((string)base.joinGroupingID); }
+        public void LoadPreferences(string VolunteerEmail){
             using (CCEntities dc = new CCEntities()){
-                volunteerEmail = volunteer_Email;
+                volunteerEmail = VolunteerEmail;
                 if (dc.Categories.ToList().Count != 0)
-                    dc.Preferred_Category
-                        .Where(c => c.Volunteer_Email == volunteerEmail).ToList()
+                    dc.PreferredCategories
+                        .Where(c => c.VolunteerEmail == volunteerEmail).ToList()
                         .ForEach(b => base.Add(new Category(dc.Categories
                             .Where(d =>
-                                d.ID == b.Category_ID
+                                d.ID == b.CategoryID
                             ).FirstOrDefault()))
                         );
             }
         }
-        public new void DeleteAllPreferences(){
+        public void DeleteAllPreferences(){
             using (CCEntities dc = new CCEntities()){
-                base.DeleteAllPreferences(dc, dc.Preferred_Category);
+                base.DeleteAllPreferences(dc, dc.PreferredCategories);
             }
         }
         public new void Add(Category category){
             using (CCEntities dc = new CCEntities()){
-                base.Add(dc, dc.Preferred_Category,new Preferred_Category(), category);
+                base.Add(dc, dc.PreferredCategories,new PreferredCategory(), category);
             }
         }
         public new void Remove(Category category){
             using (CCEntities dc = new CCEntities()){
-                base.Remove(dc, dc.Preferred_Category,category);
+                base.Remove(dc, dc.PreferredCategories,category);
             }
         }
     }

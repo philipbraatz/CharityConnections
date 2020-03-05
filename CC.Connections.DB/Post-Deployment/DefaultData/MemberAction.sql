@@ -1,5 +1,5 @@
 ﻿BEGIN
-	INSERT INTO Member_Action(ID, Member_Email, Action_ID)
+	INSERT INTO MemberActions(ID, MemberEmail, ActionID)
 	VALUES
 	('e3151d8d-af70-4e7c-8153-a202e02e1cf3', 'jimbob@gmail.com', '57f5d115-90a1-4cdb-9808-80408c1ac6c8'),
 	('d9c66b2b-bdaf-4fc7-9ff7-c6de7bea4b09', 'jaredpitts@gmail.com', '46902aff-ad63-4b04-baa1-1c61f37337f7'),

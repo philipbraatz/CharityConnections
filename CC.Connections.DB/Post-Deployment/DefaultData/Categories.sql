@@ -1,5 +1,5 @@
 ﻿BEGIN
-	INSERT INTO Categories(ID, [Desc],Color, [Image])
+	INSERT INTO dbo.Categories(ID, [Desc],Color, [Image])
 	VALUES
 	('5f674367-be23-4c7a-9910-5fe0d910fce9', 'Animals','00FF00','paw'),
 	('769e956e-b39d-49e6-b69c-58ee9d6b8f9a', 'Computers & Technology','808080','book'),

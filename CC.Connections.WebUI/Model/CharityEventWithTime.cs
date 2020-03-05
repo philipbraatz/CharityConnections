@@ -7,20 +7,20 @@ using CC.Connections.BL;
 
 namespace CC.Connections.WebUI.Model
 {
-    public class CharityEvent_WithTime : CharityEvent
+    public class CharityEventWithTime : CharityEvent
     {
         private string time_start;//"12/11/2019 12:00:00 AM"
         private string time_end;
 
-        public CharityEvent_WithTime() {
+        public CharityEventWithTime() {
             this.time_start = TimeUtils.ToInt(this.StartTime).ToString();
             this.time_end = TimeUtils.ToInt(this.EndTime).ToString();
         }
-        public CharityEvent_WithTime(CharityEvent evnt)
+        public CharityEventWithTime(CharityEvent evnt)
         {
 
             this.ID = evnt.ID;
-            this.Charity_Email = evnt.Charity_Email;
+            this.CharityEmail = evnt.CharityEmail;
             this.setEventInfo(evnt);//charity id is set
             this.time_start = TimeUtils.ToInt(this.StartTime).ToString();
             this.time_end = TimeUtils.ToInt(this.EndTime).ToString();

@@ -32,7 +32,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
-    <TypeScriptToolsVersion>3.1</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -43,6 +43,19 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <LangVersion>7.1</LangVersion>
+    <TypeScriptTarget>ES5</TypeScriptTarget>
+    <TypeScriptJSXEmit>React</TypeScriptJSXEmit>
+    <TypeScriptModuleKind />
+    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
+    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
+    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
+    <TypeScriptOutFile />
+    <TypeScriptOutDir />
+    <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
+    <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
+    <TypeScriptSourceMap>True</TypeScriptSourceMap>
+    <TypeScriptMapRoot />
+    <TypeScriptSourceRoot />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -139,6 +152,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CharityController.cs" />
     <Compile Include="Controllers\CharityEventController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -149,7 +163,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Model\CharityEvent_WithTime.cs" />
+    <Compile Include="Model\CharityEventWithTime.cs" />
     <Compile Include="Model\CharitySignup.cs" />
     <Compile Include="Model\VolunteerSignup.cs" />
     <Compile Include="Model\TimeUtils.cs" />
@@ -159,38 +173,45 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />
     <Content Include="Content\bootstrap-reboot.min.css" />
+    <Content Include="Content\connectionCss\layout.css" />
     <Content Include="Content\Images\BannerAd\bannerAd.jpg" />
     <Content Include="Content\Images\BannerAd\bannerAd.png" />
     <Content Include="Content\Images\BannerAd\charityBannerAd.png" />
     <Content Include="Content\Images\CCDefaultPlaceholder.gif" />
+    <Content Include="Scripts\connectionsScripts\navigation.js" />
     <Content Include="TimePicker\bootstrap-timepicker.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\Images\book.svg" />
-    <Content Include="Content\Images\bookColor.svg" />
+    <Content Include="Content\Images\Category\Gray\book.svg" />
+    <Content Include="Content\Images\Category\Color\bookColor.svg" />
     <Content Include="Content\Images\CCLOGO_2.svg" />
     <Content Include="Content\Images\ccweblogo.png" />
     <Content Include="Content\Images\ccweblogo.svg" />
-    <Content Include="Content\Images\health.svg" />
-    <Content Include="Content\Images\healthColor.svg" />
-    <Content Include="Content\Images\hands.svg" />
-    <Content Include="Content\Images\handsColor.svg" />
-    <Content Include="Content\Images\paw.svg" />
-    <Content Include="Content\Images\pawColor.svg" />
-    <Content Include="Content\Images\people.svg" />
-    <Content Include="Content\Images\peopleColor.svg" />
+    <Content Include="Content\Images\Category\Gray\health.svg" />
+    <Content Include="Content\Images\Category\Color\healthColor.svg" />
+    <Content Include="Content\Images\Category\Gray\hands.svg" />
+    <Content Include="Content\Images\Category\Color\handsColor.svg" />
+    <Content Include="Content\Images\Category\Gray\paw.svg" />
+    <Content Include="Content\Images\Category\Color\pawColor.svg" />
+    <Content Include="Content\Images\Category\Gray\people.svg" />
+    <Content Include="Content\Images\Category\Color\peopleColor.svg" />
     <Content Include="Content\Images\pet_volunteer.jpg" />
     <Content Include="Content\Images\raking.jpg" />
     <Content Include="Content\Images\school_volunteer.jpg" />
     <Content Include="Content\Images\Tagline_CC.svg" />
-    <Content Include="Content\Images\tree.svg" />
-    <Content Include="Content\Images\treeColor.svg" />
+    <Content Include="Content\Images\Category\Gray\tree.svg" />
+    <Content Include="Content\Images\Category\Color\treeColor.svg" />
     <Content Include="Content\Images\volunteer_large_group.jpg" />
     <Content Include="TimePicker\MvcBootstrapTimepicker.css" />
     <Content Include="favicon.ico" />
@@ -213,7 +234,6 @@
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\custom.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
@@ -226,6 +246,10 @@
     <Content Include="Scripts\bootstrap.js.map" />
     <Content Include="Scripts\bootstrap.bundle.min.js.map" />
     <Content Include="Scripts\bootstrap.bundle.js.map" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -285,10 +309,11 @@
     <Content Include="Views\Charity\Edit.cshtml" />
     <Content Include="Views\CharityEvent\Create.cshtml" />
     <Content Include="Views\CharityEvent\SideView.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\Charity.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\Images\Category\" />
     <Folder Include="Content\Images\Profile\" />
   </ItemGroup>
   <ItemGroup>
@@ -363,7 +388,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties content_4bootstrap_1css_1map__JsonSchema="" content_4bootstrap-grid_1css_1map__JsonSchema="" />
+      <UserProperties content_4bootstrap-grid_1css_1map__JsonSchema="" content_4bootstrap_1css_1map__JsonSchema="" />
     </VisualStudio>
   </ProjectExtensions>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

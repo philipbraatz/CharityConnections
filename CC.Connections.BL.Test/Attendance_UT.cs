@@ -19,8 +19,8 @@ namespace CC.Connections.BL.Test
 //        public const int INT1 = -7;
 //        public const int INT2 = -22;
 //
-//        public const int CATEGORY_ID = 0;
-//        public const int ACTION_ID = 0;
+//        public const int CategoryID = 0;
+//        public const int ActionID = 0;
 //        public const int ACTION1 = 0;
 //        public const int ACTION2 = 1;
 //        public const int GUEST_ID = 3;
@@ -35,7 +35,7 @@ namespace CC.Connections.BL.Test
 //            CharityEvent cat = charityEvents.Where(c => c.CharityEventName == desc).FirstOrDefault();
 //            if (cat == null)
 //                Assert.Fail("Could not find item with discription \"" + desc + "\" in table");
-//            return cat.Event_ID;
+//            return cat.EventID;
 //        }
 //
 //        private string getID_fromDesc(string desc)
@@ -54,7 +54,7 @@ namespace CC.Connections.BL.Test
 //        {
 //            Volunteer v = new Volunteer(testingID);
 //            CharityEvent evnt = new CharityEvent(getEventID_fromDesc(NAME_OF_EVENT));
-//            test = new AbsEventAtendee(evnt.Event_ID, testingID)
+//            test = new AbsEventAtendee(evnt.EventID, testingID)
 //            {
 //                Status = VALUE1
 //            };
@@ -70,7 +70,7 @@ namespace CC.Connections.BL.Test
 //
 //            Assert.AreNotEqual(0, table.Count);
 //        AbsEventAtendee atendee = table.Where(c =>
-//                  c.Event_ID == eventID &&
+//                  c.EventID == eventID &&
 //                  c.Member_ID == memberID).FirstOrDefault();
 //            Assert.IsNotNull(atendee);
 //

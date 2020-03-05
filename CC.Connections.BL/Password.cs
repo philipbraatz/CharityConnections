@@ -42,7 +42,7 @@ namespace CC.Connections.BL
         }
 
         [DisplayName("Account Type")]
-        public new MemberType MemberType { get; set; }
+        public MemberType MemberType { get; set; }
 
         public Password() { }
         //existing Password
@@ -98,9 +98,9 @@ namespace CC.Connections.BL
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invalid");
 
-                    PL.Log_in entry = dc.Log_in.FirstOrDefault(c => c.Member_Email == this.email);
+                    PL.LogIn entry = dc.LogIns.FirstOrDefault(c => c.MemberEmail == this.email);
                     if (entry == null)
-                        return false;//throw new Exception("Log_in "+ this.email + " does not exist");
+                        return false;//throw new Exception("LogIns "+ this.email + " does not exist");
 
                     this.hash = entry.Password;
 
@@ -124,16 +124,16 @@ namespace CC.Connections.BL
             {
                 iD = this.email;
 
-                if (dc.Log_in.Where(c => c.Member_Email == email).FirstOrDefault() != null)
+                if (dc.LogIns.Where(c => c.MemberEmail == email).FirstOrDefault() != null)
                     return false;//already exists
 
-                PL.Log_in entry = new PL.Log_in
+                PL.LogIn entry = new PL.LogIn
                 {
-                    Member_Email = email,
+                    MemberEmail = email,
                     Password = hash,
                     MemberType =(int)this.MemberType
                 };
-                dc.Log_in.Add(entry);
+                dc.LogIns.Add(entry);
                 dc.SaveChanges();
                 return true;//added
             }
@@ -143,7 +143,7 @@ namespace CC.Connections.BL
         {
             using (CCEntities dc = new CCEntities())
             {
-                dc.Log_in.Remove(dc.Log_in.Where(c => c.Member_Email == email).FirstOrDefault());
+                dc.LogIns.Remove(dc.LogIns.Where(c => c.MemberEmail == email).FirstOrDefault());
                 this.email = string.Empty;
                 this.hash = string.Empty;
                 return dc.SaveChanges();
@@ -154,7 +154,7 @@ namespace CC.Connections.BL
         {
             using (CCEntities dc = new CCEntities())
             {
-                PL.Log_in entry = dc.Log_in.Where(c => c.Member_Email == this.email).FirstOrDefault();
+                PL.LogIn entry = dc.LogIns.Where(c => c.MemberEmail == this.email).FirstOrDefault();
                 entry.Password = hash;
                 entry.MemberType = (int)this.MemberType;
                 return dc.SaveChanges();
@@ -163,7 +163,7 @@ namespace CC.Connections.BL
 
         //guest if password didnt match
         //otherwise sets volunteer or charity
-        public void Login()
+        public void LogIns()
         {
             try
             {
@@ -175,7 +175,7 @@ namespace CC.Connections.BL
                 {
                     using (CCEntities dc = new CCEntities())
                     {
-                        PL.Log_in entry = dc.Log_in.FirstOrDefault(u => u.Member_Email == this.email);
+                        PL.LogIn entry = dc.LogIns.FirstOrDefault(u => u.MemberEmail == this.email);
                         if (entry == null)
                             this.MemberType = MemberType.GUEST;//doesnt exist
                         else if (entry.Password == hash)//success if match
@@ -185,7 +185,7 @@ namespace CC.Connections.BL
                     }
                 }
             }
-            catch (Exception e) { throw; }
+            catch (Exception) { throw; }
         }
     }
 
@@ -199,12 +199,12 @@ namespace CC.Connections.BL
             {
                 using (CCEntities dc = new CCEntities())
                 {
-                    if (dc.Log_in.ToList().Count != 0)
-                        dc.Log_in.ToList().ForEach(c =>
-                            this.Add(new Password(c.Member_Email, c.Password,(MemberType)c.MemberType, true)));
+                    if (dc.LogIns.ToList().Count != 0)
+                        dc.LogIns.ToList().ForEach(c =>
+                            this.Add(new Password(c.MemberEmail, c.Password,(MemberType)c.MemberType, true)));
                 }
             }
-            catch (Exception e) { throw; }
+            catch (Exception) { throw; }
         }
     }
 }

@@ -12,10 +12,12 @@ namespace CC.Connections.PL
     using System;
     using System.Collections.Generic;
     
-    public partial class Volunteer
+    public partial class ContactInfo
     {
-        public string VolunteerEmail { get; set; }
-        public Nullable<System.Guid> PreferenceID { get; set; }
-        public Nullable<System.Guid> LocationID { get; set; }
+        public string MemberEmail { get; set; }
+        public string FName { get; set; }
+        public string LName { get; set; }
+        public string Phone { get; set; }
+        public Nullable<System.DateTime> DateOfBirth { get; set; }
     }
 }

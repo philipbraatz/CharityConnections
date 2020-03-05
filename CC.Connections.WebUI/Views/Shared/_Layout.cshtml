@@ -22,7 +22,7 @@
 
 </head>
 @{ 
-    CC.Connections.BL.CategoryList categoryList = new CC.Connections.BL.CategoryList();
+    CC.Connections.BL.CategoryCollection categoryList = new CC.Connections.BL.CategoryCollection();
     try
     {
         categoryList.LoadUsed();
@@ -81,14 +81,14 @@
 
                                 @if (Session["member"] == null)
                                 {
-                                    <li class="nav-item">@Html.ActionLink("Login", "LoginView", "Login")</li>
-                                    <li class="nav-item">@Html.ActionLink("Sign Up", "SignupView", "Login")</li>
-                                    <li class="nav-item">@Html.ActionLink("Charity Signup", "CharitySignupView", "Login")</li>
+                                    <li class="nav-item">@Html.ActionLink("LogIns", "LogInsView", "LogIns")</li>
+                                    <li class="nav-item">@Html.ActionLink("Sign Up", "SignupView", "LogIns")</li>
+                                    <li class="nav-item">@Html.ActionLink("Charity Signup", "CharitySignupView", "LogIns")</li>
 
                                     if (Request.IsLocal)
                                     {
-                                        <li class="dropdown-item">@Html.ActionLink("Autologin Volunteer", "AutoV_View", "Login")</li>
-                                        <li class="dropdown-item">@Html.ActionLink("Autologin Charity", "AutoC_View", "Login")</li>
+                                        <li class="dropdown-item">@Html.ActionLink("AutoLogIns Volunteer", "AutoV_View", "LogIns")</li>
+                                        <li class="dropdown-item">@Html.ActionLink("AutoLogIns Charity", "AutoC_View", "LogIns")</li>
                                     }
                                 }
                                 else
@@ -105,7 +105,7 @@
                                     {
                                         <li class="dropdown-item">@Html.ActionLink("Profile", "CharityProfile","Charity")</li>
                                     }
-                                    <li class="dropdown-item" id="btnLogout">@Html.ActionLink("Logout", "logoutView", "Login")</li>
+                                    <li class="dropdown-item" id="btnLogout">@Html.ActionLink("Logout", "logoutView", "LogIns")</li>
                                 }
                             </div>
                         </div>
