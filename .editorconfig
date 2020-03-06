@@ -2,3 +2,6 @@
 
 # CA1707: Identifiers should not contain underscores
 dotnet_diagnostic.CA1707.severity = suggestion
+
+# CA2225: Operator overloads have named alternates
+dotnet_diagnostic.CA2225.severity = silent

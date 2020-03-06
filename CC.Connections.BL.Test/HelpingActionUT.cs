@@ -28,7 +28,7 @@ namespace CC.Connections.BL.Test
                 allTable = new BL.AbsHelpingActionCollection();
             allTable.LoadAll();
 
-            AbsHelpingAction cat = allTable.Where(c => c.Action == desc).FirstOrDefault();
+            AbsHelpingAction cat = allTable.Where(c => c.Description == desc).FirstOrDefault();
             if (cat == null)
                 Assert.Fail();
             return cat.ID;
@@ -39,14 +39,14 @@ namespace CC.Connections.BL.Test
         {
             AbsHelpingAction newt = new AbsHelpingAction
             {
-                Action = INSERT_1
+                Description = INSERT_1
             };
 
             newt.Insert();
 
             newt = new AbsHelpingAction
             {
-                Action = INSERT_2
+                Description = INSERT_2
             };
 
             newt.Insert();
@@ -60,7 +60,7 @@ namespace CC.Connections.BL.Test
 
             Assert.AreNotEqual(0, table.Count);
 
-            Assert.IsNotNull(table.Where(f => f.Action == INSERT_1));
+            Assert.IsNotNull(table.Where(f => f.Description == INSERT_1));
         }
 
         [TestMethod]
@@ -74,14 +74,14 @@ namespace CC.Connections.BL.Test
             test = new AbsHelpingAction(getID_fromDesc(INSERT_1));
             AbsHelpingAction updated = new AbsHelpingAction(getID_fromDesc(INSERT_1))
             {
-                Action = UPDATE_1
+                Description = UPDATE_1
             };
             updated.Update();//update database
 
             //update both HelpingActions
             updated = new AbsHelpingAction(getID_fromDesc(INSERT_2))
             {
-                Action = UPDATE_2
+                Description = UPDATE_2
             };
             updated.Update();//update database
 
@@ -97,7 +97,7 @@ namespace CC.Connections.BL.Test
         {
             test = new AbsHelpingAction(getID_fromDesc(INSERT_1));
 
-            Assert.IsTrue(test.Action == INSERT_1);
+            Assert.IsTrue(test.Description == INSERT_1);
         }
 
         [TestMethod]
@@ -111,7 +111,7 @@ namespace CC.Connections.BL.Test
             AbsHelpingActionCollection table = new AbsHelpingActionCollection();
             table.LoadAll();//load updated table
 
-            Assert.IsNull(table.Find(f => f.Action == UPDATE_2));//may need to test for different nonexistant value
+            Assert.IsNull(table.Find(f => f.Description == UPDATE_2));//may need to test for different nonexistant value
         }
     }
 }

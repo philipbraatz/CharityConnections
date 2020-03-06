@@ -164,6 +164,9 @@ namespace CC.Connections.BL
         }
         public int Delete(Password password)
         {
+            if (password is null)
+                throw new ArgumentNullException(nameof(password));
+
             try
             {
                 using (CCEntities dc = new CCEntities())
@@ -212,7 +215,7 @@ namespace CC.Connections.BL
                     return dc.SaveChanges();
                 }
             }
-            catch (Exception e) { throw e; }
+            catch (Exception e) { throw; }
         }
 
         //TODO remove in favor of email
@@ -293,7 +296,7 @@ namespace CC.Connections.BL
             catch (Exception e)
             {
                 //probably could not find the data it was looking for
-                throw e;
+                throw;
             }
         }
 

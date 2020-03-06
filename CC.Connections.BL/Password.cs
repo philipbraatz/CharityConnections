@@ -163,7 +163,7 @@ namespace CC.Connections.BL
 
         //guest if password didnt match
         //otherwise sets volunteer or charity
-        public void LogIns()
+        public void Login()
         {
             try
             {

@@ -109,14 +109,18 @@ namespace CC.Connections.BL
         //does not verify password
         public Charity(Password p) : this(p.email,true)
         {
+            if (p is null)
+                throw new ArgumentNullException(nameof(p));
+
             this.Deductibility = false;
         }
         public Charity(PL.Charity entry) : base(entry)
         {
+            if (entry is null)
+                throw new ArgumentNullException(nameof(entry));
+
             this.Category = new Category((Guid)entry.CategoryID);
             this.Location = new Location((Guid)entry.LocationID);
-
-            //this.Charity_Deductibility = false;
         }
         public Charity(string charity,bool preloaded =true) : base(new CCEntities().Charities, charity, preloaded)
         {
@@ -445,7 +449,10 @@ namespace CC.Connections.BL
 
         public static implicit operator List<object>(CharityCollection v)
         {
-            throw new NotImplementedException();
+            List<object> p = new List<object>();
+            foreach (Charity c in v)
+                p.Add(c);
+            return p;
         }
     }
 }

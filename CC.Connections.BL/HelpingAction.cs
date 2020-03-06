@@ -14,21 +14,29 @@ namespace CC.Connections.BL
         //private static CCEntities dc;
 
         //id
-        public new int ID
+        public Guid ID
         {
-            get { return (int)base.ID; }
+            get { return (Guid)base.ID; }
             set { base.ID = value; }
         }
-        public Category category { get; set; }
-        public string Action
+        private Category CategoryID;
+        public Category category {
+            get {
+                if (CategoryID == null)
+                    CategoryID = new Category((Guid)base.getProperty(nameof(CategoryID)));
+                return CategoryID;
+            }
+            set { setProperty(nameof(CategoryID), CategoryID); }
+        }
+        public string Description
         {
-            get { return (string)base.getProperty("HelpingActionDescription"); }
-            set { setProperty("HelpingActionDescription", value); }
+            get { return (string)base.getProperty(nameof(Description)); }
+            set { setProperty(nameof(Description), value); }
         }
 
         private new void Clear()
         {
-            Action = string.Empty;
+            Description = string.Empty;
             category = new Category();
         }
 
@@ -38,7 +46,7 @@ namespace CC.Connections.BL
         public AbsHelpingAction(PL.HelpingAction entry) :
             base(entry)
         { Clear(); }
-        public AbsHelpingAction(int id) :
+        public AbsHelpingAction(Guid id) :
             base(new CCEntities().HelpingActions, id)
         {
             Clear();

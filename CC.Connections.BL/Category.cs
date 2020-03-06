@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Data.Entity.Core;
 using CC.Abstract;
 using System;
+using System.Collections.Generic;
 
 namespace CC.Connections.BL
 {
@@ -60,6 +61,9 @@ namespace CC.Connections.BL
         { return new Category(entry); }
         public void SetCategory(Category c)
         {
+            if (c is null)
+                throw new ArgumentNullException(nameof(c));
+
             this.ID = c.ID;
             this.Color = c.Color;
             this.Desc = c.Desc;
@@ -125,10 +129,12 @@ namespace CC.Connections.BL
         {
             try
             {
-                INSTANCE = new CategoryCollection();
+                INS = new CategoryCollection();
                 using (CCEntities dc = new CCEntities())
                 {
-                    foreach (var c in dc.Categories.ToList())
+                    dynamic dct = dc.Categories;
+                    List<PL.Category> cats = dc.Categories.ToList();
+                    foreach (var c in cats)
                         INS.Add(new Category(c));
                 }
                 return INS;
@@ -154,6 +160,7 @@ namespace CC.Connections.BL
         public void LoadAll()
         {
             this.Clear();
+            LoadInstance();//make sure Instance is filled
             this.AddRange(INS);
         }
         //hides categories that are unused

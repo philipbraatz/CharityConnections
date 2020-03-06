@@ -67,7 +67,7 @@ namespace CC.Connections.WebUI.Controllers
                     return View(passValue);
                 }
 
-                passValue.LogIns();
+                passValue.Login();
                 if (passValue.MemberType != MemberType.GUEST)
                 {
                     Session["member"] = passValue;

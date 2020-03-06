@@ -51,9 +51,9 @@ namespace CC.Connections.BL
             }
             set { 
                 if(value > DateTime.Parse("1753/1/1"))//good values get set
-                    setProperty("DateOfBirth", value); 
+                    setProperty(nameof(DateOfBirth), value); 
                 else
-                    setProperty("DateOfBirth", DateTime.Parse("1800/1/1"));//default min value
+                    setProperty(nameof(DateOfBirth), DateTime.Parse("1800/1/1"));//default min value
             }
         }
 
@@ -169,6 +169,8 @@ namespace CC.Connections.BL
             this.MemberEmail = contactInfo.MemberEmail;
             this.DateOfBirth = contactInfo.DateOfBirth;
         }
+
+        public static implicit operator Contact(PL.ContactInfo c) => new Contact(c);
     }
 
     public class ContactCollection : AbsList<Contact, ContactInfo>

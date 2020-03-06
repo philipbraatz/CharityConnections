@@ -68,7 +68,7 @@
     <Compile Include="DataTypeTimeAttribute.cs" />
     <Compile Include="EventAttendance.cs" />
     <Compile Include="SortingUtil.cs" />
-    <Compile Include="Helping_Action.cs" />
+    <Compile Include="HelpingAction.cs" />
     <Compile Include="Location.cs" />
     <Compile Include="MapAPI.cs" />
     <Compile Include="Volunteer.cs" />
