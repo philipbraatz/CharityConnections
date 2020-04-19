@@ -158,10 +158,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\apiHelper.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CharityController.cs" />
     <Compile Include="Controllers\CharityEventController.cs" />
@@ -175,6 +175,7 @@
     </Compile>
     <Compile Include="Model\CharityEventWithTime.cs" />
     <Compile Include="Model\CharitySignup.cs" />
+    <Compile Include="Model\MemberProfile.cs" />
     <Compile Include="Model\VolunteerSignup.cs" />
     <Compile Include="Model\TimeUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

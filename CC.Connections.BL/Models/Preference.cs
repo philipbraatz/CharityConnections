@@ -6,7 +6,7 @@ using CC.Connections.PL;
 
 namespace CC.Connections.BL
 {
-    public class Preference : ColumnEntry<PL.Preference>
+    public class Preference : BaseModel<PL.Preference>
     {
         //private static CCEntities dc;
 
@@ -74,7 +74,7 @@ namespace CC.Connections.BL
         }
     }
 
-    public class AbsPreferenceCollection : AbsList<Preference, PL.Preference>
+    public class AbsPreferenceCollection : BaseList<Preference, PL.Preference>
     {
         public void LoadAll()
         {

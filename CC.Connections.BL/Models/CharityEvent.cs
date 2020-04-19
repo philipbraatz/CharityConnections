@@ -13,7 +13,7 @@ using CC.Abstract;
 
 namespace CC.Connections.BL
 {
-    public class CharityEvent : ColumnEntry<PL.CharityEvent>
+    public class CharityEvent : BaseModel<PL.CharityEvent>
     {
         //private static CCEntities dc;
 
@@ -141,12 +141,12 @@ namespace CC.Connections.BL
                     base.setProperty(nameof(Charity) + "Email", value.Email);
             }
         }
-        public AbsEventAtendee Member_Attendance { get; set; }
+        public AbsEventAttendee Member_Attendance { get; set; }
 
 
         public void AddMember(string email, Status status)
         {
-            AbsEventAtendee atendee = new AbsEventAtendee(this.ID, email)
+            AbsEventAttendee atendee = new AbsEventAttendee(this.ID, email)
             {VolunteerStatus = status};
             atendee.Insert();
             this.atendees.Add(atendee);
@@ -194,7 +194,7 @@ namespace CC.Connections.BL
         {
             this.Charity = charity;
             if (!string.IsNullOrEmpty(memberEmail))
-                this.Member_Attendance = new AbsEventAtendee(charityEventID, memberEmail);
+                this.Member_Attendance = new AbsEventAttendee(charityEventID, memberEmail);
             this.ID = charityEventID;
             Clear();
             LoadId();
@@ -373,28 +373,38 @@ namespace CC.Connections.BL
     }
 
     public class CharityEventCollection
-        : List<CharityEvent>
+        : BaseList<CharityEvent,PL.CharityEvent>
     {
-        public static CharityEventCollection INSTANCE { get; private set; } = LoadInstance();
+        private static CharityEventCollection ins = new CharityEventCollection();
+        public static CharityEventCollection INSTANCE
+        {
+            get
+            {
+                if (ins == null || ins.Count == 0)
+                    ins = LoadInstance();
+                return ins;
+            }
+            private set => ins = value;
+        }
 
         //Everything is loaded from here when first needed!
         public static CharityEventCollection LoadInstance()
         {
             try
             {
-                INSTANCE = new CharityEventCollection();
+                ins = new CharityEventCollection();
                 using (CCEntities dc = new CCEntities())
                 {
                     foreach (var c in dc.CharityEvents.ToList())
-                        INSTANCE.Add(new CharityEvent(c));
+                        ins.Add(new CharityEvent(c));
                 }
-                return INSTANCE;
+                return ins;
             }
             catch (EntityException e) { throw e.InnerException; }
         }
         public static void AddToInstance(CharityEvent category)
         {
-            INSTANCE.Add(category);
+            ins.Add(category);
         }
         //Might be able to optimize better
         internal static void UpdateInstance(CharityEvent category)
@@ -405,7 +415,14 @@ namespace CC.Connections.BL
 
         internal static void RemoveInstance(CharityEvent category)
         {
-            INSTANCE.Remove(category);
+            ins.Remove(category);
+        }
+
+        public void LoadAll()
+        {
+            this.Clear();
+            LoadInstance();//make sure Instance is filled
+            this.AddRange(ins);
         }
 
         //only used for Event lists
@@ -430,24 +447,6 @@ namespace CC.Connections.BL
         public void setPreferences(Volunteer userPref)
         {
             this.userPref = userPref;
-        }
-
-        public void LoadAll()
-        {
-            sorter = SortBy.NONE;
-             foreach (var item in INSTANCE)
-            {
-                this.Add(item, true);
-            }
-            //try
-            //{
-            //    using (CCEntities dc = new CCEntities())
-            //    {
-            //        var test = dc.CharityEvents.ToList();
-            //        dc.CharityEvents.ToList().ForEach(c => this.Add(c, true));
-            //    }
-            //}
-            //catch (Exception) { throw; }
         }
 
         public void LoadWithFilter(object id, SortBy sort)

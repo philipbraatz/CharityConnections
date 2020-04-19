@@ -4,12 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using CC.Connections.PL;
 using System.Reflection;
-using System.Data.Entity.Core.Metadata.Edm;
-using System.Linq.Expressions;
-using System.Data.Entity.Infrastructure;
-using System.Globalization;
 using System.Runtime.Serialization;
-using CC.Abstract;
 
 namespace CC.Abstract
 {
@@ -49,7 +44,7 @@ namespace CC.Abstract
         {}
     }
 
-    public class ColumnEntry<TEntity> where TEntity : class
+    public class BaseModel<TEntity> where TEntity : class
     {
         //the ID is what ever parameter is first in the class
         //most fields are private/protected because this class should be inherited 
@@ -187,11 +182,11 @@ namespace CC.Abstract
             }
         }
         //new instance
-        public ColumnEntry() => createInstance();
+        public BaseModel() => createInstance();
         //create from exist instance
-        public ColumnEntry(TEntity entry) => createInstance(entry);
+        public BaseModel(TEntity entry) => createInstance(entry);
         //load from database
-        public ColumnEntry(DbSet<TEntity> table, object id,bool preload = false,string load_AlternativeField = "")
+        public BaseModel(DbSet<TEntity> table, object id,bool preload = false,string load_AlternativeField = "")
         {
             try
             {
@@ -231,10 +226,10 @@ namespace CC.Abstract
             catch (Exception e) { throw e; }
         }
 
-        protected bool Exists(DbSet<TEntity> table)
+        protected static bool Exists(DbSet<TEntity> table,BaseModel<TEntity> instance)
         {
             foreach (var col in table)
-                if (ID.Equals(getValue(col, properties[0].p.Name)))
+                if (instance.ID.Equals(instance.getValue(col, instance.properties[0].p.Name)))
                     return true;
             return false;
         }
@@ -361,7 +356,7 @@ namespace CC.Abstract
         {
             try
             {
-                if (!Exists(table))
+                if (!Exists(table,this))
                     throw new Exception("ID does not exist in table");
 
                 foreach (var col in table)
@@ -375,184 +370,6 @@ namespace CC.Abstract
                 return dc.SaveChanges();
             }
             catch (Exception e) { throw e; }
-        }
-    }
-
-    public class AbsList<Tcrud, TEntity> : List<Tcrud>
-        where TEntity : class//database table
-        where Tcrud : ColumnEntry<TEntity>//BL version
-    {
-        protected PropertyInfo[] properties { get; set; }
-
-        public AbsList()
-        {
-            Type type = typeof(TEntity);
-            properties = type.GetProperties();
-        }
-        //public AbsList(bool loadAll) {
-        //    Type type = typeof(TEntity);
-        //    properties = type.GetProperties();
-        //}
-
-        //TODO needs testing
-        public void LoadAll(DbSet<TEntity> table)
-        {
-           this.Clear();
-           if (table.ToList().Count != 0)
-               foreach (var c in table.ToList())
-                   base.Add((Tcrud)new ColumnEntry<TEntity>(c));//converting problem
-        }
-    }
-
-    public class SingleSortList<Tcrud, TEntity> : AbsList<Tcrud, TEntity>
-    where TEntity : class
-    where Tcrud : ColumnEntry<TEntity>
-    {
-        private object sortID { get; set; }
-        private int sortCol { get; set; }
-
-        //permently delete entries
-        public void DeleteAllMatching(DbSet<TEntity> table) { }
-        //keep all that match filter
-        public void KeepMatching(DbSet<TEntity> table, object matchingID)
-        { }
-        //remove all that match filter
-        public void RemoveMatching(DbSet<TEntity> table, object matchingID) { }
-        public void Add(CCEntities dc, DbSet<TEntity> table, TEntity entry) { }
-        public void Remove(CCEntities dc, DbSet<TEntity> table, TEntity entry) { }
-    }
-
-    public class AbsListJoin<Tcrud, TEntity, TEntityJoin> : AbsList<Tcrud, TEntity>
-        where Tcrud : ColumnEntry<TEntity>
-        where TEntity : class
-        where TEntityJoin : class
-    {
-        protected object joinGroupingID;
-        private string joinForeignIDname;
-        private string joinGroupingIDname;
-        private PropertyInfo[] joinTable_Properties { get; set; }
-
-        //does not load list without calling load
-        public AbsListJoin(string GroupingIDname, object GroupingID, string foreignIDname)
-        {
-            Type type = typeof(Tcrud);
-            properties = type.GetProperties();
-
-            Type typejoin = typeof(TEntityJoin);
-            joinTable_Properties = typejoin.GetProperties();
-            joinGroupingID = GroupingID;
-            joinForeignIDname = foreignIDname;
-            joinGroupingIDname = GroupingIDname;
-        }
-        public new void Clear()
-        {
-            joinGroupingID = null;
-            base.Clear();
-        }
-
-        //TODO reimpliment
-        //PRES
-        public void LoadWithJoin(DbSet<TEntity> entities, DbSet<TEntityJoin> joinTable,
-                                 object joinid)
-        {
-            ///This is what this code is doing
-            ///memberID = member_id;
-            ///if (dc.MemberActions.ToList().Count != 0)
-            ///    foreach (var col in dc.MemberActions)
-            ///        if (col.MemberActionMember_ID == memberID)
-            ///            foreach (var entry in dc.HelpingActions)
-            ///                if (entry.HelpingActionID == col.MemberActionActionID)
-            ///                    base.Add(new AbsHelpingAction(entry));
-            
-            ///Actual implimentation
-            //this.Clear();
-            //joinTable_ID = join_id;
-            //if (entities.ToList().Count != 0)
-            //    foreach (var col in join_table)
-            //    {
-            //        //instance = where( entry in the table == this ID)
-            //        object colJoin_ID = Utils.getValue(col, joinTable_ID_Prop_Name);
-            //        object colentity_ID = Utils.getValue(col, joinProp_name);
-            //        if (joinTable_ID.Equals(colJoin_ID))
-            //        {
-            //            foreach (var entry in entities)
-            //            {
-            //                try
-            //                {
-            //                    //Converting problem
-            //                    Tcrud crud = ColumnEntry<TEntity>.ConvertToBL<Tcrud>(entry);//from Tentity to Tcrud
-            //                    if (colentity_ID.Equals(Utils.getValue(entry, properties[0].Name)))
-            //                        base.Add(crud);
-
-            //                }
-            //                catch (Exception e)
-            //                {
-            //
-            //                    throw new Exception("AbstractionCRUD LoadWithJoin Adding "+
-            //                        entry.GetType().Name+" as ("+typeof(Tcrud)+"): "+e.Message);
-            //                }
-            //            }
-            //        }
-            //    }
-        }
-        public void DeleteAllPreferences(CCEntities dc, DbSet<TEntityJoin> joinTable)
-        {
-            foreach (var col in joinTable)
-                if (joinGroupingID.Equals(PropertyHelper.getValue(col, joinGroupingIDname)))
-                    joinTable.Remove(col);
-            dc.SaveChanges();
-            this.Clear();
-        }
-
-        public void Add(CCEntities dc, DbSet<TEntityJoin> joinTable, TEntityJoin joinInstance, Tcrud entry)
-        {
-            
-            //Set new ID based on type
-            if (joinTable_Properties[0].GetValue(joinInstance) is Guid)
-                PropertyHelper.setValue(joinInstance, joinTable_Properties[0].Name, Guid.NewGuid());//instance_PK = newID using ("join_Property_ID")
-            else if (joinTable_Properties[0].GetValue(joinInstance) is int)//gets type int
-            {
-                int newID = 0;
-
-                //get new id if int
-                if (joinTable.ToList().Count != 0)
-                {
-                    int max = 0;
-                    foreach (var t in joinTable)
-                    {
-                        int comp = (int)PropertyHelper.getValue(t, joinTable_Properties[0].Name);
-                        if (comp > max)
-                            max = comp;
-                    }
-                    newID = max + 1;
-                }
-                //set primary key
-                PropertyHelper.setValue(joinInstance, joinTable_Properties[0].Name, newID);//instance_PK = newID using ("join_Property_ID")
-            }
-            //if its not a guid or int the ID has to be pre-set before adding
-
-            //set ID for group
-            PropertyHelper.setValue(joinInstance, joinGroupingIDname,joinGroupingID);//instance_Grouping_ID = join_Grouping_ID using ("join_Grouping_ID")
-            //set ID of entry being added
-            PropertyHelper.setValue(joinInstance, joinForeignIDname,           //instance_FK using("join_FK") = 
-                            PropertyHelper.getValue(entry, properties[0].Name)); // entry_ID using("entry_ID")
-
-            joinTable.Add(joinInstance);//add
-            dc.SaveChanges();
-            base.Add(entry);
-        }
-        public void Remove(CCEntities dc, DbSet<TEntityJoin> joinTable, Tcrud entry)
-        {
-            foreach (var join in joinTable)
-            {
-                if (joinGroupingID.Equals(PropertyHelper.getValue(join, joinGroupingIDname)) &&//ID for this group matches
-                    PropertyHelper.getValue(entry, properties[0].Name).Equals(
-                                   PropertyHelper.getValue(join, joinForeignIDname))
-                    )//ID for this entry matches
-                    joinTable.Remove(join);
-            }
-            dc.SaveChanges();
-            base.Remove(entry);
         }
     }
 }

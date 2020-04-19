@@ -75,7 +75,7 @@
             {
                 foreach (var item in Model.PreferedHelpingActions)
                 {
-                    <td class="nav-item overout col-1 volunteer-category-bar" title="@item.Action">
+                    <td class="nav-item overout col-1 volunteer-category-bar" title="@item.Description">
                         <a href="@Url.Action("CategoryView", "CharityEvent", new { id = item.ID })">
                             <img class="catImage" id="@(item.category.Image.Trim())" src="@("../../Content/Images/Category/Color/" + item.category.Image.Trim() + "Color.svg")" />
                         </a>
@@ -110,7 +110,23 @@
             }
         </tr>
     </tbody>
+    <tfoot>
+        <tr>
+            <td>
+                <h5>Advanced</h5>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h5>Advanced</h5>
+            </td>
+        </tr>
+    </tfoot>
 </table>
+
+
+
+
 
 <br />
 <br />

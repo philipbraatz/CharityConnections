@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace CC.Connections.BL
 {
-    public class Contact : ColumnEntry<PL.ContactInfo>
+    public class Contact : BaseModel<PL.ContactInfo>
     {
         //private static CCEntities dc;
 
@@ -171,9 +171,10 @@ namespace CC.Connections.BL
         }
 
         public static implicit operator Contact(PL.ContactInfo c) => new Contact(c);
+        //public static implicit operator Contact(ColumnEntry<PL.ContactInfo> c) {c. }
     }
 
-    public class ContactCollection : AbsList<Contact, ContactInfo>
+    public class ContactCollection : BaseList<Contact, ContactInfo>
     {
         public void LoadAll(){
             using (CCEntities dc = new CCEntities()){

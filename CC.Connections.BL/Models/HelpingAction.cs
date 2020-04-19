@@ -9,7 +9,7 @@ using CC.Connections.PL;
 namespace CC.Connections.BL
 {
     public class AbsHelpingAction
-        : ColumnEntry<HelpingAction>
+        : BaseModel<HelpingAction>
     {
         //private static CCEntities dc;
 
@@ -85,7 +85,7 @@ namespace CC.Connections.BL
     }
 
     public class AbsHelpingActionCollection
-        : AbsList<AbsHelpingAction, HelpingAction>
+        : BaseList<AbsHelpingAction, HelpingAction>
     {
         public void LoadAll()
         {

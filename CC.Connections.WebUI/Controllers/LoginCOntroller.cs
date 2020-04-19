@@ -114,11 +114,11 @@ namespace CC.Connections.WebUI.Controllers
             {
                 //TODO add location not null
                 if( con.confirmPassword.Pass == null ||  
-                    con.MemberEmail == null ||
-                    con.FName == null ||
-                    con.LName == null ||
-                    con.Phone == null ||
-                    con.DateOfBirth == null ||
+                    con.Email == null ||
+                    con.ContactInfo.FName == null ||
+                    con.ContactInfo.LName == null ||
+                    con.ContactInfo.Phone == null ||
+                    con.ContactInfo.DateOfBirth == null ||
                     con.password == null
                     )
                 {
@@ -130,12 +130,12 @@ namespace CC.Connections.WebUI.Controllers
                     ViewBag.Message = "Passwords do not match";
                     return View(con);
                 }
-                else if (DateTime.Now.Year - con.DateOfBirth.Year < 13)
+                else if (DateTime.Now.Year - con.ContactInfo.DateOfBirth.Year < 13)
                 {
                     ViewBag.Message = "You must be 13 years or older to register as a member";
                     return View(con);
                 }
-                else if(!(con.MemberEmail.Contains('@') && con.MemberEmail.Contains('.') && con.MemberEmail.Length > 6))
+                else if(!(con.Email.Contains('@') && con.Email.Contains('.') && con.Email.Length > 6))
                 {
                     ViewBag.Message = "Email is invalid";
                     return View(con);
@@ -145,31 +145,32 @@ namespace CC.Connections.WebUI.Controllers
                     ViewBag.Message = "Phone number is invalid";
                     return View(con);
                 }
-                else if (con.FName.Trim().Length < 3)
+                else if (con.ContactInfo.FName.Trim().Length < 3)
                 {
                     ViewBag.Message = "First name must be at least 3 characters long";
                     return View(con);
                 }
-                else if (con.LName.Trim().Length < 3)
+                else if (con.ContactInfo.LName.Trim().Length < 3)
                 {
                     ViewBag.Message = "Last name must be at least 3 characters long";
                     return View(con);
                 }
 
-                Volunteer newMember = new Volunteer(con.MemberEmail, con.password.Pass, true);
-                newMember.setContactInfo((Contact)con);
-                con.password.email = con.MemberEmail;
+                Volunteer newMember = new Volunteer(con.Email, con.password.Pass, true);
+                newMember.setVolunteer(newMember);
+                con.password.email = con.Email;
                 con.password.MemberType = MemberType.VOLLUNTEER;
-                if (newMember.Insert(con.password))
-                {
+                newMember.Insert(con.password);
+                //if (newMember.Insert(con.password))
+                //{
                     Session["member"] = con.password;
                     return RedirectToAction("ProfileView", "VolunteerProfile");
-                }
-                else
-                {
-                    ViewBag.Message = "Email already in use, please use a different email.";
-                    return View(con);
-                }
+                //}
+                //else
+                //{
+                //    ViewBag.Message = "Email already in use, please use a different email.";
+                //    return View(con);
+                //}
             }
             catch (Exception ex)
             {

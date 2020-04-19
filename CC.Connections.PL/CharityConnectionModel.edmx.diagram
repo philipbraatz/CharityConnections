@@ -5,20 +5,20 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="ae67217135e644e6a21e01cc7d5199fd" Name="Diagram1" ZoomLevel="108">
-        <EntityTypeShape EntityType="CharityConnectionsModel.Category" Width="1.5" PointX="0.75" PointY="3.75" />
-        <EntityTypeShape EntityType="CharityConnectionsModel.CharityEvent" Width="1.5" PointX="4.75" PointY="3.75" />
+        <EntityTypeShape EntityType="CharityConnectionsModel.Category" Width="1.5" PointX="0.875" PointY="3" />
+        <EntityTypeShape EntityType="CharityConnectionsModel.CharityEvent" Width="1.5" PointX="2.75" PointY="3.125" />
         <EntityTypeShape EntityType="CharityConnectionsModel.ContactInfo" Width="1.5" PointX="5.75" PointY="0.75" />
-        <EntityTypeShape EntityType="CharityConnectionsModel.EventAttendance" Width="1.5" PointX="6.75" PointY="3.75" />
+        <EntityTypeShape EntityType="CharityConnectionsModel.EventAttendance" Width="1.5" PointX="4.75" PointY="3" />
         <EntityTypeShape EntityType="CharityConnectionsModel.HelpingAction" Width="1.5" PointX="0.75" PointY="0.875" />
-        <EntityTypeShape EntityType="CharityConnectionsModel.Location" Width="1.5" PointX="6.75" PointY="6.75" />
-        <EntityTypeShape EntityType="CharityConnectionsModel.LogIn" Width="1.5" PointX="7.75" PointY="0.75" />
+        <EntityTypeShape EntityType="CharityConnectionsModel.Location" Width="1.5" PointX="6.625" PointY="3.25" />
         <EntityTypeShape EntityType="CharityConnectionsModel.MemberAction" Width="1.5" PointX="3" PointY="0.875" />
-        <EntityTypeShape EntityType="CharityConnectionsModel.Preference" Width="1.5" PointX="0.75" PointY="7.75" />
-        <EntityTypeShape EntityType="CharityConnectionsModel.PreferredCategory" Width="1.5" PointX="2.75" PointY="7.75" />
-        <EntityTypeShape EntityType="CharityConnectionsModel.PreferredCharity" Width="1.5" PointX="8.75" PointY="3.75" />
+        <EntityTypeShape EntityType="CharityConnectionsModel.Preference" Width="1.5" PointX="0.875" PointY="5" />
+        <EntityTypeShape EntityType="CharityConnectionsModel.PreferredCategory" Width="1.5" PointX="2.875" PointY="6" />
+        <EntityTypeShape EntityType="CharityConnectionsModel.PreferredCharity" Width="1.5" PointX="4.75" PointY="5.125" />
         <AssociationConnector Association="CharityConnectionsModel.FK__MemberAc__Membe__38EE7070" />
-        <EntityTypeShape EntityType="CharityConnectionsModel.Charity" Width="1.5" PointX="4.625" PointY="7" />
-        <EntityTypeShape EntityType="CharityConnectionsModel.Volunteer" Width="1.5" PointX="9.375" PointY="6.75" />
+        <EntityTypeShape EntityType="CharityConnectionsModel.Charity" Width="1.5" PointX="6.625" PointY="5.625" />
+        <EntityTypeShape EntityType="CharityConnectionsModel.Volunteer" Width="1.5" PointX="8.625" PointY="3.5" />
+        <EntityTypeShape EntityType="CharityConnectionsModel.LogIn" Width="1.5" PointX="7.875" PointY="1.25" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

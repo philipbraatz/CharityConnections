@@ -10,7 +10,7 @@ using System.Collections.Generic;
 namespace CC.Connections.BL
 {
     //TODO rename to just Category
-    public class Category : ColumnEntry<PL.Category>//PRES inheritence
+    public class Category : BaseModel<PL.Category>//PRES inheritence
     {
         //Parameters
 
@@ -111,39 +111,39 @@ namespace CC.Connections.BL
     }
 
     //STOP HERE
-    public class CategoryCollection : AbsList<Category, PL.Category>
+    public class CategoryCollection : BaseList<Category, PL.Category>
     {
-        private static CategoryCollection INS = new CategoryCollection();
+        private static CategoryCollection ins = new CategoryCollection();
         public static CategoryCollection INSTANCE
         {
             get
             {
-                if (INS == null || INS.Count == 0)
-                    INS = LoadInstance();
-                return INS;
+                if (ins == null || ins.Count == 0)
+                    ins = LoadInstance();
+                return ins;
             }
-            private set => INS = value;
+            private set => ins = value;
         }
 
         public static CategoryCollection LoadInstance()
         {
             try
             {
-                INS = new CategoryCollection();
+                ins = new CategoryCollection();
                 using (CCEntities dc = new CCEntities())
                 {
                     dynamic dct = dc.Categories;
                     List<PL.Category> cats = dc.Categories.ToList();
                     foreach (var c in cats)
-                        INS.Add(new Category(c));
+                        ins.Add(new Category(c));
                 }
-                return INS;
+                return ins;
             }
             catch (EntityException e) { throw e.InnerException; }
         }
         public static void AddToInstance(Category category)
         {
-            INS.Add(category);
+            ins.Add(category);
         }
         //Might be able to optimize better
         internal static void UpdateInstance(Category category)
@@ -161,7 +161,7 @@ namespace CC.Connections.BL
         {
             this.Clear();
             LoadInstance();//make sure Instance is filled
-            this.AddRange(INS);
+            this.AddRange(ins);
         }
         //hides categories that are unused
         public void LoadUsed()

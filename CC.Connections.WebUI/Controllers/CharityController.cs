@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
 using CC.Connections.BL;
 using CC.Connections.WebUI.Model;
+using Newtonsoft.Json;
 
 namespace CC.Connections.WebUI.Controllers
 {
@@ -18,7 +20,7 @@ namespace CC.Connections.WebUI.Controllers
             {
                 return RedirectToAction("Index");//returns you if you enter empty id
             }
-            Charity dCharity = new Charity(id, true);
+            Charity dCharity = apiHelper.getOne<Charity,string>(id);
             if(dCharity == null)
             {
                 ViewBag.Message = "That Charity does not exist";
@@ -35,7 +37,7 @@ namespace CC.Connections.WebUI.Controllers
             {
                 return PartialView();
             }
-            Charity dCharity = new Charity(id, true);
+            Charity dCharity = apiHelper.getOne<Charity, string>(id);
             if (dCharity == null)
             {
                 ViewBag.Message = "That Charity does not exist";
@@ -49,7 +51,9 @@ namespace CC.Connections.WebUI.Controllers
             if (Session != null && Session["member"] != null && ((Password)Session["Member"]).MemberType == MemberType.CHARITY)
             {
                 Charity c = new Charity(((Password)Session["Member"]));
-                return RedirectToAction("Details",new { id = new Charity(((Password)Session["Member"])).Email});
+                return RedirectToAction("Details",new { 
+                    id = ((Password)Session["Member"]).email
+                });
             }
             else if (ControllerContext.HttpContext.Request.UrlReferrer != null)
                 return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());//go back
@@ -65,26 +69,18 @@ namespace CC.Connections.WebUI.Controllers
                 ViewBag.Title = "Charities";
 
             //load
-            CharityCollection allCharities = new CharityCollection();
+            CharityCollection allCharities = apiHelper.getAll<CharityCollection>();
             if (Session != null && Session["charities"] != null)
             {
                 allCharities = ((CharityCollection)Session["charities"]);
                 if (allCharities.Count != CharityCollection.getCount())//reload to catch missing
-                {
                     allCharities.LoadAll();
-                    //if (Session != null && Session["member"] != null)
-                        //foreach (var ev in allCharities) ;
-                            //ev.Member_Attendance = new AbsEventAtendee(ev.EventID, ((Password)Session["member"]).email);
-                }
             }
             else
             {
                 //convert to Model
-                allCharities = new CharityCollection();
+                allCharities = apiHelper.getAll<CharityCollection>();
                 allCharities.LoadAll();
-                //if (Session != null && Session["member"] != null)
-                    //foreach (var ev in allCharities)
-                        //ev.Member_Attendance = new AbsEventAtendee(ev.EventID, ((Password)Session["member"]).email);
 
                 //save
                 Session["charities"] = allCharities;
@@ -110,7 +106,7 @@ namespace CC.Connections.WebUI.Controllers
             else
             {
                 //convert to Model
-                allCharities = new CharityCollection();
+                allCharities = apiHelper.getAll<CharityCollection>();
                 allCharities.LoadWithFilter(id, SortBy.CATEGORY);
 
                 //save
@@ -123,11 +119,14 @@ namespace CC.Connections.WebUI.Controllers
         // GET: Charity/Edit/5
         public ActionResult Edit(string id)
         {
+            if (string.IsNullOrWhiteSpace(id))
+                throw new ArgumentException("id cannot be null", nameof(id));
+
             CharitySignup c = new CharitySignup();
 
             Password p = (Password)Session["member"];
             if (p != null)
-                c = new CharitySignup(new Charity(id.Replace('-', '.'), true));
+                c = new CharitySignup(apiHelper.getOne<Charity, string>(id.Replace('-', '.')));
             else
             {
                 ViewBag.Message = "You are not signed in yet";
@@ -143,7 +142,10 @@ namespace CC.Connections.WebUI.Controllers
         {
             try
             {
-                csu.Location = new Charity(id.Replace('-', '.'), true).Location;//TEMP FIX for location missing
+                if (string.IsNullOrWhiteSpace(id))
+                    throw new ArgumentException("id cannot be null", nameof(id));
+
+                csu.Location = apiHelper.getOne<Charity, string>(id.Replace('-', '.')).Location;//TEMP FIX for location missing
                 try
                 {
                     if (

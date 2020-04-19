@@ -31,12 +31,12 @@ namespace CC.Connections.PL
         public virtual DbSet<EventAttendance> EventAttendances { get; set; }
         public virtual DbSet<HelpingAction> HelpingActions { get; set; }
         public virtual DbSet<Location> Locations { get; set; }
-        public virtual DbSet<LogIn> LogIns { get; set; }
         public virtual DbSet<MemberAction> MemberActions { get; set; }
         public virtual DbSet<Preference> Preferences { get; set; }
         public virtual DbSet<PreferredCategory> PreferredCategories { get; set; }
         public virtual DbSet<PreferredCharity> PreferredCharities { get; set; }
         public virtual DbSet<Charity> Charities { get; set; }
         public virtual DbSet<Volunteer> Volunteers { get; set; }
+        public virtual DbSet<LogIn> logins { get; set; }
     }
 }

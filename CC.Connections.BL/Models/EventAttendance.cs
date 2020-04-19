@@ -18,7 +18,7 @@ namespace CC.Connections.BL
         #pragma warning restore CA1707
     }
 
-    public class AbsEventAtendee : ColumnEntry<PL.EventAttendance>
+    public class AbsEventAttendee : BaseModel<PL.EventAttendance>
     {
         //Parameters
 
@@ -49,10 +49,10 @@ namespace CC.Connections.BL
             set { setProperty(nameof(VolunteerStatus), (value),true); }
         }
 
-        public AbsEventAtendee() :
+        public AbsEventAttendee() :
             base()
         { }
-        public AbsEventAtendee(Guid EventID, string email) :
+        public AbsEventAttendee(Guid EventID, string email) :
             base()
         {
 
@@ -60,13 +60,13 @@ namespace CC.Connections.BL
             this.VolunteerEmail = email;
             TryFindMatching();
         }
-        public AbsEventAtendee(PL.EventAttendance entry) :
+        public AbsEventAttendee(PL.EventAttendance entry) :
             base(entry)
         {
             //Volunteer v = new Volunteer(entry.VolunteerEmail);
             //v.LoadId(entry.VolunteerEmail);
         }
-        public AbsEventAtendee(int id) :
+        public AbsEventAttendee(int id) :
             base(new CCEntities().EventAttendances, id)
         {
             //Volunteer v = new Volunteer();
@@ -76,8 +76,8 @@ namespace CC.Connections.BL
         //Category pl = new Category();
         //...
         //AbsCategory bl = (AbsCategory)pl
-        public static implicit operator AbsEventAtendee(PL.EventAttendance entry)
-        { return new AbsEventAtendee(entry); }
+        public static implicit operator AbsEventAttendee(PL.EventAttendance entry)
+        { return new AbsEventAttendee(entry); }
 
         public bool Exists()
         {
@@ -157,7 +157,7 @@ namespace CC.Connections.BL
         }
     }
 
-    public class EventAttendanceCollection : AbsList<AbsEventAtendee, EventAttendance>
+    public class EventAttendanceCollection : BaseList<AbsEventAttendee, EventAttendance>
     {
         public void LoadAll()
         {
@@ -165,11 +165,11 @@ namespace CC.Connections.BL
             {
                 //base.LoadAll(dc.Categories);
                 foreach (var c in dc.EventAttendances.ToList())
-                    base.Add(new AbsEventAtendee(c));
+                    base.Add(new AbsEventAttendee(c));
             }
         }
     }
-    public class EventAttendanceJointCollection : AbsListJoin<AbsEventAtendee, EventAttendance, CharityEvent>
+    public class EventAttendanceJointCollection : AbsListJoin<AbsEventAttendee, EventAttendance, CharityEvent>
     {
         private static Random rand = new Random();
         private int myRandG, myRandI;
@@ -209,7 +209,7 @@ namespace CC.Connections.BL
                             List<EventAttendance> attendances = dc.EventAttendances
                                 .Where(d => d.EventID == b.ID).ToList();
                             attendances.ForEach(eat => 
-                                    base.Add(new AbsEventAtendee(eat)));
+                                    base.Add(new AbsEventAttendee(eat)));
                         });
                 }
                         
@@ -232,7 +232,7 @@ namespace CC.Connections.BL
             {
                 Guid newID = Guid.NewGuid();
 
-                AbsEventAtendee evntAtt = new AbsEventAtendee((Guid)base.joinGroupingID, attendee);
+                AbsEventAttendee evntAtt = new AbsEventAttendee((Guid)base.joinGroupingID, attendee);
                 dc.EventAttendances.Add(evntAtt.GetPL());
                 this.Add(evntAtt);
 

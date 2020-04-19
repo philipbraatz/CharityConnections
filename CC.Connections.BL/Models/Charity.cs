@@ -15,7 +15,7 @@ using System.Data.Entity.Core;
 
 namespace CC.Connections.BL
 {
-    public class Charity : ColumnEntry<PL.Charity>
+    public class Charity : BaseModel<PL.Charity>
     {
         [DisplayName("Charity Email")]
         public string Email
@@ -99,13 +99,11 @@ namespace CC.Connections.BL
         }
 
         internal static bool Exists(CCEntities dc, string charity)
-        {
-            return dc.Charities.Where(c => c.CharityEmail == charity).FirstOrDefault() != null;
-        }
+            => Exists(dc.Charities,new Charity { ID = charity});
 
-        public Charity() {
-            this.Deductibility = false;
-        }
+
+        public Charity() => this.Deductibility = false;
+        
         //does not verify password
         public Charity(Password p) : this(p.email,true)
         {
@@ -122,7 +120,8 @@ namespace CC.Connections.BL
             this.Category = new Category((Guid)entry.CategoryID);
             this.Location = new Location((Guid)entry.LocationID);
         }
-        public Charity(string charity,bool preloaded =true) : base(new CCEntities().Charities, charity, preloaded)
+        public Charity(string charity,bool preloaded =true) : 
+            base(new CCEntities().Charities, charity, preloaded)
         {
             this.Email = charity;
             if (preloaded)
@@ -287,18 +286,20 @@ namespace CC.Connections.BL
         }
     }
 
-    public class CharityCollection :
-        List<Charity>
+    public class CharityCollection : BaseList<Charity,PL.Charity>
     {
+        //START instance
         private static CharityCollection INS = new CharityCollection();
-        public static CharityCollection INSTANCE 
-        { get {
-                if(INS == null || INS.Count ==0)
+        public static CharityCollection INSTANCE
+        {
+            get
+            {
+                if (INS == null || INS.Count == 0)
                     INS = LoadInstance();
                 return INS;
             }
             private set => INS = value;
-         }
+        }
 
         public static CharityCollection LoadInstance()
         {
@@ -315,9 +316,8 @@ namespace CC.Connections.BL
             catch (EntityException e) { throw e.InnerException; }
         }
         public static void AddToInstance(Charity charity)
-        {
-            INS.Add(charity);
-        }
+            => INS.Add(charity);
+
         //Might be able to optimize better
         internal static void UpdateInstance(Charity charity)
         {
@@ -326,29 +326,14 @@ namespace CC.Connections.BL
         }
 
         internal static void RemoveInstance(Charity charity)
-        {
-            INSTANCE.Remove(charity);
-        }
-
-        //only used for Event lists
-        private int? SortID { get; set; }
-        private SortBy sorter { get; set; }
-        private Volunteer userPref { get; set; }
+            => INSTANCE.Remove(charity);
+        //END instance
 
         private const string Event_LOAD_ERROR = "Events not loaded, please loadEvents with a Charity ID";
         private const string AddPreference_ERROR = "Currently being used as a preference list. Please use AddPreference instead";
 
-        public CharityCollection()
-        {
-            sorter = SortBy.NONE;
-        }
-        public CharityCollection(int id, SortBy sort, Volunteer user_pref = default)
-        {
-            SortID = id;
-            sorter = sort;
-            userPref = user_pref;
-            LoadAll();
-        }
+        private Volunteer userPref { get; set; }
+        private int? SortID { get; set; }
 
         public void setPreferences(Volunteer userPref)
         {
@@ -357,24 +342,14 @@ namespace CC.Connections.BL
 
         public void LoadAll()
         {
-            sorter = SortBy.NONE;
             this.Clear();
+            LoadInstance();//make sure Instance is filled
             this.AddRange(INS);
-            //try
-            //{
-            //    using (CCEntities dc = new CCEntities())
-            //    {
-            //        var test = dc.Charities.ToList();
-            //        dc.Charities.ToList().ForEach(c => { if (c != null) this.Add(c, true); });
-            //    }
-            //}
-            //catch (Exception e) { throw e; }
         }
-
         public void LoadWithFilter(object id, SortBy sort)
         {
             //throw new NotImplementedException();
-            this.LoadAll();
+            LoadAll();
             Filter(id, sort);
 
         }
@@ -385,7 +360,7 @@ namespace CC.Connections.BL
             switch (sort)
             {
                 case SortBy.CATEGORY:
-                    filter.Whitelist_Remaining(new List<Guid> { (Guid)id },new List<Guid>());
+                    filter.Whitelist_Remaining(new List<Guid> { (Guid)id }, new List<Guid>());
                     this.Clear();
 
                     foreach (var item in filter.GetRemainingCharities())
@@ -419,7 +394,7 @@ namespace CC.Connections.BL
 
         private void Add(Charity item, bool overrideMethod = true)
         {
-                base.Add(item);
+            base.Add(item);
         }
         private void Remove(Charity item, bool overrideMethod = true)
         {
@@ -438,21 +413,7 @@ namespace CC.Connections.BL
             base.Remove(item);
         }
 
-        //TODO depreciate
-        public static int getCount()
-        {
-            using (CCEntities dc = new CCEntities())
-            {
-                return dc.Charities.Count();
-            }
-        }
+        public static int getCount() => new CCEntities().Charities.Count();
 
-        public static implicit operator List<object>(CharityCollection v)
-        {
-            List<object> p = new List<object>();
-            foreach (Charity c in v)
-                p.Add(c);
-            return p;
-        }
     }
 }

@@ -5,3 +5,6 @@ dotnet_diagnostic.CA1707.severity = suggestion
 
 # CA2225: Operator overloads have named alternates
 dotnet_diagnostic.CA2225.severity = silent
+
+# CA2000: Dispose objects before losing scope
+dotnet_diagnostic.CA2000.severity = none

@@ -5,7 +5,7 @@ using System.ComponentModel;
 
 namespace CC.Connections.BL
 {
-    public class Location : ColumnEntry<PL.Location>
+    public class Location : BaseModel<PL.Location>
     {
         //public static CCEntities dc = new CCEntities();
 
@@ -85,7 +85,7 @@ namespace CC.Connections.BL
         }
     }
 
-    public class LocationCollection : AbsList<Location, PL.Location>
+    public class LocationCollection : BaseList<Location, PL.Location>
     {
         public void LoadAll()
         {

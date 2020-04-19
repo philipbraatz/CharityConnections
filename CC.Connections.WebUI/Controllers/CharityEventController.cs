@@ -18,7 +18,7 @@ namespace CC.Connections.WebUI.Controllers
                 ViewBag.Title = "Volunteer Opportunities";
 
             //load
-            CharityEventCollection allEvents = new CharityEventCollection();
+            CharityEventCollection allEvents = apiHelper.getAll<CharityEventCollection>();
             if (Session != null && Session["charityEvents"] != null)
             {
                 allEvents = ((CharityEventCollection)Session["charityEvents"]);
@@ -29,7 +29,7 @@ namespace CC.Connections.WebUI.Controllers
                         allEvents.LoadAll();
                         if (Session != null && Session["member"] != null && ((Password)Session["member"]).MemberType == MemberType.VOLLUNTEER)
                             foreach (var ev in allEvents)
-                                ev.Member_Attendance = new AbsEventAtendee(ev.ID, ((Password)Session["member"]).email);
+                                ev.Member_Attendance = new AbsEventAttendee(ev.ID, ((Password)Session["member"]).email);
                     }
                     catch(Exception e)
                     {
@@ -45,7 +45,7 @@ namespace CC.Connections.WebUI.Controllers
                 allEvents.LoadAll();
                 if (Session != null && Session["member"] != null && ((Password)Session["member"]).MemberType == MemberType.VOLLUNTEER)
                     foreach (var ev in allEvents)
-                        ev.Member_Attendance = new AbsEventAtendee(ev.ID, ((Password)Session["member"]).email);
+                        ev.Member_Attendance = new AbsEventAttendee(ev.ID, ((Password)Session["member"]).email);
 
                 //save
                 Session["charityEvents"] = allEvents;
@@ -70,7 +70,7 @@ namespace CC.Connections.WebUI.Controllers
                     allEvents.LoadWithFilter(id, SortBy.CATEGORY);
                     if (Session != null && Session["member"] != null && ((Password)Session["member"]).MemberType == MemberType.VOLLUNTEER)
                         foreach (var ev in allEvents)
-                            ev.Member_Attendance = new AbsEventAtendee(ev.ID, ((Password)Session["member"]).email);
+                            ev.Member_Attendance = new AbsEventAttendee(ev.ID, ((Password)Session["member"]).email);
                 }
             }
             else
@@ -80,7 +80,7 @@ namespace CC.Connections.WebUI.Controllers
                 allEvents.LoadWithFilter(id, SortBy.CATEGORY);
                 if (Session != null && Session["member"] != null && ((Password)Session["member"]).MemberType == MemberType.VOLLUNTEER)
                     foreach (var ev in allEvents)
-                        ev.Member_Attendance = new AbsEventAtendee(ev.ID, ((Password)Session["member"]).email);
+                        ev.Member_Attendance = new AbsEventAttendee(ev.ID, ((Password)Session["member"]).email);
 
                 //save
                 Session["charityEvents"] = allEvents;
@@ -118,7 +118,7 @@ namespace CC.Connections.WebUI.Controllers
             if (Session != null && Session["member"] != null && ((Password)Session["member"]).MemberType == MemberType.VOLLUNTEER)
             {
                 member = (Password)Session["member"];
-                detailEvent.Member_Attendance = new AbsEventAtendee(detailEvent.ID, member.email);
+                detailEvent.Member_Attendance = new AbsEventAttendee(detailEvent.ID, member.email);
             }
 
             return View(detailEvent);
@@ -152,7 +152,7 @@ namespace CC.Connections.WebUI.Controllers
             if (Session != null && Session["member"] != null && ((Password)Session["member"]).MemberType == MemberType.VOLLUNTEER)
             {
                 member = (Password)Session["member"];
-                detailEvent.Member_Attendance = new AbsEventAtendee(detailEvent.ID, member.email);
+                detailEvent.Member_Attendance = new AbsEventAttendee(detailEvent.ID, member.email);
             }
 
             return PartialView(detailEvent);
@@ -360,7 +360,7 @@ namespace CC.Connections.WebUI.Controllers
             CharityEvent evnt = new CharityEvent(id,true);
             if (Session != null && Session["member"] != null)
             {
-                AbsEventAtendee atendee = new AbsEventAtendee(id, ((Password)Session["member"]).email);
+                AbsEventAttendee atendee = new AbsEventAttendee(id, ((Password)Session["member"]).email);
                 if (atendee.Exists())
                     if (atendee.VolunteerStatus != Status.GOING)
                         atendee.Update(Status.GOING);//interested -> going
@@ -396,7 +396,7 @@ namespace CC.Connections.WebUI.Controllers
 
             if (Session != null && Session["member"] != null)
             {
-                AbsEventAtendee atendee = new AbsEventAtendee(id, ((Password)Session["member"]).email);
+                AbsEventAttendee atendee = new AbsEventAttendee(id, ((Password)Session["member"]).email);
                 if (atendee.Exists())
                     if (atendee.VolunteerStatus != Status.INTERESTED)
                         atendee.Update(Status.INTERESTED);//going -> interested

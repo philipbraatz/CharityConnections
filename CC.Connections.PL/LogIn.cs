@@ -17,5 +17,6 @@ namespace CC.Connections.PL
         public string MemberEmail { get; set; }
         public Nullable<int> MemberType { get; set; }
         public string Password { get; set; }
+        public string Key { get; set; }
     }
 }
