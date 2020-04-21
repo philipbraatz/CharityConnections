@@ -20,7 +20,7 @@ namespace CC.Connections.WebUI.Controllers
             {
                 return RedirectToAction("Index");//returns you if you enter empty id
             }
-            Charity dCharity = apiHelper.getOne<Charity,string>(id);
+            Charity dCharity = apiHelper.getEmail<Charity>(id);
             if(dCharity == null)
             {
                 ViewBag.Message = "That Charity does not exist";
@@ -37,7 +37,7 @@ namespace CC.Connections.WebUI.Controllers
             {
                 return PartialView();
             }
-            Charity dCharity = apiHelper.getOne<Charity, string>(id);
+            Charity dCharity = apiHelper.getEmail<Charity>(id);
             if (dCharity == null)
             {
                 ViewBag.Message = "That Charity does not exist";
@@ -126,7 +126,7 @@ namespace CC.Connections.WebUI.Controllers
 
             Password p = (Password)Session["member"];
             if (p != null)
-                c = new CharitySignup(apiHelper.getOne<Charity, string>(id.Replace('-', '.')));
+                c = new CharitySignup(apiHelper.getEmail<Charity>(id.Replace('-', '.')));
             else
             {
                 ViewBag.Message = "You are not signed in yet";
@@ -145,7 +145,7 @@ namespace CC.Connections.WebUI.Controllers
                 if (string.IsNullOrWhiteSpace(id))
                     throw new ArgumentException("id cannot be null", nameof(id));
 
-                csu.Location = apiHelper.getOne<Charity, string>(id.Replace('-', '.')).Location;//TEMP FIX for location missing
+                csu.Location = apiHelper.getEmail<Charity>(id.Replace('-', '.')).Location;//TEMP FIX for location missing
                 try
                 {
                     if (

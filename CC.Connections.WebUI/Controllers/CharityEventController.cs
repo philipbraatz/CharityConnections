@@ -18,18 +18,18 @@ namespace CC.Connections.WebUI.Controllers
                 ViewBag.Title = "Volunteer Opportunities";
 
             //load
-            CharityEventCollection allEvents = apiHelper.getAll<CharityEventCollection>();
+            CharityEventCollection allEvents = apiHelper.getAll<CharityEventCollection>();//TODO refactor all these to use both session and api
             if (Session != null && Session["charityEvents"] != null)
             {
                 allEvents = ((CharityEventCollection)Session["charityEvents"]);
-                if (allEvents.Count != CharityEventCollection.getCount())//reload to catch missing
+                if (allEvents.Count != CharityEventCollection.getCount())//reload to catch missing //replace with api call
                 {
                     try
                     {
                         allEvents.LoadAll();
                         if (Session != null && Session["member"] != null && ((Password)Session["member"]).MemberType == MemberType.VOLLUNTEER)
                             foreach (var ev in allEvents)
-                                ev.Member_Attendance = new AbsEventAttendee(ev.ID, ((Password)Session["member"]).email);
+                                ev.Member_Attendance = apiHelper.getAction<EventAttendee>("GetEmail", ev.ID);
                     }
                     catch(Exception e)
                     {
@@ -41,11 +41,10 @@ namespace CC.Connections.WebUI.Controllers
             else
             {
                 //convert to Model
-                allEvents = new CharityEventCollection();
-                allEvents.LoadAll();
+                allEvents = apiHelper.getAll<CharityEventCollection>();
                 if (Session != null && Session["member"] != null && ((Password)Session["member"]).MemberType == MemberType.VOLLUNTEER)
                     foreach (var ev in allEvents)
-                        ev.Member_Attendance = new AbsEventAttendee(ev.ID, ((Password)Session["member"]).email);
+                        ev.Member_Attendance = apiHelper.getAction<EventAttendee>("GetEmail",ev.ID);// new AbsEventAttendee(ev.ID, ((Password)Session["member"]).email);
 
                 //save
                 Session["charityEvents"] = allEvents;
@@ -57,10 +56,10 @@ namespace CC.Connections.WebUI.Controllers
         // GET: CharityEvent/CategoryView/2
         public ActionResult CategoryView(Guid id)
         {
-            ViewBag.Title = new Category(id).Desc;
+            ViewBag.Title = apiHelper.getOne<Category>(id).Desc;
 
             //load
-            CharityEventCollection allEvents = new CharityEventCollection();
+            CharityEventCollection allEvents = apiHelper.getAll<CharityEventCollection>();
             if (Session != null && Session["charityEvents"] != null)
             {
                 allEvents = ((CharityEventCollection)Session["charityEvents"]);
@@ -70,7 +69,7 @@ namespace CC.Connections.WebUI.Controllers
                     allEvents.LoadWithFilter(id, SortBy.CATEGORY);
                     if (Session != null && Session["member"] != null && ((Password)Session["member"]).MemberType == MemberType.VOLLUNTEER)
                         foreach (var ev in allEvents)
-                            ev.Member_Attendance = new AbsEventAttendee(ev.ID, ((Password)Session["member"]).email);
+                            ev.Member_Attendance = apiHelper.getAction<EventAttendee>("GetEmail", ev.ID);
                 }
             }
             else
@@ -80,7 +79,7 @@ namespace CC.Connections.WebUI.Controllers
                 allEvents.LoadWithFilter(id, SortBy.CATEGORY);
                 if (Session != null && Session["member"] != null && ((Password)Session["member"]).MemberType == MemberType.VOLLUNTEER)
                     foreach (var ev in allEvents)
-                        ev.Member_Attendance = new AbsEventAttendee(ev.ID, ((Password)Session["member"]).email);
+                        ev.Member_Attendance = apiHelper.getAction<EventAttendee>("GetEmail", ev.ID);
 
                 //save
                 Session["charityEvents"] = allEvents;
@@ -92,7 +91,7 @@ namespace CC.Connections.WebUI.Controllers
         // GET: CharityEvent/Details/5
         public ActionResult Details(Guid id)
         {
-            CharityEventCollection allEvents = new CharityEventCollection();
+            CharityEventCollection allEvents = apiHelper.getAll<CharityEventCollection>();
             CharityEvent detailEvent;
             if (Session != null && Session["charityEvents"] != null)
             {
@@ -118,7 +117,7 @@ namespace CC.Connections.WebUI.Controllers
             if (Session != null && Session["member"] != null && ((Password)Session["member"]).MemberType == MemberType.VOLLUNTEER)
             {
                 member = (Password)Session["member"];
-                detailEvent.Member_Attendance = new AbsEventAttendee(detailEvent.ID, member.email);
+                detailEvent.Member_Attendance = new EventAttendee(detailEvent.ID, member.email);
             }
 
             return View(detailEvent);
@@ -126,7 +125,7 @@ namespace CC.Connections.WebUI.Controllers
         //[ChildActionOnly]
         public ActionResult SideView(Guid id)
         {
-            CharityEventCollection allEvents = new CharityEventCollection();
+            CharityEventCollection allEvents = apiHelper.getAll<CharityEventCollection>();
             CharityEvent detailEvent;
             if (Session != null && Session["charityEvents"] != null)
             {
@@ -152,7 +151,7 @@ namespace CC.Connections.WebUI.Controllers
             if (Session != null && Session["member"] != null && ((Password)Session["member"]).MemberType == MemberType.VOLLUNTEER)
             {
                 member = (Password)Session["member"];
-                detailEvent.Member_Attendance = new AbsEventAttendee(detailEvent.ID, member.email);
+                detailEvent.Member_Attendance = new EventAttendee(detailEvent.ID, member.email);
             }
 
             return PartialView(detailEvent);
@@ -244,7 +243,8 @@ namespace CC.Connections.WebUI.Controllers
 
                 cevent.Charity = new Charity((string)Session["charityId"],true);
                 cevent.CharityEmail = cevent.Charity.Email;
-                cevent.Insert();
+                apiHelper.create<CharityEvent>(cevent);
+                //cevent.Insert();
                 events.Add(cevent);
                 Session["charityEvents"] = events;
 
@@ -317,7 +317,8 @@ namespace CC.Connections.WebUI.Controllers
                     events = ((CharityEventCollection)Session["charityEvents"]);
 
                 CharityEvent editEvent = events.Where(c => c.ID == id).FirstOrDefault();
-                collection.Update();
+                //collection.Update();
+                apiHelper.create<CharityEvent>(collection);
                 editEvent = collection;
                 Session["charityEvents"] = events;
 
@@ -348,7 +349,8 @@ namespace CC.Connections.WebUI.Controllers
                 events = ((CharityEventCollection)Session["charityEvents"]);
 
             CharityEvent deleteEvent = events.Where(c => c.ID == id).FirstOrDefault();
-            deleteEvent.Delete();
+            //deleteEvent.Delete();
+            apiHelper.create<CharityEvent>(deleteEvent);
             events.Remove(deleteEvent);
             Session["charityEvents"] = events;
 
@@ -360,7 +362,7 @@ namespace CC.Connections.WebUI.Controllers
             CharityEvent evnt = new CharityEvent(id,true);
             if (Session != null && Session["member"] != null)
             {
-                AbsEventAttendee atendee = new AbsEventAttendee(id, ((Password)Session["member"]).email);
+                EventAttendee atendee = new EventAttendee(id, ((Password)Session["member"]).email);
                 if (atendee.Exists())
                     if (atendee.VolunteerStatus != Status.GOING)
                         atendee.Update(Status.GOING);//interested -> going
@@ -396,7 +398,7 @@ namespace CC.Connections.WebUI.Controllers
 
             if (Session != null && Session["member"] != null)
             {
-                AbsEventAttendee atendee = new AbsEventAttendee(id, ((Password)Session["member"]).email);
+                EventAttendee atendee = new EventAttendee(id, ((Password)Session["member"]).email);
                 if (atendee.Exists())
                     if (atendee.VolunteerStatus != Status.INTERESTED)
                         atendee.Update(Status.INTERESTED);//going -> interested

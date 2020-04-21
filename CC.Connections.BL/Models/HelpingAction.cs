@@ -23,7 +23,12 @@ namespace CC.Connections.BL
         public Category category {
             get {
                 if (CategoryID == null)
-                    CategoryID = new Category((Guid)base.getProperty(nameof(CategoryID)));
+                {
+                    var catId = base.getProperty(nameof(Category) + "ID");
+                    if (catId != null)
+                        CategoryID = new Category((Guid)catId);
+                    else return new Category();//todo force error here
+                }
                 return CategoryID;
             }
             set { setProperty(nameof(CategoryID), CategoryID); }
@@ -84,7 +89,7 @@ namespace CC.Connections.BL
         }
     }
 
-    public class AbsHelpingActionCollection
+    public class HelpingActionCollection
         : BaseList<AbsHelpingAction, HelpingAction>
     {
         public void LoadAll()

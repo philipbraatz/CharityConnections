@@ -9,7 +9,7 @@ namespace CC.Connections.BL.Test
     [TestClass]
     public class HelpingActionUT
     {
-        public AbsHelpingActionCollection allTable;
+        public HelpingActionCollection allTable;
 
         public AbsHelpingAction test;
         public const int TEST_MEMBER_ID = -1;
@@ -25,7 +25,7 @@ namespace CC.Connections.BL.Test
         private int getID_fromDesc(string desc)
         {
             if (allTable == null)
-                allTable = new BL.AbsHelpingActionCollection();
+                allTable = new BL.HelpingActionCollection();
             allTable.LoadAll();
 
             AbsHelpingAction cat = allTable.Where(c => c.Description == desc).FirstOrDefault();
@@ -55,7 +55,7 @@ namespace CC.Connections.BL.Test
         [TestMethod]
         public void LoadAll()
         {
-            AbsHelpingActionCollection table = new BL.AbsHelpingActionCollection();
+            HelpingActionCollection table = new BL.HelpingActionCollection();
             table.LoadAll();
 
             Assert.AreNotEqual(0, table.Count);
@@ -67,7 +67,7 @@ namespace CC.Connections.BL.Test
         public void Update()
         {
             if (allTable == null)
-                allTable = new BL.AbsHelpingActionCollection();
+                allTable = new BL.HelpingActionCollection();
             allTable.LoadAll();
             int tableCount = allTable.Count;
 
@@ -108,7 +108,7 @@ namespace CC.Connections.BL.Test
             test = new AbsHelpingAction(getID_fromDesc(UPDATE_2));
             test.Delete();//delete both to avoid testing overflow
 
-            AbsHelpingActionCollection table = new AbsHelpingActionCollection();
+            HelpingActionCollection table = new HelpingActionCollection();
             table.LoadAll();//load updated table
 
             Assert.IsNull(table.Find(f => f.Description == UPDATE_2));//may need to test for different nonexistant value

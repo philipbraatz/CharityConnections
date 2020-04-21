@@ -67,7 +67,7 @@ namespace CC.Connections.WebUI.Controllers
                     return View(passValue);
                 }
 
-                passValue.Login();
+                passValue.Login();//TODO use api
                 if (passValue.MemberType != MemberType.GUEST)
                 {
                     Session["member"] = passValue;
@@ -160,7 +160,8 @@ namespace CC.Connections.WebUI.Controllers
                 newMember.setVolunteer(newMember);
                 con.password.email = con.Email;
                 con.password.MemberType = MemberType.VOLLUNTEER;
-                newMember.Insert(con.password);
+                apiHelper.create<Volunteer>(newMember);
+                //newMember.Insert(con.password);
                 //if (newMember.Insert(con.password))
                 //{
                     Session["member"] = con.password;
@@ -230,7 +231,7 @@ namespace CC.Connections.WebUI.Controllers
                 try
                 {
                     categoryList.LoadAll();
-                    csu.Category = CategoryCollection.INSTANCE.ElementAt(r.Next(1, categoryList.Count-1));
+                    csu.Category = CategoryCollection.INSTANCE.ElementAt(r.Next(1, categoryList.Count-1));//todo category picker
                 }
                 catch (Exception e)
                 {

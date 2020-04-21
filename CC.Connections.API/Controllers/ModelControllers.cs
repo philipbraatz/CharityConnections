@@ -32,10 +32,10 @@ namespace CC.Connections.API.Controllers
         //=> base.Delete(id,setPassword(base.Get(id), Pass));
     }
     public class ContactController : BaseAPIController<ContactCollection, Contact, PL.ContactInfo> { }
-    public class EventAttendanceController : BaseAPIController<EventAttendanceCollection, AbsEventAttendee, PL.EventAttendance> 
+    public class EventAttendanceController : BaseAPIController<EventAttendanceCollection, EventAttendee, PL.EventAttendance> 
     {
         // GET: api/EventAttendance/5
-        public new AbsEventAttendee Get(Guid id)//gets by unique index
+        public new EventAttendee Get(Guid id)//gets by unique index
         {
             EventAttendanceCollection EventAttendances = new EventAttendanceCollection();
             EventAttendances.LoadAll();
@@ -43,27 +43,27 @@ namespace CC.Connections.API.Controllers
         }
 
         // GET: api/EventAttendance/5
-        public List<AbsEventAttendee> GetByEvent(Guid id)//gets by exact guid
+        public List<EventAttendee> GetByEvent(Guid id)//gets by exact guid
         {
             EventAttendanceCollection EventAttendances = new EventAttendanceCollection();
             EventAttendances.LoadAll();
             return EventAttendances.Where(c => c.EventID == id).ToList();
         }
-        public List<AbsEventAttendee> GetByAttendee(string email)//gets by exact guid
+        public List<EventAttendee> GetByAttendee(string email)//gets by exact guid
         {
             EventAttendanceCollection EventAttendances = new EventAttendanceCollection();
             EventAttendances.LoadAll();
             return EventAttendances.Where(c => c.VolunteerEmail == email).ToList();
         }
 
-        public AbsEventAttendee GetBySearch(Guid id,string email)//gets by unique index
+        public EventAttendee GetBySearch(Guid id,string email)//gets by unique index
         {
             EventAttendanceCollection EventAttendances = new EventAttendanceCollection();
             EventAttendances.LoadAll();
             return EventAttendances.Where(c => c.EventID == id && c.VolunteerEmail == email).FirstOrDefault();
         }
     }
-    public class HelpingActionController : BaseAPIController<AbsHelpingActionCollection, AbsHelpingAction, PL.HelpingAction> { }
+    public class HelpingActionController : BaseAPIController<HelpingActionCollection, AbsHelpingAction, PL.HelpingAction> { }
     public class LocationController : BaseAPIController<LocationCollection, Location, PL.Location> { }
     public class VolunteerController : BaseAPIController<VolunteerCollection, Volunteer, PL.Volunteer> { }
 }

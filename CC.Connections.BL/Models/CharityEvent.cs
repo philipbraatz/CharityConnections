@@ -141,12 +141,12 @@ namespace CC.Connections.BL
                     base.setProperty(nameof(Charity) + "Email", value.Email);
             }
         }
-        public AbsEventAttendee Member_Attendance { get; set; }
+        public EventAttendee Member_Attendance { get; set; }
 
 
         public void AddMember(string email, Status status)
         {
-            AbsEventAttendee atendee = new AbsEventAttendee(this.ID, email)
+            EventAttendee atendee = new EventAttendee(this.ID, email)
             {VolunteerStatus = status};
             atendee.Insert();
             this.atendees.Add(atendee);
@@ -194,7 +194,7 @@ namespace CC.Connections.BL
         {
             this.Charity = charity;
             if (!string.IsNullOrEmpty(memberEmail))
-                this.Member_Attendance = new AbsEventAttendee(charityEventID, memberEmail);
+                this.Member_Attendance = new EventAttendee(charityEventID, memberEmail);
             this.ID = charityEventID;
             Clear();
             LoadId();

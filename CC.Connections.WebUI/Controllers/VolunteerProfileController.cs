@@ -104,8 +104,8 @@ namespace CC.Connections.WebUI.Controllers
                     ViewBag.Message = "Last name must be at least 3 characters long";
                     return View(con);
                 }
-
-                con.ContactInfo.Update();
+                apiHelper.update<Contact>(con.ContactInfo);
+                //con.ContactInfo.Update();
                 return RedirectToAction("ProfileView", "VolunteerProfile");
             }
             catch (Exception e)
@@ -130,8 +130,8 @@ namespace CC.Connections.WebUI.Controllers
         {
             try
             {
-                // TODO: Add delete logic here
-                c.ContactInfo.Delete();
+                apiHelper.delete<Contact,String>(c.ContactInfo.MemberEmail);
+                //c.ContactInfo.Delete();
                 return RedirectToAction("Index");
             }
             catch
