@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace CC.Connections.WebUI
@@ -27,8 +28,9 @@ namespace CC.Connections.WebUI
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Add("cc-api-user", "masterKey");//todo hash these
             client.DefaultRequestHeaders.Add("cc-api-key", "masterpassword");
-            if (true)
-                return new HttpClient { BaseAddress = new Uri("http://pebdvdcentraapi.azurewebsites.net/api/") };
+            //client.Timeout = TimeSpan.FromMinutes(3);
+            if (false)
+                return new HttpClient { BaseAddress = new Uri("http://pebdvdcentraapi.azurewebsites.net/api/") };//Requires server database
             else
                 return new HttpClient { BaseAddress = new Uri("http://localhost:44363/api/") };//SET LOCAL #
         }
@@ -40,11 +42,27 @@ namespace CC.Connections.WebUI
                 model = model.Remove(model.ToLower().IndexOf(LIST_WORD), LIST_WORD.Length);
 
             HttpClient client = httpClient;
-            HttpResponseMessage message = client.GetAsync(model + (all ? "/all" : String.Empty)).Result;//GetAsync("LinkName")  HttpResponseMessage
-            return JsonConvert.DeserializeObject<TEntityList>(//Json to Object of the
-                message
-                .Content.ReadAsStringAsync().Result//to string result
-            );
+            try
+            {
+                HttpResponseMessage message = client.GetAsync(model + (all ? "/all" : String.Empty)).Result;//GetAsync("LinkName")  HttpResponseMessage
+                return JsonConvert.DeserializeObject<TEntityList>(//Json to Object of the
+                                message
+                                .Content.ReadAsStringAsync().Result);//to string result
+            }
+            catch (AggregateException e)
+            {
+                TaskCanceledException ex = (TaskCanceledException)e.GetBaseException();
+                if (ex.CancellationToken.IsCancellationRequested)
+                    throw;
+                else
+                    throw new TimeoutException("Loading all for "+model+" took too long",ex);
+                    //throw new TimeoutException("Loading all "+model+" took too long", e.InnerException);
+                //else if (e.InnerException != null)
+                //    throw e.InnerException;
+                //else
+                //    throw;
+            }
+
 
         }
         public static TEntityList getAll<TEntityList>() where TEntityList : class

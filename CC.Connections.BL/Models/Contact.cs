@@ -16,7 +16,7 @@ namespace CC.Connections.BL
         public string MemberEmail
         {
             get { return (string)base.ID; }
-            set { base.ID = value; }
+            set { base.ID = value.ToLower(); }
         }
 
         [DisplayName("First Name")]

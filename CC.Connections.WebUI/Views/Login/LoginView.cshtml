@@ -1,7 +1,7 @@
 ﻿@model CC.Connections.BL.Password
 
 @{
-    ViewBag.Title = "LogIns";
+    ViewBag.Title = "Login";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <br/>
@@ -37,17 +37,17 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="LogIns" class="btn btn-outline-secondary" />
+                <input type="submit" value="Login" class="btn btn-outline-secondary" />
                 <br />
                 <br />
                 <br />
 
                 <div>
-                    @Html.ActionLink("Sign Up", "SignUpView", "LogIns")
+                    @Html.ActionLink("Sign Up", "SignUpView", "LogIn")
                 </div>
                 <br />
                 <div>
-                    @Html.ActionLink("Forgot Password ?", "ForgotPasswordView", "LogIns")
+                    @Html.ActionLink("Forgot Password ?", "ForgotPasswordView", "LogIn")
                 </div>
                 <br />
                 <br />

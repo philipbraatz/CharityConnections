@@ -234,6 +234,7 @@ namespace CC.Connections.BL
         //only clears BLclass varibles
         private new void Clear()
         {
+            ContactInfo = new Contact();
             PreferedCategories = new CategoryPreferenceCollection(Email);
             PreferedCharities = new CharityCollection();
             PreferedHelpingActions = new AbsMemberActionCollection(Email);

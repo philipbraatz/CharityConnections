@@ -24,20 +24,20 @@
 <table class="table table-user-information">
     <tbody>
         <tr>
-            <td>@Html.DisplayNameFor(model => model.FullName)</td>
-            <td>@Html.DisplayFor(model => model.FullName)</td>
+            <td>@Html.DisplayNameFor(model => model.ContactInfo.FullName)</td>
+            <td>@Html.DisplayFor(model => model.ContactInfo.FullName)</td>
         </tr>
         <tr>
-            <td>@Html.DisplayNameFor(model => model.MemberEmail)</td>
-            <td>@Html.DisplayFor(model => model.MemberEmail)</td>
+            <td>@Html.DisplayNameFor(model => model.ContactInfo.MemberEmail)</td>
+            <td>@Html.DisplayFor(model => model.ContactInfo.MemberEmail)</td>
         </tr>
         <tr>
-            <td>@Html.DisplayNameFor(model => model.Phone)</td>
-            <td>@Html.DisplayFor(model => model.Phone)</td>
+            <td>@Html.DisplayNameFor(model => model.ContactInfo.Phone)</td>
+            <td>@Html.DisplayFor(model => model.ContactInfo.Phone)</td>
         </tr>
         <tr>
-            <td>@Html.DisplayNameFor(model => model.DateOfBirth)</td>
-            <td>@Html.DisplayFor(model => model.DateOfBirth)</td>
+            <td>@Html.DisplayNameFor(model => model.ContactInfo.DateOfBirth)</td>
+            <td>@Html.DisplayFor(model => model.ContactInfo.DateOfBirth)</td>
         </tr>
         <tr>
             <td><h4>Preferences</h4></td>
@@ -133,18 +133,18 @@
 <table>
     <tr>
         <td>
-            @Html.ActionLink("My Events", "UserEventsView", "CharityEvent", new { id = Model.MemberEmail })
+            @Html.ActionLink("My Events", "UserEventsView", "CharityEvent", new { id = Model.ContactInfo.MemberEmail })
         </td>
         <td>
-            @Html.ActionLink("Add Prefered Charities", "UserCharitiesView", "Charity", new { id = Model.MemberEmail })
+            @Html.ActionLink("Add Prefered Charities", "UserCharitiesView", "Charity", new { id = Model.ContactInfo.MemberEmail })
         </td>
     </tr>
     <tr>
         <td>
-            @Html.ActionLink("Edit Profile", "Edit", new { id = Model.MemberEmail })
+            @Html.ActionLink("Edit Profile", "Edit", new { id = Model.ContactInfo.MemberEmail })
         </td>
         <td>
-            @Html.ActionLink("Delete Profile", "Delete", new { id = Model.MemberEmail })
+            @Html.ActionLink("Delete Profile", "Delete", new { id = Model.ContactInfo.MemberEmail })
         </td>
     </tr>
 </table>

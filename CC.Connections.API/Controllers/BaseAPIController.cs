@@ -2,6 +2,7 @@
 using CC.Connections.BL;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -20,7 +21,14 @@ namespace CC.Connections.API.Controllers
         public TList Get()
         {
             TList tinstance = (TList)Activator.CreateInstance(typeof(TList), new object[] { });
+            try
+            {
             tinstance.GetType().GetMethod("LoadAll",new Type[] { }).Invoke(tinstance,null);
+            }
+            catch (SqlException e)
+            {
+                throw e.InnerException;
+            }
             return tinstance;
         }
 

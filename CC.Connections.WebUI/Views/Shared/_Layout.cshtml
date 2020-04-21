@@ -81,14 +81,14 @@
 
                                 @if (Session["member"] == null)
                                 {
-                                    <li class="nav-item">@Html.ActionLink("LogIns", "LogInsView", "LogIns")</li>
-                                    <li class="nav-item">@Html.ActionLink("Sign Up", "SignupView", "LogIns")</li>
-                                    <li class="nav-item">@Html.ActionLink("Charity Signup", "CharitySignupView", "LogIns")</li>
+                                    <li class="nav-item">@Html.ActionLink("Login", "LogInView", "LogIn")</li>
+                                    <li class="nav-item">@Html.ActionLink("Sign Up", "SignupView", "LogIn")</li>
+                                    <li class="nav-item">@Html.ActionLink("Charity Signup", "CharitySignupView", "LogIn")</li>
 
                                     if (Request.IsLocal)
                                     {
-                                        <li class="dropdown-item">@Html.ActionLink("AutoLogIns Volunteer", "AutoV_View", "LogIns")</li>
-                                        <li class="dropdown-item">@Html.ActionLink("AutoLogIns Charity", "AutoC_View", "LogIns")</li>
+                                        <li class="dropdown-item">@Html.ActionLink("AutoLogIn Volunteer", "AutoV_View", "LogIn")</li>
+                                        <li class="dropdown-item">@Html.ActionLink("AutoLogIn Charity", "AutoC_View", "LogIn")</li>
                                     }
                                 }
                                 else
@@ -105,7 +105,7 @@
                                     {
                                         <li class="dropdown-item">@Html.ActionLink("Profile", "CharityProfile","Charity")</li>
                                     }
-                                    <li class="dropdown-item" id="btnLogout">@Html.ActionLink("Logout", "logoutView", "LogIns")</li>
+                                    <li class="dropdown-item" id="btnLogout">@Html.ActionLink("Logout", "logoutView", "LogIn")</li>
                                 }
                             </div>
                         </div>

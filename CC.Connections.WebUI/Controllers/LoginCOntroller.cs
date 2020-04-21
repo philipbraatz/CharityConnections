@@ -10,7 +10,7 @@ namespace CC.Connections.WebUI.Controllers
 {
     public class LoginController : Controller
     {
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public ActionResult LoginView(string returnurl)
         {
             Password c = (Password)Session["member"];
@@ -266,7 +266,7 @@ namespace CC.Connections.WebUI.Controllers
 
         public ActionResult AutoV_View()
         {
-            Session["member"] = new Password("auto@LogIns.com");
+            Session["member"] = new Password("auto@login.com");
             if (ControllerContext.HttpContext.Request.UrlReferrer != null)
                 return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());//go back
             else
@@ -274,7 +274,7 @@ namespace CC.Connections.WebUI.Controllers
         }
         public ActionResult AutoC_View()
         {
-            Session["member"] = new Password("auto@LogIns.net");
+            Session["member"] = new Password("auto@login.net");
             if (ControllerContext.HttpContext.Request.UrlReferrer != null)
                 return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());//go back
             else
