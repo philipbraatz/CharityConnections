@@ -42,44 +42,55 @@ namespace CC.Connections.WebUI
                 model = model.Remove(model.ToLower().IndexOf(LIST_WORD), LIST_WORD.Length);
 
             HttpClient client = httpClient;
+            String urlRequest = model + (all ? "/all" : String.Empty);
+            String url = client.BaseAddress + urlRequest;//just for error info
             try
             {
-                HttpResponseMessage message = client.GetAsync(model + (all ? "/all" : String.Empty)).Result;//GetAsync("LinkName")  HttpResponseMessage
+                HttpResponseMessage message = client.GetAsync(urlRequest).Result;//GetAsync("LinkName")  HttpResponseMessage
                 return JsonConvert.DeserializeObject<TEntityList>(//Json to Object of the
                                 message
                                 .Content.ReadAsStringAsync().Result);//to string result
             }
             catch (AggregateException e)
             {
-                TaskCanceledException ex = (TaskCanceledException)e.GetBaseException();
-                if (ex.CancellationToken.IsCancellationRequested)
-                    throw;
+                if (e.GetBaseException().GetType() == typeof( TaskCanceledException))
+                {
+                    TaskCanceledException ex = (TaskCanceledException)e.GetBaseException();
+                    if (ex.CancellationToken.IsCancellationRequested)
+                        throw;
+                    else
+                        throw new TimeoutException("Loading all for " + model + " took too long", ex);
+                }
+                else if(e.GetBaseException().GetType() == typeof(HttpRequestException))
+                {
+                    //if (e.GetBaseException().InnerException != null)
+                        throw new Exception("\"" + url + "\" threw an exception: " + e.GetBaseException().Message + "\nIt does not want to share what happened");
+                    //throw new Exception("\""+url+"\" threw an exception: " + e.GetBaseException().Message +"\nCheck if url exists");
+                }
+                else if (e.InnerException != null)
+                    throw e.InnerException;
                 else
-                    throw new TimeoutException("Loading all for "+model+" took too long",ex);
-                    //throw new TimeoutException("Loading all "+model+" took too long", e.InnerException);
-                //else if (e.InnerException != null)
-                //    throw e.InnerException;
-                //else
-                //    throw;
+                    throw;
             }
+
 
 
         }
         public static TEntityList getAll<TEntityList>() where TEntityList : class
-            => getAll<TEntityList>(nameof(TEntityList));
+            => getAll<TEntityList>(typeof(TEntityList).Name);
 
         public static TEntity getOne<TEntity>(Guid id) where TEntity : class
-            => getAll<TEntity>(nameof(TEntity) + "/get/" + id, false);
+            => getAll<TEntity>(typeof(TEntity).Name + "/get/" + id, false);
         public static TEntity getEmail<TEntity>(String id) where TEntity : class
-            => getAll<TEntity>(nameof(TEntity) + "/getEmail/" + id, false);
+            => getAll<TEntity>(typeof(TEntity).Name + "/getEmail/" + id, false);
 
         public static HttpResponseMessage create<TEntity>(TEntity entity) where TEntity : class
-            => httpClient.PutAsync(nameof(TEntity) + "/put", setContent(entity)).Result;
+            => httpClient.PutAsync(typeof(TEntity).Name + "/put", setContent(entity)).Result;
         public static HttpResponseMessage update<TEntity>(TEntity entity) where TEntity : class
-            => httpClient.PutAsync(nameof(TEntity) + "/post", setContent(entity)).Result;
+            => httpClient.PutAsync(typeof(TEntity).Name + "/post", setContent(entity)).Result;
 
         public static HttpResponseMessage delete<TEntity, Type>(Type id) where TEntity : class where Type : class
-            => httpClient.DeleteAsync(nameof(TEntity) + "/delete/" + id).Result;
+            => httpClient.DeleteAsync(typeof(TEntity).Name + "/delete/" + id).Result;
 
         private static StringContent setContent<TEntity>(TEntity entity)
         {

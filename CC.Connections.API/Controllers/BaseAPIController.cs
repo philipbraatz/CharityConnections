@@ -16,6 +16,11 @@ namespace CC.Connections.API.Controllers
         where Tdb : class
     {
         // GET: api/{TEntity}/all
+        /// <summary>
+        /// Gets all TEntity
+        /// </summary>
+        /// <param></param>
+        /// <returns>TList</returns>
         [HttpGet]
         [ActionName("All")]
         public TList Get()
@@ -25,6 +30,14 @@ namespace CC.Connections.API.Controllers
             {
             tinstance.GetType().GetMethod("LoadAll",new Type[] { }).Invoke(tinstance,null);
             }
+            catch (System.Reflection.TargetInvocationException e)
+            {
+                if (e.InnerException.GetType() == typeof(System.Data.Entity.Core.EntityException))
+                    throw e.InnerException.InnerException;
+                else
+                    throw e.InnerException;
+
+            }
             catch (SqlException e)
             {
                 throw e.InnerException;
@@ -33,6 +46,11 @@ namespace CC.Connections.API.Controllers
         }
 
         // GET: api/{TEntity}/get/id
+        /// <summary>
+        /// Gets a TEntity by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>TEntity</returns>
         [HttpGet]
         public TEntity Get([FromUri]Guid id)
         {
@@ -50,6 +68,11 @@ namespace CC.Connections.API.Controllers
         }
 
         // GET: api/{TEntity}/get/id
+        /// <summary>
+        /// Get Tenitity by email
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>TEntity</returns>
         [HttpGet]
         [ActionName("GetEmail")]
         public TEntity Get([FromUri]String id)
@@ -70,11 +93,20 @@ namespace CC.Connections.API.Controllers
         }
 
         // POST: api/{TEntity}
+        /// <summary>
+        /// Insert new TEntity
+        /// </summary>
+        /// <param name="tinstance"></param>
         public void Post([FromBody]TEntity tinstance)
         {
             tinstance.GetType().GetMethod("Insert", new Type[] { }).Invoke(tinstance, null);
         }
         // POST: api/{TEntity}
+        /// <summary>
+        /// Insert new TEntity with password
+        /// </summary>
+        /// <param name="tinstance"></param>
+        /// <param name="password"></param>
         public void Post([FromBody]TEntity tinstance,Password password)
         {
             tinstance.GetType().GetMethod("Insert", new Type[] { typeof(Password)}).Invoke(tinstance,new object[] { 
@@ -83,12 +115,23 @@ namespace CC.Connections.API.Controllers
         }
         
         // PUT: api/{TEntity}/5
+        /// <summary>
+        /// Update Existing TEntity from existing instance
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="tinstance"></param>
         public void Put(Guid id, [FromBody]TEntity tinstance)
         {
             tinstance.GetType().GetMethod("Update", new Type[] { }).Invoke(tinstance, null);
         }
-       // PUT: api/{TEntity}/5
-       public void Put(Guid id, [FromBody]TEntity tinstance, Password password)
+        // PUT: api/{TEntity}/5
+        /// <summary>
+        /// Update Existing TEntity from existing instance requiring password
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="tinstance"></param>
+        /// <param name="password"></param>
+        public void Put(Guid id, [FromBody]TEntity tinstance, Password password)
        {
            tinstance.GetType().GetMethod("Update", new Type[] { typeof(Password) }).Invoke(tinstance, new object[] {
                password//parameters
@@ -96,6 +139,10 @@ namespace CC.Connections.API.Controllers
        }
         
         // DELETE: api/{TEntity}/5
+        /// <summary>
+        /// Delete Existing TEntity from id
+        /// </summary>
+        /// <param name="id"></param>
         public void Delete(object id)
         {
             TEntity tinstance = (TEntity)Activator.CreateInstance(id.GetType(), new object[] { });
@@ -103,6 +150,11 @@ namespace CC.Connections.API.Controllers
             tinstance.GetType().GetMethod("Delete", new Type[] { }).Invoke(tinstance, null);
         }
         
+        /// <summary>
+        /// Delete Existing TEntity from id requiring password
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="password"></param>
         public void Delete(object id, Password password)
         {
             TEntity tinstance = (TEntity)Activator.CreateInstance(id.GetType(), new object[] { });

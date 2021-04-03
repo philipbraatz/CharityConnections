@@ -313,6 +313,11 @@ namespace CC.Connections.BL
                 }
                 return INS;
             }
+            catch (System.Data.SqlClient.SqlException ex)
+            {
+                //if(ex.)
+                throw;
+            }
             catch (EntityException e) { throw e.InnerException; }
         }
         public static void AddToInstance(Charity charity)

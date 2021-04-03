@@ -26,14 +26,21 @@ namespace CC.Abstract
         //TODO needs testing
         public void LoadAll(DbSet<TEntity> table)
         {
-            this.Clear();
-            if (table.ToList().Count != 0)
-                foreach (var c in table.ToList())
-                {
-                    Tcrud tinstance = (Tcrud)Activator.CreateInstance(typeof(Tcrud), new object[] { });
-                    typeof(Tcrud).GetConstructor(new Type[] { typeof(TEntity) }).Invoke(tinstance, new object[] { c });//create a BL version of the PL class
-                    base.Add(tinstance);//converting problem
-                }
+            try
+            {
+                this.Clear();
+                if (table.ToList().Count != 0)
+                    foreach (var c in table.ToList())
+                    {
+                        Tcrud tinstance = (Tcrud)Activator.CreateInstance(typeof(Tcrud), new object[] { });
+                        typeof(Tcrud).GetConstructor(new Type[] { typeof(TEntity) }).Invoke(tinstance, new object[] { c });//create a BL version of the PL class
+                        base.Add(tinstance);//converting problem
+                    }
+            }
+            catch (System.Data.Entity.Core.EntityException e)
+            {
+                throw;
+            }
         }
     }
 

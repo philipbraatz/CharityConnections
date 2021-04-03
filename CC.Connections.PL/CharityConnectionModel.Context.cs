@@ -22,7 +22,20 @@ namespace CC.Connections.PL
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            throw new UnintentionalCodeFirstException();
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Charity>().HasKey<String>(c => c.CharityEmail);
+            modelBuilder.Entity<ContactInfo>().HasKey<String>(c => c.MemberEmail);
+            modelBuilder.Entity<LogIn>().HasKey<String>(c => c.MemberEmail);
+            modelBuilder.Entity<Volunteer>().HasKey<String>(c => c.VolunteerEmail);
+            modelBuilder.Entity<CharityEvent>().HasKey<Guid>(c => c.ID);
+            modelBuilder.Entity<EventAttendance>().HasKey<Guid>(c => c.ID);
+            modelBuilder.Entity<Location>().HasKey<Guid>(c => c.ID);
+            modelBuilder.Entity<MemberAction>().HasKey<Guid>(c => c.ID);
+            modelBuilder.Entity<Preference>().HasKey<Guid>(c => c.ID);
+            modelBuilder.Entity<PreferredCategory>().HasKey<Guid>(c => c.ID);
+            modelBuilder.Entity<PreferredCharity>().HasKey<Guid>(c => c.ID);
+            //throw new UnintentionalCodeFirstException();
         }
     
         public virtual DbSet<Category> Categories { get; set; }
