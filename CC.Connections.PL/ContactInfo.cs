@@ -14,7 +14,6 @@ namespace CC.Connections.PL
     
     public partial class ContactInfo
     {
-
         public string MemberEmail { get; set; }
         public string FName { get; set; }
         public string LName { get; set; }

@@ -10,6 +10,7 @@ namespace CC.Connections.BL
 {
     public class apiPassword : Password
     {
+        //TODO
         private static List<apiPassword> allPasswords = new List<apiPassword>();
 
         //other parameters from PL.Categories
@@ -21,13 +22,13 @@ namespace CC.Connections.BL
         {
             if (p is null)
                 throw new ArgumentNullException(nameof(p));
-            setPassword(p);
+            SetPassword(p);
             getKey();
         }
 
         public apiPassword(string email, string password, MemberType memberType, bool hashed = false)
         {
-            setPassword(new Password(email, password, MemberType, hashed));
+            SetPassword(new Password(email, password, memberType, hashed));
             getKey();
         }
 
@@ -38,7 +39,7 @@ namespace CC.Connections.BL
             {
                 using (CCEntities dc = new CCEntities())
                 {
-                    Key = dc.logins.Where(c => c.MemberEmail == email).FirstOrDefault().Key;
+                    Key = dc.LogIns.Where(c => c.MemberEmail == email).FirstOrDefault().Key;
                 }
 
                 if (Key is null)
@@ -46,8 +47,11 @@ namespace CC.Connections.BL
             }
         }
 
-        public void setPassword(Password p)
+        public void SetPassword(Password p)
         {
+            if (p is null)
+                throw new ArgumentNullException(nameof(p));
+
             this.email = p.email;
             this.Pass = p.Pass;
             this.MemberType = p.MemberType;

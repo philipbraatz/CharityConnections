@@ -112,6 +112,7 @@ namespace CC.Connections.WebUI.Controllers
         {
             try
             {
+                con.Email = con.ContactInfo.MemberEmail;
                 //TODO add location not null
                 if( con.confirmPassword.Pass == null ||  
                     con.Email == null ||
@@ -157,12 +158,12 @@ namespace CC.Connections.WebUI.Controllers
                 }
 
                 Volunteer newMember = new Volunteer(con.Email, con.password.Pass, true);
-                newMember.setVolunteer(newMember);
+                newMember.setVolunteer(con);
                 con.password.email = con.Email;
                 con.password.MemberType = MemberType.VOLLUNTEER;
                 apiHelper.create<Volunteer>(newMember);
                 //newMember.Insert(con.password);
-                //if (newMember.Insert(con.password))
+                newMember.Insert(con.password);
                 //{
                     Session["member"] = con.password;
                     return RedirectToAction("ProfileView", "VolunteerProfile");

@@ -99,7 +99,7 @@ namespace CC.Connections.BL
                     //if (this.ID == Guid.Empty)
                     //    throw new Exception("ID is invalid");
 
-                    PL.LogIn entry = dc.logins.FirstOrDefault(c => c.MemberEmail == this.email);
+                    PL.LogIn entry = dc.LogIns.FirstOrDefault(c => c.MemberEmail == this.email);
                     if (entry == null)
                         return false;//throw new Exception("LogIns "+ this.email + " does not exist");
 
@@ -125,7 +125,7 @@ namespace CC.Connections.BL
             {
                 iD = this.email;
 
-                if (dc.logins.Where(c => c.MemberEmail == email).FirstOrDefault() != null)
+                if (dc.LogIns.Where(c => c.MemberEmail == email).FirstOrDefault() != null)
                     return false;//already exists
 
                 PL.LogIn entry = new PL.LogIn
@@ -134,7 +134,7 @@ namespace CC.Connections.BL
                     Password = hash,
                     MemberType =(int)this.MemberType
                 };
-                dc.logins.Add(entry);
+                dc.LogIns.Add(entry);
                 dc.SaveChanges();
                 return true;//added
             }
@@ -144,7 +144,7 @@ namespace CC.Connections.BL
         {
             using (CCEntities dc = new CCEntities())
             {
-                dc.logins.Remove(dc.logins.Where(c => c.MemberEmail == email).FirstOrDefault());
+                dc.LogIns.Remove(dc.LogIns.Where(c => c.MemberEmail == email).FirstOrDefault());
                 this.email = string.Empty;
                 this.hash = string.Empty;
                 return dc.SaveChanges();
@@ -155,7 +155,7 @@ namespace CC.Connections.BL
         {
             using (CCEntities dc = new CCEntities())
             {
-                PL.LogIn entry = dc.logins.Where(c => c.MemberEmail == this.email).FirstOrDefault();
+                PL.LogIn entry = dc.LogIns.Where(c => c.MemberEmail == this.email).FirstOrDefault();
                 entry.Password = hash;
                 entry.MemberType = (int)this.MemberType;
                 return dc.SaveChanges();
@@ -176,7 +176,7 @@ namespace CC.Connections.BL
                 {
                     using (CCEntities dc = new CCEntities())
                     {
-                        PL.LogIn entry = dc.logins.FirstOrDefault(u => u.MemberEmail == this.email);
+                        PL.LogIn entry = dc.LogIns.FirstOrDefault(u => u.MemberEmail == this.email);
                         if (entry == null)
                             this.MemberType = MemberType.GUEST;//doesnt exist
                         else if (entry.Password == hash)//success if match
@@ -200,8 +200,8 @@ namespace CC.Connections.BL
             {
                 using (CCEntities dc = new CCEntities())
                 {
-                    if (dc.logins.ToList().Count != 0)
-                        dc.logins.ToList().ForEach(c =>
+                    if (dc.LogIns.ToList().Count != 0)
+                        dc.LogIns.ToList().ForEach(c =>
                             this.Add(new Password(c.MemberEmail, c.Password,(MemberType)c.MemberType, true)));
                 }
             }

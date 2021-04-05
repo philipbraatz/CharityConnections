@@ -508,6 +508,10 @@ namespace CC.Connections.BL
 
         public void AddEvent(CharityEvent evnt)
         {
+            if (evnt is null)
+                throw new ArgumentNullException(nameof(evnt));
+            
+
             if (Sort_ID == null)
                 throw new Exception(Event_LOAD_ERROR);
 

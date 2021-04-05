@@ -5,6 +5,7 @@ $(document).ready(function () {
 
     // Displays the volunteer category nav bar when hovering over "find volunteer opportunities"
     $("#findVolunteerBtn").mouseenter(function () {
+
         $("#volunteerBar").slideToggle(750);
     });
 

@@ -13,7 +13,7 @@
 {
     <p>@Html.ActionLink("Create New Volunteer Opportunity", "Create")</p>
 }
-@if (Model.ToList().Count != 0)
+@if (Model != null && Model.ToList().Count != 0)
 {
     <table class="table">
 

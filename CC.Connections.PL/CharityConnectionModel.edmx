@@ -4,159 +4,159 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="CharityConnectionsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="Categories">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Desc" Type="nvarchar" MaxLength="70" />
-          <Property Name="Color" Type="nvarchar" MaxLength="6" />
-          <Property Name="Image" Type="nvarchar" MaxLength="20" />
-        </EntityType>
-        <EntityType Name="Charities">
-          <Key>
-            <PropertyRef Name="CharityEmail" />
-          </Key>
-          <Property Name="CharityEmail" Type="nvarchar" MaxLength="75" Nullable="false" />
-          <Property Name="Name" Type="varchar" MaxLength="50" />
-          <Property Name="EIN" Type="nvarchar" MaxLength="50" />
-          <Property Name="Deductibility" Type="bit" />
-          <Property Name="URL" Type="nvarchar" MaxLength="75" />
-          <Property Name="Cause" Type="nvarchar" MaxLength="500" />
-          <Property Name="CategoryID" Type="uniqueidentifier" />
-          <Property Name="LocationID" Type="uniqueidentifier" />
-        </EntityType>
-        <EntityType Name="CharityEvents">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="75" />
-          <Property Name="StartDate" Type="datetime" />
-          <Property Name="EndDate" Type="datetime" />
-          <Property Name="Requirements" Type="nvarchar" MaxLength="500" />
-          <Property Name="Description" Type="nvarchar" MaxLength="1500" />
-          <Property Name="LocationID" Type="uniqueidentifier" />
-          <Property Name="CharityEmail" Type="nvarchar" MaxLength="75" />
-        </EntityType>
-        <EntityType Name="ContactInfoes">
-          <Key>
-            <PropertyRef Name="MemberEmail" />
-          </Key>
-          <Property Name="MemberEmail" Type="nvarchar" MaxLength="75" Nullable="false" />
-          <Property Name="FName" Type="nvarchar" MaxLength="25" />
-          <Property Name="LName" Type="nvarchar" MaxLength="50" />
-          <Property Name="Phone" Type="nvarchar" MaxLength="12" />
-          <Property Name="DateOfBirth" Type="datetime" />
-        </EntityType>
-        <EntityType Name="EventAttendances">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="EventID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="VolunteerEmail" Type="nvarchar" MaxLength="75" Nullable="false" />
-          <Property Name="VolunteerStatus" Type="int" />
-        </EntityType>
-        <EntityType Name="HelpingActions">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="CategoryID" Type="uniqueidentifier" />
-          <Property Name="Description" Type="nvarchar" MaxLength="75" />
-        </EntityType>
-        <EntityType Name="Locations">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Address" Type="nvarchar" MaxLength="50" />
-          <Property Name="City" Type="nvarchar" MaxLength="25" />
-          <Property Name="State" Type="nvarchar" MaxLength="25" />
-          <Property Name="Zip" Type="nvarchar" MaxLength="10" />
-        </EntityType>
-        <EntityType Name="LogIns">
-          <Key>
-            <PropertyRef Name="MemberEmail" />
-          </Key>
-          <Property Name="MemberEmail" Type="nvarchar" MaxLength="75" Nullable="false" />
-          <Property Name="MemberType" Type="int" />
-          <Property Name="Password" Type="nvarchar" MaxLength="150" />
-          <Property Name="Key" Type="nchar" MaxLength="40" />
-        </EntityType>
-        <EntityType Name="MemberActions">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="MemberEmail" Type="nvarchar" MaxLength="75" />
-          <Property Name="ActionID" Type="uniqueidentifier" />
-        </EntityType>
-        <EntityType Name="Preferences">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="Distance" Type="decimal" Precision="18" Scale="2" />
-        </EntityType>
-        <EntityType Name="PreferredCategories">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="CategoryID" Type="uniqueidentifier" />
-          <Property Name="VolunteerEmail" Type="nvarchar" MaxLength="75" />
-        </EntityType>
-        <EntityType Name="PreferredCharities">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="VolunteerEmail" Type="nvarchar" MaxLength="75" />
-          <Property Name="CharityEmail" Type="nvarchar" MaxLength="75" />
-        </EntityType>
-        <EntityType Name="Volunteers">
-          <Key>
-            <PropertyRef Name="VolunteerEmail" />
-          </Key>
-          <Property Name="VolunteerEmail" Type="nvarchar" MaxLength="75" Nullable="false" />
-          <Property Name="PreferenceID" Type="uniqueidentifier" />
-          <Property Name="LocationID" Type="uniqueidentifier" />
-        </EntityType>
-        <Association Name="FK__MemberAc__Membe__38EE7070">
-          <End Role="HelpingActions" Type="Self.HelpingActions" Multiplicity="0..1" />
-          <End Role="MemberActions" Type="Self.MemberActions" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="HelpingActions">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="MemberActions">
-              <PropertyRef Name="ActionID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityContainer Name="CharityConnectionsModelStoreContainer">
-          <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Charities" EntityType="Self.Charities" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="CharityEvents" EntityType="Self.CharityEvents" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ContactInfoes" EntityType="Self.ContactInfoes" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="EventAttendances" EntityType="Self.EventAttendances" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="HelpingActions" EntityType="Self.HelpingActions" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Locations" EntityType="Self.Locations" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="LogIns" EntityType="Self.LogIns" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="MemberActions" EntityType="Self.MemberActions" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Preferences" EntityType="Self.Preferences" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="PreferredCategories" EntityType="Self.PreferredCategories" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="PreferredCharities" EntityType="Self.PreferredCharities" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Volunteers" EntityType="Self.Volunteers" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__MemberAc__Membe__38EE7070" Association="Self.FK__MemberAc__Membe__38EE7070">
-            <End Role="HelpingActions" EntitySet="HelpingActions" />
-            <End Role="MemberActions" EntitySet="MemberActions" />
-          </AssociationSet>
-        </EntityContainer>
-      </Schema></edmx:StorageModels>
+    <Schema Namespace="CharityConnectionsModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="CharityConnectionsModelStoreContainer">
+    <EntitySet Name="Categories" EntityType="CharityConnectionsModel.Store.Categories" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CharityEvents" EntityType="CharityConnectionsModel.Store.CharityEvents" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ContactInfoes" EntityType="CharityConnectionsModel.Store.ContactInfoes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="EventAttendances" EntityType="CharityConnectionsModel.Store.EventAttendances" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="HelpingActions" EntityType="CharityConnectionsModel.Store.HelpingActions" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Locations" EntityType="CharityConnectionsModel.Store.Locations" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="MemberActions" EntityType="CharityConnectionsModel.Store.MemberActions" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Preferences" EntityType="CharityConnectionsModel.Store.Preferences" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PreferredCategories" EntityType="CharityConnectionsModel.Store.PreferredCategories" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PreferredCharities" EntityType="CharityConnectionsModel.Store.PreferredCharities" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Charities" EntityType="CharityConnectionsModel.Store.Charities" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Volunteers" EntityType="CharityConnectionsModel.Store.Volunteers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="LogIns" EntityType="CharityConnectionsModel.Store.LogIns" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK__MemberAc__Membe__38EE7070" Association="CharityConnectionsModel.Store.FK__MemberAc__Membe__38EE7070">
+      <End Role="HelpingAction" EntitySet="HelpingActions" />
+      <End Role="MemberAction" EntitySet="MemberActions" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Categories">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Desc" Type="nvarchar" Nullable="true" MaxLength="70" />
+    <Property Name="Color" Type="nvarchar" Nullable="true" MaxLength="6" />
+    <Property Name="Image" Type="nvarchar" Nullable="true" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="CharityEvents">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="true" MaxLength="75" />
+    <Property Name="StartDate" Type="datetime" Nullable="true" />
+    <Property Name="EndDate" Type="datetime" Nullable="true" />
+    <Property Name="Requirements" Type="nvarchar" Nullable="true" MaxLength="500" />
+    <Property Name="Description" Type="nvarchar" Nullable="true" MaxLength="1500" />
+    <Property Name="LocationID" Type="uniqueidentifier" Nullable="true" />
+    <Property Name="CharityEmail" Type="nvarchar" Nullable="true" MaxLength="75" />
+  </EntityType>
+  <EntityType Name="ContactInfoes">
+    <Key>
+      <PropertyRef Name="MemberEmail" />
+    </Key>
+    <Property Name="MemberEmail" Type="nvarchar" Nullable="false" MaxLength="75" />
+    <Property Name="FName" Type="nvarchar" Nullable="true" MaxLength="25" />
+    <Property Name="LName" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="Phone" Type="nvarchar" Nullable="true" MaxLength="12" />
+    <Property Name="DateOfBirth" Type="datetime" Nullable="true" />
+  </EntityType>
+  <EntityType Name="EventAttendances">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="EventID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="VolunteerEmail" Type="nvarchar" Nullable="false" MaxLength="75" />
+    <Property Name="VolunteerStatus" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="HelpingActions">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="CategoryID" Type="uniqueidentifier" Nullable="true" />
+    <Property Name="Description" Type="nvarchar" Nullable="true" MaxLength="75" />
+  </EntityType>
+  <EntityType Name="Locations">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Address" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="City" Type="nvarchar" Nullable="true" MaxLength="25" />
+    <Property Name="State" Type="nvarchar" Nullable="true" MaxLength="25" />
+    <Property Name="Zip" Type="nvarchar" Nullable="true" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="MemberActions">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="MemberEmail" Type="nvarchar" Nullable="true" MaxLength="75" />
+    <Property Name="ActionID" Type="uniqueidentifier" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Preferences">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Distance" Type="decimal" Nullable="true" Precision="18" Scale="2" />
+  </EntityType>
+  <EntityType Name="PreferredCategories">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="CategoryID" Type="uniqueidentifier" Nullable="true" />
+    <Property Name="VolunteerEmail" Type="nvarchar" Nullable="true" MaxLength="75" />
+  </EntityType>
+  <EntityType Name="PreferredCharities">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="VolunteerEmail" Type="nvarchar" Nullable="true" MaxLength="75" />
+    <Property Name="CharityEmail" Type="nvarchar" Nullable="true" MaxLength="75" />
+  </EntityType>
+  <EntityType Name="Charities">
+    <Key>
+      <PropertyRef Name="CharityEmail" />
+    </Key>
+    <Property Name="CharityEmail" Type="nvarchar" Nullable="false" MaxLength="75" />
+    <Property Name="Name" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="EIN" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="Deductibility" Type="bit" Nullable="true" />
+    <Property Name="URL" Type="nvarchar" Nullable="true" MaxLength="75" />
+    <Property Name="Cause" Type="nvarchar" Nullable="true" MaxLength="500" />
+    <Property Name="CategoryID" Type="uniqueidentifier" Nullable="true" />
+    <Property Name="LocationID" Type="uniqueidentifier" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Volunteers">
+    <Key>
+      <PropertyRef Name="VolunteerEmail" />
+    </Key>
+    <Property Name="VolunteerEmail" Type="nvarchar" Nullable="false" MaxLength="75" />
+    <Property Name="PreferenceID" Type="uniqueidentifier" Nullable="true" />
+    <Property Name="LocationID" Type="uniqueidentifier" Nullable="true" />
+  </EntityType>
+  <EntityType Name="LogIns">
+    <Key>
+      <PropertyRef Name="MemberEmail" />
+    </Key>
+    <Property Name="MemberEmail" Type="nvarchar" Nullable="false" MaxLength="75" />
+    <Property Name="MemberType" Type="int" Nullable="true" />
+    <Property Name="Password" Type="nvarchar" Nullable="true" MaxLength="150" />
+    <Property Name="Key" Type="nchar" Nullable="true" MaxLength="40" />
+  </EntityType>
+  <Association Name="FK__MemberAc__Membe__38EE7070">
+    <End Role="HelpingAction" Type="CharityConnectionsModel.Store.HelpingActions" Multiplicity="0..1" />
+    <End Role="MemberAction" Type="CharityConnectionsModel.Store.MemberActions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HelpingAction">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="MemberAction">
+        <PropertyRef Name="ActionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CharityConnectionsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -442,16 +442,16 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-          <EntitySetMapping Name="LogIns">
-            <EntityTypeMapping TypeName="CharityConnectionsModel.LogIn">
-              <MappingFragment StoreEntitySet="LogIns">
-                <ScalarProperty Name="Key" ColumnName="Key" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="MemberType" ColumnName="MemberType" />
-                <ScalarProperty Name="MemberEmail" ColumnName="MemberEmail" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
+    <EntitySetMapping Name="LogIns">
+      <EntityTypeMapping TypeName="IsTypeOf(CharityConnectionsModel.LogIn)">
+        <MappingFragment StoreEntitySet="LogIns">
+          <ScalarProperty Name="MemberEmail" ColumnName="MemberEmail" />
+          <ScalarProperty Name="MemberType" ColumnName="MemberType" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Key" ColumnName="Key" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>

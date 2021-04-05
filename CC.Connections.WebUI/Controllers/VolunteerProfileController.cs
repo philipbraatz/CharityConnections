@@ -28,10 +28,8 @@ namespace CC.Connections.WebUI.Controllers
                         ViewBag.Message = "Error: " + e.Message;
                     return View(new Volunteer());//should not happen
                 }
-            else if (ControllerContext.HttpContext.Request.UrlReferrer != null)
-                return Redirect(ControllerContext.HttpContext.Request.UrlReferrer.ToString());//go back
             else
-                return RedirectToAction("Index", "Home");//go to index
+                return RedirectToAction("Index", "Home");//Im logged out, go to home or sign in
         }
 
         // GET: VolunteerProfile/Edit/5

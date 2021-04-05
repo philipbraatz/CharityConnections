@@ -106,6 +106,7 @@
       <DependentUpon>CharityConnectionModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Test.cs" />
     <Compile Include="Volunteer.cs">
       <DependentUpon>CharityConnectionModel.tt</DependentUpon>
     </Compile>
@@ -139,6 +140,7 @@
     <Content Include="CharityConnectionModel12-30.edmx.sql" />
     <Content Include="CharityConnectionModel12-31.edmx.sql" />
     <Content Include="CharityConnectionModel3-3.edmx.sql" />
+    <Content Include="CharityConnectionModel4-4-2021.edmx.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

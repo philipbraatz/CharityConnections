@@ -20,9 +20,11 @@ namespace CC.Abstract
             p = info;
             loadPropertyMax(context, entity);
         }
-        private void loadPropertyMax(DbContext context,TEntity entity)
+        public PropertyDB_Info(PropertyInfo info) => p = info;
+
+        private void loadPropertyMax(DbContext context, TEntity entity)
         {
-            if (p.Name != "String")
+            if (p == null || p.Name != "String")
                 max = -1;
             else
             {
@@ -30,6 +32,7 @@ namespace CC.Abstract
                 max = nmax != null ? (int)nmax : -1;
             }
         }
+
     }
     public class PropertyException : Exception
     {
@@ -114,11 +117,12 @@ namespace CC.Abstract
         {
             try
             {
-                PropertyDB_Info<TEntity> propinf = properties.Where(c => c.p.Name == propertyName).FirstOrDefault();
+                PropertyDB_Info<TEntity> propinf = properties.Where(c=> c.p.Name == propertyName).FirstOrDefault();
+                Type propType = value?.GetType() ?? propinf.p.PropertyType;
                 if (propinf == null)
                     throw new PropertyException(typeof(TEntity),propertyName);
 
-                Type propType = propinf.p.PropertyType;
+
 
                 if (propinf != null)
                 {
@@ -136,6 +140,8 @@ namespace CC.Abstract
                                 propinf.p.SetValue(instance, (DateTime)value);
                             else if (propGeneric[0].Name == "Guid")
                                 propinf.p.SetValue(instance, (Guid)value);
+                            else if (propGeneric[0].Name == "Uri")
+                                propinf.p.SetValue(instance, (Uri)value);
                             else
                                 propinf.p.SetValue(instance, value);
                         }
@@ -155,6 +161,7 @@ namespace CC.Abstract
                     throw new PropertyException(typeof(TEntity), propertyName);
             }
             catch (Exception e) { 
+                if(true)
                 throw new Exception(typeof(TEntity) +": "+e.Message);
             }
         }

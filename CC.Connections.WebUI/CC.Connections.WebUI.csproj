@@ -173,6 +173,7 @@
     <Compile Include="Model\CharityEventWithTime.cs" />
     <Compile Include="Model\CharitySignup.cs" />
     <Compile Include="Model\MemberProfile.cs" />
+    <Compile Include="Model\TempApiTest.cs" />
     <Compile Include="Model\VolunteerSignup.cs" />
     <Compile Include="Model\TimeUtils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -465,7 +466,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
-      <UserProperties content_4bootstrap-grid_1css_1map__JsonSchema="" content_4bootstrap_1css_1map__JsonSchema="" />
+      <UserProperties content_4bootstrap_1css_1map__JsonSchema="" content_4bootstrap-grid_1css_1map__JsonSchema="" />
     </VisualStudio>
   </ProjectExtensions>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

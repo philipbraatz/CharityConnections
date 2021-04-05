@@ -44,7 +44,7 @@ namespace CC.Connections.BL
             string jsonRequestBody = "{" + jsonLocations + "," + jsonOption + "}";
             //{locations:
             //[Clarendon Blvd, Arlington, VA],[2400 S Glebe Rd, Arlington, VA],options:{routeType:shortest} }
-            dynamic responseObject = JsonConvert.DeserializeObject<dynamic>(client.PostAsync("route?key=" + KEY,//to dynamic object
+            dynamic responseObject = JsonConvert.DeserializeObject<dynamic>(client.PostAsync(new Uri("route?key=" + KEY),//to dynamic object
                         new StringContent(jsonRequestBody, Encoding.UTF8, "application/json")).Result//HttpResponseMessage
                     .Content.ReadAsStringAsync().Result//to string result
             );

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using CC.Connections.BL;
@@ -18,7 +19,14 @@ namespace CC.Connections.WebUI.Controllers
                 ViewBag.Title = "Volunteer Opportunities";
 
             //load
-            CharityEventCollection allEvents = apiHelper.getAll<CharityEventCollection>();//TODO refactor all these to use both session and api
+            //TempApiTest.RunAsync();
+            //var val =  Task.Run(async () => await TempApiTest.GetProductAsync()).Result;
+            
+            //DEBUG checks if you can recieve data from api
+            //TODO move to test class
+            //bool testString = apiHelper.Ping();
+            
+            CharityEventCollection allEvents = (CharityEventCollection)apiHelper.getAll<CharityEvent>();//TODO refactor all these to use both session and api
             if (Session != null && Session["charityEvents"] != null)
             {
                 allEvents = ((CharityEventCollection)Session["charityEvents"]);
@@ -41,8 +49,8 @@ namespace CC.Connections.WebUI.Controllers
             else
             {
                 //convert to Model
-                allEvents = apiHelper.getAll<CharityEventCollection>();
-                if (Session != null && Session["member"] != null && ((Password)Session["member"]).MemberType == MemberType.VOLLUNTEER)
+                allEvents = (CharityEventCollection)apiHelper.getAll<CharityEvent>();
+                if ( allEvents != null && Session != null && Session["member"] != null && ((Password)Session["member"]).MemberType == MemberType.VOLLUNTEER)
                     foreach (var ev in allEvents)
                         ev.Member_Attendance = apiHelper.getAction<EventAttendee>("GetEmail",ev.ID);// new AbsEventAttendee(ev.ID, ((Password)Session["member"]).email);
 
@@ -59,7 +67,7 @@ namespace CC.Connections.WebUI.Controllers
             ViewBag.Title = apiHelper.getOne<Category>(id).Desc;
 
             //load
-            CharityEventCollection allEvents = apiHelper.getAll<CharityEventCollection>();
+            CharityEventCollection allEvents = (CharityEventCollection)apiHelper.getAll<CharityEvent>();
             if (Session != null && Session["charityEvents"] != null)
             {
                 allEvents = ((CharityEventCollection)Session["charityEvents"]);
@@ -91,7 +99,7 @@ namespace CC.Connections.WebUI.Controllers
         // GET: CharityEvent/Details/5
         public ActionResult Details(Guid id)
         {
-            CharityEventCollection allEvents = apiHelper.getAll<CharityEventCollection>();
+            CharityEventCollection allEvents = (CharityEventCollection)apiHelper.getAll<CharityEvent>();
             CharityEvent detailEvent;
             if (Session != null && Session["charityEvents"] != null)
             {
@@ -125,7 +133,7 @@ namespace CC.Connections.WebUI.Controllers
         //[ChildActionOnly]
         public ActionResult SideView(Guid id)
         {
-            CharityEventCollection allEvents = apiHelper.getAll<CharityEventCollection>();
+            CharityEventCollection allEvents = (CharityEventCollection)apiHelper.getAll<CharityEvent>();
             CharityEvent detailEvent;
             if (Session != null && Session["charityEvents"] != null)
             {

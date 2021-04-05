@@ -12,6 +12,7 @@ namespace CC.Connections.WebUI.Controllers
     public class AdminController : Controller
     {
         // GET: Admin
+        [ValidateAntiForgeryToken]
         public ActionResult Index()
         {
             //TODO some menu with table options and other things
@@ -23,6 +24,7 @@ namespace CC.Connections.WebUI.Controllers
         }
 
         // GET: Admin/Charity
+        [ValidateAntiForgeryToken]
         public ActionResult Charity()
         {
             using (CCEntities dc = new CCEntities())
@@ -32,6 +34,7 @@ namespace CC.Connections.WebUI.Controllers
         }
 
         // GET: Admin/Event
+        [ValidateAntiForgeryToken]
         public ActionResult CharityEvent()
         {
             using (CCEntities dc = new CCEntities())
@@ -41,6 +44,7 @@ namespace CC.Connections.WebUI.Controllers
         }
 
         // GET: Admin/Volunteer
+        [ValidateAntiForgeryToken]
         public ActionResult Volunteer()
         {
             using (CCEntities dc = new CCEntities())
@@ -51,6 +55,7 @@ namespace CC.Connections.WebUI.Controllers
 
 
         // GET: Admin/Contact
+        [ValidateAntiForgeryToken]
         public ActionResult ContactInfo()
         {
             using (CCEntities dc = new CCEntities())
@@ -60,6 +65,7 @@ namespace CC.Connections.WebUI.Controllers
         }
 
         // GET: Admin/Attendance
+        [ValidateAntiForgeryToken]
         public ActionResult EventAttendace()
         {
             using (CCEntities dc = new CCEntities())
@@ -69,6 +75,7 @@ namespace CC.Connections.WebUI.Controllers
         }
 
         // GET: Admin/Location
+        [ValidateAntiForgeryToken]
         public ActionResult Location()
         {
             using (CCEntities dc = new CCEntities())
@@ -78,6 +85,7 @@ namespace CC.Connections.WebUI.Controllers
         }
 
         // GET: Admin/HelpingAction
+        [ValidateAntiForgeryToken]
         public ActionResult HelpingAction()
         {
             using (CCEntities dc = new CCEntities())

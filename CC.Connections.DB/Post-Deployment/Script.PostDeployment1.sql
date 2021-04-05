@@ -8,7 +8,7 @@ Post-Deployment Script Template
  Example:      :setvar TableName MyTable							
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
-*/
+
 
 :r .\DefaultData\Categories.sql
 :r .\DefaultData\Charity.sql
@@ -23,3 +23,4 @@ Post-Deployment Script Template
 :r .\DefaultData\Preferences.sql
 :r .\DefaultData\PreferredCategories.sql
 :r .\DefaultData\PreferredCharity.sql
+*/

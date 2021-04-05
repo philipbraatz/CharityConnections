@@ -4,12 +4,21 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 
 namespace CC.Connections.WebUI
 {
+    public struct InternalServerError
+    {
+        public string Message;
+        public string ExceptionMessage;
+        public string ExceptionType;//Type but errors sometimes and only used as a string anyways
+        public string StackTrace;
+    }
+
     public class apiHelper
     {
         private static HttpClient httpClient = InitializeClient();//TODO enable secure version
@@ -30,12 +39,12 @@ namespace CC.Connections.WebUI
             client.DefaultRequestHeaders.Add("cc-api-key", "masterpassword");
             //client.Timeout = TimeSpan.FromMinutes(3);
             if (false)
-                return new HttpClient { BaseAddress = new Uri("http://pebdvdcentraapi.azurewebsites.net/api/") };//Requires server database
+                return new HttpClient { BaseAddress = new Uri(HttpRuntime.AppDomainAppVirtualPath+"/api/") };//Requires server database
             else
-                return new HttpClient { BaseAddress = new Uri("http://localhost:44363/api/") };//SET LOCAL #
+                return new HttpClient { BaseAddress = new Uri("https://localhost:44368/api/") };//SET LOCAL #
         }
 
-        private static TEntityList getAll<TEntityList>(string model, bool all = true) where TEntityList : class
+        private static TEntity[] getAll<TEntity>(string model, bool all = true) where TEntity : class
         {
             const string LIST_WORD = "collection";//remove collection from class names if present
             if (model.ToLower().Contains(LIST_WORD))
@@ -44,12 +53,23 @@ namespace CC.Connections.WebUI
             HttpClient client = httpClient;
             String urlRequest = model + (all ? "/all" : String.Empty);
             String url = client.BaseAddress + urlRequest;//just for error info
+            HttpResponseMessage message=null;
             try
             {
-                HttpResponseMessage message = client.GetAsync(urlRequest).Result;//GetAsync("LinkName")  HttpResponseMessage
-                return JsonConvert.DeserializeObject<TEntityList>(//Json to Object of the
-                                message
-                                .Content.ReadAsStringAsync().Result);//to string result
+                message = client.GetAsync(urlRequest).Result;//GetAsync("LinkName")  HttpResponseMessage
+                return JsonConvert.DeserializeObject<TEntity[]>(//Json to Object of the
+                                    message
+                                    .Content.ReadAsStringAsync().Result);//to string result
+
+            }
+            catch (JsonSerializationException e)
+            {
+                InternalServerError err = JsonConvert.DeserializeObject<InternalServerError>(//Json to Object of the
+                                    message
+                                    .Content.ReadAsStringAsync().Result);//to string result
+                string mes =err.ExceptionType+": "+ err.Message + "\r\n\r\n" + err.ExceptionMessage+ "\r\n\r\nStack Trace: " + err.StackTrace;
+                throw new HttpException((int)message.StatusCode,mes);//"API had an Exception, check exception details");
+                throw new Exception(message.StatusCode + ": \"" + JsonConvert.DeserializeObject(message.Content.ReadAsStringAsync().Result) + "\" was not expected");
             }
             catch (AggregateException e)
             {
@@ -63,7 +83,9 @@ namespace CC.Connections.WebUI
                 }
                 else if(e.GetBaseException().GetType() == typeof(HttpRequestException))
                 {
-                    //if (e.GetBaseException().InnerException != null)
+                    if (e.GetBaseException().InnerException != null)
+                        throw e.GetBaseException().InnerException;
+                    else
                         throw new Exception("\"" + url + "\" threw an exception: " + e.GetBaseException().Message + "\nIt does not want to share what happened");
                     //throw new Exception("\""+url+"\" threw an exception: " + e.GetBaseException().Message +"\nCheck if url exists");
                 }
@@ -76,13 +98,13 @@ namespace CC.Connections.WebUI
 
 
         }
-        public static TEntityList getAll<TEntityList>() where TEntityList : class
-            => getAll<TEntityList>(typeof(TEntityList).Name);
+        public static TEntity[] getAll<TEntity>() where TEntity : class
+            => getAll<TEntity>(typeof(TEntity).Name);
 
         public static TEntity getOne<TEntity>(Guid id) where TEntity : class
-            => getAll<TEntity>(typeof(TEntity).Name + "/get/" + id, false);
+            => getAll<TEntity>(typeof(TEntity).Name + "/get/" + id, false)[0];
         public static TEntity getEmail<TEntity>(String id) where TEntity : class
-            => getAll<TEntity>(typeof(TEntity).Name + "/getEmail/" + id, false);
+            => getAll<TEntity>(typeof(TEntity).Name + "/getEmail/" + id, false)[0];
 
         public static HttpResponseMessage create<TEntity>(TEntity entity) where TEntity : class
             => httpClient.PutAsync(typeof(TEntity).Name + "/put", setContent(entity)).Result;
@@ -106,6 +128,18 @@ namespace CC.Connections.WebUI
             return JsonConvert.DeserializeObject<TEntity>(//Json to Object of the
                 client.GetAsync(nameof(TEntity) + "/" + (action + value != null ? value : String.Empty)).Result//GetAsync("LinkName")  HttpResponseMessage
                 .Content.ReadAsStringAsync().Result//to string result
+            );
+        }
+
+        public static bool Ping()
+        {
+            HttpClient client = httpClient;
+            
+            var res = Task.Run(async () => await client.GetStringAsync("values")).Result;
+
+            return (JsonConvert.DeserializeObject<String>(//Json to Object of the
+                res
+                ) == PL.Test.t//to string result
             );
         }
     }

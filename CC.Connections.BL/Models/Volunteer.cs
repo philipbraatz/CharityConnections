@@ -197,7 +197,8 @@ namespace CC.Connections.BL
 
 
                     //TODO refactor
-                    //try to load existing ID
+
+                    //check for existing account before inserting
                     PL.Volunteer volunteerPL = dc.Volunteers.Where(c => c.VolunteerEmail == email).FirstOrDefault();
                     if (volunteerPL != null)
                     {
@@ -207,10 +208,10 @@ namespace CC.Connections.BL
                         PreferedHelpingActions.LoadPreferences(Email);
                         PreferedCategories.LoadPreferences(Email);
                     }
-                    else
+                    else//its a new account
                     {
                         Clear();//new Charity
-                        Password newPassword = new Password(email, password, MemberType.CHARITY, hashed);
+                        Password newPassword = new Password(email, password, MemberType.VOLLUNTEER, hashed);
                         newPassword.Insert();
                         this.Location.Insert();
                     }
@@ -221,7 +222,7 @@ namespace CC.Connections.BL
             catch (Exception e)
             {
                 if (e.Message != "The underlying provider failed on Open.")
-                    throw e;
+                    throw;
                 else
                     throw e.InnerException;//database error
 
@@ -299,7 +300,6 @@ namespace CC.Connections.BL
                     password.Insert();
                     VolunteerCollection.AddToInstance(this);
                 }
-                password.Insert();
             }
             catch (Exception)
             {
@@ -338,6 +338,10 @@ namespace CC.Connections.BL
         }
         public int Update(Password password)
         {
+            if (password is null)
+                throw new ArgumentNullException(nameof(password));
+            
+
             try
             {
                 //if (Description == string.Empty)
@@ -408,7 +412,7 @@ namespace CC.Connections.BL
             => INSTANCE.Remove(charity);
         //END instance
 
-        public new void LoadAll()
+        public void LoadAll()
         {
             this.Clear();
             LoadInstance();//make sure Instance is filled

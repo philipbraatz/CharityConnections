@@ -68,6 +68,7 @@
     <Compile Include="Models\Contact.cs" />
     <Compile Include="DataTypeTimeAttribute.cs" />
     <Compile Include="Models\EventAttendance.cs" />
+    <Compile Include="Models\Test.cs" />
     <Compile Include="SortingUtil.cs" />
     <Compile Include="Models\HelpingAction.cs" />
     <Compile Include="Models\Location.cs" />

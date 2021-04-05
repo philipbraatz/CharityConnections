@@ -1,5 +1,5 @@
 ﻿BEGIN
-	INSERT INTO Locations(ID, [Address], City, State, Zip)
+	INSERT INTO dbo.[Locations](ID, [Address], City, [State], Zip)
 	VALUES
 	('2c8c5497-2ef4-4c90-a444-556cffb0236a', '123 Main St.', 'Appleton', 'WI', '54911'),
 	('59935031-d27c-418e-8451-ab6a78e870b7', '321 Main St.', 'Green Bay', 'WI', '54229'),

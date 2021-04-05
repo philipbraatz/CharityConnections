@@ -69,7 +69,7 @@ namespace CC.Connections.WebUI.Controllers
                 ViewBag.Title = "Charities";
 
             //load
-            CharityCollection allCharities = apiHelper.getAll<CharityCollection>();
+            CharityCollection allCharities = (CharityCollection)apiHelper.getAll<Charity>();
             if (Session != null && Session["charities"] != null)
             {
                 allCharities = ((CharityCollection)Session["charities"]);
@@ -79,9 +79,8 @@ namespace CC.Connections.WebUI.Controllers
             else
             {
                 //convert to Model
-                allCharities = apiHelper.getAll<CharityCollection>();
+                allCharities = (CharityCollection)apiHelper.getAll<Charity>() ?? new CharityCollection();
                 allCharities.LoadAll();
-
                 //save
                 Session["charities"] = allCharities;
             }
@@ -106,7 +105,7 @@ namespace CC.Connections.WebUI.Controllers
             else
             {
                 //convert to Model
-                allCharities = apiHelper.getAll<CharityCollection>();
+                allCharities = (CharityCollection)apiHelper.getAll<Charity>();
                 allCharities.LoadWithFilter(id, SortBy.CATEGORY);
 
                 //save

@@ -19,7 +19,7 @@ namespace CC.Connections.PL
             : base("name=CCEntities")
         {
         }
-    
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -37,7 +37,7 @@ namespace CC.Connections.PL
             modelBuilder.Entity<PreferredCharity>().HasKey<Guid>(c => c.ID);
             //throw new UnintentionalCodeFirstException();
         }
-    
+
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<CharityEvent> CharityEvents { get; set; }
         public virtual DbSet<ContactInfo> ContactInfoes { get; set; }
@@ -50,6 +50,6 @@ namespace CC.Connections.PL
         public virtual DbSet<PreferredCharity> PreferredCharities { get; set; }
         public virtual DbSet<Charity> Charities { get; set; }
         public virtual DbSet<Volunteer> Volunteers { get; set; }
-        public virtual DbSet<LogIn> logins { get; set; }
+        public virtual DbSet<LogIn> LogIns { get; set; }
     }
 }

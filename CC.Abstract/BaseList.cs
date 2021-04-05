@@ -23,8 +23,20 @@ namespace CC.Abstract
         //    properties = type.GetProperties();
         //}
 
+        //to be used with LoadAll to convert from api EntityArray back to Collection
+        public static explicit operator BaseList<Tcrud,TEntity>(Tcrud[] t)
+        {
+            if (t is null)
+                return null;
+
+            BaseList<Tcrud, TEntity> ret = new BaseList<Tcrud, TEntity>();
+            ret.AddRange(t);
+            return ret;
+        }
+
+
         //TODO needs testing
-        public void LoadAll(DbSet<TEntity> table)
+        public Tcrud[] LoadAll(DbSet<TEntity> table)
         {
             try
             {
@@ -36,6 +48,7 @@ namespace CC.Abstract
                         typeof(Tcrud).GetConstructor(new Type[] { typeof(TEntity) }).Invoke(tinstance, new object[] { c });//create a BL version of the PL class
                         base.Add(tinstance);//converting problem
                     }
+                return this.ToArray();
             }
             catch (System.Data.Entity.Core.EntityException e)
             {

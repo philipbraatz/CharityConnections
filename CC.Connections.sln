@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CC.Abstract.UT", "CC.Abstra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CC.Connections.API", "CC.Connections.API\CC.Connections.API.csproj", "{6B266AC3-476E-4F94-A5F0-5A0F99ED54BB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Doorfail.Connections.TestAPI", "Doorfail.Connections.TestAPI\Doorfail.Connections.TestAPI.csproj", "{D232BE4D-BE37-4B35-8304-35AC9A812E7D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,10 @@ Global
 		{6B266AC3-476E-4F94-A5F0-5A0F99ED54BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B266AC3-476E-4F94-A5F0-5A0F99ED54BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B266AC3-476E-4F94-A5F0-5A0F99ED54BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D232BE4D-BE37-4B35-8304-35AC9A812E7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D232BE4D-BE37-4B35-8304-35AC9A812E7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D232BE4D-BE37-4B35-8304-35AC9A812E7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D232BE4D-BE37-4B35-8304-35AC9A812E7D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -22,7 +22,7 @@ namespace CC.Connections.BL
             get {
                 try
                 {
-                    return (decimal)base.getProperty(nameof(Distance));
+                    return (decimal)(base.getProperty(nameof(Distance)) ?? 0);
                 }
                 catch
                 {

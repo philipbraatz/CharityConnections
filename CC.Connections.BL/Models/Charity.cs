@@ -55,7 +55,7 @@ namespace CC.Connections.BL
                 return uri; 
             }
             set { 
-                setProperty(nameof(URL), value.AbsoluteUri);
+                setProperty(nameof(URL), value);
                 uri = value;
             }
         }
@@ -200,7 +200,7 @@ namespace CC.Connections.BL
             catch (Exception e)
             {
                 if (e.Message != "The underlying provider failed on Open.")
-                    throw e;
+                    throw;
                 else
                     throw e.InnerException;//database error
 
@@ -313,7 +313,7 @@ namespace CC.Connections.BL
                 }
                 return INS;
             }
-            catch (System.Data.SqlClient.SqlException ex)
+            catch (System.Data.SqlClient.SqlException)
             {
                 //if(ex.)
                 throw;
@@ -388,7 +388,7 @@ namespace CC.Connections.BL
             Filterer filter = new Filterer();
             filter.CutCharitiesByPreferences(userPref);
             foreach (var item in filter.GetRemainingCharities())
-                this.Add(item, true);
+                this.Add(item);
         }
 
         public new void Clear()
@@ -397,11 +397,11 @@ namespace CC.Connections.BL
             SortID = null;
         }
 
-        private void Add(Charity item, bool overrideMethod = true)
+        private void Add(Charity item)
         {
             base.Add(item);
         }
-        private void Remove(Charity item, bool overrideMethod = true)
+        private void Remove(Charity item)
         {
             base.Remove(item);
         }
