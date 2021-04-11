@@ -126,36 +126,42 @@ namespace CC.Abstract
 
                 if (propinf != null)
                 {
-                    propinf.p.SetValue(instance,value);
+                    //propinf.p.SetValue(instance,value);
                     if (value == null)
                         propinf.p.SetValue(instance, null);//deal with null right away
-                    else if (propType.Name == "Nullable`1")
+                    else switch (propType.Name)
                     {
-                        Type[] propGeneric = propType.GenericTypeArguments;
+                        case "Nullable`1"://some weird type, TODO research nullable propType
+                            Type[] propGeneric = propType.GenericTypeArguments;
 
-                        if (propGeneric.Length > 0)
-                        {
+                            if (propGeneric.Length > 0)
+                            {
 
-                            if (propGeneric[0].Name == "DateTime")
-                                propinf.p.SetValue(instance, (DateTime)value);
-                            else if (propGeneric[0].Name == "Guid")
-                                propinf.p.SetValue(instance, (Guid)value);
-                            else if (propGeneric[0].Name == "Uri")
-                                propinf.p.SetValue(instance, (Uri)value);
+                                if (propGeneric[0].Name == "DateTime")
+                                    propinf.p.SetValue(instance, (DateTime)value);
+                                else if (propGeneric[0].Name == "Guid")
+                                    propinf.p.SetValue(instance, (Guid)value);
+                                else
+                                    propinf.p.SetValue(instance, value);
+                            }
+
                             else
                                 propinf.p.SetValue(instance, value);
-                        }
-
-                        else
-                            propinf.p.SetValue(instance, value);
+                            break;
+                        case "String":
+                            if(((string)value).Length > propinf.max)//get property index equal to current property to compare sized
+                            {
+                                propinf.p.SetValue(instance, ((string)value));//.Substring(0, propinf.max - 1));//cut of larger values (zero based)
+                                break;//only break if proper length string
+                            }
+                            break;
+                        case "Uri":
+                            propinf.p.SetValue(instance, ((Uri)value).OriginalString);
+                            break;
+                        default:
+                            propinf.p.SetValue(instance, value);//yolo and hope it works
+                            break;
                     }
-                    else if (propType.Name == "String" &&
-                             ((string)value).Length > propinf.max)//get property index equal to current property to compare sized
-                    {
-                        propinf.p.SetValue(instance, ((string)value));//.Substring(0, propinf.max - 1));//cut of larger values (zero based)
-                    }
-                    else
-                        propinf.p.SetValue(instance, value);
                 }
                 else
                     throw new PropertyException(typeof(TEntity), propertyName);

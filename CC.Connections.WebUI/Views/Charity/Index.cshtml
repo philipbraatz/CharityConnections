@@ -21,7 +21,7 @@
         foreach (var item in Model)
         {
     <tr>
-        <td class="p-3 mb-2 bg-gradient-info text-white">
+        <td class="p-3 mb-2 bg-gradient-info text-black-50">
             <div class="card-header row">
                 <a href="@Url.Action("Details", "Charity", new { id = item.Email.Replace('.','-') })">
                     <img class="col-2 " src="~/Content/Images/CCDefaultPlaceholder.gif" alt="@item.Name" title="View Charity">

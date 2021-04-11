@@ -82,9 +82,10 @@ namespace CC.Connections.API.Controllers
                 loadConstructor.Invoke(tinstance, new object[] { id, true });
                 return tinstance;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
+                if (e.InnerException != null)
+                    throw e.InnerException;
                 throw;
             }
         }

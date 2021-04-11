@@ -15,12 +15,17 @@ namespace CC.Connections.WebUI.Controllers
         // GET: Charity Profile
         public ActionResult Details(string id)
         {
-            id = id.Replace('-', '.');
+            //id = id.Replace('-', '.');
             if(id == null)
             {
                 return RedirectToAction("Index");//returns you if you enter empty id
             }
-            Charity dCharity = apiHelper.getEmail<Charity>(id);
+
+                Charity dCharity = apiHelper.getEmail<Charity>(id);
+            //} catch(Exception e)
+            //{
+            //    throw e;
+            //}
             if(dCharity == null)
             {
                 ViewBag.Message = "That Charity does not exist";
@@ -52,7 +57,7 @@ namespace CC.Connections.WebUI.Controllers
             {
                 Charity c = new Charity(((Password)Session["Member"]));
                 return RedirectToAction("Details",new { 
-                    id = ((Password)Session["Member"]).email
+                    id = ((Password)Session["Member"]).email.Replace('.','-')
                 });
             }
             else if (ControllerContext.HttpContext.Request.UrlReferrer != null)

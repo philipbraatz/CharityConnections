@@ -67,7 +67,14 @@ namespace CC.Connections.WebUI
                 InternalServerError err = JsonConvert.DeserializeObject<InternalServerError>(//Json to Object of the
                                     message
                                     .Content.ReadAsStringAsync().Result);//to string result
-                string mes =err.ExceptionType+": "+ err.Message + "\r\n\r\n" + err.ExceptionMessage+ "\r\n\r\nStack Trace: " + err.StackTrace;
+                string mes = String.Empty;
+
+                if (err.Message != null)
+                    throw new HttpException((int)message.StatusCode,
+                        err.ExceptionType + ": " + err.Message + "\r\n\r\n" + err.ExceptionMessage + "\r\n\r\nStack Trace: " + err.StackTrace);//"API had an Exception, check exception details");
+                //else
+                    throw;
+                
                 throw new HttpException((int)message.StatusCode,mes);//"API had an Exception, check exception details");
                 throw new Exception(message.StatusCode + ": \"" + JsonConvert.DeserializeObject(message.Content.ReadAsStringAsync().Result) + "\" was not expected");
             }

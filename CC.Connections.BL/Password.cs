@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,7 +23,9 @@ namespace CC.Connections.BL
         [DisplayName("Email")]
         public string email { get; set; }
         private string hash;
+
         [DisplayName("Password")]
+        [MaxLength(32), MinLength(8)]
         public string Pass
         {
             //returns hashed password

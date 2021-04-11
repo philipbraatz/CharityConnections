@@ -41,12 +41,14 @@
     </div>
     <div class="row">
         <div class="form-group col-6">
-            @Html.LabelFor(model => model.EIN, htmlAttributes: new { @class = "control-label col-md-4" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.EIN, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.EIN, "", new { @class = "text-danger" })
+                @Html.LabelFor(model => model.EIN, htmlAttributes: new { @class = "control-label col-md-4" })
+                <div class="col-md-10">
+
+                    @Html.EditorFor(model => model.EIN, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.EIN, "", new { @class = "text-danger" })
+                    
+                </div>
             </div>
-        </div>
 
         <div class="form-group col-6">
             @Html.LabelFor(model => model.Deductibility, htmlAttributes: new { @class = "control-label col-md-4" })
@@ -55,6 +57,22 @@
                 @Html.ValidationMessageFor(model => model.Deductibility, "", new { @class = "text-danger" })
             </div>
         </div>
+
+        <div class="form-group col-6">
+            @Html.LabelFor(model => model.Value, htmlAttributes: new { @class = "control-label col-md-4" })
+            <div class="col-md-10">
+                @if (Model.possibleCatergories != null)
+                {
+                    @Html.DropDownListFor(model => model.Value, Model.possibleCatergories, "AtlantaPort", new { @class = "form-control", })
+                    @Html.ValidationMessageFor(model => model.Deductibility, "", new { @class = "text-danger" })
+                }
+                else
+                {
+                    @Html.Label("There are no categories to choose from at this time");
+                }
+            </div>
+        </div>
+       
 
     </div>
 

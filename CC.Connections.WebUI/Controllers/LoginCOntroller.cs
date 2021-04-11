@@ -195,6 +195,7 @@ namespace CC.Connections.WebUI.Controllers
         {
             try
             {
+
                 if (csu.confirmPassword.Pass == null ||
                     csu.Email == null ||
                     //csu.Category == null ||//TODO Category picker
@@ -227,17 +228,15 @@ namespace CC.Connections.WebUI.Controllers
                     ViewBag.Message = "Phone number is invalid";
                     return View(csu);
                 }
+                else if(string.IsNullOrEmpty(csu.Value))
+                { 
+                    ViewBag.Message = "You did not select a category";
+                    return View(csu);
+                }
                 Random r = new Random();
-                CC.Connections.BL.CategoryCollection categoryList = new CC.Connections.BL.CategoryCollection();
-                try
-                {
-                    categoryList.LoadAll();
-                    csu.Category = CategoryCollection.INSTANCE.ElementAt(r.Next(1, categoryList.Count-1));//todo category picker
-                }
-                catch (Exception e)
-                {
-                    ViewBag.Message = e;
-                }
+               
+
+                csu.Category = new Category(new Guid(csu.Value));
                 csu.Password.email = csu.Email;
                 csu.Password.MemberType = MemberType.CHARITY;
                 Session["member"] = csu.Password;
@@ -252,7 +251,7 @@ namespace CC.Connections.WebUI.Controllers
             {
                 if (ex.Message != "The underlying provider failed on Open.")
                     if (Request.IsLocal)
-                        ViewBag.Message = "Error: " + ex.InnerException.Message;
+                        ViewBag.Message = "Error: "+ex.Message+" ( " + ex.InnerException.Message+" )";
                     else
                         ViewBag.Message = "Error: " + ex.InnerException.Message;
                 else if (Request.IsLocal)

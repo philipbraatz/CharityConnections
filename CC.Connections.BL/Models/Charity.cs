@@ -18,6 +18,7 @@ namespace CC.Connections.BL
     public class Charity : BaseModel<PL.Charity>
     {
         [DisplayName("Charity Email")]
+        [MaxLength(64), MinLength(6)]
         public string Email
         {
             get { return (string)base.ID; }
@@ -25,6 +26,7 @@ namespace CC.Connections.BL
         }
 
         [DisplayName("Charity Name")]
+        [MaxLength(64), MinLength(3)]
         public string Name
         {
             get { return (string)base.getProperty(nameof(Name)); }
@@ -32,6 +34,7 @@ namespace CC.Connections.BL
         }
 
         [DisplayName("Federal Tax ID# (EIN)")]
+        [MaxLength(32), MinLength(8)]
         public string EIN
         {
             get { return (string)base.getProperty(nameof(EIN)); }
@@ -61,6 +64,7 @@ namespace CC.Connections.BL
         }
 
         [DisplayName("Charities Cause")]
+        [MaxLength(64), MinLength(8)]
         public string Cause
         {
             get { return (string)base.getProperty(nameof(Cause)); }
@@ -117,7 +121,10 @@ namespace CC.Connections.BL
             if (entry is null)
                 throw new ArgumentNullException(nameof(entry));
 
-            this.Category = new Category((Guid)entry.CategoryID);
+            if ((Guid)entry.CategoryID != Guid.Empty)
+                this.Category = new Category((Guid)entry.CategoryID);
+            //else //Don't be bad data
+                //throw new NullReferenceException("Category cannot be null");
             this.Location = new Location((Guid)entry.LocationID);
         }
         public Charity(string charity,bool preloaded =true) : 
@@ -132,7 +139,8 @@ namespace CC.Connections.BL
                 {
                     //TODO refactor
                     PL.Charity charityPL = dc.Charities.Where(c => c.CharityEmail == charity).FirstOrDefault();
-                    this.Category = new Category((Guid)charityPL.CategoryID);
+                    if(Category.ID != Guid.Empty)
+                        this.Category = new Category((Guid)charityPL.CategoryID);
                     this.Location = new Location((Guid)charityPL.LocationID);
                 }
             }
@@ -219,6 +227,7 @@ namespace CC.Connections.BL
         {
             if (preloaded)
             {
+                Charity[] ctest = CharityCollection.INSTANCE.ToArray();
                 Charity loadC = CharityCollection.INSTANCE.Where(c => c.Email == this.Email).FirstOrDefault();
                 if (loadC != null)//retreive from existing
                     this.setCharity(loadC);
@@ -397,26 +406,26 @@ namespace CC.Connections.BL
             SortID = null;
         }
 
-        private void Add(Charity item)
-        {
-            base.Add(item);
-        }
-        private void Remove(Charity item)
-        {
-            base.Remove(item);
-        }
+       // private new void Add(Charity item)
+        //{
+        //    base.Add(item);
+        //}
+        //private new void Remove(Charity item)
+        //{
+        //    base.Remove(item);
+        //}
         public new void Add(Charity item)
         {
             if (SortID != null)
                 throw new Exception(AddPreference_ERROR);
             base.Add(item);
         }
-        public new void Remove(Charity item)
-        {
-            if (SortID != null)
-                throw new Exception("Currently being used as a preference list. Please use DeletePreference instead");
-            base.Remove(item);
-        }
+        //public new void Remove(Charity item)
+        //{
+         //   if (SortID != null)
+         //       throw new Exception("Currently being used as a preference list. Please use DeletePreference instead");
+        //    base.Remove(item);
+        //}
 
         public static int getCount() => new CCEntities().Charities.Count();
 

@@ -26,11 +26,8 @@ namespace CC.Connections.API
             GlobalConfiguration.Configuration.MessageHandlers.Add(new AuthorizationHeaderhandler());
 
             if (ServicePointManager.SecurityProtocol.HasFlag(SecurityProtocolType.Tls12) == false)
-            {
-
                 ServicePointManager.SecurityProtocol = ServicePointManager.SecurityProtocol | SecurityProtocolType.Tls12;
-
-            }
+            
         }
     }
 }

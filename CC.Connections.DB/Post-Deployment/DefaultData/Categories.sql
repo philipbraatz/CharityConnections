@@ -1,6 +1,7 @@
 ﻿BEGIN
 	INSERT INTO dbo.Categories(ID, [Desc],Color, [Image])
 	VALUES
+	('00000000-0000-0000-0000-000000000000', 'None','00FF00','question'),
 	('5f674367-be23-4c7a-9910-5fe0d910fce9', 'Animals','00FF00','paw'),
 	('769e956e-b39d-49e6-b69c-58ee9d6b8f9a', 'Computers & Technology','808080','book'),
 	('8c3e154c-024f-45bc-be4b-793687a67b52', 'Children & Youth','ADD8E6','people'),
