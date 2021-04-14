@@ -1,4 +1,4 @@
-namespace Doorfail.Connections.TestAPI.Areas.HelpPage
+namespace CC.Connections.API.Areas.HelpPage
 {
     /// <summary>
     /// Indicates whether the sample is used for request or response

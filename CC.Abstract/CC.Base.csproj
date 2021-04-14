@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractColumn.cs" />
+    <Compile Include="BaseAnnotation.cs" />
     <Compile Include="BaseList.cs" />
     <Compile Include="baseModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

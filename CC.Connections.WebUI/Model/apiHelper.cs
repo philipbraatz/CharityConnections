@@ -57,9 +57,13 @@ namespace CC.Connections.WebUI
             try
             {
                 message = client.GetAsync(urlRequest).Result;//GetAsync("LinkName")  HttpResponseMessage
-                return JsonConvert.DeserializeObject<TEntity[]>(//Json to Object of the
-                                    message
-                                    .Content.ReadAsStringAsync().Result);//to string result
+                dynamic res = message
+                        .Content.ReadAsStringAsync().Result;//Json as string
+                //Json converted to object
+                if (all)
+                    return JsonConvert.DeserializeObject<TEntity[]>(res);// Array
+                else
+                    return JsonConvert.DeserializeObject<TEntity>(res);// Single
 
             }
             catch (JsonSerializationException e)
@@ -72,8 +76,9 @@ namespace CC.Connections.WebUI
                 if (err.Message != null)
                     throw new HttpException((int)message.StatusCode,
                         err.ExceptionType + ": " + err.Message + "\r\n\r\n" + err.ExceptionMessage + "\r\n\r\nStack Trace: " + err.StackTrace);//"API had an Exception, check exception details");
-                //else
-                    throw;
+                else
+                    throw new Exception("Could not parse: "+message
+                                    .Content.ReadAsStringAsync().Result, e);
                 
                 throw new HttpException((int)message.StatusCode,mes);//"API had an Exception, check exception details");
                 throw new Exception(message.StatusCode + ": \"" + JsonConvert.DeserializeObject(message.Content.ReadAsStringAsync().Result) + "\" was not expected");

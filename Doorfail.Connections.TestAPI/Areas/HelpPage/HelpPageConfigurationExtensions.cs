@@ -11,10 +11,10 @@ using System.Net.Http.Headers;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Description;
-using Doorfail.Connections.TestAPI.Areas.HelpPage.ModelDescriptions;
-using Doorfail.Connections.TestAPI.Areas.HelpPage.Models;
+using CC.Connections.API.Areas.HelpPage.ModelDescriptions;
+using CC.Connections.API.Areas.HelpPage.Models;
 
-namespace Doorfail.Connections.TestAPI.Areas.HelpPage
+namespace CC.Connections.API.Areas.HelpPage
 {
     public static class HelpPageConfigurationExtensions
     {

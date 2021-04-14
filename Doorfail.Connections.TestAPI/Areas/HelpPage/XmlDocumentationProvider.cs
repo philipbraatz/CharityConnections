@@ -5,9 +5,9 @@ using System.Reflection;
 using System.Web.Http.Controllers;
 using System.Web.Http.Description;
 using System.Xml.XPath;
-using Doorfail.Connections.TestAPI.Areas.HelpPage.ModelDescriptions;
+using CC.Connections.API.Areas.HelpPage.ModelDescriptions;
 
-namespace Doorfail.Connections.TestAPI.Areas.HelpPage
+namespace CC.Connections.API.Areas.HelpPage
 {
     /// <summary>
     /// A custom <see cref="IDocumentationProvider"/> that reads the API documentation from an XML documentation file.

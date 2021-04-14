@@ -3,7 +3,7 @@ using System.Text;
 using System.Web;
 using System.Web.Http.Description;
 
-namespace Doorfail.Connections.TestAPI.Areas.HelpPage
+namespace CC.Connections.API.Areas.HelpPage
 {
     public static class ApiDescriptionExtensions
     {

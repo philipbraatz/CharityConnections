@@ -95,7 +95,7 @@ namespace CC.Abstract
         }
 
         //gets this instance
-        protected object getProperty(string propertyName)
+        public object getProperty(string propertyName)
         {
             PropertyDB_Info<TEntity> prop = properties.Where(c => c.p.Name == propertyName).FirstOrDefault();
             if (prop != null)
@@ -113,7 +113,7 @@ namespace CC.Abstract
         {
             setProperty(propertyName, (int)value);
         }
-        protected void setProperty(string propertyName, object value)
+        public void setProperty(string propertyName, object value)
         {
             try
             {
@@ -176,6 +176,8 @@ namespace CC.Abstract
         //{
         //    table = tableUsed;
         //}
+        protected BaseModel<TEntity> getInstance() => this;
+
 
         protected void createInstance() => 
             createInstance((TEntity)Activator.CreateInstance(typeof(TEntity), new object[] { }));

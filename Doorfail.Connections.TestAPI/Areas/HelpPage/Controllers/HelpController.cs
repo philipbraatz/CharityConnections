@@ -1,10 +1,10 @@
 using System;
 using System.Web.Http;
 using System.Web.Mvc;
-using Doorfail.Connections.TestAPI.Areas.HelpPage.ModelDescriptions;
-using Doorfail.Connections.TestAPI.Areas.HelpPage.Models;
+using CC.Connections.API.Areas.HelpPage.ModelDescriptions;
+using CC.Connections.API.Areas.HelpPage.Models;
 
-namespace Doorfail.Connections.TestAPI.Areas.HelpPage.Controllers
+namespace CC.Connections.API.Areas.HelpPage.Controllers
 {
     /// <summary>
     /// The controller that will handle requests for the help page.

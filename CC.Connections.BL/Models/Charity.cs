@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using CC.Abstract;
 using System.Data.Entity.Core;
+using System.Reflection;
 
 
 
@@ -19,6 +20,7 @@ namespace CC.Connections.BL
     {
         [DisplayName("Charity Email")]
         [MaxLength(64), MinLength(6)]
+        [Abstract.Base]
         public string Email
         {
             get { return (string)base.ID; }
@@ -27,9 +29,13 @@ namespace CC.Connections.BL
 
         [DisplayName("Charity Name")]
         [MaxLength(64), MinLength(3)]
+        ////[Abstract.Base]
         public string Name
         {
-            get { return (string)base.getProperty(nameof(Name)); }
+            get { //DEBUG
+                MethodBase mb = MethodBase.GetCurrentMethod();
+                //string ret = mb.NamedArguments.FirstOrDefault().ToString();
+                return (string)base.getProperty(nameof(Name)); }
             set { setProperty(nameof(Name), value); }
         }
 
@@ -75,9 +81,9 @@ namespace CC.Connections.BL
         private Location loc;
         public Category Category 
         {   get {
-                if (category == null)
-                    category = new Category((Guid)(base.getProperty(nameof(Category)+"ID"))) ;
-                return category;
+                return category = category ?? new Category(base.getProperty(nameof(Category)) != null ?
+                        (Guid)(base.getProperty(nameof(Category) + "ID")) : 
+                        Guid.NewGuid());
             }
             set { 
                 category =value;
@@ -89,9 +95,10 @@ namespace CC.Connections.BL
         {
             get
             {
-                var prop = base.getProperty(nameof(Location) + "ID");
-                if (loc == null && prop != null)
-                    loc = new Location((Guid)prop);
+                if (loc == null)
+                    loc = new Location(base.getProperty(nameof(Location)) != null ?
+                        (Guid)base.getProperty(nameof(Location)) :
+                        Guid.NewGuid());
                 return loc;
             }
             set

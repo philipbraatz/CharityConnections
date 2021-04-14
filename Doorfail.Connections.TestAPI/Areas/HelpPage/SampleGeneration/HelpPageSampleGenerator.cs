@@ -13,7 +13,7 @@ using System.Web.Http.Description;
 using System.Xml.Linq;
 using Newtonsoft.Json;
 
-namespace Doorfail.Connections.TestAPI.Areas.HelpPage
+namespace CC.Connections.API.Areas.HelpPage
 {
     /// <summary>
     /// This class will generate the samples for the help page.

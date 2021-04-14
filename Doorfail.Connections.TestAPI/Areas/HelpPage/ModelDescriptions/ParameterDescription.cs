@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace Doorfail.Connections.TestAPI.Areas.HelpPage.ModelDescriptions
+namespace CC.Connections.API.Areas.HelpPage.ModelDescriptions
 {
     public class ParameterDescription
     {

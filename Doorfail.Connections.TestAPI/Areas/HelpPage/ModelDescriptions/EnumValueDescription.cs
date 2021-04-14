@@ -1,4 +1,4 @@
-namespace Doorfail.Connections.TestAPI.Areas.HelpPage.ModelDescriptions
+namespace CC.Connections.API.Areas.HelpPage.ModelDescriptions
 {
     public class EnumValueDescription
     {
