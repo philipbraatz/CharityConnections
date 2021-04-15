@@ -1,0 +1,138 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CC.Connections.API</name>
+    </assembly>
+    <members>
+        <member name="M:CC.Connections.API.Controllers.BaseAPIController`3.Get">
+            <summary>
+            Gets all TEntity
+            </summary>
+            <param></param>
+            <returns>TList</returns>
+        </member>
+        <member name="M:CC.Connections.API.Controllers.BaseAPIController`3.Get(System.Guid)">
+            <summary>
+            Gets a TEntity by id
+            </summary>
+            <param name="id"></param>
+            <returns>TEntity</returns>
+        </member>
+        <member name="M:CC.Connections.API.Controllers.BaseAPIController`3.Get(System.String)">
+            <summary>
+            Get Tenitity by email
+            </summary>
+            <param name="id"></param>
+            <returns>TEntity</returns>
+        </member>
+        <member name="M:CC.Connections.API.Controllers.BaseAPIController`3.Post(`1)">
+            <summary>
+            Insert new TEntity
+            </summary>
+            <param name="tinstance"></param>
+        </member>
+        <member name="M:CC.Connections.API.Controllers.BaseAPIController`3.Post(`1,CC.Connections.BL.Password)">
+            <summary>
+            Insert new TEntity with password
+            </summary>
+            <param name="tinstance"></param>
+            <param name="password"></param>
+        </member>
+        <member name="M:CC.Connections.API.Controllers.BaseAPIController`3.Put(System.Guid,`1)">
+            <summary>
+            Update Existing TEntity from existing instance
+            </summary>
+            <param name="id"></param>
+            <param name="tinstance"></param>
+        </member>
+        <member name="M:CC.Connections.API.Controllers.BaseAPIController`3.Put(System.Guid,`1,CC.Connections.BL.Password)">
+            <summary>
+            Update Existing TEntity from existing instance requiring password
+            </summary>
+            <param name="id"></param>
+            <param name="tinstance"></param>
+            <param name="password"></param>
+        </member>
+        <member name="M:CC.Connections.API.Controllers.BaseAPIController`3.Delete(System.Object)">
+            <summary>
+            Delete Existing TEntity from id
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="M:CC.Connections.API.Controllers.BaseAPIController`3.Delete(System.Object,CC.Connections.BL.Password)">
+            <summary>
+            Delete Existing TEntity from id requiring password
+            </summary>
+            <param name="id"></param>
+            <param name="password"></param>
+        </member>
+        <member name="T:CC.Connections.API.Controllers.CategoryController">
+            <summary>
+            TODO fill out
+            </summary>
+        </member>
+        <member name="T:CC.Connections.API.Controllers.CharityEventController">
+            <summary>
+            TODO fill out
+            </summary>
+        </member>
+        <member name="T:CC.Connections.API.Controllers.CharityController">
+            <summary>
+            TODO fill out
+            </summary>
+        </member>
+        <member name="T:CC.Connections.API.Controllers.ContactController">
+            <summary>
+            TODO fill out
+            </summary>
+        </member>
+        <member name="T:CC.Connections.API.Controllers.EventAttendanceController">
+            <summary>
+            TODO fill out
+            </summary>
+        </member>
+        <member name="M:CC.Connections.API.Controllers.EventAttendanceController.Get(System.Guid)">
+            <summary>
+            Gets a single event attendance record
+            </summary>
+            <param name="id"></param>
+            <returns>EventAttendee</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:CC.Connections.API.Controllers.EventAttendanceController.GetByEvent(System.Guid)" -->
+        <!-- Badly formed XML comment ignored for member "M:CC.Connections.API.Controllers.EventAttendanceController.GetByAttendee(System.String)" -->
+        <member name="M:CC.Connections.API.Controllers.EventAttendanceController.GetBySearch(System.Guid,System.String)">
+            <summary>
+            Gets a single event from event ID and attendee email
+            </summary>
+            <param name="id"></param>
+            <param name="email"></param>
+            <returns>EventAttendee</returns>
+        </member>
+        <member name="T:CC.Connections.API.Controllers.HelpingActionController">
+            <summary>
+            TODO fill out
+            </summary>
+        </member>
+        <member name="T:CC.Connections.API.Controllers.LocationController">
+            <summary>
+            TODO fill out
+            </summary>
+        </member>
+        <member name="T:CC.Connections.API.Controllers.VolunteerController">
+            <summary>
+            TODO fill out
+            </summary>
+        </member>
+        <member name="T:CC.Connections.API.Controllers.TestController">
+            <summary>
+            TODO fill out
+            </summary>
+        </member>
+        <member name="M:CC.Connections.API.Controllers.TestController.DoTest">
+            <summary>
+            For web api connection testing
+            </summary>
+            <returns>Dummy Text</returns>
+        </member>
+    </members>
+</doc>

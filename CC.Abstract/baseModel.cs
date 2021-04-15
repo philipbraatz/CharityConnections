@@ -186,15 +186,16 @@ namespace CC.Abstract
             Type type = typeof(TEntity);//maybe make property
             instance = entry;
             properties = new List<PropertyDB_Info<TEntity>>();
-            using (CCEntities dc = new CCEntities())
-            {
-                type.GetProperties().ToList().ForEach(c =>
+            if(!Properties.Settings.Default.USE_JSON_TEMP)
+                using (CCEntities dc = new CCEntities())
                 {
-                    PropertyDB_Info<TEntity> test = new PropertyDB_Info<TEntity>(c, dc, instance);
-                    properties.Add(test);
+                    type.GetProperties().ToList().ForEach(c =>
+                    {
+                        PropertyDB_Info<TEntity> test = new PropertyDB_Info<TEntity>(c, dc, instance);
+                        properties.Add(test);
+                    }
+                    );
                 }
-                );
-            }
         }
         //new instance
         public BaseModel() => createInstance();
