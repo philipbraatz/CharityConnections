@@ -3,14 +3,14 @@ using CC.Connections.PL;
 using System.ComponentModel;
 using System.Data.Entity;
 using System.Data.Entity.Core;
-using CC.Abstract;
+using CC.DataConnection;
 using System;
 using System.Collections.Generic;
 
 namespace CC.Connections.BL
 {
     //TODO rename to just Category
-    public class Category : BaseModel<PL.Category>//PRES inheritence
+    public class Category : CrudModel_Json<PL.Category>//PRES inheritence
     {
         //Parameters
 
@@ -48,7 +48,7 @@ namespace CC.Connections.BL
         public Category(PL.Category entry) :
             base(entry) { }
         public Category(Guid id,bool preloaded =true) :
-            base(new CCEntities().Categories, id,preloaded) {
+            base(JsonDatabase.Categories, id,preloaded) {
             this.ID = id;
             if (preloaded)
                 LoadId(true);
@@ -64,18 +64,21 @@ namespace CC.Connections.BL
             if (c is null)
                 throw new ArgumentNullException(nameof(c));
 
-            this.ID = c.ID;
+            this.ID    = c.ID;
             this.Color = c.Color;
-            this.Desc = c.Desc;
+            this.Desc  = c.Desc;
             this.Image = c.Image;
         }
 
 
         public void LoadId(bool preloaded =true){
             if (preloaded == false)//definitly needs to be taken from database
-                using (CCEntities dc = new CCEntities()){
-                    base.LoadId(dc.Categories);//should only need to be called from INSTANCE
-                }
+                if(false)
+                    using (CCEntities dc = new CCEntities()){
+                        //base.LoadId(dc.Categories);//should only need to be called from INSTANCE
+                    }
+                else
+                    base.LoadId(JsonDatabase.Categories);//should only need to be called from INSTANCE
             else
             {
                 Category loadC = CategoryCollection.INSTANCE.Where(c => c.ID == this.ID).FirstOrDefault();
@@ -91,27 +94,39 @@ namespace CC.Connections.BL
             LoadId(preloaded);
         }
         public void Insert() {
-            using (CCEntities dc = new CCEntities()){
-                base.Insert(dc, dc.Categories);
-                CategoryCollection.AddToInstance(this);
-            }
+            if (false)
+                using (CCEntities dc = new CCEntities())
+                {
+                    base.Insert(dc, dc.Categories);
+                    CategoryCollection.AddToInstance(this);
+                }
+            else
+                base.Insert(JsonDatabase.Categories);
         }
         public void Update(){
-            using (CCEntities dc = new CCEntities()){
-                base.Update(dc, dc.Categories);
-                CategoryCollection.UpdateInstance(this);
-            }
+            if (false)
+                using (CCEntities dc = new CCEntities())
+                {
+                    base.Update(dc, dc.Categories);
+                    CategoryCollection.UpdateInstance(this);
+                }
+            else
+                base.Update(JsonDatabase.Categories);
         }
         public void Delete(){
-            using (CCEntities dc = new CCEntities()){
-                base.Insert(dc, dc.Categories);
-                CategoryCollection.RemoveInstance(this);
-            }
+            if (false)
+                using (CCEntities dc = new CCEntities())
+                {
+                    base.Delete(dc, dc.Categories);
+                    CategoryCollection.RemoveInstance(this);
+                }
+            else
+                base.Delete(JsonDatabase.Categories);
         }
     }
 
     //STOP HERE
-    public class CategoryCollection : BaseList<Category, PL.Category>
+    public class CategoryCollection : CrudModelList<Category, PL.Category>
     {
         private static CategoryCollection ins = new CategoryCollection();
         public static CategoryCollection INSTANCE
@@ -130,13 +145,18 @@ namespace CC.Connections.BL
             try
             {
                 ins = new CategoryCollection();
-                using (CCEntities dc = new CCEntities())
+                if(false)
+                    using (CCEntities dc = new CCEntities())
+                    {
+                        foreach (var c in dc.Categories.ToList())
+                            ins.Add(new Category(c));
+                    }
+                else
                 {
-                    dynamic dct = dc.Categories;
-                    List<PL.Category> cats = dc.Categories.ToList();
-                    foreach (var c in cats)
+                    foreach (var c in JsonDatabase.Categories.ToList())
                         ins.Add(new Category(c));
                 }
+
                 return ins;
             }
             catch (EntityException e) { throw e.InnerException; }
@@ -167,12 +187,11 @@ namespace CC.Connections.BL
         public void LoadUsed()
         {
             try{
-                using (CCEntities dc = new CCEntities()){
-                    //base.LoadAll(dc.Categories);
-                    foreach (var c in INSTANCE)
-                        if(CharityCollection.INSTANCE.Where(d=>d.Category.ID == c.ID).Any())
-                            base.Add(c);
-                }
+                //base.LoadAll(dc.Categories);
+                foreach (var c in INSTANCE)
+                    if(CharityCollection.INSTANCE.Where(d=>d.Category.ID == c.ID).Any())
+                        base.Add(c);
+
             }
             catch (EntityException e)
             {

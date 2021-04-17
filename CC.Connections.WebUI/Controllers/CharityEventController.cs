@@ -21,12 +21,12 @@ namespace CC.Connections.WebUI.Controllers
             //load
             //TempApiTest.RunAsync();
             //var val =  Task.Run(async () => await TempApiTest.GetProductAsync()).Result;
-            
+
             //DEBUG checks if you can recieve data from api
             //TODO move to test class
             //bool testString = apiHelper.Ping();
-            
-            CharityEventCollection allEvents = (CharityEventCollection)apiHelper.getAll<CharityEvent>();//TODO refactor all these to use both session and api
+            dynamic badthing = (CharityEventCollection)apiHelper.getAll<CharityEvent>();
+            CharityEventCollection allEvents  = badthing;//TODO refactor all these to use both session and api
             if (Session != null && Session["charityEvents"] != null)
             {
                 allEvents = ((CharityEventCollection)Session["charityEvents"]);
@@ -204,13 +204,13 @@ namespace CC.Connections.WebUI.Controllers
                 cevent.Charity = new Charity((string)Session["charityId"],true);
                 cevent.CharityEmail = (string)Session["charityId"];
 
-                if (cevent.Charity == null ||
-                   cevent.Name == null ||
-                   cevent.Description == null ||
-                   cevent.EndDate == null || cevent.EndDate == DateTime.MinValue ||
-                   cevent.EndTime == null ||
-                   cevent.StartDate == null || cevent.StartDate == DateTime.MinValue ||
-                   cevent.StartTime == null
+                   if (cevent.Charity    == null ||
+                       cevent.Name       == null ||
+                       cevent.Description== null ||
+                       cevent.EndDate    == null || cevent.EndDate == DateTime.MinValue ||
+                       cevent.EndTime    == null ||
+                       cevent.StartDate  == null || cevent.StartDate == DateTime.MinValue ||
+                       cevent.StartTime  == null
                    )//TODO check location
                 {
                     ViewBag.Message = "Please fill out every required field";
@@ -242,7 +242,7 @@ namespace CC.Connections.WebUI.Controllers
                 }
 
                 CharityEventCollection events;
-                if (Session == null || Session["charityEvents"] == null)
+                if (Session                                == null || Session["charityEvents"] == null)
                 {
                     events = new CharityEventCollection();//should not happen
                 }

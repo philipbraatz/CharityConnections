@@ -1,4 +1,4 @@
-﻿using CC.Abstract;
+﻿using CC.DataConnection;
 using CC.Connections.PL;
 using System;
 using System.Collections.Generic;
@@ -18,7 +18,7 @@ namespace CC.Connections.BL
         #pragma warning restore CA1707
     }
 
-    public class EventAttendee : BaseModel<PL.EventAttendance>
+    public class EventAttendee : CrudModel_Json<PL.EventAttendance>
     {
         //Parameters
 
@@ -67,7 +67,7 @@ namespace CC.Connections.BL
             //v.LoadId(entry.VolunteerEmail);
         }
         public EventAttendee(int id) :
-            base(new CCEntities().EventAttendances, id)
+            base(JsonDatabase.EventAttendances, id)
         {
             //Volunteer v = new Volunteer();
             //v.LoadId(this.Member_ID);
@@ -83,14 +83,14 @@ namespace CC.Connections.BL
         {
             using (CCEntities dc = new CCEntities())
             {
-                return dc.EventAttendances.Where(c => c.EventID == this.EventID && c.VolunteerEmail == this.VolunteerEmail).FirstOrDefault() != null;
+                return JsonDatabase.EventAttendances.Where(c => c.EventID == this.EventID && c.VolunteerEmail == this.VolunteerEmail).FirstOrDefault() != null;
             }
         }
         public void LoadId()
         {
             using (CCEntities dc = new CCEntities())
             {
-                base.LoadId(dc.EventAttendances);
+                base.LoadId(JsonDatabase.EventAttendances);
             }
         }
         public bool TryFindMatching()
@@ -157,7 +157,7 @@ namespace CC.Connections.BL
         }
     }
 
-    public class EventAttendanceCollection : BaseList<EventAttendee, EventAttendance>
+    public class EventAttendanceCollection : CrudModelList<EventAttendee, EventAttendance>
     {
         public void LoadAll()
         {

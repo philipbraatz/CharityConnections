@@ -9,7 +9,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CC.Abstract
+namespace CC.DataConnection
 {
     public static class PropertyHelper
     {

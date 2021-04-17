@@ -123,16 +123,5 @@
             TODO fill out
             </summary>
         </member>
-        <member name="T:CC.Connections.API.Controllers.TestController">
-            <summary>
-            TODO fill out
-            </summary>
-        </member>
-        <member name="M:CC.Connections.API.Controllers.TestController.DoTest">
-            <summary>
-            For web api connection testing
-            </summary>
-            <returns>Dummy Text</returns>
-        </member>
     </members>
 </doc>

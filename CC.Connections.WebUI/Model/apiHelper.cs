@@ -1,4 +1,4 @@
-﻿using CC.Abstract;
+﻿using CC.DataConnection;
 using CC.Connections.BL;
 using Newtonsoft.Json;
 using System;
@@ -41,7 +41,7 @@ namespace CC.Connections.WebUI
             if (false)
                 return new HttpClient { BaseAddress = new Uri(HttpRuntime.AppDomainAppVirtualPath+"/api/") };//Requires server database
             else
-                return new HttpClient { BaseAddress = new Uri("https://localhost:44368/api/") };//SET LOCAL #
+                return new HttpClient { BaseAddress = new Uri("https://localhost:44363/api/") };//SET LOCAL #
         }
 
         private static TEntity[] getAll<TEntity>(string model, bool all = true) where TEntity : class
@@ -63,7 +63,7 @@ namespace CC.Connections.WebUI
                 if (all)
                     return JsonConvert.DeserializeObject<TEntity[]>(res);// Array
                 else
-                    return JsonConvert.DeserializeObject<TEntity>(res);// Single
+                    return new TEntity[]{ JsonConvert.DeserializeObject<TEntity>(res)};// Single
 
             }
             catch (JsonSerializationException e)

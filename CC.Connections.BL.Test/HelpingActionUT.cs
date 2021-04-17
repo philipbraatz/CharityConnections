@@ -11,7 +11,7 @@ namespace CC.Connections.BL.Test
     {
         public HelpingActionCollection allTable;
 
-        public AbsHelpingAction test;
+        public HelpingAction test;
         public const int TEST_MEMBER_ID = -1;
         private const string V = "test@test.com";
         public string memberEmail = V;
@@ -28,7 +28,7 @@ namespace CC.Connections.BL.Test
                 allTable = new BL.HelpingActionCollection();
             allTable.LoadAll();
 
-            AbsHelpingAction cat = allTable.Where(c => c.Description == desc).FirstOrDefault();
+            HelpingAction cat = allTable.Where(c => c.Description == desc).FirstOrDefault();
             if (cat == null)
                 Assert.Fail();
             return cat.ID;
@@ -37,14 +37,14 @@ namespace CC.Connections.BL.Test
         [TestMethod]
         public void Insert()
         {
-            AbsHelpingAction newt = new AbsHelpingAction
+            HelpingAction newt = new HelpingAction
             {
                 Description = INSERT_1
             };
 
             newt.Insert();
 
-            newt = new AbsHelpingAction
+            newt = new HelpingAction
             {
                 Description = INSERT_2
             };
@@ -72,7 +72,7 @@ namespace CC.Connections.BL.Test
             int tableCount = allTable.Count;
 
             test = new AbsHelpingAction(getID_fromDesc(INSERT_1));
-            AbsHelpingAction updated = new AbsHelpingAction(getID_fromDesc(INSERT_1))
+            HelpingAction updated = new AbsHelpingAction(getID_fromDesc(INSERT_1))
             {
                 Description = UPDATE_1
             };

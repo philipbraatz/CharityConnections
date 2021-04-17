@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using CC.Connections.BL;
 using CC.Connections.WebUI.Model;
+using CC.DataConnection;
 using Newtonsoft.Json;
 
 namespace CC.Connections.WebUI.Controllers
@@ -74,7 +75,8 @@ namespace CC.Connections.WebUI.Controllers
                 ViewBag.Title = "Charities";
 
             //load
-            CharityCollection allCharities = (CharityCollection)apiHelper.getAll<Charity>();
+            dynamic testDumb = (CharityCollection)apiHelper.getAll<Charity>();
+            CharityCollection allCharities = testDumb;
             if (Session != null && Session["charities"] != null)
             {
                 allCharities = ((CharityCollection)Session["charities"]);

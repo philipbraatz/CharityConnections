@@ -1,14 +1,9 @@
-﻿using CC.Abstract;
+﻿using CC.DataConnection;
 
 namespace CC.Connections.BL
 {
-    public class Test : BaseModel<PL.Test>
+    public class Test : CrudModel_Sql<Test>
     {
         public string getT() => (string)base.getProperty("t");
-    }
-
-    public class TestCollection
-    : BaseList<Test, PL.Test>
-    {
     }
 }

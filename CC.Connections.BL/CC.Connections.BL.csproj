@@ -91,9 +91,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CC.Abstract\CC.Base.csproj">
+    <ProjectReference Include="..\CC.Abstract\Doorfail.DataConnection.csproj">
       <Project>{5092b2fa-c711-4102-9d62-2b34c6f44395}</Project>
-      <Name>CC.Base</Name>
+      <Name>Doorfail.DataConnection</Name>
     </ProjectReference>
     <ProjectReference Include="..\CC.Connections.PL\CC.Connections.PL.csproj">
       <Project>{754d3507-7b50-49b2-bc6b-2881cd7a2084}</Project>

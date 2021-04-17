@@ -1,11 +1,11 @@
-﻿using CC.Abstract;
+﻿using CC.DataConnection;
 using CC.Connections.PL;
 using System;
 using System.ComponentModel;
 
 namespace CC.Connections.BL
 {
-    public class Location : BaseModel<PL.Location>
+    public class Location : CrudModel_Json<PL.Location>
     {
         //public static CCEntities dc = new CCEntities();
 
@@ -48,7 +48,7 @@ namespace CC.Connections.BL
             base(entry)
         { }
         public Location(Guid id) :
-            base(new CCEntities().Locations,id)
+            base(JsonDatabase.Locations,id)
         {
         }
 
@@ -71,7 +71,7 @@ namespace CC.Connections.BL
 
         public void LoadId() {
             using (CCEntities dc = new CCEntities()){
-                base.LoadId(dc.Locations);
+                base.LoadId(JsonDatabase.Locations);
         }}
 
         public double distanceFrom(Location from)
@@ -85,13 +85,13 @@ namespace CC.Connections.BL
         }
     }
 
-    public class LocationCollection : BaseList<Location, PL.Location>
+    public class LocationCollection : CrudModelList<Location, PL.Location>
     {
         public void LoadAll()
         {
             using (CCEntities dc = new CCEntities())
             {
-                base.LoadAll(dc.Locations);
+                base.LoadAll(JsonDatabase.Locations);
             }
         }
     } 

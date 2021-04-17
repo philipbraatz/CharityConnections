@@ -3,12 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using CC.Abstract;
+using CC.DataConnection;
 using System.Data.Entity.Core;
 
 namespace CC.Connections.BL
 {
-    public class Volunteer : BaseModel<PL.Volunteer>//TODO change to a ColumnEntry<PL.Volunteer>
+    public class Volunteer : CrudModel_Json<PL.Volunteer>//TODO change to a ColumnEntry<PL.Volunteer>
     {
 
         [DisplayName("Member Email")]
@@ -150,7 +150,7 @@ namespace CC.Connections.BL
         //new member, member_type is hardcoded as guess
         //DOES NOT try to LOAD from database
         public Volunteer(string contactEmail, bool preloaded = true) :
-            base(new CCEntities().Volunteers, contactEmail, preloaded)
+            base(JsonDatabase.Volunteers, contactEmail, preloaded)
         {
             this.Email = contactEmail;
             if (preloaded)
@@ -258,7 +258,7 @@ namespace CC.Connections.BL
                 {
                     using (CCEntities dc = new CCEntities())
                     {
-                        base.LoadId(dc.Volunteers);
+                        base.LoadId(JsonDatabase.Volunteers);
 
                         PL.Volunteer entry = dc.Volunteers.Where(c => c.VolunteerEmail == this.Email).FirstOrDefault();
                         ContactInfo = new Contact(Email);
@@ -369,7 +369,7 @@ namespace CC.Connections.BL
     }
 
     public class VolunteerCollection
-    : BaseList<Volunteer, PL.Volunteer>
+    : CrudModelList<Volunteer, PL.Volunteer>
     {
         //START instance
         private static VolunteerCollection INS = new VolunteerCollection();

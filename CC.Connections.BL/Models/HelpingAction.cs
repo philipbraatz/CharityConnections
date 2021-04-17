@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CC.Abstract;
+using CC.DataConnection;
 using CC.Connections.PL;
 
 namespace CC.Connections.BL
 {
-    public class AbsHelpingAction
-        : BaseModel<HelpingAction>
+    public class HelpingAction
+        : CrudModel_Json<PL.HelpingAction>
     {
         //private static CCEntities dc;
 
@@ -45,14 +45,14 @@ namespace CC.Connections.BL
             category = new Category();
         }
 
-        public AbsHelpingAction() :
+        public HelpingAction() :
             base(new PL.HelpingAction())
         { Clear(); }
-        public AbsHelpingAction(PL.HelpingAction entry) :
+        public HelpingAction(PL.HelpingAction entry) :
             base(entry)
         { Clear(); }
-        public AbsHelpingAction(Guid id) :
-            base(new CCEntities().HelpingActions, id)
+        public HelpingAction(Guid id) :
+            base(JsonDatabase.HelpingActions, id)
         {
             Clear();
             ID = id;
@@ -63,7 +63,7 @@ namespace CC.Connections.BL
         {
             using (CCEntities dc = new CCEntities())
             {
-                base.LoadId(dc.HelpingActions);
+                base.LoadId(JsonDatabase.HelpingActions);
             }
         }
         public int Insert()
@@ -90,7 +90,7 @@ namespace CC.Connections.BL
     }
 
     public class HelpingActionCollection
-        : BaseList<AbsHelpingAction, HelpingAction>
+        : CrudModelList<HelpingAction, PL.HelpingAction>
     {
         public void LoadAll()
         {
@@ -98,11 +98,11 @@ namespace CC.Connections.BL
             {
                 //base.LoadAll(dc.HelpingActions);
                 foreach (var c in dc.HelpingActions.ToList())
-                    base.Add(new AbsHelpingAction(c));
+                    base.Add(new HelpingAction(c));
             }
         }
     }
-    public class AbsMemberActionCollection : AbsListJoin<AbsHelpingAction, HelpingAction, PL.MemberAction>
+    public class AbsMemberActionCollection : AbsListJoin<HelpingAction, PL.HelpingAction, PL.MemberAction>
     {
         string memberID
         {
@@ -136,7 +136,7 @@ namespace CC.Connections.BL
                         MemberActions.ForEach(b =>
 
                         {
-                            base.Add(new AbsHelpingAction(dc.HelpingActions
+                            base.Add(new HelpingAction(dc.HelpingActions
                                   .Where(d => d.ID == b.ActionID)
                                   .FirstOrDefault())
                           );
@@ -152,14 +152,14 @@ namespace CC.Connections.BL
                 base.DeleteAllPreferences(dc, dc.MemberActions);
             }
         }
-        public new void Add(AbsHelpingAction HelpingAction)
+        public new void Add(HelpingAction HelpingAction)
         {
             using (CCEntities dc = new CCEntities())
             {
                 base.Add(dc, dc.MemberActions, new MemberAction(), HelpingAction);
             }
         }
-        public new void Remove(AbsHelpingAction HelpingAction)
+        public new void Remove(HelpingAction HelpingAction)
         {
             using (CCEntities dc = new CCEntities())
             {

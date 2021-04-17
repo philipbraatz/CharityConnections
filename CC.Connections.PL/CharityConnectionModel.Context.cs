@@ -35,6 +35,7 @@ namespace CC.Connections.PL
             modelBuilder.Entity<Preference>().HasKey<Guid>(c => c.ID);
             modelBuilder.Entity<PreferredCategory>().HasKey<Guid>(c => c.ID);
             modelBuilder.Entity<PreferredCharity>().HasKey<Guid>(c => c.ID);
+            modelBuilder.Entity<HelpingAction>().HasKey<Guid>(c => c.ID);
             //throw new UnintentionalCodeFirstException();
         }
 

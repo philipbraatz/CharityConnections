@@ -1,4 +1,4 @@
-﻿using CC.Abstract;
+﻿using CC.DataConnection;
 using CC.Connections.PL;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace CC.Connections.BL
 {
-    public class Contact : BaseModel<PL.ContactInfo>
+    public class Contact : CrudModel_Json<PL.ContactInfo>
     {
         //private static CCEntities dc;
 
@@ -69,7 +69,7 @@ namespace CC.Connections.BL
         public Contact(PL.ContactInfo entry) :
         base(entry){ }
         public Contact(string email,bool preloaded =true) :
-            base(new CCEntities().ContactInfoes,email, preloaded,"ContactInfo_Email")
+            base(JsonDatabase.ContactInfos,email, preloaded,"ContactInfo_Email")
         {
             MemberEmail = email;
             LoadId();
@@ -140,7 +140,7 @@ namespace CC.Connections.BL
                         c.MemberEmail == this.MemberEmail);
                     if (entry == null)
                         throw new Exception("ContactInfo does not exist with Email \'" + this.MemberEmail+"\'" ) ;
-                    base.LoadId(dc.ContactInfoes);
+                    base.LoadId(JsonDatabase.ContactInfos);
                 }
             }
             catch (Exception ) { throw; }
@@ -152,7 +152,7 @@ namespace CC.Connections.BL
             try{
                 using (CCEntities dc = new CCEntities()){
                     Contact entry = new Contact();
-                    entry.LoadId(dc.ContactInfoes,memberContact_ID);
+                    entry.LoadId(JsonDatabase.ContactInfos,memberContact_ID);
                     return entry;
                 }
             }
@@ -174,11 +174,11 @@ namespace CC.Connections.BL
         //public static implicit operator Contact(ColumnEntry<PL.ContactInfo> c) {c. }
     }
 
-    public class ContactCollection : BaseList<Contact, ContactInfo>
+    public class ContactCollection : CrudModelList<Contact, ContactInfo>
     {
         public void LoadAll(){
             using (CCEntities dc = new CCEntities()){
-                base.LoadAll(dc.ContactInfoes);
+                base.LoadAll(JsonDatabase.ContactInfos);
             }
         }
     }

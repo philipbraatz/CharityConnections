@@ -1,12 +1,12 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
-using CC.Abstract;
+using CC.DataConnection;
 using CC.Connections.PL;
 
 namespace CC.Connections.BL
 {
-    public class Preference : BaseModel<PL.Preference>
+    public class Preference : CrudModel_Json<PL.Preference>
     {
         //private static CCEntities dc;
 
@@ -37,7 +37,7 @@ namespace CC.Connections.BL
         public Preference(PL.Preference entry) :
             base(entry){ }
         public Preference(Guid id) :
-            base(new CCEntities().Preferences, id)
+            base(JsonDatabase.Preferences, id)
         {
             Clear();
             ID = id;
@@ -48,7 +48,7 @@ namespace CC.Connections.BL
 
         public void LoadId(){
             using (CCEntities dc = new CCEntities()){
-                base.LoadId(dc.Preferences);
+                base.LoadId(JsonDatabase.Preferences);
             }
         }
         public int Insert() {
@@ -74,13 +74,13 @@ namespace CC.Connections.BL
         }
     }
 
-    public class AbsPreferenceCollection : BaseList<Preference, PL.Preference>
+    public class AbsPreferenceCollection : CrudModelList<Preference, PL.Preference>
     {
         public void LoadAll()
         {
             using (CCEntities dc = new CCEntities())
             {
-                base.LoadAll(dc.Preferences);
+                base.LoadAll(JsonDatabase.Preferences);
             }
         }
     }

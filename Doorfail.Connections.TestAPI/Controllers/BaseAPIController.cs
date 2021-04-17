@@ -1,6 +1,7 @@
-﻿using CC.Abstract;
+﻿using CC.DataConnection;
 using CC.Connections.BL;
 using System;
+using System.Collections.Generic;
 using System.Data.Entity.Core;
 using System.Data.SqlClient;
 using System.Net;
@@ -9,8 +10,8 @@ using System.Web.Http;
 namespace CC.Connections.API.Controllers
 {
     public class BaseAPIController<TList, TEntity, Tdb> : ApiController
-        where TList : BaseList<TEntity, Tdb>
-        where TEntity : BaseModel<Tdb>
+        where TList : CrudModelCollection<TEntity, Tdb,List<Tdb>>
+        where TEntity : CrudModel<Tdb,List<Tdb>>
         where Tdb : class
     {
         // GET: api/{TEntity}/all

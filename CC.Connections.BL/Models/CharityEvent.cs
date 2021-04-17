@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 using CC.Connections.PL;
 using CC.Connections.BL;
 using System.Data.Entity.Core;
-using CC.Abstract;
+using CC.DataConnection;
 
 namespace CC.Connections.BL
 {
-    public class CharityEvent : BaseModel<PL.CharityEvent>
+    public class CharityEvent : CrudModel_Json<PL.CharityEvent>
     {
         //private static CCEntities dc;
 
@@ -181,7 +181,7 @@ namespace CC.Connections.BL
             this.atendees = new EventAttendanceJointCollection(this.ID,false);
         }
         public CharityEvent(Guid id, bool preloaded = true) :
-           base(new CCEntities().CharityEvents, id, preloaded)
+           base(JsonDatabase.CharityEvents, id, preloaded)
         {
             this.ID = id;
             if (preloaded)
@@ -373,7 +373,7 @@ namespace CC.Connections.BL
     }
 
     public class CharityEventCollection
-        : BaseList<CharityEvent,PL.CharityEvent>
+        : CrudModelList<CharityEvent,PL.CharityEvent>
     {
         private static CharityEventCollection ins = new CharityEventCollection();
         public static CharityEventCollection INSTANCE

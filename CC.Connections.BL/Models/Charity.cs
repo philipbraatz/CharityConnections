@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using CC.Connections.PL;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using CC.Abstract;
+using CC.DataConnection;
 using System.Data.Entity.Core;
 using System.Reflection;
 
@@ -16,11 +16,11 @@ using System.Reflection;
 
 namespace CC.Connections.BL
 {
-    public class Charity : BaseModel<PL.Charity>
+    public class Charity : CrudModel_Json<PL.Charity>
     {
         [DisplayName("Charity Email")]
         [MaxLength(64), MinLength(6)]
-        [Abstract.Base]
+        [DataConnection.Base]
         public string Email
         {
             get { return (string)base.ID; }
@@ -81,7 +81,7 @@ namespace CC.Connections.BL
         private Location loc;
         public Category Category 
         {   get {
-                return category = category ?? new Category(base.getProperty(nameof(Category)) != null ?
+                return category = category ?? new Category(base.getProperty(nameof(Category)+"ID") != null ?
                         (Guid)(base.getProperty(nameof(Category) + "ID")) : 
                         Guid.NewGuid());
             }
@@ -96,8 +96,8 @@ namespace CC.Connections.BL
             get
             {
                 if (loc == null)
-                    loc = new Location(base.getProperty(nameof(Location)) != null ?
-                        (Guid)base.getProperty(nameof(Location)) :
+                    loc = new Location(base.getProperty(nameof(Location)+"ID") != null ?
+                        (Guid)base.getProperty(nameof(Location)+"ID") :
                         Guid.NewGuid());
                 return loc;
             }
@@ -108,9 +108,6 @@ namespace CC.Connections.BL
                  base.setProperty(nameof(Location) + "ID", value.ID);
             }
         }
-
-        internal static bool Exists(CCEntities dc, string charity)
-            => Exists(dc.Charities,new Charity { ID = charity});
 
 
         public Charity() => this.Deductibility = false;
@@ -135,7 +132,7 @@ namespace CC.Connections.BL
             this.Location = new Location((Guid)entry.LocationID);
         }
         public Charity(string charity,bool preloaded =true) : 
-            base(new CCEntities().Charities, charity, preloaded)
+            base(JsonDatabase.Charities, charity, preloaded)
         {
             this.Email = charity;
             if (preloaded)
@@ -246,7 +243,7 @@ namespace CC.Connections.BL
                 {
                     using (CCEntities dc = new CCEntities())
                     {
-                        base.LoadId(dc.Charities);
+                        base.LoadId(JsonDatabase.Charities);
                         
                         PL.Charity entry = dc.Charities.Where(c => c.CharityEmail == this.Email).FirstOrDefault();
                         this.Category = new Category(entry.CategoryID.Value);
@@ -302,8 +299,15 @@ namespace CC.Connections.BL
         }
     }
 
-    public class CharityCollection : BaseList<Charity,PL.Charity>
+    public class CharityCollection : CrudModelList<Charity,PL.Charity>
     {
+        public static explicit operator CharityCollection(Charity[] carray)
+        {
+            CharityCollection ret = new CharityCollection();
+            ret.AddRange(carray);
+            return ret;
+        }
+
         //START instance
         private static CharityCollection INS = new CharityCollection();
         public static CharityCollection INSTANCE
@@ -319,8 +323,7 @@ namespace CC.Connections.BL
 
         public static CharityCollection LoadInstance()
         {
-            try
-            {
+            try{
                 INSTANCE = new CharityCollection();
                 using (CCEntities dc = new CCEntities())
                 {

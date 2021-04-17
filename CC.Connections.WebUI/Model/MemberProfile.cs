@@ -7,7 +7,7 @@ using System.Web;
 namespace CC.Connections.WebUI.Model
 {
     public class MemberProfile<TMember, TEntry>
-        where TMember : Abstract.BaseModel<TEntry>
+        where TMember : DataConnection.CrudModel_Json<TEntry>
         where TEntry : class
     {
 

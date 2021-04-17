@@ -64,16 +64,16 @@ namespace CC.Connections.API.Controllers
             return EventAttendances.Where(c => c.EventID == id && c.VolunteerEmail == email).FirstOrDefault();
         }
     }
-    public class HelpingActionController : BaseAPIController<HelpingActionCollection, AbsHelpingAction, PL.HelpingAction> { }
+    public class HelpingActionController : BaseAPIController<HelpingActionCollection, BL.HelpingAction, PL.HelpingAction> { }
     public class LocationController : BaseAPIController<LocationCollection, BL.Location, PL.Location> { }
     public class VolunteerController : BaseAPIController<VolunteerCollection, BL.Volunteer, PL.Volunteer> { }
 
-    public class TestController : BaseAPIController<TestCollection, BL.Test, PL.Test>
-    {
-        [HttpGet]
-        public String DoTest()//gets by exact guid
-        {
-            return PL.Test.t;
-        }
-    }
+    //public class TestController : BaseAPIController<TestCollection, BL.Test, PL.Test>
+    //{
+    //    [HttpGet]
+    //    public String DoTest()//gets by exact guid
+    //    {
+    //        return PL.Test.t;
+    //    }
+    //}
 }

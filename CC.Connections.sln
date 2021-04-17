@@ -21,13 +21,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimePicker_MVC", "TimePicker_MVC\TimePicker_MVC.csproj", "{5413EBEC-28AF-406A-8008-11F9AF5BD2E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CC.Base", "CC.Abstract\CC.Base.csproj", "{5092B2FA-C711-4102-9D62-2B34C6F44395}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Doorfail.DataConnection", "CC.Abstract\Doorfail.DataConnection.csproj", "{5092B2FA-C711-4102-9D62-2B34C6F44395}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CC.Abstract.UT", "CC.Abstract.UT\CC.Abstract.UT.csproj", "{BF7436AD-1642-4D97-B263-4652977BD829}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CC.Connections.API", "CC.Connections.API\CC.Connections.API.csproj", "{6B266AC3-476E-4F94-A5F0-5A0F99ED54BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Doorfail.Connections.TestAPI", "Doorfail.Connections.TestAPI\Doorfail.Connections.TestAPI.csproj", "{D232BE4D-BE37-4B35-8304-35AC9A812E7D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Doorfail.Connections.API", "Doorfail.Connections.TestAPI\Doorfail.Connections.API.csproj", "{D232BE4D-BE37-4B35-8304-35AC9A812E7D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

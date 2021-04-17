@@ -103,7 +103,7 @@ namespace CC.Connections.API.Controllers
     /// <summary>
     /// TODO fill out
     /// </summary>
-    public class HelpingActionController : BaseAPIController<HelpingActionCollection, AbsHelpingAction, PL.HelpingAction> { }
+    public class HelpingActionController : BaseAPIController<HelpingActionCollection, BL.HelpingAction, PL.HelpingAction> { }
     /// <summary>
     /// TODO fill out
     /// </summary>
@@ -116,16 +116,16 @@ namespace CC.Connections.API.Controllers
     /// <summary>
     /// TODO fill out
     /// </summary>
-    public class TestController : BaseAPIController<TestCollection, BL.Test,PL.Test>
-    {
-        /// <summary>
-        /// For web api connection testing
-        /// </summary>
-        /// <returns>Dummy Text</returns>
-        [HttpGet]
-        public String DoTest()//gets by exact guid
-        {
-            return PL.Test.t;
-        }
-    }
+    //public class TestController : BaseAPIController<TestCollection, BL.Test,PL.Test>
+    //{
+    //    /// <summary>
+    //    /// For web api connection testing
+    //    /// </summary>
+    //    /// <returns>Dummy Text</returns>
+    //    [HttpGet]
+    //    public String DoTest()//gets by exact guid
+    //    {
+    //        return PL.Test.t;
+    //    }
+    //}
 }
