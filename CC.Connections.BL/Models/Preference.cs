@@ -78,10 +78,13 @@ namespace CC.Connections.BL
     {
         public void LoadAll()
         {
-            using (CCEntities dc = new CCEntities())
-            {
+            if (false)
+                using (CCEntities dc = new CCEntities())
+                {
+                    base.LoadAll(JsonDatabase.Preferences);
+                }
+            else
                 base.LoadAll(JsonDatabase.Preferences);
-            }
         }
     }
 }

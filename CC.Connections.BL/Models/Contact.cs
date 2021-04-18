@@ -37,6 +37,7 @@ namespace CC.Connections.BL
             get { return (string)base.getProperty(nameof(Phone)); }
             set { setProperty(nameof(Phone), value); }
         }
+
         [DisplayName("Birth Date")]
         [DataType(DataType.Date)]
         public DateTime DateOfBirth
@@ -92,9 +93,14 @@ namespace CC.Connections.BL
             try
             {
                 emailEmptyCheck();
-                using (CCEntities dc = new CCEntities()){
-                    return base.Insert(dc,dc.ContactInfoes) >0;
-                }
+                if (false)
+                    using (CCEntities dc = new CCEntities())
+                    {
+                        return base.Insert(dc, dc.ContactInfoes) > 0;
+                    }
+                else
+                    base.Insert(JsonDatabase.ContactInfos);
+                return true;
             }
             catch (Exception) { return false; }//probably already exists OR bad data
         }
@@ -103,9 +109,13 @@ namespace CC.Connections.BL
             try
             {
                 emailEmptyCheck();
-                using (CCEntities dc = new CCEntities()){
-                    return base.Delete(dc,dc.ContactInfoes);
-                }
+                if (false)
+                    using (CCEntities dc = new CCEntities())
+                    {
+                        return base.Delete(dc, dc.ContactInfoes);
+                    }
+                else
+                    return base.Delete(JsonDatabase.ContactInfos);
             }
             catch (Exception ) { throw; }
         }
@@ -115,9 +125,14 @@ namespace CC.Connections.BL
             try
             {
                 emailEmptyCheck();
-                using (CCEntities dc = new CCEntities()){
-                    return base.Update(dc, dc.ContactInfoes);
-                }
+                if (false)
+                    using (CCEntities dc = new CCEntities())
+                    {
+                        return base.Update(dc, dc.ContactInfoes);
+                    }
+                else
+                    base.Update(JsonDatabase.ContactInfos);
+                return 1;
             }
             catch (Exception ) { throw; }
         }
@@ -134,12 +149,20 @@ namespace CC.Connections.BL
             try
             {
                 emailEmptyCheck();
+                if(false)
                 using (CCEntities dc = new CCEntities())
                 {
                     PL.ContactInfo entry = dc.ContactInfoes.FirstOrDefault(c =>
                         c.MemberEmail == this.MemberEmail);
                     if (entry == null)
                         throw new Exception("ContactInfo does not exist with Email \'" + this.MemberEmail+"\'" ) ;
+                    base.LoadId(JsonDatabase.ContactInfos);//TODO look into,Doesnt have a DBSet LoadId option
+                }
+                else{
+                    PL.ContactInfo entry = JsonDatabase.ContactInfos.FirstOrDefault(c =>
+                       c.MemberEmail == this.MemberEmail);
+                    if (entry == null)
+                        throw new Exception("ContactInfo does not exist with Email \'" + this.MemberEmail + "\'");
                     base.LoadId(JsonDatabase.ContactInfos);
                 }
             }
@@ -150,9 +173,16 @@ namespace CC.Connections.BL
         internal static Contact fromNumID(int? memberContact_ID)
         {
             try{
+                Contact entry = new Contact();
+
+                if(false)
                 using (CCEntities dc = new CCEntities()){
-                    Contact entry = new Contact();
-                    entry.LoadId(JsonDatabase.ContactInfos,memberContact_ID);
+                    entry.LoadId(JsonDatabase.ContactInfos,memberContact_ID);//TODO look into,Doesnt have a DBSet LoadId option
+                        return entry;
+                }
+                else
+                {
+                    entry.LoadId(JsonDatabase.ContactInfos, memberContact_ID);
                     return entry;
                 }
             }
@@ -177,9 +207,13 @@ namespace CC.Connections.BL
     public class ContactCollection : CrudModelList<Contact, ContactInfo>
     {
         public void LoadAll(){
-            using (CCEntities dc = new CCEntities()){
+            if (false)
+                using (CCEntities dc = new CCEntities())
+                {
+                    base.LoadAll(JsonDatabase.ContactInfos);//TODO look into,Doesnt have a DBSet LoadId option
+                }
+            else
                 base.LoadAll(JsonDatabase.ContactInfos);
-            }
         }
     }
 }

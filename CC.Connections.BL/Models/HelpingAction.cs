@@ -14,7 +14,7 @@ namespace CC.Connections.BL
         //private static CCEntities dc;
 
         //id
-        public Guid ID
+        public new Guid ID
         {
             get { return (Guid)base.ID; }
             set { base.ID = value; }
@@ -61,31 +61,46 @@ namespace CC.Connections.BL
 
         public void LoadId()
         {
-            using (CCEntities dc = new CCEntities())
-            {
+            if (false)
+                using (CCEntities dc = new CCEntities())
+                {
+                    base.LoadId(JsonDatabase.HelpingActions);
+                }
+            else
                 base.LoadId(JsonDatabase.HelpingActions);
-            }
         }
         public int Insert()
         {
-            using (CCEntities dc = new CCEntities())
-            {
-                return base.Insert(dc, dc.HelpingActions);
-            }
+            if (false)
+                using (CCEntities dc = new CCEntities())
+                {
+                    return base.Insert(dc, dc.HelpingActions);
+                }
+            else
+                base.Insert(JsonDatabase.HelpingActions);
+            return 1;
         }
         public int Update()
         {
-            using (CCEntities dc = new CCEntities())
-            {
-                return base.Update(dc, dc.HelpingActions);
-            }
+            if (false)
+                using (CCEntities dc = new CCEntities())
+                {
+                    return base.Update(dc, dc.HelpingActions);
+                }
+            else
+                base.Update(JsonDatabase.HelpingActions);
+            return 1;
         }
         public int Delete()
         {
-            using (CCEntities dc = new CCEntities())
-            {
-                return base.Delete(dc, dc.HelpingActions);
-            }
+            if (false)
+                using (CCEntities dc = new CCEntities())
+                {
+                    return base.Delete(dc, dc.HelpingActions);
+                }
+            else
+                base.Delete(JsonDatabase.HelpingActions);
+            return 1;
         }
     }
 
@@ -94,12 +109,15 @@ namespace CC.Connections.BL
     {
         public void LoadAll()
         {
+            if(false)
             using (CCEntities dc = new CCEntities())
             {
                 //base.LoadAll(dc.HelpingActions);
                 foreach (var c in dc.HelpingActions.ToList())
                     base.Add(new HelpingAction(c));
             }
+            else foreach (var c in JsonDatabase.HelpingActions.ToList())
+                    base.Add(new HelpingAction(c));
         }
     }
     public class AbsMemberActionCollection : AbsListJoin<HelpingAction, PL.HelpingAction, PL.MemberAction>
@@ -122,49 +140,66 @@ namespace CC.Connections.BL
 
         public void LoadPreferences(string member_id)
         {
+            //base.LoadWithJoin(dc.HelpingActions, dc.MemberActions,
+                //                  new MemberAction { MemberActionMember_ID = member_id }.MemberActionMember_ID);
+            memberID = member_id;
+            List<MemberAction> MemberActions = null;
+
+            if (false)
             using (CCEntities dc = new CCEntities())
             {
-                //base.LoadWithJoin(dc.HelpingActions, dc.MemberActions,
-                //                  new MemberAction { MemberActionMember_ID = member_id }.MemberActionMember_ID);
-                memberID = member_id;
                 if (dc.MemberActions.ToList().Count != 0)
                 {
-                    List<MemberAction> MemberActions = dc.MemberActions
+                     MemberActions = dc.MemberActions
                         .Where(c => c.MemberEmail == memberID).ToList();
-                    if (MemberActions.Count != 0)
-                    {
-                        MemberActions.ForEach(b =>
-
-                        {
-                            base.Add(new HelpingAction(dc.HelpingActions
-                                  .Where(d => d.ID == b.ActionID)
-                                  .FirstOrDefault())
-                          );
-                            });
-                    }
                 }
+            }
+            else
+            {
+                if (JsonDatabase.MemberActions.ToList().Count != 0)
+                {
+                    MemberActions = JsonDatabase.MemberActions
+                        .Where(c => c.MemberEmail == memberID).ToList();
+                }
+            }
+
+            if (MemberActions.Count != 0)
+            {
+                MemberActions.ForEach(b => {
+                    base.Add(new HelpingAction(JsonDatabase.HelpingActions
+                            .Where(d => d.ID == b.ActionID)
+                            .FirstOrDefault())
+                    );});
             }
         }
         public void DeleteAllPreferences()
         {
-            using (CCEntities dc = new CCEntities())
-            {
-                base.DeleteAllPreferences(dc, dc.MemberActions);
-            }
+            if (false)
+                using (CCEntities dc = new CCEntities())
+                {
+                    base.DeleteAllPreferences(dc, dc.MemberActions);
+                }
+            else
+                base.DeleteAllPreferences(JsonDatabase.MemberActions);
         }
         public new void Add(HelpingAction HelpingAction)
         {
-            using (CCEntities dc = new CCEntities())
-            {
-                base.Add(dc, dc.MemberActions, new MemberAction(), HelpingAction);
-            }
+            if (false)
+                using (CCEntities dc = new CCEntities())
+                {
+                    base.Add(dc, dc.MemberActions, new MemberAction(), HelpingAction);
+                }
+            throw new NotImplementedException();
         }
         public new void Remove(HelpingAction HelpingAction)
         {
-            using (CCEntities dc = new CCEntities())
-            {
-                base.Remove(dc, dc.MemberActions, HelpingAction);
-            }
+            if (false)
+                using (CCEntities dc = new CCEntities())
+                {
+                    base.Remove(dc, dc.MemberActions, HelpingAction);
+                }
+            else
+                base.Remove(HelpingAction);
         }
     }
 }

@@ -238,15 +238,19 @@ namespace CC.Connections.BL
         }
         protected void setEventInfo(CharityEvent evnt)
         {
-            this.ID = evnt.ID;
-            this.Name = evnt.Name;
+            if (evnt is null)
+                throw new ArgumentNullException(nameof(evnt));
+
+
+            this.ID           = evnt.ID;
+            this.Name         = evnt.Name;
             this.Requirements = evnt.Requirements;
             this.CharityEmail = evnt.CharityEmail;
-            this._start = evnt._start;
-            this._end = evnt._end;
-            this.Location = evnt.Location;
-            this.Description = evnt.Description;
-            this.atendees = new EventAttendanceJointCollection(evnt.ID);
+            this._start       = evnt._start;
+            this._end         = evnt._end;
+            this.Location     = evnt.Location;
+            this.Description  = evnt.Description;
+            this.atendees     = new EventAttendanceJointCollection(evnt.ID);
         }
 
         //TODO refactor to use CC.Abstract
@@ -258,23 +262,32 @@ namespace CC.Connections.BL
             {
                 //if (Description == string.Empty)
                 //    throw new Exception("Description cannot be empty");
-                using (CCEntities dc = new CCEntities())
+                ID = Guid.NewGuid();
+                PL.CharityEvent cevent = new PL.CharityEvent
                 {
-                    ID = Guid.NewGuid();
+                    ID = this.ID,
+                    CharityEmail = this.CharityEmail,
+                    LocationID =  this.Location.ID,
+                    StartDate = this._start,
+                    EndDate = this._end,
+                    Requirements = this.Requirements,
+                    Name = this.Name,
+                    Description = this.Description
+                };
+                
 
-                    dc.CharityEvents.Add(new PL.CharityEvent
+                CharityEventCollection.AddToInstance(this);
+                if (false)
+                    using (CCEntities dc = new CCEntities())
                     {
-                        ID = this.ID,
-                        CharityEmail = this.CharityEmail,
-                        LocationID =  this.Location.ID,
-                        StartDate = this._start,
-                        EndDate = this._end,
-                        Requirements = this.Requirements,
-                        Name = this.Name,
-                        Description = this.Description
-                    });
-                    CharityEventCollection.AddToInstance(this);
-                    return dc.SaveChanges();
+                        dc.CharityEvents.Add(cevent);
+                        return dc.SaveChanges();
+                    }
+                else
+                {
+                    JsonDatabase.CharityEvents.Add(cevent);
+                    JsonDatabase.SaveChanges();
+                    return 1;
                 }
             }
             catch (DbEntityValidationException e)
@@ -288,16 +301,23 @@ namespace CC.Connections.BL
         {
             try
             {
+                if(false)
                 using (CCEntities dc = new CCEntities())
                 {
-                    //if (this.ID == Guid.Empty)
-                    //    throw new Exception("ID is invalid");
-
                     dc.CharityEvents.Remove(dc.CharityEvents.Where(c => c.ID == this.ID).FirstOrDefault());
                     Location.Delete();
                     atendees.DeleteAttendance();
                     CharityEventCollection.RemoveInstance(this);
                     return dc.SaveChanges();
+                }
+                else
+                {
+                    JsonDatabase.CharityEvents.Remove(JsonDatabase.CharityEvents.Where(c => c.ID == this.ID).FirstOrDefault());
+                    Location.Delete();
+                    atendees.DeleteAttendance();
+                    CharityEventCollection.RemoveInstance(this);
+                    JsonDatabase.SaveChanges();
+                    return 1;
                 }
             }
             catch (Exception) { throw; }
@@ -308,11 +328,9 @@ namespace CC.Connections.BL
             {
                 //if (Description == string.Empty)
                 //    throw new Exception("Description cannot be empty");
+                if(false)
                 using (CCEntities dc = new CCEntities())
                 {
-                    //if (this.ID == Guid.Empty)
-                    //    throw new Exception("ID is invalid");
-
                     PL.CharityEvent entry = dc.CharityEvents.Where(c => c.ID == this.ID).FirstOrDefault()
                         ?? throw new Exception("Could not find Charity Event with ID: " + this.ID);
                     entry.EndDate = _end;
@@ -324,6 +342,21 @@ namespace CC.Connections.BL
 
                     CharityEventCollection.RemoveInstance(this);
                     return dc.SaveChanges();
+                }
+                else
+                {
+                    PL.CharityEvent entry = JsonDatabase.CharityEvents.Where(c => c.ID == this.ID).FirstOrDefault()
+                       ?? throw new Exception("Could not find Charity Event with ID: " + this.ID);
+                    entry.EndDate = _end;
+                    entry.StartDate = _start;
+                    entry.Name = Name;
+                    entry.Requirements = Requirements;
+                    entry.StartDate = StartDate;
+                    entry.Description = Description;
+
+                    CharityEventCollection.RemoveInstance(this);
+                    JsonDatabase.SaveChanges();
+                    return 1;
                 }
             }
             catch (Exception) { throw; }
@@ -385,6 +418,13 @@ namespace CC.Connections.BL
                 return ins;
             }
             private set => ins = value;
+        }
+
+        public static explicit operator CharityEventCollection(CharityEvent[] carray)
+        {
+            CharityEventCollection ret = new CharityEventCollection();
+            ret.AddRange(carray);
+            return ret;
         }
 
         //Everything is loaded from here when first needed!
@@ -497,12 +537,20 @@ namespace CC.Connections.BL
             if (Sort_ID == null)
                 throw new Exception(Event_LOAD_ERROR);
 
+            if(false)
             using (CCEntities dc = new CCEntities())
             {
                 dc.CharityEvents.RemoveRange(dc.CharityEvents.Where(c =>
                 c.CharityEmail == (string)Sort_ID).ToList());
                 this.Clear();
                 dc.SaveChanges();
+            }
+            else
+            {
+                JsonDatabase.CharityEvents.RemoveAll(c =>
+                c.CharityEmail == (string)Sort_ID);
+                this.Clear();
+                JsonDatabase.SaveChanges();
             }
         }
 
@@ -514,27 +562,34 @@ namespace CC.Connections.BL
 
             if (Sort_ID == null)
                 throw new Exception(Event_LOAD_ERROR);
+            if (CharityEvent.Exists(new CCEntities(), evnt.ID));
+                throw new Exception("Event ID: " + evnt.ID + " is already registered as an Charity Event");
 
+            PL.CharityEvent cevent = new PL.CharityEvent
+            {
+                ID = evnt.ID,
+                CharityEmail = evnt.CharityEmail,
+                EndDate = evnt.EndDate,
+                LocationID = evnt.Location.ID,
+                Name = evnt.Name,
+                Requirements = evnt.Requirements,
+                StartDate = evnt.StartDate,
+                Description = evnt.Description
+            };
+
+            if(false)
             using (CCEntities dc = new CCEntities())
             {
-                if (CharityEvent.Exists(dc, evnt.ID))
-                    throw new Exception("Event ID: " + evnt.ID + " is already registered as an Charity Event");
-
                 
-                dc.CharityEvents.Add(new PL.CharityEvent
-                {
-                    ID = evnt.ID,
-                    CharityEmail = evnt.CharityEmail,
-                    EndDate = evnt.EndDate,
-                    LocationID = evnt.Location.ID,
-                    Name = evnt.Name,
-                    Requirements = evnt.Requirements,
-                    StartDate = evnt.StartDate,
-                    Description = evnt.Description
-                });
+                dc.CharityEvents.Add(cevent);
                 dc.SaveChanges();
-                this.Add(evnt, true);
             }
+            else
+            {
+                JsonDatabase.CharityEvents.Add(cevent);
+                JsonDatabase.SaveChanges();
+            }
+            this.Add(evnt, true);
         }
 
         public void DeleteEvent(Guid eventID)
@@ -542,9 +597,9 @@ namespace CC.Connections.BL
             if (Sort_ID == null)
                 throw new Exception(Event_LOAD_ERROR);
 
+            if(false)
             using (CCEntities dc = new CCEntities())
             {
-
                 PL.CharityEvent cevent = dc.CharityEvents.Where(
                     c => c.CharityEmail == (string)Sort_ID &&
                     c.ID == eventID).FirstOrDefault()
@@ -553,6 +608,17 @@ namespace CC.Connections.BL
                 this.Remove(new CharityEvent(eventID, true), true);
                 dc.CharityEvents.Remove(cevent);
                 dc.SaveChanges();
+            }
+            else
+            {
+                PL.CharityEvent cevent = JsonDatabase.CharityEvents.Where(
+                    c => c.CharityEmail == (string)Sort_ID &&
+                    c.ID == eventID).FirstOrDefault()
+                    ?? throw new Exception("Event : " + eventID + " does not exist");
+
+                this.Remove(new CharityEvent(eventID, true), true);
+                JsonDatabase.CharityEvents.Remove(cevent);
+                JsonDatabase.SaveChanges();
             }
         }
         //public void UpdateCategory(Category cat, string description)
@@ -569,11 +635,16 @@ namespace CC.Connections.BL
         //    cthis.Update();
         //}
 
-        private bool MemberExists(CCEntities dc, string member_ID)
+        private static bool MemberExists(CCEntities dc, string member_ID)
         {
+            if(false)
             return dc.MemberActions.Where(c => c.MemberEmail == member_ID
             ).FirstOrDefault() != null;
+            else
+                return JsonDatabase.MemberActions.Where(c => c.MemberEmail == member_ID
+            ).FirstOrDefault() != null;
         }
+
 
         public new void Clear()
         {

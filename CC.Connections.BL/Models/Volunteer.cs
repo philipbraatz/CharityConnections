@@ -157,14 +157,21 @@ namespace CC.Connections.BL
                 LoadId(true);
             else
             {
+                PL.Volunteer charityPL = null;
+
+                if (false)
                 using (CCEntities dc = new CCEntities())
                 {
-                    PL.Volunteer charityPL = dc.Volunteers.Where(c => c.VolunteerEmail == contactEmail).FirstOrDefault();
-                    PreferedHelpingActions = new AbsMemberActionCollection(contactEmail);
-                    PreferedCategories = new CategoryPreferenceCollection(contactEmail);
-                    PreferedHelpingActions.LoadPreferences(Email);
-                    PreferedCategories.LoadPreferences(Email);
+                    charityPL = dc.Volunteers.Where(c => c.VolunteerEmail == contactEmail).FirstOrDefault();
                 }
+                else
+                {
+                    charityPL = JsonDatabase.Volunteers.Where(c => c.VolunteerEmail == contactEmail).FirstOrDefault();
+                }  
+                PreferedHelpingActions = new AbsMemberActionCollection(contactEmail);
+                PreferedCategories = new CategoryPreferenceCollection(contactEmail);
+                PreferedHelpingActions.LoadPreferences(Email);
+                PreferedCategories.LoadPreferences(Email);
             }
         }
         public void setVolunteer(Volunteer volunteer)
@@ -189,34 +196,35 @@ namespace CC.Connections.BL
         {
             try
             {
+                Email = email;
+                Clear();
+                PL.Volunteer volunteerPL = null;
+
+                if (false)
                 using (CCEntities dc = new CCEntities())
                 {
-                    Clear();
+                    volunteerPL = dc.Volunteers.Where(c => c.VolunteerEmail == email).FirstOrDefault();
+                }
+                else
+                    volunteerPL =JsonDatabase.Volunteers.Where(c => c.VolunteerEmail == email).FirstOrDefault();
 
-                    Email = email;
+                //TODO refactor
 
-
-                    //TODO refactor
-
-                    //check for existing account before inserting
-                    PL.Volunteer volunteerPL = dc.Volunteers.Where(c => c.VolunteerEmail == email).FirstOrDefault();
+                //check for existing account before inserting                    
                     if (volunteerPL != null)
-                    {
-                        setVolunteerInfo(volunteerPL);
-                        PreferedHelpingActions = new AbsMemberActionCollection(email);
-                        PreferedCategories = new CategoryPreferenceCollection(email);
-                        PreferedHelpingActions.LoadPreferences(Email);
-                        PreferedCategories.LoadPreferences(Email);
-                    }
-                    else//its a new account
-                    {
-                        Clear();//new Charity
-                        Password newPassword = new Password(email, password, MemberType.VOLLUNTEER, hashed);
-                        newPassword.Insert();
-                        this.Location.Insert();
-                    }
-
-
+                {
+                    setVolunteerInfo(volunteerPL);
+                    PreferedHelpingActions = new AbsMemberActionCollection(email);
+                    PreferedCategories = new CategoryPreferenceCollection(email);
+                    PreferedHelpingActions.LoadPreferences(Email);
+                    PreferedCategories.LoadPreferences(Email);
+                }
+                else//its a new account
+                {
+                    Clear();//new Charity
+                    Password newPassword = new Password(email, password, MemberType.VOLLUNTEER, hashed);
+                    newPassword.Insert();
+                    this.Location.Insert();
                 }
             }
             catch (Exception e)
@@ -256,17 +264,23 @@ namespace CC.Connections.BL
             else
                 try
                 {
+                    //TODO IMPORTANT: I HAVE NOT CLUE WHAT THIS IS DOING figure it out
+                    if (false)
                     using (CCEntities dc = new CCEntities())
                     {
                         base.LoadId(JsonDatabase.Volunteers);
-
                         PL.Volunteer entry = dc.Volunteers.Where(c => c.VolunteerEmail == this.Email).FirstOrDefault();
-                        ContactInfo = new Contact(Email);
-                        PreferedHelpingActions = new AbsMemberActionCollection(Email);
-                        PreferedCategories = new CategoryPreferenceCollection(Email);
-                        PreferedHelpingActions.LoadPreferences(Email);
-                        PreferedCategories.LoadPreferences(Email);
                     }
+                    else
+                    {
+                        base.LoadId(JsonDatabase.Volunteers);
+                    }
+
+                    ContactInfo = new Contact(Email);
+                    PreferedHelpingActions = new AbsMemberActionCollection(Email);
+                    PreferedCategories = new CategoryPreferenceCollection(Email);
+                    PreferedHelpingActions.LoadPreferences(Email);
+                    PreferedCategories.LoadPreferences(Email);
                 }
                 catch (Exception)
                 { throw; }
@@ -292,14 +306,22 @@ namespace CC.Connections.BL
 
                 ContactInfo.Insert();
                 Pref.Insert();
+                this.Location.Insert();
+                this.setProperty("LocationID", this.Location.ID);
+
+                if (false)
                 using (CCEntities dc = new CCEntities())
                 {
-                    this.Location.Insert();
-                    this.setProperty("LocationID", this.Location.ID);
+                   
                     base.Insert(dc, dc.Volunteers);
-                    password.Insert();
-                    VolunteerCollection.AddToInstance(this);
+                    
                 }
+                else
+                {
+                    base.Insert(JsonDatabase.Volunteers);
+                }
+                password.Insert();
+                VolunteerCollection.AddToInstance(this);
             }
             catch (Exception)
             {
@@ -313,15 +335,15 @@ namespace CC.Connections.BL
                 throw new ArgumentNullException(nameof(password));
 
             try
-            {
-                using (CCEntities dc = new CCEntities())
-                {
-                    //if (this.ID == Guid.Empty)
-                    //    throw new Exception("ID is invalid");
-
-                    password.Delete();
+            { 
+                password.Delete();
                     Pref.Delete();
                     Location.Delete();
+
+                if(false)
+                using (CCEntities dc = new CCEntities())
+                {
+
                     base.Delete(dc,dc.Volunteers);
 
                     dc.Volunteers.Remove(dc.Volunteers.Where(c => c.VolunteerEmail == Email).FirstOrDefault());
@@ -332,6 +354,20 @@ namespace CC.Connections.BL
 
                     Clear();
                     return dc.SaveChanges();
+                }
+                else
+                {
+                    base.Delete(JsonDatabase.Volunteers);
+
+                    JsonDatabase.Volunteers.Remove(JsonDatabase.Volunteers.Where(c => c.VolunteerEmail == Email).FirstOrDefault());
+                    ContactInfo.Delete();
+                    PreferedCategories.DeleteAllPreferences();
+                    //Prefered_Charities.DeleteAllPreferences();
+                    PreferedHelpingActions.DeleteAllPreferences();
+
+                    Clear();
+                    JsonDatabase.SaveChanges();
+                    return 1;
                 }
             }
             catch (Exception e) { throw; }
@@ -344,13 +380,9 @@ namespace CC.Connections.BL
 
             try
             {
-                //if (Description == string.Empty)
-                //    throw new Exception("Description cannot be empty");
+                if(false)
                 using (CCEntities dc = new CCEntities())
                 {
-                    //if (this.ID == Guid.Empty)
-                    //    throw new Exception("ID is invalid");
-
                     PL.Volunteer entry = dc.Volunteers.Where(c => c.VolunteerEmail == this.Email).FirstOrDefault();
                     ContactInfo.Update();
                     base.Update(dc,dc.Volunteers);
@@ -362,6 +394,21 @@ namespace CC.Connections.BL
                     //do not handle member preference lists here
 
                     return dc.SaveChanges();
+                }
+                else
+                {
+                    PL.Volunteer entry = JsonDatabase.Volunteers.Where(c => c.VolunteerEmail == this.Email).FirstOrDefault();
+                    ContactInfo.Update();
+                    base.Update(JsonDatabase.Volunteers);
+                    Pref.Update();
+                    //Member_Type.Update();
+                    Location.Update();
+                    password.Update();
+
+                    //do not handle member preference lists here
+
+                    JsonDatabase.SaveChanges();
+                    return 1;
                 }
             }
             catch (Exception e) { throw; }
@@ -389,11 +436,15 @@ namespace CC.Connections.BL
             try
             {
                 INSTANCE = new VolunteerCollection();
+                if(false)
                 using (CCEntities dc = new CCEntities())
                 {
                     foreach (var c in dc.Volunteers.ToList())
                         INS.Add(new Volunteer(c));
                 }
+                else foreach (var c in JsonDatabase.Volunteers.ToList())
+                        INS.Add(new Volunteer(c));
+
                 return INS;
             }
             catch (EntityException e) { throw e.InnerException; }

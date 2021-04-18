@@ -12,12 +12,6 @@ namespace CC.DataConnection
         where TEntity : class
         where Tcrud : CrudModel_Json<TEntity>
     {
-        public static explicit operator CrudModelList<Tcrud,TEntity>(Tcrud[] carray)
-        {
-            CrudModelList<Tcrud,TEntity> ret = new CrudModelList<Tcrud,TEntity>();
-            ret.AddRange(carray);
-            return ret;
-        }
 
         public CrudModelList()
         {
@@ -176,6 +170,14 @@ namespace CC.DataConnection
                 JsonDatabase.SaveChanges();
             this.Clear();
         }
+        public void DeleteAllPreferences(List<TEntityJoin> joinTable)
+        {
+            foreach (var col in joinTable)
+                if (joinGroupingID.Equals(PropertyHelper.getValue(col, joinGroupingIDname)))
+                    joinTable.Remove(col);
+            JsonDatabase.SaveChanges();
+            this.Clear();
+        }
 
         public void Add(CCEntities dc, DbSet<TEntityJoin> joinTable, TEntityJoin joinInstance, Tcrud entry)
         {
@@ -214,6 +216,45 @@ namespace CC.DataConnection
             dc.SaveChanges();
             base.Add(entry);
         }
+
+        public void Add(List<TEntityJoin> joinTable, TEntityJoin joinInstance, Tcrud entry)
+        {
+
+            //Set new ID based on type
+            if (joinTable_Properties[0].GetValue(joinInstance) is Guid)
+                PropertyHelper.setValue(joinInstance, joinTable_Properties[0].Name, Guid.NewGuid());//instance_PK = newID using ("join_Property_ID")
+            else if (joinTable_Properties[0].GetValue(joinInstance) is int)//gets type int
+            {
+                int newID = 0;
+
+                //get new id if int
+                if (joinTable.ToList().Count != 0)
+                {
+                    int max = 0;
+                    foreach (var t in joinTable)
+                    {
+                        int comp = (int)PropertyHelper.getValue(t, joinTable_Properties[0].Name);
+                        if (comp > max)
+                            max = comp;
+                    }
+                    newID = max + 1;
+                }
+                //set primary key
+                PropertyHelper.setValue(joinInstance, joinTable_Properties[0].Name, newID);//instance_PK = newID using ("join_Property_ID")
+            }
+            //if its not a guid or int the ID has to be pre-set before adding
+
+            //set ID for group
+            PropertyHelper.setValue(joinInstance, joinGroupingIDname, joinGroupingID);//instance_Grouping_ID = join_Grouping_ID using ("join_Grouping_ID")
+            //set ID of entry being added
+            PropertyHelper.setValue(joinInstance, joinForeignIDname,           //instance_FK using("join_FK") = 
+                            PropertyHelper.getValue(entry, properties[0].Name)); // entry_ID using("entry_ID")
+
+            joinTable.Add(joinInstance);//add
+            JsonDatabase.SaveChanges();
+            base.Add(entry);
+        }
+
         public void Remove(CCEntities dc, DbSet<TEntityJoin> joinTable, Tcrud entry)
         {
             foreach (var join in joinTable)

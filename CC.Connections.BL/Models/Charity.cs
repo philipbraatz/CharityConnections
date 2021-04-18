@@ -261,41 +261,53 @@ namespace CC.Connections.BL
         public void Insert(Password password)
         {
             if (password == null)
-                throw new ArgumentNullException(nameof(password));
-            using (CCEntities dc = new CCEntities())
-            {
-                this.Location.Insert();
-                this.setProperty("LocationID", this.Location.ID);
-                base.Insert(dc, dc.Charities);
-                password.Insert();
-                CharityCollection.AddToInstance(this);
-            }
+                throw new ArgumentNullException(nameof(password)); 
+
+            this.Location.Insert();
+            this.setProperty("LocationID", this.Location.ID);
+
+            if (false)
+                using (CCEntities dc = new CCEntities())
+                {
+                    base.Insert(dc, dc.Charities);
+                }
+            else
+                base.Insert(JsonDatabase.Charities);
+
+            password.Insert();
+                    
+            CharityCollection.AddToInstance(this);
         }
         public void Update(Password password)
         {
             if (password == null)
                 throw new ArgumentNullException(nameof(password));
-            using (CCEntities dc = new CCEntities())
-            {
-                base.Update(dc, dc.Charities);
-                this.Location.Update();
-                password.Update();
-                CharityCollection.AddToInstance(this);
-            }
+            if (false)
+                using (CCEntities dc = new CCEntities())
+                {
+                    base.Update(dc, dc.Charities);
+                }
+            else
+                base.Update(JsonDatabase.Charities);
+
+            this.Location.Update();
+            password.Update();
+            CharityCollection.AddToInstance(this);
         }
         public void Delete(Password password)
         {
             if (password == null)
                 throw new ArgumentNullException(nameof(password));
-            using (CCEntities dc = new CCEntities())
-            {
-                //dc.Categories.Remove(this);
-                //return dc.SaveChanges();
-                base.Delete(dc, dc.Charities);
-                this.Location.Delete();
-                password.Delete();
-                CharityCollection.RemoveInstance(this);
-            }
+            if (false)
+                using (CCEntities dc = new CCEntities())
+                {
+                    base.Delete(dc, dc.Charities);
+                }
+            else
+                base.Delete(JsonDatabase.Charities);
+            this.Location.Delete();
+            password.Delete();
+            CharityCollection.RemoveInstance(this);
         }
     }
 

@@ -56,23 +56,46 @@ namespace CC.Connections.BL
         { return new Location(entry); }
 
         public int Insert(){
-            using (CCEntities dc = new CCEntities()){
-                return base.Insert(dc, dc.Locations);
-        }}
+            if (false)
+                using (CCEntities dc = new CCEntities())
+                {
+                    return base.Insert(dc, dc.Locations);
+                }
+            else
+                base.Insert(JsonDatabase.Locations);
+            return 1;
+        }
         public int Delete(){
-            using (CCEntities dc = new CCEntities()){
-                return base.Delete(dc, dc.Locations);
-        }}
+            if (false)
+                using (CCEntities dc = new CCEntities())
+                {
+                    return base.Delete(dc, dc.Locations);
+                }
+            else
+                base.Delete(JsonDatabase.Locations);
+            return 1;
+        }
 
         public int Update(){
-            using (CCEntities dc = new CCEntities()){
-                return base.Update(dc, dc.Locations);
-        }}
+            if (false)
+                using (CCEntities dc = new CCEntities())
+                {
+                    return base.Update(dc, dc.Locations);
+                }
+            else
+                base.Update(JsonDatabase.Locations);
+            return 1;
+        }
 
         public void LoadId() {
-            using (CCEntities dc = new CCEntities()){
+            if (false)
+                using (CCEntities dc = new CCEntities())
+                {
+                    base.LoadId(JsonDatabase.Locations);
+                }
+            else
                 base.LoadId(JsonDatabase.Locations);
-        }}
+        }
 
         public double distanceFrom(Location from)
         {
@@ -89,10 +112,13 @@ namespace CC.Connections.BL
     {
         public void LoadAll()
         {
-            using (CCEntities dc = new CCEntities())
-            {
+            if (false)
+                using (CCEntities dc = new CCEntities())
+                {
+                    base.LoadAll(JsonDatabase.Locations);
+                }
+            else
                 base.LoadAll(JsonDatabase.Locations);
-            }
         }
     } 
 }
