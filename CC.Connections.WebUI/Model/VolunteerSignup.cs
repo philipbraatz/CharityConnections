@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
-using CC.Connections.BL;
+using Doorfail.Connections.BL;
 
-namespace CC.Connections.WebUI.Model
+namespace Doorfail.Connections.WebUI.Model
 {
     public class VolunteerSignup : Volunteer
     {

@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CC.DataConnection
+namespace Doorfail.DataConnection
 {
     [AttributeUsage(AttributeTargets.Property)]
     public class BaseAttribute : Attribute

@@ -1,4 +1,4 @@
-﻿using CC.Connections.WebUI.Model;
+﻿using Doorfail.Connections.WebUI.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;

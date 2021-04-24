@@ -1,5 +1,5 @@
-﻿using CC.DataConnection;
-using CC.Connections.BL;
+﻿using Doorfail.DataConnection;
+using Doorfail.Connections.BL;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace CC.Connections.WebUI
+namespace Doorfail.Connections.WebUI
 {
     public struct InternalServerError
     {
@@ -41,7 +41,7 @@ namespace CC.Connections.WebUI
             if (false)
                 return new HttpClient { BaseAddress = new Uri(HttpRuntime.AppDomainAppVirtualPath+"/api/") };//Requires server database
             else
-                return new HttpClient { BaseAddress = new Uri("https://localhost:44363/api/") };//SET LOCAL #
+                return new HttpClient { BaseAddress = new Uri("https://localhost:44368/api/") };//SET LOCAL #
         }
 
         private static TEntity[] getAll<TEntity>(string model, bool all = true) where TEntity : class

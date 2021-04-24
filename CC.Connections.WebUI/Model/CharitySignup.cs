@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using CC.Connections.BL;
+using Doorfail.Connections.BL;
 
-namespace CC.Connections.WebUI.Model
+namespace Doorfail.Connections.WebUI.Model
 {
     public class CharitySignup : Charity
     {

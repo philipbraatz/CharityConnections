@@ -1,6 +1,6 @@
 ﻿
 
-namespace CC.Connections.PL
+namespace Doorfail.Connections.PL
 {
     
     public class Test

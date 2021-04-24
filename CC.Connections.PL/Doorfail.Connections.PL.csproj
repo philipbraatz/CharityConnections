@@ -8,8 +8,8 @@
     <ProjectGuid>{754D3507-7B50-49B2-BC6B-2881CD7A2084}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CC.Connections.PL</RootNamespace>
-    <AssemblyName>CC.Connections.PL</AssemblyName>
+    <RootNamespace>Doorfail.Connections.PL</RootNamespace>
+    <AssemblyName>Doorfail.Connections.PL</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

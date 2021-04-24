@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using CC.Connections.BL;
+using Doorfail.Connections.BL;
 using System.Linq;
 
-namespace CC.Connections.BL.Test
+namespace Doorfail.Connections.BL.Test
 {
     //TODO old code needs to be rewritten
 

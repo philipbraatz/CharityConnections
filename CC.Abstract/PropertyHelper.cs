@@ -9,7 +9,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CC.DataConnection
+namespace Doorfail.DataConnection
 {
     public static class PropertyHelper
     {

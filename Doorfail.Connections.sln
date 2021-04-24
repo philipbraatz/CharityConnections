@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29230.47
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CC.Connections.WebUI", "CC.Connections.WebUI\CC.Connections.WebUI.csproj", "{6AF13E53-9ED8-4AAA-9217-C326FDB956B6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Doorfail.Connections.WebUI", "CC.Connections.WebUI\Doorfail.Connections.WebUI.csproj", "{6AF13E53-9ED8-4AAA-9217-C326FDB956B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CC.Connections.BL.Test", "CC.Connections.BL.Test\CC.Connections.BL.Test.csproj", "{A135AD76-EB6E-4B0E-A8D8-FAAE465BF05C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Doorfail.Connections.BL.Test", "CC.Connections.BL.Test\Doorfail.Connections.BL.Test.csproj", "{A135AD76-EB6E-4B0E-A8D8-FAAE465BF05C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CC.Connections.BL", "CC.Connections.BL\CC.Connections.BL.csproj", "{F4CC55D1-6BA6-4AA9-8FF6-D245F1B64101}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Doorfail.Connections.BL", "CC.Connections.BL\Doorfail.Connections.BL.csproj", "{F4CC55D1-6BA6-4AA9-8FF6-D245F1B64101}"
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "CC.Connections.DB", "CC.Connections.DB\CC.Connections.DB.sqlproj", "{BE381CBE-10D2-45FB-AE39-5122E42CCE7D}"
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Doorfail.Connections.DB", "CC.Connections.DB\Doorfail.Connections.DB.sqlproj", "{BE381CBE-10D2-45FB-AE39-5122E42CCE7D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CC.Connections.PL", "CC.Connections.PL\CC.Connections.PL.csproj", "{754D3507-7B50-49B2-BC6B-2881CD7A2084}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Doorfail.Connections.PL", "CC.Connections.PL\Doorfail.Connections.PL.csproj", "{754D3507-7B50-49B2-BC6B-2881CD7A2084}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A1DE8AB5-4A73-4AD7-8874-3FC71AEB090B}"
 	ProjectSection(SolutionItems) = preProject
@@ -19,15 +19,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Directory.Builds.props = Directory.Builds.props
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimePicker_MVC", "TimePicker_MVC\TimePicker_MVC.csproj", "{5413EBEC-28AF-406A-8008-11F9AF5BD2E1}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Doorfail.DataConnection", "CC.Abstract\Doorfail.DataConnection.csproj", "{5092B2FA-C711-4102-9D62-2B34C6F44395}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CC.Abstract.UT", "CC.Abstract.UT\CC.Abstract.UT.csproj", "{BF7436AD-1642-4D97-B263-4652977BD829}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CC.Connections.API", "CC.Connections.API\CC.Connections.API.csproj", "{6B266AC3-476E-4F94-A5F0-5A0F99ED54BB}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Doorfail.Connections.API", "Doorfail.Connections.TestAPI\Doorfail.Connections.API.csproj", "{D232BE4D-BE37-4B35-8304-35AC9A812E7D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Doorfail.DataConnection.Test", "Doorfail.DataConnection.Test\Doorfail.DataConnection.Test.csproj", "{208B198E-F4D3-4E9D-967E-5BB468A85F14}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,26 +53,18 @@ Global
 		{754D3507-7B50-49B2-BC6B-2881CD7A2084}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{754D3507-7B50-49B2-BC6B-2881CD7A2084}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{754D3507-7B50-49B2-BC6B-2881CD7A2084}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5413EBEC-28AF-406A-8008-11F9AF5BD2E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5413EBEC-28AF-406A-8008-11F9AF5BD2E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5413EBEC-28AF-406A-8008-11F9AF5BD2E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5413EBEC-28AF-406A-8008-11F9AF5BD2E1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5092B2FA-C711-4102-9D62-2B34C6F44395}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5092B2FA-C711-4102-9D62-2B34C6F44395}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5092B2FA-C711-4102-9D62-2B34C6F44395}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5092B2FA-C711-4102-9D62-2B34C6F44395}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BF7436AD-1642-4D97-B263-4652977BD829}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BF7436AD-1642-4D97-B263-4652977BD829}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BF7436AD-1642-4D97-B263-4652977BD829}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BF7436AD-1642-4D97-B263-4652977BD829}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6B266AC3-476E-4F94-A5F0-5A0F99ED54BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6B266AC3-476E-4F94-A5F0-5A0F99ED54BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6B266AC3-476E-4F94-A5F0-5A0F99ED54BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6B266AC3-476E-4F94-A5F0-5A0F99ED54BB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D232BE4D-BE37-4B35-8304-35AC9A812E7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D232BE4D-BE37-4B35-8304-35AC9A812E7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D232BE4D-BE37-4B35-8304-35AC9A812E7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D232BE4D-BE37-4B35-8304-35AC9A812E7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{208B198E-F4D3-4E9D-967E-5BB468A85F14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{208B198E-F4D3-4E9D-967E-5BB468A85F14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{208B198E-F4D3-4E9D-967E-5BB468A85F14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{208B198E-F4D3-4E9D-967E-5BB468A85F14}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

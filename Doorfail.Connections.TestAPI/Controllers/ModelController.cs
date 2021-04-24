@@ -1,5 +1,5 @@
-﻿using CC.Connections.BL;
-using CC.Connections.PL;
+﻿using Doorfail.Connections.BL;
+using Doorfail.Connections.PL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
-namespace CC.Connections.API.Controllers
+namespace Doorfail.Connections.API.Controllers
 {
     public class CategoryController : BaseAPIController<CategoryCollection, BL.Category, PL.Category> { }
     public class CharityEventController : BaseAPIController<CharityEventCollection, BL.CharityEvent, PL.CharityEvent> { }

@@ -1,13 +1,13 @@
 ﻿using System.Linq;
-using CC.Connections.PL;
+using Doorfail.Connections.PL;
 using System.ComponentModel;
 using System.Data.Entity;
 using System.Data.Entity.Core;
-using CC.DataConnection;
+using Doorfail.DataConnection;
 using System;
 using System.Collections.Generic;
 
-namespace CC.Connections.BL
+namespace Doorfail.Connections.BL
 {
     //TODO rename to just Category
     public class Category : CrudModel_Json<PL.Category>//PRES inheritence
@@ -48,7 +48,7 @@ namespace CC.Connections.BL
         public Category(PL.Category entry) :
             base(entry) { }
         public Category(Guid id,bool preloaded =true) :
-            base(JsonDatabase.Categories, id,preloaded) {
+            base(JsonDatabase.GetTable<PL.Category>(), id,preloaded) {
             this.ID = id;
             if (preloaded)
                 LoadId(true);
@@ -78,7 +78,7 @@ namespace CC.Connections.BL
                         //base.LoadId(dc.Categories);//should only need to be called from INSTANCE
                     }
                 else
-                    base.LoadId(JsonDatabase.Categories);//should only need to be called from INSTANCE
+                    base.LoadId(JsonDatabase.GetTable<PL.Category>());//should only need to be called from INSTANCE
             else
             {
                 Category loadC = CategoryCollection.INSTANCE.Where(c => c.ID == this.ID).FirstOrDefault();
@@ -101,7 +101,7 @@ namespace CC.Connections.BL
                     CategoryCollection.AddToInstance(this);
                 }
             else
-                base.Insert(JsonDatabase.Categories);
+                base.Insert(JsonDatabase.GetTable<PL.Category>());
         }
         public void Update(){
             if (false)
@@ -111,7 +111,7 @@ namespace CC.Connections.BL
                     CategoryCollection.UpdateInstance(this);
                 }
             else
-                base.Update(JsonDatabase.Categories);
+                base.Update(JsonDatabase.GetTable<PL.Category>());
         }
         public void Delete(){
             if (false)
@@ -121,7 +121,7 @@ namespace CC.Connections.BL
                     CategoryCollection.RemoveInstance(this);
                 }
             else
-                base.Delete(JsonDatabase.Categories);
+                base.Delete(JsonDatabase.GetTable<PL.Category>());
         }
     }
 
@@ -153,7 +153,7 @@ namespace CC.Connections.BL
                     }
                 else
                 {
-                    foreach (var c in JsonDatabase.Categories.ToList())
+                    foreach (var c in JsonDatabase.GetTable<PL.Category>().ToList())
                         ins.Add(new Category(c));
                 }
 

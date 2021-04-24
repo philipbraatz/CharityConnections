@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using CC.Connections.PL;
+using Doorfail.Connections.PL;
 using System.Reflection;
 
-namespace CC.DataConnection
+namespace Doorfail.DataConnection
 {
     public class CrudModelList<Tcrud, TEntity> :
         CrudModelCollection<Tcrud, TEntity, List<TEntity>>

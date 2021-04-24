@@ -1,4 +1,4 @@
-﻿@model CC.Connections.BL.Charity
+﻿@model Doorfail.Connections.BL.Charity
 
 <br />
 
@@ -49,7 +49,7 @@
 <h4>@ViewBag.Message</h4>
 <div class="">
 
-    @if (Session["member"] != null && ((CC.Connections.BL.Password)Session["member"]).MemberType == CC.Connections.BL.MemberType.CHARITY)
+    @if (Session["member"] != null && ((Doorfail.Connections.BL.Password)Session["member"]).MemberType == Doorfail.Connections.BL.MemberType.CHARITY)
     {
         @Html.ActionLink("Edit Profile", "Edit", "Charity", new { id = Model.Email.Replace('.','-') }, new { @class = "btn-outline-primary btn-lg" });
     }

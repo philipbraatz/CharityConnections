@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace CC.Connections.WebUI
+namespace Doorfail.Connections.WebUI
 {
     public class RouteConfig
     {

@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CC.Connections.PL
+namespace Doorfail.Connections.PL
 {
     using System;
     using System.Data.Entity;
@@ -19,7 +19,7 @@ namespace CC.Connections.PL
             : base("name=CCEntities")
         {
         }
-
+    
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

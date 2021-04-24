@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CC.Connections.PL;
+using Doorfail.Connections.PL;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using CC.DataConnection;
+using Doorfail.DataConnection;
 using System.Data.Entity.Core;
 using System.Reflection;
 
@@ -14,7 +14,7 @@ using System.Reflection;
 
 // setting the charity class with a inherit from contactInfo
 
-namespace CC.Connections.BL
+namespace Doorfail.Connections.BL
 {
     public class Charity : CrudModel_Json<PL.Charity>
     {
@@ -83,7 +83,7 @@ namespace CC.Connections.BL
         {   get {
                 return category = category ?? new Category(base.getProperty(nameof(Category)+"ID") != null ?
                         (Guid)(base.getProperty(nameof(Category) + "ID")) : 
-                        Guid.NewGuid());
+                        Guid.Empty);
             }
             set { 
                 category =value;
@@ -98,7 +98,7 @@ namespace CC.Connections.BL
                 if (loc == null)
                     loc = new Location(base.getProperty(nameof(Location)+"ID") != null ?
                         (Guid)base.getProperty(nameof(Location)+"ID") :
-                        Guid.NewGuid());
+                        Guid.Empty);
                 return loc;
             }
             set
@@ -132,7 +132,7 @@ namespace CC.Connections.BL
             this.Location = new Location((Guid)entry.LocationID);
         }
         public Charity(string charity,bool preloaded =true) : 
-            base(JsonDatabase.Charities, charity, preloaded)
+            base(JsonDatabase.GetTable<PL.Charity>(), charity, preloaded)
         {
             this.Email = charity;
             if (preloaded)
@@ -243,9 +243,9 @@ namespace CC.Connections.BL
                 {
                     using (CCEntities dc = new CCEntities())
                     {
-                        base.LoadId(JsonDatabase.Charities);
+                        base.LoadId(JsonDatabase.GetTable<PL.Charity>());
                         
-                        PL.Charity entry = dc.Charities.Where(c => c.CharityEmail == this.Email).FirstOrDefault();
+                        PL.Charity entry = JsonDatabase.GetTable<PL.Charity>().Where(c => c.CharityEmail == this.Email).FirstOrDefault();
                         this.Category = new Category(entry.CategoryID.Value);
                         this.Location = new Location(entry.LocationID.Value);
                     }
@@ -272,7 +272,7 @@ namespace CC.Connections.BL
                     base.Insert(dc, dc.Charities);
                 }
             else
-                base.Insert(JsonDatabase.Charities);
+                base.Insert(JsonDatabase.GetTable<PL.Charity>());
 
             password.Insert();
                     
@@ -288,7 +288,7 @@ namespace CC.Connections.BL
                     base.Update(dc, dc.Charities);
                 }
             else
-                base.Update(JsonDatabase.Charities);
+                base.Update(JsonDatabase.GetTable<PL.Charity>());
 
             this.Location.Update();
             password.Update();
@@ -304,7 +304,7 @@ namespace CC.Connections.BL
                     base.Delete(dc, dc.Charities);
                 }
             else
-                base.Delete(JsonDatabase.Charities);
+                base.Delete(JsonDatabase.GetTable<PL.Charity>());
             this.Location.Delete();
             password.Delete();
             CharityCollection.RemoveInstance(this);
@@ -336,6 +336,10 @@ namespace CC.Connections.BL
         public static CharityCollection LoadInstance()
         {
             try{
+                
+                
+                
+                
                 INSTANCE = new CharityCollection();
                 using (CCEntities dc = new CCEntities())
                 {
@@ -376,11 +380,12 @@ namespace CC.Connections.BL
             this.userPref = userPref ?? throw new ArgumentNullException(nameof(userPref));
         }
 
-        public void LoadAll()
+        public Charity[] LoadAll()
         {
             this.Clear();
             LoadInstance();//make sure Instance is filled
             this.AddRange(INS);
+            return INS.ToArray();
         }
         public void LoadWithFilter(object id, SortBy sort)
         {

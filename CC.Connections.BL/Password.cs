@@ -1,4 +1,4 @@
-﻿using CC.Connections.PL;
+﻿using Doorfail.Connections.PL;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CC.Connections.BL
+namespace Doorfail.Connections.BL
 {
     public enum MemberType
     {

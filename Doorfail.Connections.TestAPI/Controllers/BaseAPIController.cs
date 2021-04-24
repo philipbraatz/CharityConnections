@@ -1,5 +1,5 @@
-﻿using CC.DataConnection;
-using CC.Connections.BL;
+﻿using Doorfail.DataConnection;
+using Doorfail.Connections.BL;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Core;
@@ -7,7 +7,7 @@ using System.Data.SqlClient;
 using System.Net;
 using System.Web.Http;
 
-namespace CC.Connections.API.Controllers
+namespace Doorfail.Connections.API.Controllers
 {
     public class BaseAPIController<TList, TEntity, Tdb> : ApiController
         where TList : CrudModelCollection<TEntity, Tdb,List<Tdb>>
@@ -24,10 +24,13 @@ namespace CC.Connections.API.Controllers
         [ActionName("All")]
         public TEntity[] Get()
         {
+            
+            
             TList tinstance = (TList)Activator.CreateInstance(typeof(TList), new object[] { });
             try
             {
-                return (TEntity[])tinstance.GetType().GetMethod("LoadAll", new Type[] { }).Invoke(tinstance, null);
+                dynamic ret =(TEntity[])tinstance.GetType().GetMethod("LoadAll", new Type[] { }).Invoke(tinstance, null);
+                return ret;
             }
             catch (System.Reflection.TargetInvocationException e)
             {

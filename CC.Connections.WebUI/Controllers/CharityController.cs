@@ -4,30 +4,30 @@ using System.Linq;
 using System.Net.Http;
 using System.Web;
 using System.Web.Mvc;
-using CC.Connections.BL;
-using CC.Connections.WebUI.Model;
-using CC.DataConnection;
+using Doorfail.Connections.BL;
+using Doorfail.Connections.WebUI.Model;
+using Doorfail.DataConnection;
 using Newtonsoft.Json;
 
-namespace CC.Connections.WebUI.Controllers
+namespace Doorfail.Connections.WebUI.Controllers
 {
     public class CharityController : Controller
     {
         // GET: Charity Profile
         public ActionResult Details(string id)
         {
-            //id = id.Replace('-', '.');
+            id = id.Replace('-', '.');
             if(id == null)
             {
                 return RedirectToAction("Index");//returns you if you enter empty id
             }
 
-                Charity dCharity = apiHelper.getEmail<Charity>(id);
+            Charity dCharity = JsonDatabase.GetTable<PL.Charity>().Where(c => c.CharityEmail == id).FirstOrDefault();//apiHelper.getEmail<Charity>(id);
             //} catch(Exception e)
             //{
             //    throw e;
             //}
-            if(dCharity == null)
+            if (dCharity == null)
             {
                 ViewBag.Message = "That Charity does not exist";
                 return View();
@@ -189,7 +189,7 @@ namespace CC.Connections.WebUI.Controllers
                     }
                     Random r = new Random();
                     //TODO implement category picker
-                    CC.Connections.BL.CategoryCollection categoryList = new CC.Connections.BL.CategoryCollection();
+                    Doorfail.Connections.BL.CategoryCollection categoryList = new Doorfail.Connections.BL.CategoryCollection();
                     try
                     {
                         categoryList.LoadAll();

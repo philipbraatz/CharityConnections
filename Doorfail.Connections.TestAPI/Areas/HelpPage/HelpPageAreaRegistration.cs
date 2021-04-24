@@ -1,7 +1,7 @@
 using System.Web.Http;
 using System.Web.Mvc;
 
-namespace CC.Connections.API.Areas.HelpPage
+namespace Doorfail.Connections.API.Areas.HelpPage
 {
     public class HelpPageAreaRegistration : AreaRegistration
     {

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using CC.Connections.BL;
-using CC.Connections.WebUI.Model;
+using Doorfail.Connections.BL;
+using Doorfail.Connections.WebUI.Model;
 
-namespace CC.Connections.WebUI.Controllers
+namespace Doorfail.Connections.WebUI.Controllers
 {
     //TODO rename to VolunteerController
     public class VolunteerProfileController : Controller

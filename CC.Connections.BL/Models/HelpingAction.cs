@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CC.DataConnection;
-using CC.Connections.PL;
+using Doorfail.DataConnection;
+using Doorfail.Connections.PL;
 
-namespace CC.Connections.BL
+namespace Doorfail.Connections.BL
 {
     public class HelpingAction
         : CrudModel_Json<PL.HelpingAction>
@@ -52,7 +52,7 @@ namespace CC.Connections.BL
             base(entry)
         { Clear(); }
         public HelpingAction(Guid id) :
-            base(JsonDatabase.HelpingActions, id)
+            base(JsonDatabase.GetTable<PL.HelpingAction>(), id)
         {
             Clear();
             ID = id;
@@ -64,10 +64,10 @@ namespace CC.Connections.BL
             if (false)
                 using (CCEntities dc = new CCEntities())
                 {
-                    base.LoadId(JsonDatabase.HelpingActions);
+                    base.LoadId(JsonDatabase.GetTable<PL.HelpingAction>());
                 }
             else
-                base.LoadId(JsonDatabase.HelpingActions);
+                base.LoadId(JsonDatabase.GetTable<PL.HelpingAction>());
         }
         public int Insert()
         {
@@ -77,7 +77,7 @@ namespace CC.Connections.BL
                     return base.Insert(dc, dc.HelpingActions);
                 }
             else
-                base.Insert(JsonDatabase.HelpingActions);
+                base.Insert(JsonDatabase.GetTable<PL.HelpingAction>());
             return 1;
         }
         public int Update()
@@ -88,7 +88,7 @@ namespace CC.Connections.BL
                     return base.Update(dc, dc.HelpingActions);
                 }
             else
-                base.Update(JsonDatabase.HelpingActions);
+                base.Update(JsonDatabase.GetTable<PL.HelpingAction>());
             return 1;
         }
         public int Delete()
@@ -99,7 +99,7 @@ namespace CC.Connections.BL
                     return base.Delete(dc, dc.HelpingActions);
                 }
             else
-                base.Delete(JsonDatabase.HelpingActions);
+                base.Delete(JsonDatabase.GetTable<PL.HelpingAction>());
             return 1;
         }
     }
@@ -116,7 +116,7 @@ namespace CC.Connections.BL
                 foreach (var c in dc.HelpingActions.ToList())
                     base.Add(new HelpingAction(c));
             }
-            else foreach (var c in JsonDatabase.HelpingActions.ToList())
+            else foreach (var c in JsonDatabase.GetTable<PL.HelpingAction>().ToList())
                     base.Add(new HelpingAction(c));
         }
     }
@@ -156,9 +156,9 @@ namespace CC.Connections.BL
             }
             else
             {
-                if (JsonDatabase.MemberActions.ToList().Count != 0)
+                if (JsonDatabase.GetTable<PL.MemberAction>().ToList().Count != 0)
                 {
-                    MemberActions = JsonDatabase.MemberActions
+                    MemberActions = JsonDatabase.GetTable<PL.MemberAction>()
                         .Where(c => c.MemberEmail == memberID).ToList();
                 }
             }
@@ -166,7 +166,7 @@ namespace CC.Connections.BL
             if (MemberActions.Count != 0)
             {
                 MemberActions.ForEach(b => {
-                    base.Add(new HelpingAction(JsonDatabase.HelpingActions
+                    base.Add(new HelpingAction(JsonDatabase.GetTable<PL.HelpingAction>()
                             .Where(d => d.ID == b.ActionID)
                             .FirstOrDefault())
                     );});
@@ -180,7 +180,7 @@ namespace CC.Connections.BL
                     base.DeleteAllPreferences(dc, dc.MemberActions);
                 }
             else
-                base.DeleteAllPreferences(JsonDatabase.MemberActions);
+                base.DeleteAllPreferences(JsonDatabase.GetTable<PL.MemberAction>());
         }
         public new void Add(HelpingAction HelpingAction)
         {

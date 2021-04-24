@@ -13,8 +13,8 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Doorfail.Connections.TestAPI</RootNamespace>
-    <AssemblyName>Doorfail.Connections.TestAPI</AssemblyName>
+    <RootNamespace>Doorfail.Connections.API</RootNamespace>
+    <AssemblyName>Doorfail.Connections.API</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
@@ -339,13 +339,13 @@
       <Project>{5092b2fa-c711-4102-9d62-2b34c6f44395}</Project>
       <Name>Doorfail.DataConnection</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CC.Connections.BL\CC.Connections.BL.csproj">
+    <ProjectReference Include="..\CC.Connections.BL\Doorfail.Connections.BL.csproj">
       <Project>{f4cc55d1-6ba6-4aa9-8ff6-d245f1b64101}</Project>
-      <Name>CC.Connections.BL</Name>
+      <Name>Doorfail.Connections.BL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CC.Connections.PL\CC.Connections.PL.csproj">
+    <ProjectReference Include="..\CC.Connections.PL\Doorfail.Connections.PL.csproj">
       <Project>{754d3507-7b50-49b2-bc6b-2881cd7a2084}</Project>
-      <Name>CC.Connections.PL</Name>
+      <Name>Doorfail.Connections.PL</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

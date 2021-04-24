@@ -3,7 +3,7 @@ using System;
 using System.Net.Http;
 using System.Text;
 
-namespace CC.Connections.BL
+namespace Doorfail.Connections.BL
 {
     class MapAPI
     {

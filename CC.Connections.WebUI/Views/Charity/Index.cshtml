@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CC.Connections.BL.Charity>
+﻿@model IEnumerable<Doorfail.Connections.BL.Charity>
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -10,7 +10,7 @@
 
 <h2>@ViewBag.Title</h2>
 
-@if (Session["member"] != null && ((CC.Connections.BL.Password)Session["member"]).MemberType == CC.Connections.BL.MemberType.CHARITY)
+@if (Session["member"] != null && ((Doorfail.Connections.BL.Password)Session["member"]).MemberType == Doorfail.Connections.BL.MemberType.CHARITY)
 {
     //<p>@Html.ActionLink("Create New Charity", "Create")</p>
 }
@@ -47,7 +47,7 @@
         <td>
             @*{Html.RenderAction("SideView", "Charity", new { id = item.Email.Replace('.','-') });}*@
         </td>
-        @if (Session["member"] != null && ((CC.Connections.BL.Password)Session["member"]).email == item.Email)
+        @if (Session["member"] != null && ((Doorfail.Connections.BL.Password)Session["member"]).email == item.Email)
         {
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.Email.Replace('.', '-') })

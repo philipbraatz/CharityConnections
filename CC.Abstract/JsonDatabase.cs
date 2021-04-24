@@ -1,4 +1,4 @@
-﻿using CC.Connections.PL;
+﻿using Doorfail.Connections.PL;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -10,76 +10,91 @@ using System.Threading.Tasks;
 
 
 //TODO Abstract
-namespace CC.DataConnection
+namespace Doorfail.DataConnection
 {
     public static class JsonDatabase
     {
         public static bool inintalized = false;
 
-        public static List<Category> Categories = new List<Category>();
-        public static List<CharityEvent> CharityEvents = new List<CharityEvent>();
-        public static List<Charity> Charities = new List<Charity>();
-        public static List<Location> Locations = new List<Location>();
-        public static List<ContactInfo> ContactInfos = new List<ContactInfo>();
-        public static List<HelpingAction> HelpingActions = new List<HelpingAction>();
-        public static List<LogIn> Logins = new List<LogIn>();
-        public static List<MemberAction> MemberActions = new List<MemberAction>();
-        public static List<Preference> Preferences = new List<Preference>();
-        public static List<Volunteer> Volunteers = new List<Volunteer>();
-        public static List<HelpingAction> helpingActions = new List<HelpingAction>();
-        public static List<MemberAction> memberActions = new List<MemberAction>();
-        public static List<EventAttendance> EventAttendances = new List<EventAttendance>();
-             
+        private static Dictionary<Type, List<Object>> Data = new Dictionary<Type, List<Object>>();
+
+        public static List<TEntity> GetTable<TEntity>() where TEntity : class
+        {
+            List<TEntity> ret = new List<TEntity>();
+            if (Data.ContainsKey(typeof(TEntity)))
+                foreach (var col in Data[typeof(TEntity)])
+                    ret.Add((TEntity)col);
+            return ret;
+        }
+        public static void SetTable<TEntity>(List<TEntity> value) where TEntity : class
+        => Data[typeof(TEntity)] = (List<Object>)(Object)value;
+
         public static void SaveChanges()
-        =>  File.WriteAllLines(
-                "JsonDB.json",
-                new string[] { 
-                    "[",
-                    JsonConvert.SerializeObject(Categories)+",",
-                    JsonConvert.SerializeObject(CharityEvents)+"," ,
-                    JsonConvert.SerializeObject(Charities)+"," ,
-                    JsonConvert.SerializeObject(Locations)+"," ,
-                    JsonConvert.SerializeObject(ContactInfos)+"," ,
-                    //JsonConvert.SerializeObject(HelpingActions)+"," ,
-                    JsonConvert.SerializeObject(Logins)+"," ,
-                    //JsonConvert.SerializeObject(MemberActions)+"," ,
-                    JsonConvert.SerializeObject(Volunteers)+",",
-                    JsonConvert.SerializeObject(Locations),
-                    "]"}
-                );
+        {
+            string[] serialized = new string[Data.Count+2];
+            KeyValuePair<Type,List<Object>>[] d = Data.ToArray();
+
+            serialized            [0] = "[";
+            for (int i = 1; i < Data.Count-1; i++)
+                serialized        [i] = JsonConvert.SerializeObject(d)+",";
+            serialized   [Data.Count] = JsonConvert.SerializeObject(d);
+            serialized[Data.Count + 1]= "]";
+
+            File.WriteAllLines("JsonDB_keyValue.json",serialized);
+        }
 
         public static void LoadDatabase()
         {
-            string temp = File.ReadAllText("JsonDB.json");
-            Newtonsoft.Json.Linq.JArray[] arr = JsonConvert.DeserializeObject<Newtonsoft.Json.Linq.JArray[]>
-              (File.ReadAllText("JsonDB.json"));
-            Categories = arr[0].ToObject<List<Category>>();
-            CharityEvents = arr[1].ToObject<List<CharityEvent>>();
-            Charities = arr[2].ToObject<List<Charity>>();
-            Locations = arr[3].ToObject<List<Location>>();
-            ContactInfos = arr[4].ToObject<List<ContactInfo>>();
-            //HelpingActions = JsonConvert.DeserializeObject<List<HelpingAction>>(arr[5]);
-            Logins =    arr[5].ToObject<List<LogIn>>();
-            //MemberActions = JsonConvert.DeserializeObject<List<MemberAction>>(arr[7]);
-            Volunteers = arr[6].ToObject<List<Volunteer>>();
-            Locations = arr[7].ToObject<List<Location>>();
-
+            Data.Clear();
+            try
+            {
+                JsonConvert.DeserializeObject<KeyValuePair<Type, List<Object>>[]>
+                    (File.ReadAllText("JsonDB_keyValue.json")).ToList()
+                    .ForEach(c => Data.Add(c.Key, c.Value));
+            }
+            catch (Exception e) {
+                try
+                {
+                    using (CCEntities db = new CCEntities())
+                    {
+                        CreateJsonDatabase(new List<List<Object>> {
+                        db.Categories    .ToList().Cast<Object>().ToList(),
+                        db.Charities     .ToList().Cast<Object>().ToList(),
+                        db.Locations     .ToList().Cast<Object>().ToList(),
+                        db.CharityEvents .ToList().Cast<Object>().ToList(),
+                        db.ContactInfoes .ToList().Cast<Object>().ToList(),
+                        //db.HelpingActions.ToList().Cast<Object>().ToList(),
+                        db.LogIns        .ToList().Cast<Object>().ToList(),
+                        //db.MemberActions .ToList().Cast<Object>().ToList(),
+                        db.Preferences   .ToList().Cast<Object>().ToList(),
+                        db.Volunteers    .ToList().Cast<Object>().ToList()
+                    });
+                    }
+                }
+                catch(Exception badthing)
+                {
+                    throw badthing.InnerException;
+                }
+            }
             JsonDatabase.inintalized = true;
         }
 
-        public static void CreateJsonDatabase(CCEntities db)
-        { 
-            Categories =db.Categories.ToList();
-            CharityEvents=db.CharityEvents.ToList();
-            Charities=db.Charities.ToList();
-            Locations=db.Locations.ToList();
-            ContactInfos=db.ContactInfoes.ToList();
-            //HelpingActions=db.HelpingActions.ToList();
-            Logins=db.LogIns.ToList();
-            //MemberActions=db.MemberActions.ToList();
-            Preferences=db.Preferences.ToList();
-            Volunteers=db.Volunteers.ToList();
 
+
+        public static void CreateJsonDatabase(List<List<Object>> alldata)
+        {
+            Data.Clear();
+            foreach (List<Object> table in alldata)
+                Data.Add(table.First().GetType(),table);
+
+            SaveChanges();
+        }
+
+
+        internal static void SaveChanges<TEntity>(List<TEntity> table)
+            where TEntity : class
+        {
+            Data[typeof(TEntity)] = table.ToList().Cast<Object>().ToList();
             SaveChanges();
         }
     }

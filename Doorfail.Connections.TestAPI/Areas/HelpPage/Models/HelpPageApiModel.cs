@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Net.Http.Headers;
 using System.Web.Http.Description;
-using CC.Connections.API.Areas.HelpPage.ModelDescriptions;
+using Doorfail.Connections.API.Areas.HelpPage.ModelDescriptions;
 
-namespace CC.Connections.API.Areas.HelpPage.Models
+namespace Doorfail.Connections.API.Areas.HelpPage.Models
 {
     /// <summary>
     /// The model that represents an API displayed on the help page.

@@ -4,10 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using CC.Connections.BL;
-using CC.Connections.WebUI.Model;
+using Doorfail.Connections.BL;
+using Doorfail.Connections.WebUI.Model;
+using Doorfail.DataConnection;
 
-namespace CC.Connections.WebUI.Controllers
+namespace Doorfail.Connections.WebUI.Controllers
 {
     public class CharityEventController : Controller
     {
@@ -25,8 +26,9 @@ namespace CC.Connections.WebUI.Controllers
             //DEBUG checks if you can recieve data from api
             //TODO move to test class
             //bool testString = apiHelper.Ping();
-            dynamic badthing = (CharityEventCollection)apiHelper.getAll<CharityEvent>();
-            CharityEventCollection allEvents  = badthing;//TODO refactor all these to use both session and api
+            List<CharityEvent> badthing = (CharityEventCollection)apiHelper.getAll<CharityEvent>();//JsonDatabase.CharityEvents;//
+
+            CharityEventCollection allEvents  = (CharityEventCollection)badthing;//TODO refactor all these to use both session and api
             if (Session != null && Session["charityEvents"] != null)
             {
                 allEvents = ((CharityEventCollection)Session["charityEvents"]);
@@ -230,7 +232,7 @@ namespace CC.Connections.WebUI.Controllers
                 {
                     cevent.Requirements = "None";
                 }
-                else if (cevent.StartDate > DateTime.Now || cevent.StartDate.Date > cevent.EndDate.Date)
+                else if (cevent.StartDate < DateTime.Now || cevent.StartDate.Date < cevent.EndDate.Date)
                 {
                     ViewBag.Message = "Cannot start on "+cevent.StartDate+" and end on "+cevent.EndDate;
                     return View(cevent);
@@ -242,7 +244,7 @@ namespace CC.Connections.WebUI.Controllers
                 }
 
                 CharityEventCollection events;
-                if (Session                                == null || Session["charityEvents"] == null)
+                if (Session == null || Session["charityEvents"] == null)
                 {
                     events = new CharityEventCollection();//should not happen
                 }
@@ -251,9 +253,12 @@ namespace CC.Connections.WebUI.Controllers
 
                 cevent.Charity = new Charity((string)Session["charityId"],true);
                 cevent.CharityEmail = cevent.Charity.Email;
-                apiHelper.create<CharityEvent>(cevent);
-                //cevent.Insert();
-                events.Add(cevent);
+                //apiHelper.create<CharityEvent>((CharityEvent)cevent);
+                dynamic temp = JsonDatabase.GetTable<PL.CharityEvent>();
+                temp.Add(cevent.toPL());
+                JsonDatabase.SetTable<PL.CharityEvent>(temp);
+                JsonDatabase.SaveChanges();
+                events.Add((CharityEvent)cevent);
                 Session["charityEvents"] = events;
 
                 return RedirectToAction("Index", "CharityEvent");

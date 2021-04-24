@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CC.Connections.PL
+namespace Doorfail.Connections.PL
 {
     using System;
     using System.Collections.Generic;

@@ -1,9 +1,9 @@
-﻿using CC.DataConnection;
-using CC.Connections.PL;
+﻿using Doorfail.DataConnection;
+using Doorfail.Connections.PL;
 using System;
 using System.ComponentModel;
 
-namespace CC.Connections.BL
+namespace Doorfail.Connections.BL
 {
     public class Location : CrudModel_Json<PL.Location>
     {
@@ -48,7 +48,7 @@ namespace CC.Connections.BL
             base(entry)
         { }
         public Location(Guid id) :
-            base(JsonDatabase.Locations,id)
+            base(JsonDatabase.GetTable<PL.Location>(),id)
         {
         }
 
@@ -62,7 +62,7 @@ namespace CC.Connections.BL
                     return base.Insert(dc, dc.Locations);
                 }
             else
-                base.Insert(JsonDatabase.Locations);
+                base.Insert(JsonDatabase.GetTable<PL.Location>());
             return 1;
         }
         public int Delete(){
@@ -72,7 +72,7 @@ namespace CC.Connections.BL
                     return base.Delete(dc, dc.Locations);
                 }
             else
-                base.Delete(JsonDatabase.Locations);
+                base.Delete(JsonDatabase.GetTable<PL.Location>());
             return 1;
         }
 
@@ -83,7 +83,7 @@ namespace CC.Connections.BL
                     return base.Update(dc, dc.Locations);
                 }
             else
-                base.Update(JsonDatabase.Locations);
+                base.Update(JsonDatabase.GetTable<PL.Location>());
             return 1;
         }
 
@@ -91,10 +91,10 @@ namespace CC.Connections.BL
             if (false)
                 using (CCEntities dc = new CCEntities())
                 {
-                    base.LoadId(JsonDatabase.Locations);
+                    base.LoadId(JsonDatabase.GetTable<PL.Location>());
                 }
             else
-                base.LoadId(JsonDatabase.Locations);
+                base.LoadId(JsonDatabase.GetTable<PL.Location>());
         }
 
         public double distanceFrom(Location from)
@@ -115,10 +115,10 @@ namespace CC.Connections.BL
             if (false)
                 using (CCEntities dc = new CCEntities())
                 {
-                    base.LoadAll(JsonDatabase.Locations);
+                    base.LoadAll(JsonDatabase.GetTable<PL.Location>());
                 }
             else
-                base.LoadAll(JsonDatabase.Locations);
+                base.LoadAll(JsonDatabase.GetTable<PL.Location>());
         }
     } 
 }

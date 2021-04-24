@@ -6,12 +6,12 @@ using System.Data.Entity.Validation;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CC.Connections.PL;
-using CC.Connections.BL;
+using Doorfail.Connections.PL;
+using Doorfail.Connections.BL;
 using System.Data.Entity.Core;
-using CC.DataConnection;
+using Doorfail.DataConnection;
 
-namespace CC.Connections.BL
+namespace Doorfail.Connections.BL
 {
     public class CharityEvent : CrudModel_Json<PL.CharityEvent>
     {
@@ -124,6 +124,20 @@ namespace CC.Connections.BL
             }
         }
 
+        public PL.CharityEvent toPL()
+        {
+            return new PL.CharityEvent {
+                ID = this.ID,
+                Name = this.Name,
+                CharityEmail = this.CharityEmail,
+                LocationID = this.Location.ID,
+                StartDate = this.StartDate,
+                Description = this.Description,
+                Requirements = this.Requirements,
+                EndDate = this.EndDate
+           };
+        }
+
         //display fields
         private Charity chrty;
         public Charity Charity
@@ -181,7 +195,7 @@ namespace CC.Connections.BL
             this.atendees = new EventAttendanceJointCollection(this.ID,false);
         }
         public CharityEvent(Guid id, bool preloaded = true) :
-           base(JsonDatabase.CharityEvents, id, preloaded)
+           base(JsonDatabase.GetTable<PL.CharityEvent>(), id, preloaded)
         {
             this.ID = id;
             if (preloaded)
@@ -285,7 +299,7 @@ namespace CC.Connections.BL
                     }
                 else
                 {
-                    JsonDatabase.CharityEvents.Add(cevent);
+                    JsonDatabase.GetTable<PL.CharityEvent>().Add(cevent);
                     JsonDatabase.SaveChanges();
                     return 1;
                 }
@@ -312,7 +326,7 @@ namespace CC.Connections.BL
                 }
                 else
                 {
-                    JsonDatabase.CharityEvents.Remove(JsonDatabase.CharityEvents.Where(c => c.ID == this.ID).FirstOrDefault());
+                    JsonDatabase.GetTable<PL.CharityEvent>().Remove(JsonDatabase.GetTable<PL.CharityEvent>().Where(c => c.ID == this.ID).FirstOrDefault());
                     Location.Delete();
                     atendees.DeleteAttendance();
                     CharityEventCollection.RemoveInstance(this);
@@ -345,7 +359,7 @@ namespace CC.Connections.BL
                 }
                 else
                 {
-                    PL.CharityEvent entry = JsonDatabase.CharityEvents.Where(c => c.ID == this.ID).FirstOrDefault()
+                    PL.CharityEvent entry = JsonDatabase.GetTable<PL.CharityEvent>().Where(c => c.ID == this.ID).FirstOrDefault()
                        ?? throw new Exception("Could not find Charity Event with ID: " + this.ID);
                     entry.EndDate = _end;
                     entry.StartDate = _start;
@@ -423,7 +437,8 @@ namespace CC.Connections.BL
         public static explicit operator CharityEventCollection(CharityEvent[] carray)
         {
             CharityEventCollection ret = new CharityEventCollection();
-            ret.AddRange(carray);
+            if(!(carray is null))
+                ret.AddRange(carray);
             return ret;
         }
 
@@ -458,11 +473,12 @@ namespace CC.Connections.BL
             ins.Remove(category);
         }
 
-        public void LoadAll()
+        public CharityEvent[] LoadAll()
         {
             this.Clear();
             LoadInstance();//make sure Instance is filled
             this.AddRange(ins);
+            return ins.ToArray();
         }
 
         //only used for Event lists
@@ -547,7 +563,7 @@ namespace CC.Connections.BL
             }
             else
             {
-                JsonDatabase.CharityEvents.RemoveAll(c =>
+                JsonDatabase.GetTable<PL.CharityEvent>().RemoveAll(c =>
                 c.CharityEmail == (string)Sort_ID);
                 this.Clear();
                 JsonDatabase.SaveChanges();
@@ -586,7 +602,7 @@ namespace CC.Connections.BL
             }
             else
             {
-                JsonDatabase.CharityEvents.Add(cevent);
+                JsonDatabase.GetTable<PL.CharityEvent>().Add(cevent);
                 JsonDatabase.SaveChanges();
             }
             this.Add(evnt, true);
@@ -611,13 +627,13 @@ namespace CC.Connections.BL
             }
             else
             {
-                PL.CharityEvent cevent = JsonDatabase.CharityEvents.Where(
+                PL.CharityEvent cevent = JsonDatabase.GetTable<PL.CharityEvent>().Where(
                     c => c.CharityEmail == (string)Sort_ID &&
                     c.ID == eventID).FirstOrDefault()
                     ?? throw new Exception("Event : " + eventID + " does not exist");
 
                 this.Remove(new CharityEvent(eventID, true), true);
-                JsonDatabase.CharityEvents.Remove(cevent);
+                JsonDatabase.GetTable<PL.CharityEvent>().Remove(cevent);
                 JsonDatabase.SaveChanges();
             }
         }
@@ -641,7 +657,7 @@ namespace CC.Connections.BL
             return dc.MemberActions.Where(c => c.MemberEmail == member_ID
             ).FirstOrDefault() != null;
             else
-                return JsonDatabase.MemberActions.Where(c => c.MemberEmail == member_ID
+                return JsonDatabase.GetTable<PL.MemberAction>().Where(c => c.MemberEmail == member_ID
             ).FirstOrDefault() != null;
         }
 

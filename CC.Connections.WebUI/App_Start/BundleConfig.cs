@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace CC.Connections.WebUI
+namespace Doorfail.Connections.WebUI
 {
     public static class BundleConfig
     {

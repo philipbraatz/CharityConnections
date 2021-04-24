@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using CC.Connections.BL;
-using CC.Connections.WebUI.Model;
+using Doorfail.Connections.BL;
+using Doorfail.Connections.WebUI.Model;
 
-namespace CC.Connections.WebUI.Controllers
+namespace Doorfail.Connections.WebUI.Controllers
 {
     public class LoginController : Controller
     {
@@ -242,7 +242,7 @@ namespace CC.Connections.WebUI.Controllers
                 Session["member"] = csu.Password;
                // Location loc = new Location(2);
                 //csu.Location = loc;//TEMP always set to location 2 because its currently null
-                csu.Insert((Password)Session["member"]);
+                ((Charity)csu).Insert((Password)Session["member"]);
 
 
                 return RedirectToAction("CharityProfile", "Charity");//go to profile

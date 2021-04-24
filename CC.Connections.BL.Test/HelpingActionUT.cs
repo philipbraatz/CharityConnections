@@ -1,10 +1,10 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using CC.Connections.BL;
+using Doorfail.Connections.BL;
 using System.Linq;
-using CC.Connections.PL;
+using Doorfail.Connections.PL;
 
-namespace CC.Connections.BL.Test
+namespace Doorfail.Connections.BL.Test
 {
     [TestClass]
     public class HelpingActionUT

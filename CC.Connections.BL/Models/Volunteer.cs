@@ -1,12 +1,12 @@
-﻿using CC.Connections.PL;
+﻿using Doorfail.Connections.PL;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using CC.DataConnection;
+using Doorfail.DataConnection;
 using System.Data.Entity.Core;
 
-namespace CC.Connections.BL
+namespace Doorfail.Connections.BL
 {
     public class Volunteer : CrudModel_Json<PL.Volunteer>//TODO change to a ColumnEntry<PL.Volunteer>
     {
@@ -150,7 +150,7 @@ namespace CC.Connections.BL
         //new member, member_type is hardcoded as guess
         //DOES NOT try to LOAD from database
         public Volunteer(string contactEmail, bool preloaded = true) :
-            base(JsonDatabase.Volunteers, contactEmail, preloaded)
+            base(JsonDatabase.GetTable<PL.Volunteer>(), contactEmail, preloaded)
         {
             this.Email = contactEmail;
             if (preloaded)
@@ -166,7 +166,7 @@ namespace CC.Connections.BL
                 }
                 else
                 {
-                    charityPL = JsonDatabase.Volunteers.Where(c => c.VolunteerEmail == contactEmail).FirstOrDefault();
+                    charityPL = JsonDatabase.GetTable<PL.Volunteer>().Where(c => c.VolunteerEmail == contactEmail).FirstOrDefault();
                 }  
                 PreferedHelpingActions = new AbsMemberActionCollection(contactEmail);
                 PreferedCategories = new CategoryPreferenceCollection(contactEmail);
@@ -206,7 +206,7 @@ namespace CC.Connections.BL
                     volunteerPL = dc.Volunteers.Where(c => c.VolunteerEmail == email).FirstOrDefault();
                 }
                 else
-                    volunteerPL =JsonDatabase.Volunteers.Where(c => c.VolunteerEmail == email).FirstOrDefault();
+                    volunteerPL =JsonDatabase.GetTable<PL.Volunteer>().Where(c => c.VolunteerEmail == email).FirstOrDefault();
 
                 //TODO refactor
 
@@ -268,12 +268,12 @@ namespace CC.Connections.BL
                     if (false)
                     using (CCEntities dc = new CCEntities())
                     {
-                        base.LoadId(JsonDatabase.Volunteers);
+                        base.LoadId(JsonDatabase.GetTable<PL.Volunteer>());
                         PL.Volunteer entry = dc.Volunteers.Where(c => c.VolunteerEmail == this.Email).FirstOrDefault();
                     }
                     else
                     {
-                        base.LoadId(JsonDatabase.Volunteers);
+                        base.LoadId(JsonDatabase.GetTable<PL.Volunteer>());
                     }
 
                     ContactInfo = new Contact(Email);
@@ -318,7 +318,7 @@ namespace CC.Connections.BL
                 }
                 else
                 {
-                    base.Insert(JsonDatabase.Volunteers);
+                    base.Insert(JsonDatabase.GetTable<PL.Volunteer>());
                 }
                 password.Insert();
                 VolunteerCollection.AddToInstance(this);
@@ -357,9 +357,9 @@ namespace CC.Connections.BL
                 }
                 else
                 {
-                    base.Delete(JsonDatabase.Volunteers);
+                    base.Delete(JsonDatabase.GetTable<PL.Volunteer>());
 
-                    JsonDatabase.Volunteers.Remove(JsonDatabase.Volunteers.Where(c => c.VolunteerEmail == Email).FirstOrDefault());
+                    JsonDatabase.GetTable<PL.Volunteer>().Remove(JsonDatabase.GetTable<PL.Volunteer>().Where(c => c.VolunteerEmail == Email).FirstOrDefault());
                     ContactInfo.Delete();
                     PreferedCategories.DeleteAllPreferences();
                     //Prefered_Charities.DeleteAllPreferences();
@@ -397,9 +397,9 @@ namespace CC.Connections.BL
                 }
                 else
                 {
-                    PL.Volunteer entry = JsonDatabase.Volunteers.Where(c => c.VolunteerEmail == this.Email).FirstOrDefault();
+                    PL.Volunteer entry = JsonDatabase.GetTable<PL.Volunteer>().Where(c => c.VolunteerEmail == this.Email).FirstOrDefault();
                     ContactInfo.Update();
-                    base.Update(JsonDatabase.Volunteers);
+                    base.Update(JsonDatabase.GetTable<PL.Volunteer>());
                     Pref.Update();
                     //Member_Type.Update();
                     Location.Update();
@@ -442,7 +442,7 @@ namespace CC.Connections.BL
                     foreach (var c in dc.Volunteers.ToList())
                         INS.Add(new Volunteer(c));
                 }
-                else foreach (var c in JsonDatabase.Volunteers.ToList())
+                else foreach (var c in JsonDatabase.GetTable<PL.Volunteer>().ToList())
                         INS.Add(new Volunteer(c));
 
                 return INS;

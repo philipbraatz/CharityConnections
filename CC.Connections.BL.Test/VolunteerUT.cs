@@ -1,8 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using CC.Connections.BL;
+using Doorfail.Connections.BL;
 
-namespace CC.Connections.BL.Test
+namespace Doorfail.Connections.BL.Test
 {
     //TODO old code needs to be rewritten
     ////Tests Members contact info, location, and password fully

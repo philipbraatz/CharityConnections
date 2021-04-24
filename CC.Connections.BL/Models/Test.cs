@@ -1,6 +1,6 @@
-﻿using CC.DataConnection;
+﻿using Doorfail.DataConnection;
 
-namespace CC.Connections.BL
+namespace Doorfail.Connections.BL
 {
     public class Test : CrudModel_Sql<Test>
     {

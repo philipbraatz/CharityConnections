@@ -1,6 +1,6 @@
 using System;
 
-namespace CC.Connections.API.Areas.HelpPage
+namespace Doorfail.Connections.API.Areas.HelpPage
 {
     /// <summary>
     /// This represents an image sample on the help page. There's a display template named ImageSample associated with this class.

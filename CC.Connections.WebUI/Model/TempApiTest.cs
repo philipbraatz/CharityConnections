@@ -1,4 +1,4 @@
-﻿using CC.Connections.BL;
+﻿using Doorfail.Connections.BL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace CC.Connections.WebUI.Model
+namespace Doorfail.Connections.WebUI.Model
 {
     public class TempApiTest
     {

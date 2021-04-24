@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 
-namespace CC.Connections.WebUI.Model
+namespace Doorfail.Connections.WebUI.Model
 {
     public static class TimeUtils
     {

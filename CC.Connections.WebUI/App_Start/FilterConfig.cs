@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 
-namespace CC.Connections.WebUI
+namespace Doorfail.Connections.WebUI
 {
     public class FilterConfig
     {

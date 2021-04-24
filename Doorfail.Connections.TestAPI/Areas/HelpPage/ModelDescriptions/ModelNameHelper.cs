@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 
-namespace CC.Connections.API.Areas.HelpPage.ModelDescriptions
+namespace Doorfail.Connections.API.Areas.HelpPage.ModelDescriptions
 {
     internal static class ModelNameHelper
     {

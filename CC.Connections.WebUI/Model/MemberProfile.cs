@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace CC.Connections.WebUI.Model
+namespace Doorfail.Connections.WebUI.Model
 {
     public class MemberProfile<TMember, TEntry>
         where TMember : DataConnection.CrudModel_Json<TEntry>

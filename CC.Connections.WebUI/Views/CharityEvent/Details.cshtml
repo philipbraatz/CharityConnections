@@ -1,4 +1,4 @@
-﻿@model CC.Connections.BL.CharityEvent
+﻿@model Doorfail.Connections.BL.CharityEvent
 
 <br />
 
@@ -48,32 +48,32 @@
         <h4>@ViewBag.Message</h4>
         <div class="">
             <!--todo orginize this, edit does not show up when signed in-->
-            @{ if (Session["member"] != null && ((CC.Connections.BL.Password)Session["member"]).MemberType == CC.Connections.BL.MemberType.VOLLUNTEER &&
+            @{ if (Session["member"] != null && ((Doorfail.Connections.BL.Password)Session["member"]).MemberType == Doorfail.Connections.BL.MemberType.VOLLUNTEER &&
                           Model.Member_Attendance != null)
                 {
-                    if (Model.Member_Attendance.VolunteerStatus == CC.Connections.BL.Status.GOING)
+                    if (Model.Member_Attendance.VolunteerStatus == Doorfail.Connections.BL.Status.GOING)
                     {
                         @Html.ActionLink("Show Interest", "Interested", new { id = Model.ID }, new { @class = "btn-outline-primary btn-lg" });
                         @Html.ActionLink("Leave Event", "Signup", new { id = Model.ID }, new { @class = "btn-outline-info btn-lg" });
                     }
-                    else if (Model.Member_Attendance.VolunteerStatus == CC.Connections.BL.Status.INTERESTED)
+                    else if (Model.Member_Attendance.VolunteerStatus == Doorfail.Connections.BL.Status.INTERESTED)
                     {
                         @Html.ActionLink("Remove Interest", "Interested", new { id = Model.ID }, new { @class = "btn-outline-info btn-lg" });
                         @Html.ActionLink("Sign Up for Event", "Signup", new { id = Model.ID }, new { @class = "btn-outline-primary btn-lg" });
                     }
-                    else if(Model.Member_Attendance.VolunteerStatus == CC.Connections.BL.Status.NOT_GOING)
+                    else if(Model.Member_Attendance.VolunteerStatus == Doorfail.Connections.BL.Status.NOT_GOING)
                     {
                         @Html.ActionLink("Interested", "Interested", new { id = Model.ID }, new { @class = "btn-outline-primary btn-lg" });
                         @Html.ActionLink("Sign Up for Event", "Signup", new { id = Model.ID }, new { @class = "btn-outline-primary btn-lg" });
                     }
                 }
-                else if (Session["member"] == null || ((CC.Connections.BL.Password)Session["member"]).MemberType == CC.Connections.BL.MemberType.GUEST)
+                else if (Session["member"] == null || ((Doorfail.Connections.BL.Password)Session["member"]).MemberType == Doorfail.Connections.BL.MemberType.GUEST)
                 {
                     <div class="btn-outline-primary btn-lg">
                         @Html.ActionLink("Create an account to sign up for an event", "SignupView", "Login")
                     </div>
                 }
-                else if (Session["member"] != null && ((CC.Connections.BL.Password)Session["member"]).email == Model.Charity.Email)
+                else if (Session["member"] != null && ((Doorfail.Connections.BL.Password)Session["member"]).email == Model.Charity.Email)
                 {
                     <td>
                         @Html.ActionLink("Edit", "Edit", new { id = Model.ID }, new { @class = "btn-outline-primary btn-lg" })

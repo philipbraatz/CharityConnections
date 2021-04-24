@@ -7,7 +7,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 
-namespace CC.Connections.WebUI
+namespace Doorfail.Connections.WebUI
 {
     public class MvcApplication : System.Web.HttpApplication
     {

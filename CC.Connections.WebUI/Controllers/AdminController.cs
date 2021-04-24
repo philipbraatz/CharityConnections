@@ -1,4 +1,4 @@
-﻿using CC.Connections.PL;
+﻿using Doorfail.Connections.PL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 
 //TODO use API
-namespace CC.Connections.WebUI.Controllers
+namespace Doorfail.Connections.WebUI.Controllers
 {
     //TODO create views for each method
     public class AdminController : Controller

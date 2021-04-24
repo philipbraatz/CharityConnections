@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace CC.Connections.BL
+namespace Doorfail.Connections.BL
 {
     internal class DataTypeTimeAttribute : DataTypeAttribute
     {

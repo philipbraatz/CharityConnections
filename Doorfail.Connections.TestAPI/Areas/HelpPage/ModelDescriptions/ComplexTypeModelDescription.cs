@@ -1,6 +1,6 @@
 using System.Collections.ObjectModel;
 
-namespace CC.Connections.API.Areas.HelpPage.ModelDescriptions
+namespace Doorfail.Connections.API.Areas.HelpPage.ModelDescriptions
 {
     public class ComplexTypeModelDescription : ModelDescription
     {

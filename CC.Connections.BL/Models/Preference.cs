@@ -1,10 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
-using CC.DataConnection;
-using CC.Connections.PL;
+using Doorfail.DataConnection;
+using Doorfail.Connections.PL;
 
-namespace CC.Connections.BL
+namespace Doorfail.Connections.BL
 {
     public class Preference : CrudModel_Json<PL.Preference>
     {
@@ -37,7 +37,7 @@ namespace CC.Connections.BL
         public Preference(PL.Preference entry) :
             base(entry){ }
         public Preference(Guid id) :
-            base(JsonDatabase.Preferences, id)
+            base(JsonDatabase.GetTable<PL.Preference>(), id)
         {
             Clear();
             ID = id;
@@ -48,7 +48,7 @@ namespace CC.Connections.BL
 
         public void LoadId(){
             using (CCEntities dc = new CCEntities()){
-                base.LoadId(JsonDatabase.Preferences);
+                base.LoadId(JsonDatabase.GetTable<PL.Preference>());
             }
         }
         public int Insert() {
@@ -81,10 +81,10 @@ namespace CC.Connections.BL
             if (false)
                 using (CCEntities dc = new CCEntities())
                 {
-                    base.LoadAll(JsonDatabase.Preferences);
+                    base.LoadAll(JsonDatabase.GetTable<PL.Preference>());
                 }
             else
-                base.LoadAll(JsonDatabase.Preferences);
+                base.LoadAll(JsonDatabase.GetTable<PL.Preference>());
         }
     }
 }

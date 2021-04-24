@@ -1,5 +1,5 @@
-﻿using CC.DataConnection;
-using CC.Connections.PL;
+﻿using Doorfail.DataConnection;
+using Doorfail.Connections.PL;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CC.Connections.BL
+namespace Doorfail.Connections.BL
 {
     public enum Status
     {
@@ -67,7 +67,7 @@ namespace CC.Connections.BL
             //v.LoadId(entry.VolunteerEmail);
         }
         public EventAttendee(int id) :
-            base(JsonDatabase.EventAttendances, id)
+            base(JsonDatabase.GetTable<PL.EventAttendance>(), id)
         {
             //Volunteer v = new Volunteer();
             //v.LoadId(this.Member_ID);
@@ -87,7 +87,7 @@ namespace CC.Connections.BL
                 return dc.EventAttendances.Where(c => c.EventID == this.EventID && c.VolunteerEmail == this.VolunteerEmail).FirstOrDefault() != null;
             }
             else
-                return JsonDatabase.EventAttendances.Where(c => c.EventID == this.EventID && c.VolunteerEmail == this.VolunteerEmail).FirstOrDefault() != null;
+                return JsonDatabase.GetTable<PL.EventAttendance>().Where(c => c.EventID == this.EventID && c.VolunteerEmail == this.VolunteerEmail).FirstOrDefault() != null;
         }
     
         public void LoadId()
@@ -95,10 +95,10 @@ namespace CC.Connections.BL
         if(false)
             using (CCEntities dc = new CCEntities())
             {
-                base.LoadId(JsonDatabase.EventAttendances);
+                base.LoadId(JsonDatabase.GetTable<PL.EventAttendance>());
             }
         else
-            base.LoadId(JsonDatabase.EventAttendances);
+            base.LoadId(JsonDatabase.GetTable<PL.EventAttendance>());
         }
         public bool TryFindMatching()
         {
@@ -112,8 +112,8 @@ namespace CC.Connections.BL
             }
             else
             {
-                debugList = JsonDatabase.EventAttendances.ToList();
-                eat = JsonDatabase.EventAttendances.Where(c => c.EventID == this.EventID && c.VolunteerEmail == this.VolunteerEmail).FirstOrDefault();
+                debugList = JsonDatabase.GetTable<PL.EventAttendance>().ToList();
+                eat = JsonDatabase.GetTable<PL.EventAttendance>().Where(c => c.EventID == this.EventID && c.VolunteerEmail == this.VolunteerEmail).FirstOrDefault();
                
             } 
             if (eat == null)
@@ -143,7 +143,7 @@ namespace CC.Connections.BL
                     return base.Insert(dc, dc.EventAttendances);
                 }
             else
-                return base.Insert(JsonDatabase.EventAttendances);
+                return base.Insert(JsonDatabase.GetTable<PL.EventAttendance>());
         }
         public int Update(Status status)
         {
@@ -154,7 +154,7 @@ namespace CC.Connections.BL
                     return base.Update(dc, dc.EventAttendances);
                 }
             else
-                return base.Update(JsonDatabase.EventAttendances);
+                return base.Update(JsonDatabase.GetTable<PL.EventAttendance>());
         }
         public int Update()
         {
@@ -164,7 +164,7 @@ namespace CC.Connections.BL
                     return base.Update(dc, dc.EventAttendances);
                 }
             else
-                return base.Update(JsonDatabase.EventAttendances);
+                return base.Update(JsonDatabase.GetTable<PL.EventAttendance>());
         }
         public int Delete()
         {
@@ -176,7 +176,7 @@ namespace CC.Connections.BL
                     return base.Delete(dc, dc.EventAttendances);
                 }
             else
-                return base.Delete(JsonDatabase.EventAttendances);
+                return base.Delete(JsonDatabase.GetTable<PL.EventAttendance>());
         }
 
         public PL.EventAttendance GetPL()
@@ -197,7 +197,7 @@ namespace CC.Connections.BL
                     base.Add(new EventAttendee(c));
             }
             else
-                foreach (var c in JsonDatabase.EventAttendances.ToList())
+                foreach (var c in JsonDatabase.GetTable<PL.EventAttendance>().ToList())
                     base.Add(new EventAttendee(c));
         }
     }
@@ -248,14 +248,14 @@ namespace CC.Connections.BL
             }
             else
             {
-                if (JsonDatabase.EventAttendances.ToList().Count != 0)
+                if (JsonDatabase.GetTable<PL.EventAttendance>().ToList().Count != 0)
                 {
-                    List<PL.CharityEvent> debugList = JsonDatabase.CharityEvents.Where(c => c.ID == eventID).ToList();
-                    JsonDatabase.CharityEvents
+                    List<PL.CharityEvent> debugList = JsonDatabase.GetTable<PL.CharityEvent>().Where(c => c.ID == eventID).ToList();
+                    JsonDatabase.GetTable<PL.CharityEvent>()
                         .Where(c => c.ID == eventID).ToList()
                         .ForEach(b =>
                         {
-                            List<EventAttendance> attendances = JsonDatabase.EventAttendances
+                            List<EventAttendance> attendances = JsonDatabase.GetTable<PL.EventAttendance>()
                                 .Where(d => d.EventID == b.ID).ToList();
                             attendances.ForEach(eat =>
                                     base.Add(new EventAttendee(eat)));
@@ -276,9 +276,9 @@ namespace CC.Connections.BL
             }
             else
             {
-                foreach (var item in JsonDatabase.EventAttendances)
+                foreach (var item in JsonDatabase.GetTable<PL.EventAttendance>())
                     if (item.EventID == (Guid)base.joinGroupingID)
-                        JsonDatabase.EventAttendances.Remove(item);
+                        JsonDatabase.GetTable<PL.EventAttendance>().Remove(item);
                 JsonDatabase.SaveChanges();
                 this.Clear();
             }
@@ -295,7 +295,7 @@ namespace CC.Connections.BL
 
                 }
             else
-                JsonDatabase.EventAttendances.Add(evntAtt.GetPL());
+                JsonDatabase.GetTable<PL.EventAttendance>().Add(evntAtt.GetPL());
 
             this.Add(evntAtt);
         }
@@ -314,10 +314,10 @@ namespace CC.Connections.BL
                 }
             else
             {
-                foreach (var item in JsonDatabase.EventAttendances)
+                foreach (var item in JsonDatabase.GetTable<PL.EventAttendance>())
                     if (item.VolunteerEmail == email)
                     {
-                        JsonDatabase.EventAttendances.Remove(item);
+                        JsonDatabase.GetTable<PL.EventAttendance>().Remove(item);
                         break;
                     }
                 JsonDatabase.SaveChanges();

@@ -1,5 +1,4 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
 
@@ -22,7 +21,7 @@
 
 </head>
 @{ 
-    CC.Connections.BL.CategoryCollection categoryList = new CC.Connections.BL.CategoryCollection();
+    Doorfail.Connections.BL.CategoryCollection categoryList = new Doorfail.Connections.BL.CategoryCollection();
     try
     {
         categoryList.LoadUsed();
@@ -95,9 +94,9 @@
                                 {
                                     if (Request.IsLocal)
                                     {
-                            <li class="dropdown-item">@Html.ActionLink(((CC.Connections.BL.Password)Session["member"]).MemberType.ToString(), "ProfileView", "VolunteerProfile")</li>
+                            <li class="dropdown-item">@Html.ActionLink(((Doorfail.Connections.BL.Password)Session["member"]).MemberType.ToString(), "ProfileView", "VolunteerProfile")</li>
                                     }
-                                    if (((CC.Connections.BL.Password)Session["member"]).MemberType == CC.Connections.BL.MemberType.VOLLUNTEER)
+                                    if (((Doorfail.Connections.BL.Password)Session["member"]).MemberType == Doorfail.Connections.BL.MemberType.VOLLUNTEER)
                                     {
                                         <li class="dropdown-item">@Html.ActionLink("My Account", "ProfileView", "VolunteerProfile")</li>
                                     }

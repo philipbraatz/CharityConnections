@@ -1,4 +1,4 @@
-﻿using CC.Connections.BL;
+﻿using Doorfail.Connections.BL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace CC.Connections.API.Models
+namespace Doorfail.Connections.API.Models
 {
     public class AuthorizationHeaderhandler
         : DelegatingHandler

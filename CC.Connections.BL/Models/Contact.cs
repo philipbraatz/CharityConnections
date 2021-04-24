@@ -1,12 +1,12 @@
-﻿using CC.DataConnection;
-using CC.Connections.PL;
+﻿using Doorfail.DataConnection;
+using Doorfail.Connections.PL;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
-namespace CC.Connections.BL
+namespace Doorfail.Connections.BL
 {
     public class Contact : CrudModel_Json<PL.ContactInfo>
     {
@@ -70,7 +70,7 @@ namespace CC.Connections.BL
         public Contact(PL.ContactInfo entry) :
         base(entry){ }
         public Contact(string email,bool preloaded =true) :
-            base(JsonDatabase.ContactInfos,email, preloaded,"ContactInfo_Email")
+            base(JsonDatabase.GetTable<PL.ContactInfo>(),email, preloaded,"ContactInfo_Email")
         {
             MemberEmail = email;
             LoadId();
@@ -99,7 +99,7 @@ namespace CC.Connections.BL
                         return base.Insert(dc, dc.ContactInfoes) > 0;
                     }
                 else
-                    base.Insert(JsonDatabase.ContactInfos);
+                    base.Insert(JsonDatabase.GetTable<PL.ContactInfo>());
                 return true;
             }
             catch (Exception) { return false; }//probably already exists OR bad data
@@ -115,7 +115,7 @@ namespace CC.Connections.BL
                         return base.Delete(dc, dc.ContactInfoes);
                     }
                 else
-                    return base.Delete(JsonDatabase.ContactInfos);
+                    return base.Delete(JsonDatabase.GetTable<PL.ContactInfo>());
             }
             catch (Exception ) { throw; }
         }
@@ -131,7 +131,7 @@ namespace CC.Connections.BL
                         return base.Update(dc, dc.ContactInfoes);
                     }
                 else
-                    base.Update(JsonDatabase.ContactInfos);
+                    base.Update(JsonDatabase.GetTable<PL.ContactInfo>());
                 return 1;
             }
             catch (Exception ) { throw; }
@@ -156,14 +156,14 @@ namespace CC.Connections.BL
                         c.MemberEmail == this.MemberEmail);
                     if (entry == null)
                         throw new Exception("ContactInfo does not exist with Email \'" + this.MemberEmail+"\'" ) ;
-                    base.LoadId(JsonDatabase.ContactInfos);//TODO look into,Doesnt have a DBSet LoadId option
+                    base.LoadId(JsonDatabase.GetTable<PL.ContactInfo>());//TODO look into,Doesnt have a DBSet LoadId option
                 }
                 else{
-                    PL.ContactInfo entry = JsonDatabase.ContactInfos.FirstOrDefault(c =>
+                    PL.ContactInfo entry = JsonDatabase.GetTable<PL.ContactInfo>().FirstOrDefault(c =>
                        c.MemberEmail == this.MemberEmail);
                     if (entry == null)
                         throw new Exception("ContactInfo does not exist with Email \'" + this.MemberEmail + "\'");
-                    base.LoadId(JsonDatabase.ContactInfos);
+                    base.LoadId(JsonDatabase.GetTable<PL.ContactInfo>());
                 }
             }
             catch (Exception ) { throw; }
@@ -177,12 +177,12 @@ namespace CC.Connections.BL
 
                 if(false)
                 using (CCEntities dc = new CCEntities()){
-                    entry.LoadId(JsonDatabase.ContactInfos,memberContact_ID);//TODO look into,Doesnt have a DBSet LoadId option
+                    entry.LoadId(JsonDatabase.GetTable<PL.ContactInfo>(),memberContact_ID);//TODO look into,Doesnt have a DBSet LoadId option
                         return entry;
                 }
                 else
                 {
-                    entry.LoadId(JsonDatabase.ContactInfos, memberContact_ID);
+                    entry.LoadId(JsonDatabase.GetTable<PL.ContactInfo>(), memberContact_ID);
                     return entry;
                 }
             }
@@ -210,10 +210,10 @@ namespace CC.Connections.BL
             if (false)
                 using (CCEntities dc = new CCEntities())
                 {
-                    base.LoadAll(JsonDatabase.ContactInfos);//TODO look into,Doesnt have a DBSet LoadId option
+                    base.LoadAll(JsonDatabase.GetTable<PL.ContactInfo>());//TODO look into,Doesnt have a DBSet LoadId option
                 }
             else
-                base.LoadAll(JsonDatabase.ContactInfos);
+                base.LoadAll(JsonDatabase.GetTable<PL.ContactInfo>());
         }
     }
 }

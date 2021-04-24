@@ -1,10 +1,10 @@
-﻿using CC.Connections.PL;
+﻿using Doorfail.Connections.PL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 #pragma warning disable CA1707 // Identifiers should not contain underscores
-namespace CC.Connections.BL
+namespace Doorfail.Connections.BL
 {
     public enum SortBy
     {

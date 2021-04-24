@@ -13,8 +13,8 @@
     <ProjectGuid>{F4CC55D1-6BA6-4AA9-8FF6-D245F1B64101}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CC.Connections.BL</RootNamespace>
-    <AssemblyName>CC.Connections.BL</AssemblyName>
+    <RootNamespace>Doorfail.Connections.BL</RootNamespace>
+    <AssemblyName>Doorfail.Connections.BL</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -95,9 +95,9 @@
       <Project>{5092b2fa-c711-4102-9d62-2b34c6f44395}</Project>
       <Name>Doorfail.DataConnection</Name>
     </ProjectReference>
-    <ProjectReference Include="..\CC.Connections.PL\CC.Connections.PL.csproj">
+    <ProjectReference Include="..\CC.Connections.PL\Doorfail.Connections.PL.csproj">
       <Project>{754d3507-7b50-49b2-bc6b-2881cd7a2084}</Project>
-      <Name>CC.Connections.PL</Name>
+      <Name>Doorfail.Connections.PL</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

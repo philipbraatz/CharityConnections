@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using CC.Connections.PL;
+using Doorfail.Connections.PL;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.IO;
 
-namespace CC.DataConnection
+namespace Doorfail.DataConnection
 {
 
     //PropertyInfo with custom info
@@ -308,22 +308,12 @@ namespace CC.DataConnection
         {
             try
             {
-                if (isDbSet())
-                    foreach (var col in table)
-                    {
-                        //instance = where( entry in the table == this ID)
-                        if (ID.Equals(getValue(col, properties[0].p.Name)))
-                            ((DbSet<TEntity>)(Object)table).Remove(col);
-                    }
-                else if (isList())
-                    foreach (var col1 in table)
-                    {
-                        //instance = where( entry in the table == this ID)
-                        if (ID.Equals(getValue(col1, properties[0].p.Name)))
-                            ((List<TEntity>)(Object)table).Remove(col1);
-                    }
-                else
-                    ThrowInvalidTTable();
+                foreach (var col in table)
+                {
+                    //instance = where( entry in the table == this ID)
+                    if (ID.Equals(getValue(col, properties[0].p.Name)))
+                        table.Remove(col);
+                }
 
                 int changes = dc.SaveChanges();
                 if (changes == 0)
@@ -341,7 +331,7 @@ namespace CC.DataConnection
                     //instance = where( entry in the table == this ID)
                     if (ID.Equals(getValue(col, properties[0].p.Name)))
                         table.Remove(col);
-               JsonDatabase.SaveChanges();
+               JsonDatabase.SaveChanges(table);
                 return 1;
             }
             catch (Exception e) { throw e; }
@@ -423,7 +413,7 @@ namespace CC.DataConnection
                 ((List<TEntity>)(Object)table).Add(instance);
 
                 //dc.Categories.Add(this);
-                JsonDatabase.SaveChanges();
+                JsonDatabase.SaveChanges(table);
                 return 1;
             }
             catch (Exception e) { throw e; }
@@ -510,9 +500,8 @@ namespace CC.DataConnection
             }
             catch (Exception e)
             {
-                JsonDatabase.CreateJsonDatabase(new CCEntities());
                 //throw e;
-                return table.First();
+                return table.First();//bad way to do things
             }
         }
 
@@ -551,7 +540,7 @@ namespace CC.DataConnection
                                 getValue(instance, c.p.Name)  //to current instance
                             );
                     } 
-                JsonDatabase.SaveChanges();
+                JsonDatabase.SaveChanges(table);
                 return 1;
             }
             catch (Exception e) { throw e; }
