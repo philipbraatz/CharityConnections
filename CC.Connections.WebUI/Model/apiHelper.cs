@@ -19,7 +19,7 @@ namespace Doorfail.Connections.WebUI
         public string StackTrace;
     }
 
-    public class apiHelper
+    public static class apiHelper
     {
         private static HttpClient httpClient = InitializeClient();//TODO enable secure version
         //private static HttpClient InitializeClient(apiPassword apiPassword)
@@ -147,7 +147,7 @@ namespace Doorfail.Connections.WebUI
         {
             HttpClient client = httpClient;
             
-            var res = Task.Run(async () => await client.GetStringAsync("values")).Result;
+            var res = Task.Run(async () => await client.GetStringAsync("values").ConfigureAwait(false)).Result;
 
             return (JsonConvert.DeserializeObject<String>(//Json to Object of the
                 res

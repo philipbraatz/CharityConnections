@@ -52,6 +52,7 @@
     @if (Session["member"] != null && ((Doorfail.Connections.BL.Password)Session["member"]).MemberType == Doorfail.Connections.BL.MemberType.CHARITY)
     {
         @Html.ActionLink("Edit Profile", "Edit", "Charity", new { id = Model.Email.Replace('.','-') }, new { @class = "btn-outline-primary btn-lg" });
+        @Html.ActionLink("My Events", "CharityView", "CharityEvent", new { id = Model.Email.Replace('.', '-') }, new { @class = "btn-outline-primary btn-lg" });
     }
 </div>
 

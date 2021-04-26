@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="apiPassword.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\CharityEvent.cs" />
     <Compile Include="Models\Charity.cs" />

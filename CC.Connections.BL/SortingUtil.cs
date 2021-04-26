@@ -24,19 +24,21 @@ namespace Doorfail.Connections.BL
 
     public class Filterer
     {
-        public List<Charity> filterCharities = new List<Charity>();
-        public List<CharityEvent> filterEvents = new List<CharityEvent>();
         public static readonly List<Guid> NONE_GUID = new List<Guid>();
         public static readonly List<string> NONE_STR = new List<string>();
-        public void FillFilter(List<Charity> charities) { filterCharities = charities; }
-        public void FillFilter(List<CharityEvent> charities) { filterEvents = charities; }
+
+        public List<Charity> FilterCharities { get; set; } = new List<Charity>();
+        public List<CharityEvent> FilterEvents { get; set; } = new List<CharityEvent>();
+
+        public void FillFilter(List<Charity> charities) { FilterCharities = charities; }
+        public void FillFilter(List<CharityEvent> charities) { FilterEvents = charities; }
 
         public int Whitelist_from_Preferences(Volunteer member_preferences)
         {
             int size = 0;
-            if (filterCharities.Count > 0)
+            if (FilterCharities.Count > 0)
                 size += CutCharitiesByPreferences(member_preferences);
-            if (filterEvents.Count > 0)
+            if (FilterEvents.Count > 0)
                 size += CutEventByPreferences(member_preferences);
             return size;
         }
@@ -44,31 +46,31 @@ namespace Doorfail.Connections.BL
         public int Whitelist_Remaining(bool deductable)
         {
             int size = 0;
-            if (filterCharities.Count > 0)
+            if (FilterCharities.Count > 0)
                 size += CutCharitiesWithFilter(NONE_GUID, NONE_GUID, new Location(), null, null, deductable);
-            if (filterEvents.Count > 0)
+            if (FilterEvents.Count > 0)
                 size += CutEventsByFilter(NONE_GUID, NONE_GUID, NONE_STR, new Location(), null, null, null, deductable);
             return size;
         }
         public int Whitelist_Remaining(List<Guid> category, List<Guid> HelpingAction)
         {
             int size = 0;
-            if (filterCharities.Count > 0)
+            if (FilterCharities.Count > 0)
                 size += CutCharitiesWithFilter(category, HelpingAction, new Location(), null, null, null);
-            if (filterEvents.Count > 0)
+            if (FilterEvents.Count > 0)
                 size += CutEventsByFilter(category, HelpingAction, NONE_STR, new Location(), null, null, null, null);
             return size;
         }
         public int Whitelist_Remaining_Events(List<String> charity)
         {
-            if (filterEvents.Count > 0)
+            if (FilterEvents.Count > 0)
                 return CutEventsByFilter(NONE_GUID, NONE_GUID, charity, new Location(), null, null, null, null);
             else
                 return 0;
         }
         public int Whitelist_Remaining_Events(List<Guid> category, List<String> charity, List<Guid> HelpingAction)
         {
-            if (filterEvents.Count > 0)
+            if (FilterEvents.Count > 0)
                 return CutEventsByFilter(category, HelpingAction, charity, new Location(), null, null, null, null);
             else
                 return 0;
@@ -76,15 +78,15 @@ namespace Doorfail.Connections.BL
         public int Whitelist_Remaining(Location location, double distance)
         {
             int size = 0;
-            if (filterCharities.Count > 0)
+            if (FilterCharities.Count > 0)
                 size += CutCharitiesWithFilter(NONE_GUID, NONE_GUID, location, distance, null, null);
-            if (filterEvents.Count > 0)
+            if (FilterEvents.Count > 0)
                 size += CutEventsByFilter(NONE_GUID, NONE_GUID, NONE_STR, location, distance, null, null, null);
             return size;
         }
         public int Whitelist_Remaining(DateTime? start, DateTime? end)
         {
-            if (filterEvents.Count > 0)
+            if (FilterEvents.Count > 0)
                 return CutEventsByFilter(NONE_GUID, NONE_GUID, NONE_STR, new Location(), null, start, end, null);
             else
                 return 0;
@@ -94,37 +96,37 @@ namespace Doorfail.Connections.BL
                                          bool? deductable)
         {
             int size = 0;
-            if (filterCharities.Count > 0)
+            if (FilterCharities.Count > 0)
                 size += CutCharitiesWithFilter(category, helpingAction, location, distance, null, deductable);
-            if (filterEvents.Count > 0)
+            if (FilterEvents.Count > 0)
                 size += CutEventsByFilter(NONE_GUID, NONE_GUID, NONE_STR, location, distance, null, null, null);
             return size;
         }
         public int Whitelist_Remaining_Events(List<Guid> category, List<Guid> helpingAction, List<string> charity,
                                     Location location, double? distance,
                                     DateTime? start, DateTime? end, bool? deductable)
-        {
-            return CutEventsByFilter(category, helpingAction, charity, location, distance, start, end, deductable);
-        }
+        => CutEventsByFilter(category, helpingAction, charity, location, distance, start, end, deductable);
 
         public List<Charity> GetRemainingCharities()
         {
-            return filterCharities;
+            return FilterCharities;
         }
         public List<CharityEvent> GetRemainingEvents()
         {
-            return filterEvents;
+            return FilterEvents;
         }
 
         private int CutEventsByFilter(List<Guid> category, List<Guid> helpingAction, List<String> charity,
                                         Location location, double? distance,
                                         DateTime? start, DateTime? end, bool? deductable)
         {
+            DataConnection.Guard.ThrowIfNull(new { category, helpingAction, charity, location});
+
             List<CharityEvent> events = new List<CharityEvent>();
             using (CCEntities dc = new CCEntities())
             {
                 if (dc.CharityEvents.ToList().Count != 0)
-                    foreach (var c in filterEvents)
+                    foreach (var c in FilterEvents)
                     {
                         bool valid = true;
                         string debugInvalidator = "";
@@ -208,20 +210,23 @@ namespace Doorfail.Connections.BL
                         }
                     }
             }
-            filterEvents = events;
-            return filterEvents.Count;
+            FilterEvents = events;
+            return FilterEvents.Count;
         }
 
         //TODO add more user preference properties ------------------------------------------------
         public int CutEventByPreferences(Volunteer userPref)
         {
+            if (userPref is null)
+                throw new ArgumentNullException(nameof(userPref));
+
             try
             {
                 List<CharityEvent> events = new List<CharityEvent>();
                 using (CCEntities dc = new CCEntities())
                 {
                     if (dc.CharityEvents.ToList().Count != 0)
-                        foreach (var c in filterEvents)
+                        foreach (var c in FilterEvents)
                         {
                             bool valid = true;
                             string debugInvalidator = "";
@@ -322,8 +327,8 @@ namespace Doorfail.Connections.BL
                             }
                         }
                 }
-                filterEvents = events;
-                return filterEvents.Count;
+                FilterEvents = events;
+                return FilterEvents.Count;
             }
             catch (Exception) { throw; }
         }
@@ -404,8 +409,8 @@ namespace Doorfail.Connections.BL
                         }
                     }
             }
-            filterCharities = charities;
-            return filterCharities.Count;
+            FilterCharities = charities;
+            return FilterCharities.Count;
         }
 
         public int CutCharitiesByPreferences(Volunteer userPref)
@@ -522,8 +527,8 @@ namespace Doorfail.Connections.BL
                             }
                         }
                 }
-                filterCharities = charities;
-                return filterCharities.Count;
+                FilterCharities = charities;
+                return FilterCharities.Count;
             }
             catch (Exception) { throw; }
         }

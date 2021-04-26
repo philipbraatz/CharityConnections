@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using Doorfail.Connections.BL;
@@ -82,7 +83,8 @@ namespace Doorfail.Connections.WebUI.Controllers
                     ViewBag.Message = "You must be older than 13 years old";
                     return View(con);
                 }
-                else if (!(con.Email.Contains('@') && con.Email.Contains('.') && con.Email.Length > 6))
+                else if (!(Regex.IsMatch(con.ContactInfo.MemberEmail,
+                    "/ ^w +[+.w -] *@([w -] +.) * w +[w -] *.([a - z]{ 2,4}| d +)$/ i") && con.Email.Length > 6))
                 {
                     ViewBag.Message = "Email is invalid";
                     return View(con);
@@ -100,6 +102,12 @@ namespace Doorfail.Connections.WebUI.Controllers
                 else if (con.ContactInfo.LName.Trim().Length < 3)
                 {
                     ViewBag.Message = "Last name must be at least 3 characters long";
+                    return View(con);
+                }
+                else if(Regex.IsMatch(con.ContactInfo.Phone,
+                    @"^([\(]{ 1}[0 - 9]{ 3}[\)]{ 1}[\.| |\-]{ 0,1}| ^[0 - 9]{ 3}[\.|\-| ]?)?[0 - 9]{ 3} (\.|\-| )?[0 - 9]{ 4}$"))
+                {
+                    ViewBag.Message = "Not a valid phone number";
                     return View(con);
                 }
                 apiHelper.update<Contact>(con.ContactInfo);

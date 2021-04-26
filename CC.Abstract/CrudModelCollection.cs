@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Doorfail.Connections.PL;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using Doorfail.Connections.PL;
 using System.Reflection;
 
 namespace Doorfail.DataConnection
@@ -22,12 +22,12 @@ namespace Doorfail.DataConnection
     CrudModelCollection<Tcrud, TEntity, DbSet<TEntity>>
     where TEntity : class
     where Tcrud : CrudModel_Sql<TEntity>
-    {}
+    { }
 
     public class CrudModelCollection<Tcrud, TEntity, TTable> : List<Tcrud>
         where TEntity : class//database table
         where TTable : IEnumerable<TEntity>//Dbset or List
-        where Tcrud : CrudModel<TEntity,TTable>//BL version
+        where Tcrud : CrudModel<TEntity, TTable>//BL version
     {
         protected PropertyInfo[] properties { get; set; }
 
@@ -42,18 +42,16 @@ namespace Doorfail.DataConnection
         //}
 
         //to be used with LoadAll to convert from api EntityArray back to Collection
-        public static explicit operator CrudModelCollection<Tcrud,TEntity,TTable>(Tcrud[] t)
+        public static explicit operator CrudModelCollection<Tcrud, TEntity, TTable>(Tcrud[] t)
         {
             if (t is null)
                 return null;
 
-            CrudModelCollection<Tcrud, TEntity,TTable> ret = new CrudModelCollection<Tcrud, TEntity,TTable>();
+            CrudModelCollection<Tcrud, TEntity, TTable> ret = new CrudModelCollection<Tcrud, TEntity, TTable>();
             ret.AddRange(t);
             return ret;
         }
 
-
-        //TODO needs testing
         public Tcrud[] LoadAll(TTable table)
         {
             this.Clear();

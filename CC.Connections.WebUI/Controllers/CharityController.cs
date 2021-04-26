@@ -16,6 +16,8 @@ namespace Doorfail.Connections.WebUI.Controllers
         // GET: Charity Profile
         public ActionResult Details(string id)
         {
+            if (string.IsNullOrEmpty(id))
+                throw new ArgumentNullException(nameof(id));
             id = id.Replace('-', '.');
             if(id == null)
             {
@@ -38,6 +40,9 @@ namespace Doorfail.Connections.WebUI.Controllers
         [ChildActionOnly]
         public ActionResult DetailsPartial(string id)
         {
+            if (string.IsNullOrEmpty(id))
+                throw new ArgumentNullException(nameof(id));
+
             id = id.Replace('-', '.');
             if (id == null)
             {

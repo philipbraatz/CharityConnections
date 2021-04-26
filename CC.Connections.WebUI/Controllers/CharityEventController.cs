@@ -98,6 +98,42 @@ namespace Doorfail.Connections.WebUI.Controllers
             return View("Index",allEvents);
         }
 
+        // GET: CharityEvent/CharityView/2
+        public ActionResult CharityView(string id)
+        {
+            Charity c =new Charity((Password)Session["member"]);
+            ViewBag.Title =  c.Name;
+
+            //load
+            CharityEventCollection allEvents = (CharityEventCollection)apiHelper.getAll<CharityEvent>();
+            if (Session != null && Session["charityEvents"] != null)
+            {
+                allEvents = ((CharityEventCollection)Session["charityEvents"]);
+                allEvents.Filter(id, SortBy.CHARITY);
+                if (allEvents.Count != CharityEventCollection.getCount())//reload to catch missing
+                {
+                    allEvents.LoadWithFilter(id, SortBy.CHARITY);
+                    if (Session != null && Session["member"] != null && ((Password)Session["member"]).MemberType == MemberType.VOLLUNTEER)
+                        foreach (var ev in allEvents)
+                            ev.Member_Attendance = apiHelper.getAction<EventAttendee>("GetEmail", ev.ID);
+                }
+            }
+            else
+            {
+                //convert to Model
+                allEvents = new CharityEventCollection();
+                allEvents.LoadWithFilter(id, SortBy.CHARITY);
+                if (Session != null && Session["member"] != null && ((Password)Session["member"]).MemberType == MemberType.VOLLUNTEER)
+                    foreach (var ev in allEvents)
+                        ev.Member_Attendance = apiHelper.getAction<EventAttendee>("GetEmail", ev.ID);
+
+                //save
+                Session["charityEvents"] = allEvents;
+            }
+
+            return View("Index", allEvents);
+        }
+
         // GET: CharityEvent/Details/5
         public ActionResult Details(Guid id)
         {

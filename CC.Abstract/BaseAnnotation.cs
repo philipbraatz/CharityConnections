@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Doorfail.DataConnection
 {
     [AttributeUsage(AttributeTargets.Property)]
     public class BaseAttribute : Attribute
     {
-        public dynamic GetDynamic<TEntity,TTable>(CrudModel<TEntity,TTable> model,MethodBase mb)
+        public dynamic GetDynamic<TEntity, TTable>(CrudModel<TEntity, TTable> model, MethodBase mb)
             where TEntity : class
             where TTable : IEnumerable<TEntity>
         {

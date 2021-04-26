@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Doorfail.Connections.BL;
@@ -104,7 +105,6 @@ namespace Doorfail.Connections.WebUI.Controllers
 
                 return View(passValue);
             }
-            RedirectToAction("index", "home");
         }
 
         [HttpPost]
@@ -223,11 +223,12 @@ namespace Doorfail.Connections.WebUI.Controllers
                     ViewBag.Message = "Email is invalid";
                     return View(csu);
                 }
-                else if (false)//TODO check for valid phone number
-                {
-                    ViewBag.Message = "Phone number is invalid";
-                    return View(csu);
-                }
+                //else if (Regex.IsMatch(csu.ContactInfo.Phone,
+                //    @"^([\(]{ 1}[0 - 9]{ 3}[\)]{ 1}[\.| |\-]{ 0,1}| ^[0 - 9]{ 3}[\.|\-| ]?)?[0 - 9]{ 3} (\.|\-| )?[0 - 9]{ 4}$"))
+                //{
+                //    ViewBag.Message = "Not a valid phone number";
+                //    return View(csu);
+                //}
                 else if(string.IsNullOrEmpty(csu.Value))
                 { 
                     ViewBag.Message = "You did not select a category";

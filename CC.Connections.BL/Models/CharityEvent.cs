@@ -522,14 +522,16 @@ namespace Doorfail.Connections.BL
                     filter.Whitelist_Remaining_Events(new List<Guid> { (Guid)id }, new List<string>(), new List<Guid>());
                     this.Clear();
                     foreach (var item in filter.GetRemainingEvents())
-                    {
                         this.Add(item);
-                    }
                     break;
                 case SortBy.HelpingAction:
                     throw new NotImplementedException();
                 case SortBy.CHARITY:
-                    throw new NotImplementedException();
+                    filter.Whitelist_Remaining_Events(new List<Guid>(), new List<String> { (String)id }, new List<Guid>());
+                    this.Clear();
+                    foreach (var item in filter.GetRemainingEvents())
+                        this.Add(item);
+                    break;
                 default:
                     throw new Exception("Cannot use id Filterer to Sort By " + sort.GetType().GetEnumName(sort));
             }

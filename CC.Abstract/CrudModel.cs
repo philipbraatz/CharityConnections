@@ -1,11 +1,10 @@
-﻿using System;
+﻿using Doorfail.Connections.PL;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using Doorfail.Connections.PL;
 using System.Reflection;
 using System.Runtime.Serialization;
-using System.IO;
 
 namespace Doorfail.DataConnection
 {
@@ -30,7 +29,7 @@ namespace Doorfail.DataConnection
                 JsonDatabase.LoadDatabase();
             }
             p = info;
-            loadPropertyMax( entity);
+            loadPropertyMax(entity);
         }
         public PropertyDB_Info(PropertyInfo info) => p = info;
 
@@ -53,14 +52,14 @@ namespace Doorfail.DataConnection
     public class PropertyException : Exception
     {
         public PropertyException() : base() { }
-        public PropertyException(Type tEntity,string propertyName) : base(tEntity + " does not have the property " + propertyName)
-        {}
+        public PropertyException(Type tEntity, string propertyName) : base(tEntity + " does not have the property " + propertyName)
+        { }
 
-        public PropertyException(Type tEntity, string propertyName, Exception innerException) : base(tEntity + " does not have the property " + propertyName,innerException)
+        public PropertyException(Type tEntity, string propertyName, Exception innerException) : base(tEntity + " does not have the property " + propertyName, innerException)
         { }
 
         protected PropertyException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {}
+        { }
     }
 
     public class CrudModel_Json<TEntity> : CrudModel<TEntity, List<TEntity>>
@@ -112,8 +111,8 @@ namespace Doorfail.DataConnection
         }
     }
 
-    public class CrudModel<TEntity, TTable> 
-        where TEntity : class 
+    public class CrudModel<TEntity, TTable>
+        where TEntity : class
         where TTable : IEnumerable<TEntity>
     {
         //the ID is what ever parameter is first in the class
@@ -176,7 +175,7 @@ namespace Doorfail.DataConnection
             else
                 throw new PropertyException(typeof(TEntity), propertyName);
         }
-        protected void setProperty(string propertyName, object value, bool forceInt =true)
+        protected void setProperty(string propertyName, object value, bool forceInt = true)
         {
             setProperty(propertyName, (int)value);
         }
@@ -185,10 +184,10 @@ namespace Doorfail.DataConnection
 
             try
             {
-                PropertyDB_Info<TEntity> propinf = properties.Where(c=> c.p.Name == propertyName).FirstOrDefault();
+                PropertyDB_Info<TEntity> propinf = properties.Where(c => c.p.Name == propertyName).FirstOrDefault();
                 Type propType = value?.GetType() ?? propinf.p.PropertyType;
                 if (propinf == null)
-                    throw new PropertyException(typeof(TEntity),propertyName);
+                    throw new PropertyException(typeof(TEntity), propertyName);
 
 
 
@@ -198,57 +197,58 @@ namespace Doorfail.DataConnection
                     if (value == null)
                         propinf.p.SetValue(instance, null);//deal with null right away
                     else switch (propType.Name)
-                    {
-                        case "Nullable`1"://some weird type, TODO research nullable propType
-                            Type[] propGeneric = propType.GenericTypeArguments;
+                        {
+                            case "Nullable`1"://some weird type, TODO research nullable propType
+                                Type[] propGeneric = propType.GenericTypeArguments;
 
-                            if (propGeneric.Length > 0)
-                            {
+                                if (propGeneric.Length > 0)
+                                {
 
-                                if (propGeneric[0].Name == "DateTime")
-                                    propinf.p.SetValue(instance, (DateTime)value);
-                                else if (propGeneric[0].Name == "Guid")
-                                    propinf.p.SetValue(instance, (Guid)value);
+                                    if (propGeneric[0].Name == "DateTime")
+                                        propinf.p.SetValue(instance, (DateTime)value);
+                                    else if (propGeneric[0].Name == "Guid")
+                                        propinf.p.SetValue(instance, (Guid)value);
+                                    else
+                                        propinf.p.SetValue(instance, value);
+                                }
+
                                 else
                                     propinf.p.SetValue(instance, value);
-                            }
-
-                            else
-                                propinf.p.SetValue(instance, value);
-                            break;
-                        case "String":
-                            if(((string)value).Length > propinf.max)//get property index equal to current property to compare sized
-                            {
-                                propinf.p.SetValue(instance, ((string)value));//.Substring(0, propinf.max - 1));//cut of larger values (zero based)
-                                break;//only break if proper length string
-                            }
-                            break;
-                        case "Uri":
-                            propinf.p.SetValue(instance, ((Uri)value).OriginalString);
-                            break;
-                        default:
-                            propinf.p.SetValue(instance, value);//yolo and hope it works
-                            break;
-                    }
+                                break;
+                            case "String":
+                                if (((string)value).Length > propinf.max)//get property index equal to current property to compare sized
+                                {
+                                    propinf.p.SetValue(instance, ((string)value));//.Substring(0, propinf.max - 1));//cut of larger values (zero based)
+                                    break;//only break if proper length string
+                                }
+                                break;
+                            case "Uri":
+                                propinf.p.SetValue(instance, ((Uri)value).OriginalString);
+                                break;
+                            default:
+                                propinf.p.SetValue(instance, value);//yolo and hope it works
+                                break;
+                        }
                 }
                 else
                     throw new PropertyException(typeof(TEntity), propertyName);
             }
-            catch (Exception e) { 
-                if(true)
-                throw new Exception(typeof(TEntity) +": "+e.Message);
+            catch (Exception e)
+            {
+                if (true)
+                    throw new Exception(typeof(TEntity) + ": " + e.Message);
             }
         }
 
-        protected CrudModel<TEntity,TTable> getInstance() => this;
+        protected CrudModel<TEntity, TTable> getInstance() => this;
 
         private bool isDbSet() => typeof(TTable) == typeof(DbSet<TEntity>);
         private bool isList() => typeof(TTable) == typeof(List<TEntity>);
 
-        private void ThrowInvalidTTable() 
+        private void ThrowInvalidTTable()
             => throw new NotImplementedException("CrudModel does not support " + typeof(TTable));
 
-        protected void createInstance() => 
+        protected void createInstance() =>
             createInstance((TEntity)Activator.CreateInstance(typeof(TEntity), new object[] { }));
         protected void createInstance(TEntity entry)
         {
@@ -281,7 +281,7 @@ namespace Doorfail.DataConnection
         //create from exist instance
         public CrudModel(TEntity entry) => createInstance(entry);
         //load from database
-        public CrudModel(TTable table, object id,bool preload = false,string load_AlternativeField = "")
+        public CrudModel(TTable table, object id, bool preload = false, string load_AlternativeField = "")
         {
             try
             {
@@ -294,8 +294,8 @@ namespace Doorfail.DataConnection
                 else
                     throw new Exception("Could not connect to database: " + e.InnerException.Message);
             }
-            if(!preload)
-                LoadId(table, id,load_AlternativeField);
+            if (!preload)
+                LoadId(table, id, load_AlternativeField);
         }
 
         public void Clear()
@@ -331,13 +331,13 @@ namespace Doorfail.DataConnection
                     //instance = where( entry in the table == this ID)
                     if (ID.Equals(getValue(col, properties[0].p.Name)))
                         table.Remove(col);
-               JsonDatabase.SaveChanges(table);
+                JsonDatabase.SaveChanges(table);
                 return 1;
             }
             catch (Exception e) { throw e; }
         }
 
-        protected static bool Exists(TTable table,CrudModel<TEntity,TTable> instance)
+        protected static bool Exists(TTable table, CrudModel<TEntity, TTable> instance)
         {
             foreach (var col in table)
                 if (instance.ID.Equals(instance.getValue(col, instance.properties[0].p.Name)))
@@ -352,7 +352,7 @@ namespace Doorfail.DataConnection
                 //List<TEntity> tlist = table.ToList();
 
                 //Set new ID based off of id type
-                if(properties[0].p.GetValue(instance) is Guid)
+                if (properties[0].p.GetValue(instance) is Guid)
                     ID = Guid.NewGuid();
                 else if (properties[0].p.GetValue(instance) is int)//gets type int
                     if (table.ToList().Count > 0)
@@ -360,7 +360,7 @@ namespace Doorfail.DataConnection
                         //only works when ID is int and database orders
                         TEntity entity = table.ToList().LastOrDefault();
                         PropertyInfo id_prop = entity.GetType().GetProperty(properties[0].p.Name, typeof(int));
-                        ID = (int)id_prop.GetValue(entity) +1;
+                        ID = (int)id_prop.GetValue(entity) + 1;
                     }
                     else
                         ID = 0;
@@ -371,7 +371,7 @@ namespace Doorfail.DataConnection
                         throw new Exception("ID cannot be blank");
                 }
                 else
-                    throw new Exception("ID of type "+ properties[0].p.GetValue(instance).GetType().Name+" is not supported");
+                    throw new Exception("ID of type " + properties[0].p.GetValue(instance).GetType().Name + " is not supported");
 
                 if (isDbSet())
                     ((DbSet<TEntity>)(Object)table).Add(instance);
@@ -419,7 +419,7 @@ namespace Doorfail.DataConnection
             catch (Exception e) { throw e; }
         }
 
-        protected void LoadId(TTable table, object id,string load_AlternativeField = "")
+        protected void LoadId(TTable table, object id, string load_AlternativeField = "")
         {
             //Set property then call self again
             if (load_AlternativeField == string.Empty)
@@ -429,13 +429,11 @@ namespace Doorfail.DataConnection
             }
             else
             {
-                setProperty(load_AlternativeField,id);
+                setProperty(load_AlternativeField, id);
                 LoadId(table, load_AlternativeField);
             }
         }
 
-        //any property that cant be null should be put in here
-        //TODO make abstract list of nonnullable values
         private void CleanNulls()
         {
             foreach (var p in properties)
@@ -451,7 +449,7 @@ namespace Doorfail.DataConnection
                     }
         }
 
-        protected TEntity LoadId(TTable table,string propName="_Default")
+        protected TEntity LoadId(TTable table, string propName = "_Default")
         {
             if (propName == "_Default")
                 propName = (string)properties[0].p.Name;
@@ -509,7 +507,7 @@ namespace Doorfail.DataConnection
         {
             try
             {
-                if (!Exists((TTable)(Object)table,this))
+                if (!Exists((TTable)(Object)table, this))
                     throw new Exception("ID does not exist in table");
 
                 foreach (var col in table)
@@ -539,7 +537,7 @@ namespace Doorfail.DataConnection
                             setValue(col, c.p.Name,            //set table column
                                 getValue(instance, c.p.Name)  //to current instance
                             );
-                    } 
+                    }
                 JsonDatabase.SaveChanges(table);
                 return 1;
             }
