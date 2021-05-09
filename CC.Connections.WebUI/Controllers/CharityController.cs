@@ -16,52 +16,53 @@ namespace Doorfail.Connections.WebUI.Controllers
         // GET: Charity Profile
         public ActionResult Details(string id)
         {
-            if (string.IsNullOrEmpty(id))
-                throw new ArgumentNullException(nameof(id));
-            id = id.Replace('-', '.');
-            if(id == null)
+            try {
+                Charity dCharity = apiHelper.getEmail<Charity>(id);//apiHelper.getEmail<Charity>(id);
+                if (dCharity == null)
+                {
+                    ViewBag.Message = "That Charity does not exist";
+                    return View();
+                }
+                return View(dCharity);
+            }
+            catch(Exception)
             {
                 return RedirectToAction("Index");//returns you if you enter empty id
             }
 
-            Charity dCharity = JsonDatabase.GetTable<PL.Charity>().Where(c => c.CharityEmail == id).FirstOrDefault();//apiHelper.getEmail<Charity>(id);
-            //} catch(Exception e)
-            //{
-            //    throw e;
-            //}
-            if (dCharity == null)
-            {
-                ViewBag.Message = "That Charity does not exist";
-                return View();
-            }
-            return View(dCharity);
+           
         }
 
         [ChildActionOnly]
         public ActionResult DetailsPartial(string id)
         {
-            if (string.IsNullOrEmpty(id))
-                throw new ArgumentNullException(nameof(id));
-
-            id = id.Replace('-', '.');
-            if (id == null)
-            {
+            try {
+                Charity dCharity = apiHelper.getEmail<Charity>(id);
+                if (dCharity == null)
+                {
+                    ViewBag.Message = "That Charity does not exist";
+                    return PartialView();
+                }
+                return PartialView(dCharity);
+            }
+            catch (Exception e){
+                ViewBag.Message = e.Message;
                 return PartialView();
             }
-            Charity dCharity = apiHelper.getEmail<Charity>(id);
-            if (dCharity == null)
-            {
-                ViewBag.Message = "That Charity does not exist";
-                return PartialView();
-            }
-            return PartialView(dCharity);
+            
         }
 
         public ActionResult CharityProfile()
         {
-            if (Session != null && Session["member"] != null && ((Password)Session["Member"]).MemberType == MemberType.CHARITY)
+            if (SessionUtil.GetMemberType(Session) == MemberType.CHARITY)
             {
-                Charity c = new Charity(((Password)Session["Member"]));
+                try
+                {
+                    Charity c = apiHelper.fromPassword<Charity>((Password)Session["Member"]);//new Charity(((Password)Session["Member"]));
+                } catch(HttpUnhandledException e)
+                {
+                    Content(e.Message);
+                }
                 return RedirectToAction("Details",new { 
                     id = ((Password)Session["Member"]).email.Replace('.','-')
                 });
@@ -72,57 +73,27 @@ namespace Doorfail.Connections.WebUI.Controllers
                 return RedirectToAction("Index", "Home");//go to index
         }
 
-
+        
         // GET: List of Charities
         public ActionResult Index()
         {
-            if (ViewBag.Title == null)
+            if (ViewBag.Title == null)//Check if filtering
                 ViewBag.Title = "Charities";
 
-            //load
-            dynamic testDumb = (CharityCollection)apiHelper.getAll<Charity>();
-            CharityCollection allCharities = testDumb;
-            if (Session != null && Session["charities"] != null)
-            {
-                allCharities = ((CharityCollection)Session["charities"]);
-                if (allCharities.Count != CharityCollection.getCount())//reload to catch missing
-                    allCharities.LoadAll();
-            }
-            else
-            {
-                //convert to Model
-                allCharities = (CharityCollection)apiHelper.getAll<Charity>() ?? new CharityCollection();
-                allCharities.LoadAll();
-                //save
-                Session["charities"] = allCharities;
-            }
-
-            return View(allCharities);
+            Session["charities"] = SessionUtil.GetList<Charity>(Session,"charities").ToArray();
+            return View(Session["charities"]);
         }
 
         // GET: CharityEvent/CategoryView/2
         public ActionResult CategoryView(Guid id)
         {
-            ViewBag.Title = new Category(id).Desc;
+            Category cat = apiHelper.getOne<PL.Category>(id);
+            ViewBag.Title = cat.Desc;// new Category(id).Desc;
 
             //load
-            CharityCollection allCharities = new CharityCollection();
-            if (Session != null && Session["charityList"] != null)
-            {
-                allCharities = ((CharityCollection)Session["charityList"]);//TODO have all views use Session for speed increase
-                allCharities.Filter(id, SortBy.CATEGORY);
-                if (allCharities.Count != CharityEventCollection.getCount())//reload to catch missing
-                    allCharities.LoadWithFilter(id, SortBy.CATEGORY);
-            }
-            else
-            {
-                //convert to Model
-                allCharities = (CharityCollection)apiHelper.getAll<Charity>();
-                allCharities.LoadWithFilter(id, SortBy.CATEGORY);
-
-                //save
-                Session["charityList"] = allCharities;
-            }
+            CharityCollection allCharities = (CharityCollection)SessionUtil.GetList<Charity>(Session,"charities");
+            Session["charities"] = allCharities.ToArray();
+            allCharities.Filter(id, SortBy.CATEGORY);
 
             return View("Index", allCharities);
         }
@@ -136,12 +107,23 @@ namespace Doorfail.Connections.WebUI.Controllers
             CharitySignup c = new CharitySignup();
 
             Password p = (Password)Session["member"];
-            if (p != null)
-                c = new CharitySignup(apiHelper.getEmail<Charity>(id.Replace('-', '.')));
-            else
+            try
             {
-                ViewBag.Message = "You are not signed in yet";
-                return View();
+                if (p != null)
+                {
+                    c = new CharitySignup(apiHelper.getEmail<PL.Charity>(id));//.Replace('-', '.')));
+                    //TODO BUG: idk why getEmail doesn't set ID
+                    c.Email = id.Replace('-', '.');
+                }
+                else
+                {
+                    ViewBag.Message = "You are not signed in yet";
+                    return RedirectToAction("Login", "LogInView");
+                }
+            }
+            catch(HttpUnhandledException e)
+            {
+                return Content(e.Message);
             }
 
             return View(c);
@@ -156,18 +138,18 @@ namespace Doorfail.Connections.WebUI.Controllers
                 if (string.IsNullOrWhiteSpace(id))
                     throw new ArgumentException("id cannot be null", nameof(id));
 
-                csu.Location = apiHelper.getEmail<Charity>(id.Replace('-', '.')).Location;//TEMP FIX for location missing
+                //csu.Location = new Location(csu.Location);
                 try
                 {
                     if (
-                        //csu.confirmPassword.Pass == null ||
-                        csu.Email == null ||
-                        //csu.Category == null ||//TODO Category picker
-                        csu.Cause == null ||
-                        csu.EIN == null ||
-                        csu.Password == null ||
-                        csu.Name == null
-                        )//TODO check location
+                        //csu.confirmPassword.Pass == null    ||
+                        string.IsNullOrWhiteSpace(csu.Email)  ||
+                         //csu.Category == null               ||//TODO Category picker
+                         string.IsNullOrWhiteSpace(csu.Cause) ||
+                         string.IsNullOrWhiteSpace(csu.EIN)   ||
+                         csu.Password is null                 ||
+                         string.IsNullOrWhiteSpace(csu.Name)  )
+                         //TODO check location
                     {
                         ViewBag.Message = "Please fill in every field";
                         return View(csu);
@@ -194,23 +176,16 @@ namespace Doorfail.Connections.WebUI.Controllers
                     }
                     Random r = new Random();
                     //TODO implement category picker
-                    Doorfail.Connections.BL.CategoryCollection categoryList = new Doorfail.Connections.BL.CategoryCollection();
-                    try
-                    {
-                        categoryList.LoadAll();
-                        csu.Category = CategoryCollection.INSTANCE.ElementAt(r.Next(0, categoryList.Count - 1));
-                    }
-                    catch (Exception e)
-                    {
-                        ViewBag.Message = e;
-                    }
+                    CategoryCollection categoryList = new CategoryCollection (apiHelper.getAll<PL.Category>());//new Doorfail.Connections.BL.CategoryCollection();
+                    csu.Category = categoryList.ElementAt(r.Next(0, categoryList.Count - 1));
+
                     csu.Password.email = csu.Email;
                     csu.Password.MemberType = MemberType.CHARITY;
                     Session["member"] = csu.Password;
                     // Location loc = new Location(2);
                     //csu.Location = loc;//TEMP always set to location 2 because its currently null
-                    csu.Update((Password)Session["member"]);
-
+                    //csu.Update((Password)Session["member"]);
+                    apiHelper.update<Charity>(csu);
 
                     return RedirectToAction("Index", "Charity");//go to profile
                 }
@@ -218,9 +193,19 @@ namespace Doorfail.Connections.WebUI.Controllers
                 {
                     if (ex.Message != "The underlying provider failed on Open.")
                         if (Request.IsLocal)
-                            ViewBag.Message = "Error: " + ex.InnerException.Message;
-                        else
-                            ViewBag.Message = "Error: " + ex.InnerException.Message;
+                        {
+                            if (ex.InnerException != null)
+                                ViewBag.Message = "Error: " + ex.InnerException.Message;
+                            else
+                                ViewBag.Message = "Error: " + ex;
+                        }
+                        else//published error message
+                        {
+                            if (ex.InnerException != null)
+                                ViewBag.Message = "Error: " + ex.InnerException.Message;
+                            else
+                                ViewBag.Message = "Error: " + ex;
+                        }
                     else if (Request.IsLocal)
                         ViewBag.Message = "Error: could not access the database, check database connection. The underlying provider failed on Open.";//local error
                     else
@@ -229,13 +214,10 @@ namespace Doorfail.Connections.WebUI.Controllers
 
                     return View(csu);
                 }
-
-                csu.Update((Password)Session["member"]);
-                return RedirectToAction("Index", "Home");
             }
-            catch
+            catch(HttpUnhandledException e)
             {
-                return View(csu);
+                return Content(e.Message);
             }
         }
     }

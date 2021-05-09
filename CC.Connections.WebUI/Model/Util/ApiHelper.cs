@@ -8,6 +8,9 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
+using System.Diagnostics;
+using System.Web.Mvc;
+using Doorfail.Connections.WebUI.Model;
 
 namespace Doorfail.Connections.WebUI
 {
@@ -32,16 +35,19 @@ namespace Doorfail.Connections.WebUI
         //        return new HttpClient { BaseAddress = new Uri("http://localhost:44363/api/") };
         //    }
         //}
+
+        private static Uri apiURL = new Uri("https://doorfail.live/api/");//SET SERVER
+        [Conditional("DEBUG")]
+        private static void setDebugURL()=> apiURL = new Uri("https://localhost:44368/api/");//SET LOCAL #
         private static HttpClient InitializeClient()
         {
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Add("cc-api-user", "masterKey");//todo hash these
             client.DefaultRequestHeaders.Add("cc-api-key", "masterpassword");
+            setDebugURL();//Will not be hit on running on server
+            client.BaseAddress = apiURL;
             //client.Timeout = TimeSpan.FromMinutes(3);
-            if (false)
-                return new HttpClient { BaseAddress = new Uri(HttpRuntime.AppDomainAppVirtualPath+"/api/") };//Requires server database
-            else
-                return new HttpClient { BaseAddress = new Uri("https://localhost:44368/api/") };//SET LOCAL #
+            return client;
         }
 
         private static TEntity[] getAll<TEntity>(string model, bool all = true) where TEntity : class
@@ -60,6 +66,8 @@ namespace Doorfail.Connections.WebUI
                 dynamic res = message
                         .Content.ReadAsStringAsync().Result;//Json as string
                 //Json converted to object
+                if (message.StatusCode == HttpStatusCode.NotFound)
+                    throw new HttpUnhandledException(res);
                 if (all)
                     return JsonConvert.DeserializeObject<TEntity[]>(res);// Array
                 else
@@ -110,21 +118,27 @@ namespace Doorfail.Connections.WebUI
 
 
         }
+
+        //TODO CHECK PASSWORD
+        public static TEntity fromPassword<TEntity>(Password password) where TEntity : class
+            => getEmail<TEntity>(ToSafeUrl(password.email));
+
         public static TEntity[] getAll<TEntity>() where TEntity : class
-            => getAll<TEntity>(typeof(TEntity).Name);
+            => getAll<TEntity>(       typeof(TEntity).Name);
 
-        public static TEntity getOne<TEntity>(Guid id) where TEntity : class
-            => getAll<TEntity>(typeof(TEntity).Name + "/get/" + id, false)[0];
-        public static TEntity getEmail<TEntity>(String id) where TEntity : class
-            => getAll<TEntity>(typeof(TEntity).Name + "/getEmail/" + id, false)[0];
+        public static TEntity getOne<TEntity>(Guid id)                    where TEntity : class
+            => getAll<TEntity>(       typeof(TEntity).Name + "/get/" +      id, false)[0];
+        public static TEntity getEmail<TEntity>(String id)                where TEntity : class
+            => getAll<TEntity>(       typeof(TEntity).Name + "/getEmail/" + ToSafeUrl(id), false)[0];
 
+        //TODO FIX THROWS ERROR An invalid request URI was provided. The request URI must either be an absolute URI or BaseAddress must be set.
         public static HttpResponseMessage create<TEntity>(TEntity entity) where TEntity : class
-            => httpClient.PutAsync(typeof(TEntity).Name + "/put", setContent(entity)).Result;
+            => httpClient.PutAsync(   typeof(TEntity).Name + "/put",        setContent(entity)).Result;
         public static HttpResponseMessage update<TEntity>(TEntity entity) where TEntity : class
-            => httpClient.PutAsync(typeof(TEntity).Name + "/post", setContent(entity)).Result;
+            => httpClient.PutAsync(   typeof(TEntity).Name + "/post",       setContent(entity)).Result;
 
-        public static HttpResponseMessage delete<TEntity, Type>(Type id) where TEntity : class where Type : class
-            => httpClient.DeleteAsync(typeof(TEntity).Name + "/delete/" + id).Result;
+        public static HttpResponseMessage delete<TEntity, Type>(Type id)  where TEntity : class where Type : class
+            => httpClient.DeleteAsync(typeof(TEntity).Name + "/delete/" +   id).Result;
 
         private static StringContent setContent<TEntity>(TEntity entity)
         {
@@ -153,6 +167,19 @@ namespace Doorfail.Connections.WebUI
                 res
                 ) == PL.Test.t//to string result
             );
+        }
+
+        public static string ToUnsafe(string id)
+        {
+            return string.IsNullOrEmpty(id) ?
+                throw new ArgumentNullException(nameof(id)) :
+                id.Replace('-', '.');
+        }
+        public static string ToSafeUrl(string id)
+        {
+            return string.IsNullOrEmpty(id) ?
+                 throw new ArgumentNullException(nameof(id)) :
+                 id.Replace('.', '-');
         }
     }
 }

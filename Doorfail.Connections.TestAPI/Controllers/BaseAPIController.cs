@@ -6,6 +6,8 @@ using System.Data.Entity.Core;
 using System.Data.SqlClient;
 using System.Net;
 using System.Web.Http;
+using System.Reflection;
+using System.Linq;
 
 namespace Doorfail.Connections.API.Controllers
 {
@@ -29,13 +31,19 @@ namespace Doorfail.Connections.API.Controllers
             TList tinstance = (TList)Activator.CreateInstance(typeof(TList), new object[] { });
             try
             {
-                dynamic ret =(TEntity[])tinstance.GetType().GetMethod("LoadAll", new Type[] { }).Invoke(tinstance, null);
+                MethodInfo[] methods = tinstance.GetType().GetMethods();
+                MethodInfo method = tinstance.GetType().GetMethod("LoadAll", new Type[] { });//tinstance.GetType().GetMethods().Where(x => x.Name == "LoadAll").FirstOrDefault();
+                if (method == null)
+                    throw new MissingMethodException(tinstance.GetType().Name, "LoadAll");
+                dynamic ret =(TEntity[])method.Invoke(tinstance, new object[] { });
                 return ret;
             }
             catch (System.Reflection.TargetInvocationException e)
             {
                 if (e.InnerException.GetType() == typeof(EntityException))
                     throw e.InnerException.InnerException;
+                else if (e.InnerException.GetType() == typeof(SqlException))
+                    throw e.InnerException;
                 else
                     throw e.InnerException;
 
@@ -83,7 +91,8 @@ namespace Doorfail.Connections.API.Controllers
             {
                 TEntity tinstance = (TEntity)Activator.CreateInstance(typeof(TEntity), new object[] { });
                 var loadConstructor = typeof(TEntity).GetConstructor(new Type[] { typeof(String), typeof(bool) });
-                loadConstructor.Invoke(tinstance, new object[] { id, true });
+                if(loadConstructor != null)
+                    loadConstructor.Invoke(tinstance, new object[] { id, true });
                 return tinstance;
             }
             catch (Exception e)

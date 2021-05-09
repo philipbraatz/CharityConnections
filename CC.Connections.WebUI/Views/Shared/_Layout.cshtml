@@ -21,13 +21,16 @@
 
 </head>
 @{ 
-    Doorfail.Connections.BL.CategoryCollection categoryList = new Doorfail.Connections.BL.CategoryCollection();
+    Doorfail.Connections.BL.CategoryCollection categoryList;
     try
     {
-        categoryList.LoadUsed();
+        categoryList = new Doorfail.Connections.BL.CategoryCollection();
+        categoryList.AddRange((Doorfail.Connections.BL.Category[])apiHelper.getAll<Doorfail.Connections.BL.Category>());
+        categoryList.RemoveAt(0);
     }
     catch (Exception e)
     {
+        categoryList = new Doorfail.Connections.BL.CategoryCollection();
         ViewBag.Message = e;
     }
 }
@@ -51,9 +54,6 @@
                     </button>
 
                 </div>
-
-                <!-- ADDED THIS DIV AS A TEMPORARY FIX TO SPACING ISSUE -->
-                @*<div class="col-sm-1"></div>*@
 
                 <!-- MAIN NAV LINKS -->
                 <div class="navbar-collapse collapse col-sm-8 float" id="navbarColor03" >

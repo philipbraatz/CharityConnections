@@ -11,7 +11,7 @@
 
 @if (Session["member"] != null && ((Doorfail.Connections.BL.Password)Session["member"]).MemberType == Doorfail.Connections.BL.MemberType.CHARITY)
 {
-    <p>@Html.ActionLink("Create New Volunteer Opportunity", "Create")</p>
+    <p>@Html.ActionLink("Create New Volunteer Opportunity", "Create",null, new { @class = "btn btn-outline-success" })</p>
 }
 @if (Model != null && Model.ToList().Count != 0)
 {
@@ -28,7 +28,7 @@
                         <a href="@Url.Action("Details", "Charity", new { id = item.Charity.Email.Replace('.', '-') })">
                             <img class="col-2 " src="~/Content/Images/CCDefaultPlaceholder.gif" alt="@item.Name" title="View Charity">
                         </a>
-                        <div class="col-10">
+                        <div class="col-7">
                             <a class="" title="Details" href="@Url.Action("Details", "CharityEvent", new { id = item.ID })">
                                 <h2 title="Event Details"> @item.Name</h2>
                             </a>
@@ -40,9 +40,17 @@
                                 <h5>Time: @item.StartTime.ToShortTimeString() to @item.EndTime.ToShortTimeString() </h5>
                             }
                         </div>
+                        <div class="col-3">
+                            <h6>Location</h6>
+                            <div>
+                                <p>@item.Location.Address</p>
+                                <p>@item.Location.City</p>
+                                <p>@item.Location.State</p>
+                            </div>
+                        </div>
                         <div class="col-1">
                             <a href="@Url.Action("CategoryView", "CharityEvent", new { id = item.Charity.Category.ID })">
-                                <img style="padding-top:0px;" src="@(("/Content/Images/" + item.Charity.Category.Image.Trim() + ".svg"))" id="paw" title="@(item.Charity.Category.Desc) ">
+                                <img style="padding-top:0px;" src="@(("/Content/Images/Category/Color/" + item.Charity.Category.Image.Trim() + "Color.svg"))" id="paw" title="@(item.Charity.Category.Desc) ">
                             </a>
                         </div>
                     }
@@ -69,8 +77,8 @@
             @if (Session["member"] != null && ((Doorfail.Connections.BL.Password)Session["member"]).email == item.Charity.Email)
             {
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.ID })
-                    @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ID}, new { @class = "btn btn-outline-warning" })
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-outline-danger" })
                 </td>
             }
         </tr>

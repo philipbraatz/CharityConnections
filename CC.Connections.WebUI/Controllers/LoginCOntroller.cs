@@ -162,7 +162,6 @@ namespace Doorfail.Connections.WebUI.Controllers
                 con.password.email = con.Email;
                 con.password.MemberType = MemberType.VOLLUNTEER;
                 apiHelper.create<Volunteer>(newMember);
-                //newMember.Insert(con.password);
                 newMember.Insert(con.password);
                 //{
                     Session["member"] = con.password;
@@ -176,15 +175,7 @@ namespace Doorfail.Connections.WebUI.Controllers
             }
             catch (Exception ex)
             {
-                if (ex.Message != "The underlying provider failed on Open.")
-                    if (Request.IsLocal)
-                        ViewBag.Message = "Error: " + ex.InnerException.Message;
-                    else
-                        ViewBag.Message = "Error: " + ex.InnerException.Message;
-                else if (Request.IsLocal)
-                    ViewBag.Message = "Error: could not access the database, check database connection. The underlying provider failed on Open.";//local error
-                else
-                    ViewBag.Message = "Unable to process any sign up's at this time.";//specialized error handler
+                throw ex;//specialized error handler
 
                 return View(con);
             }
@@ -235,15 +226,16 @@ namespace Doorfail.Connections.WebUI.Controllers
                     return View(csu);
                 }
                 Random r = new Random();
-               
 
-                csu.Category = new Category(new Guid(csu.Value));
+
+                csu.Category = apiHelper.getOne<PL.Category>(new Guid(csu.Value));//new Category(new Guid(csu.Value));
                 csu.Password.email = csu.Email;
                 csu.Password.MemberType = MemberType.CHARITY;
                 Session["member"] = csu.Password;
-               // Location loc = new Location(2);
+                // Location loc = new Location(2);
                 //csu.Location = loc;//TEMP always set to location 2 because its currently null
-                ((Charity)csu).Insert((Password)Session["member"]);
+                apiHelper.create<Charity>(csu);//((Charity)csu).Insert((Password)Session["member"]);
+                
 
 
                 return RedirectToAction("CharityProfile", "Charity");//go to profile

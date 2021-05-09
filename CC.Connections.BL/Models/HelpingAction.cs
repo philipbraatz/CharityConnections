@@ -163,7 +163,7 @@ namespace Doorfail.Connections.BL
                 }
             }
 
-            if (MemberActions.Count != 0)
+            if (MemberActions != null && MemberActions.Count != 0)
             {
                 MemberActions.ForEach(b => {
                     base.Add(new HelpingAction(JsonDatabase.GetTable<PL.HelpingAction>()

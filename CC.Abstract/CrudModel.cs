@@ -11,10 +11,10 @@ namespace Doorfail.DataConnection
 
     //PropertyInfo with custom info
     //Max
-    public class PropertyDB_Info<TEntity>
+    internal class PropertyDB_Info<TEntity>
     {
-        public int max { get; private set; }
-        public PropertyInfo p;
+        internal int max { get; private set; }
+        internal PropertyInfo p;
         public PropertyDB_Info(PropertyInfo info, DbContext context, TEntity entity)
         {
             p = info;
@@ -49,7 +49,7 @@ namespace Doorfail.DataConnection
         }
 
     }
-    public class PropertyException : Exception
+    internal class PropertyException : Exception
     {
         public PropertyException() : base() { }
         public PropertyException(Type tEntity, string propertyName) : base(tEntity + " does not have the property " + propertyName)
@@ -238,6 +238,19 @@ namespace Doorfail.DataConnection
                 if (true)
                     throw new Exception(typeof(TEntity) + ": " + e.Message);
             }
+        }
+
+        protected void setProperties(Object destination)
+        {
+            if (destination is null)
+                throw new ArgumentNullException(nameof(destination));
+
+            // Iterate the Properties of the destination instance and  
+            // populate them from their source counterparts  
+            PropertyInfo[] destProp = destination.GetType().GetProperties();
+            foreach (PropertyInfo property in destProp)
+                if (property.CanWrite)
+                    property.SetValue(this, property.GetValue(destination, null), null);
         }
 
         protected CrudModel<TEntity, TTable> getInstance() => this;
@@ -528,7 +541,7 @@ namespace Doorfail.DataConnection
             try
             {
                 if (!Exists((TTable)(Object)table, this))
-                    throw new Exception("ID does not exist in table");
+                    throw new Exception("ID: "+this.ID+" does not exist in table: "+typeof(TTable));
 
                 foreach (var col in table)
                     if (ID.Equals(getValue(col, properties[0].p.Name)))

@@ -33,7 +33,7 @@ namespace Doorfail.Connections.WebUI.Model
             Location = new Location();
             Password = new Password();
             Category = new Category();
-            CategoryCollection.INSTANCE.ForEach(c => 
+            apiHelper.getAll<Category>().ToList().ForEach(c => 
             possibleCatergories.Add(new SelectListItem { 
                 Text= c.Desc,
                 Value= c.ID.ToString()

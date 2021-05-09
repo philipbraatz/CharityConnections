@@ -47,30 +47,40 @@ namespace Doorfail.Connections.BL
         { return new Preference(entry); }
 
         public void LoadId(){
+            if(false)
             using (CCEntities dc = new CCEntities()){
-                base.LoadId(JsonDatabase.GetTable<PL.Preference>());
+                //base.LoadId(JsonDatabase.GetTable<PL.Preference>());
             }
+            else
+                base.LoadId(JsonDatabase.GetTable<PL.Preference>());
         }
         public int Insert() {
+            if(false)
             using (CCEntities dc = new CCEntities()) {
                 return base.Insert(dc, dc.Preferences);
-            }
+            }else return base.Insert(JsonDatabase.GetTable<PL.Preference>());
+
         }
         public int Update()
         {
+            if(false)
             using (CCEntities dc = new CCEntities())
             {
-                return base.Update(dc, dc.Preferences);
+                 return base.Update(dc, dc.Preferences);
             }
+            else return base.Update(JsonDatabase.GetTable<PL.Preference>());
         }
         public int Delete()
         {
-            using (CCEntities dc = new CCEntities())
-            {
-                //dc.Preferences.Remove(this);
-                //return dc.SaveChanges();
-                return base.Delete(dc, dc.Preferences);
-            }
+            if (false)
+                using (CCEntities dc = new CCEntities())
+                {
+                    //dc.Preferences.Remove(this);
+                    //return dc.SaveChanges();
+                    return base.Delete(dc, dc.Preferences);
+                }
+            else
+                return base.Delete(JsonDatabase.GetTable<PL.Preference>());
         }
     }
 

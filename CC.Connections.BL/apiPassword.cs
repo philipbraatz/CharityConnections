@@ -1,4 +1,5 @@
 ﻿using Doorfail.Connections.PL;
+using Doorfail.DataConnection;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -37,10 +38,13 @@ namespace Doorfail.Connections.BL
             Login();
             if (MemberType != MemberType.GUEST)
             {
+                if(false)
                 using (CCEntities dc = new CCEntities())
                 {
                     Key = dc.LogIns.Where(c => c.MemberEmail == email).FirstOrDefault().Key;
                 }
+                else
+                    Key = JsonDatabase.GetTable<PL.LogIn>().Where(c => c.MemberEmail == email).FirstOrDefault().Key;
 
                 if (Key is null)
                     throw new Exception("API Key not set. To sign up please go to your profile under 'API Key'");

@@ -9,14 +9,20 @@ namespace Doorfail.DataConnection
 {
     public static class JsonDatabase
     {
-        public static bool inintalized = false;
+        public static bool inintalized { get; private set; } = false;
         public static string file = "JsonDB_keyValue.json";
 
         private static Dictionary<Type, List<Object>> Data = new Dictionary<Type, List<Object>>();
 
+        public static void setFile(string path)=> file = path;
+        
+
         public static List<TEntity> GetTable<TEntity>() where TEntity : class
         {
+            if (!inintalized)
+                LoadDatabase();
             List<TEntity> ret = new List<TEntity>();
+
             if (Data.ContainsKey(typeof(TEntity)))
                 foreach (var col in Data[typeof(TEntity)])
                     if (typeof(TEntity) != col.GetType())
@@ -38,54 +44,61 @@ namespace Doorfail.DataConnection
                 serialized[i] = JsonConvert.SerializeObject(d[i]);//+",";
             //serialized   [Data.Count] = JsonConvert.SerializeObject(d);
             //serialized[Data.Count + 1]= "]";
-
+            string padth =Path.GetDirectoryName(file);
             File.WriteAllLines(file, serialized);
         }
 
         public static void LoadDatabase()
         {
-            Data.Clear();
-            try
+            if (!inintalized)
             {
-                foreach (string line in File.ReadLines(file))
+
+                string padth = Path.GetDirectoryName(file);
+                Data.Clear();
+                try
                 {
-                    KeyValuePair<Type, List<Object>> kvp = JsonConvert.DeserializeObject<KeyValuePair<Type, List<Object>>>(line);
+                    foreach (string line in File.ReadLines(file))
                     {
-                        //Object f = Convert.ChangeType(kvp.Value, kvp.Key);
-                        Data.Add(kvp.Key, kvp.Value);
+                        KeyValuePair<Type, List<Object>> kvp = JsonConvert.DeserializeObject<KeyValuePair<Type, List<Object>>>(line);
+                        {
+                            //Object f = Convert.ChangeType(kvp.Value, kvp.Key);
+                            Data.Add(kvp.Key, kvp.Value);
+                        }
                     }
+
+                    JsonDatabase.inintalized = true;
+                }
+                catch (Exception e)
+                {
+                    CreateJsonDatabase(new List<List<object>>());
+                    throw e;
+                    //try
+                    //{
+                    //    using (CCEntities db = new CCEntities())
+                    //    {
+                    //        CreateJsonDatabase(new List<List<Object>> {
+                    //        db.Categories    .ToList().Cast<Object>().ToList(),
+                    //        db.Charities     .ToList().Cast<Object>().ToList(),
+                    //        db.Locations     .ToList().Cast<Object>().ToList(),
+                    //        db.CharityEvents .ToList().Cast<Object>().ToList(),
+                    //        db.ContactInfoes .ToList().Cast<Object>().ToList(),
+                    //        //db.HelpingActions.ToList().Cast<Object>().ToList(),
+                    //        db.LogIns        .ToList().Cast<Object>().ToList(),
+                    //        //db.MemberActions .ToList().Cast<Object>().ToList(),
+                    //        db.Preferences   .ToList().Cast<Object>().ToList(),
+                    //        db.Volunteers    .ToList().Cast<Object>().ToList()
+                    //    });
+                    //    }
+                    //}
+                    //catch(Exception badthing)
+                    //{
+                    //    if (badthing.InnerException != null)
+                    //        throw badthing.InnerException;
+                    //    else
+                    //        throw badthing;
+                    //}
                 }
             }
-            catch (Exception e)
-            {
-                //throw e;
-                //try
-                //{
-                //    using (CCEntities db = new CCEntities())
-                //    {
-                //        CreateJsonDatabase(new List<List<Object>> {
-                //        db.Categories    .ToList().Cast<Object>().ToList(),
-                //        db.Charities     .ToList().Cast<Object>().ToList(),
-                //        db.Locations     .ToList().Cast<Object>().ToList(),
-                //        db.CharityEvents .ToList().Cast<Object>().ToList(),
-                //        db.ContactInfoes .ToList().Cast<Object>().ToList(),
-                //        //db.HelpingActions.ToList().Cast<Object>().ToList(),
-                //        db.LogIns        .ToList().Cast<Object>().ToList(),
-                //        //db.MemberActions .ToList().Cast<Object>().ToList(),
-                //        db.Preferences   .ToList().Cast<Object>().ToList(),
-                //        db.Volunteers    .ToList().Cast<Object>().ToList()
-                //    });
-                //    }
-                //}
-                //catch(Exception badthing)
-                //{
-                //    if (badthing.InnerException != null)
-                //        throw badthing.InnerException;
-                //    else
-                //        throw badthing;
-                //}
-            }
-            JsonDatabase.inintalized = true;
         }
 
 
@@ -100,7 +113,7 @@ namespace Doorfail.DataConnection
         }
 
 
-        internal static void SaveChanges<TEntity>(List<TEntity> table)
+        public static void SaveChanges<TEntity>(List<TEntity> table)
             where TEntity : class
         {
             Data[typeof(TEntity)] = table.ToList().Cast<Object>().ToList();

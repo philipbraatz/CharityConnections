@@ -1,4 +1,5 @@
 ﻿using Doorfail.Connections.PL;
+using Doorfail.DataConnection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -123,9 +124,9 @@ namespace Doorfail.Connections.BL
             DataConnection.Guard.ThrowIfNull(new { category, helpingAction, charity, location});
 
             List<CharityEvent> events = new List<CharityEvent>();
-            using (CCEntities dc = new CCEntities())
+            //using (CCEntities dc = new CCEntities())
             {
-                if (dc.CharityEvents.ToList().Count != 0)
+                if (JsonDatabase.GetTable<PL.CharityEvent>().ToList().Count != 0)
                     foreach (var c in FilterEvents)
                     {
                         bool valid = true;
@@ -223,9 +224,9 @@ namespace Doorfail.Connections.BL
             try
             {
                 List<CharityEvent> events = new List<CharityEvent>();
-                using (CCEntities dc = new CCEntities())
+                //using (CCEntities dc = new CCEntities())
                 {
-                    if (dc.CharityEvents.ToList().Count != 0)
+                    if (JsonDatabase.GetTable<PL.CharityEvent>().ToList().Count != 0)
                         foreach (var c in FilterEvents)
                         {
                             bool valid = true;
@@ -337,10 +338,10 @@ namespace Doorfail.Connections.BL
                                         DateTime? startDate, bool? deductable)
         {
             List<Charity> charities = new List<Charity>();
-            using (CCEntities dc = new CCEntities())
+            //using (CCEntities dc = new CCEntities())
             {
-                if (dc.CharityEvents.ToList().Count != 0)
-                    foreach (var c in dc.Charities.ToList())
+                if (JsonDatabase.GetTable<PL.CharityEvent>().ToList().Count != 0)
+                    foreach (var c in JsonDatabase.GetTable<PL.CharityEvent>().ToList())
                     {
                         bool valid = true;
                         string debugInvalidator = "";
@@ -404,7 +405,7 @@ namespace Doorfail.Connections.BL
 
                         if (valid)
                         {
-                            charities.Add(new Charity(c));
+                            charities.Add(new Charity((string)c.CharityEmail, true));
                             debugInvalidator = "VALID";
                         }
                     }
@@ -420,10 +421,10 @@ namespace Doorfail.Connections.BL
             try
             {
                 List<Charity> charities = new List<Charity>();
-                using (CCEntities dc = new CCEntities())
+                //using (CCEntities dc = new CCEntities())
                 {
-                    if (dc.CharityEvents.ToList().Count != 0)
-                        foreach (var c in dc.Charities.ToList())
+                    if (JsonDatabase.GetTable<PL.CharityEvent>().ToList().Count != 0)
+                        foreach (var c in JsonDatabase.GetTable<PL.CharityEvent>().ToList())
                         {
                             bool valid = true;
                             string debugInvalidator = "";
@@ -522,7 +523,7 @@ namespace Doorfail.Connections.BL
 
                             if (valid)
                             {
-                                charities.Add(new Charity(c));
+                                charities.Add(new Charity((string)c.CharityEmail, true));
                                 debugInvalidator = "VALID";
                             }
                         }

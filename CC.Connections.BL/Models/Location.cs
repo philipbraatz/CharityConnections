@@ -106,6 +106,15 @@ namespace Doorfail.Connections.BL
         {
             return MapAPI.GetDistanceFromLocations(start.FullLocation, end.FullLocation);
         }
+
+        public PL.Location ToPL()
+            => new PL.Location {
+                ID = this.ID,
+                Address = this.Address,
+                City = this.City,
+                State = this.State,
+                Zip = this.Zip
+            };
     }
 
     public class LocationCollection : CrudModelList<Location, PL.Location>

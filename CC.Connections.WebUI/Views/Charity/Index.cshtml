@@ -36,7 +36,7 @@
                 </div>
                 <div class="col-1">
                     <a href="@Url.Action("CategoryView", "Charity", new { id = item.Category.ID })">
-                        <img style="padding-top:0px;" src="@(("/Content/Images/" + item.Category.Image.Trim() + ".svg"))" id="paw" title="@(item.Category.Desc) ">
+                        <img style="padding-top:0px;" src="@(("/Content/Images/Category/Color/" + item.Category.Image.Trim() + "Color.svg"))" id="paw" title="@(item.Category.Desc) ">
                     </a>
                 </div>
             </div>
@@ -50,8 +50,8 @@
         @if (Session["member"] != null && ((Doorfail.Connections.BL.Password)Session["member"]).email == item.Email)
         {
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.Email.Replace('.', '-') })
-                @Html.ActionLink("Delete", "Delete", new { id = item.Email.Replace('.', '-') })
+                @Html.ActionLink("Edit", "Edit", new { id = item.Email.Replace('.', '-') }, new { @class = "btn btn-outline-warning" })
+                @Html.ActionLink("Delete", "Delete", new { id = item.Email.Replace('.', '-') }, new { @class = "btn btn-outline-danger" })
             </td>
         }
     </tr>
@@ -60,7 +60,7 @@
     else
     {
         <tr>
-            <h5>No Events</h5>
+            <h5>No Charities exist, it is the end of the world</h5>
         </tr>
 
         <br />

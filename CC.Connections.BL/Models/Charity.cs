@@ -113,7 +113,7 @@ namespace Doorfail.Connections.BL
         public Charity() => this.Deductibility = false;
         
         //does not verify password
-        public Charity(Password p) : this(p.email,true)
+        internal Charity(Password p) : this(p.email,true)
         {
             if (p is null)
                 throw new ArgumentNullException(nameof(p));
@@ -125,28 +125,33 @@ namespace Doorfail.Connections.BL
             if (entry is null)
                 throw new ArgumentNullException(nameof(entry));
 
-            if ((Guid)entry.CategoryID != Guid.Empty)
+            if (entry.CategoryID != null)
                 this.Category = new Category((Guid)entry.CategoryID);
             //else //Don't be bad data
                 //throw new NullReferenceException("Category cannot be null");
-            this.Location = new Location((Guid)entry.LocationID);
+            if(entry.LocationID != null)
+                this.Location = new Location((Guid)entry.LocationID);
         }
-        public Charity(string charity,bool preloaded =true) : 
-            base(JsonDatabase.GetTable<PL.Charity>(), charity, preloaded)
+        public Charity(string email,bool preloaded =true) : 
+            base(JsonDatabase.GetTable<PL.Charity>(), email, preloaded)
         {
-            this.Email = charity;
+            this.Email = email;
             if (preloaded)
                 LoadId(true);
             else
             {
+                PL.Charity charityPL = null;
+                if (false)
                 using (CCEntities dc = new CCEntities())
                 {
-                    //TODO refactor
-                    PL.Charity charityPL = dc.Charities.Where(c => c.CharityEmail == charity).FirstOrDefault();
-                    if(Category.ID != Guid.Empty)
+                    charityPL = dc.Charities.Where(c => c.CharityEmail == email).FirstOrDefault();
+                }
+                else
+                    charityPL =JsonDatabase.GetTable<PL.Charity>().Where(c => c.CharityEmail == email).FirstOrDefault();
+
+                if (Category.ID != Guid.Empty)
                         this.Category = new Category((Guid)charityPL.CategoryID);
                     this.Location = new Location((Guid)charityPL.LocationID);
-                }
             }
         }
 
@@ -180,33 +185,35 @@ namespace Doorfail.Connections.BL
         public Charity(string charityEmail, string password = "", bool hashed = false, bool debug = false)
         {
             this.Deductibility = false;
+            Clear();
+
+            Email = charityEmail;
+
             try
             {
+                PL.Charity charityPL = null;
+
+                if (false)
                 using (CCEntities dc = new CCEntities())
                 {
-                    Clear();
-
-                    Email = charityEmail;
-
-
-                    //TODO refactor
                     //try to load existing ID
-                    PL.Charity charityPL = dc.Charities.Where(c => c.CharityEmail == charityEmail).FirstOrDefault();
-                    if (charityPL != null)
-                    {
-                        setCharityInfo(charityPL);
-                        this.Category = new Category((Guid)charityPL.CategoryID);
-                        this.Location = new Location((Guid)charityPL.LocationID);
-                    }
-                    else
-                    {
-                        Clear();//new Charity
-                        Password newPassword = new Password(charityEmail, password, MemberType.CHARITY, hashed);
-                        newPassword.Insert();
-                        this.Location.Insert();
-                    }
+                    charityPL = dc.Charities.Where(c => c.CharityEmail == charityEmail).FirstOrDefault();
+                }
+                else
+                    charityPL = JsonDatabase.GetTable<PL.Charity>().Where(c => c.CharityEmail == charityEmail).FirstOrDefault();
 
-                    
+                if (charityPL != null)
+                {
+                    setCharityInfo(charityPL);
+                    this.Category = new Category((Guid)charityPL.CategoryID);
+                    this.Location = new Location((Guid)charityPL.LocationID);
+                }
+                else
+                {
+                    Clear();//new Charity
+                    Password newPassword = new Password(charityEmail, password, MemberType.CHARITY, hashed);
+                    newPassword.Insert();
+                    this.Location.Insert();
                 }
             }
             catch (Exception e)
@@ -241,24 +248,32 @@ namespace Doorfail.Connections.BL
             else
                 try
                 {
-                    using (CCEntities dc = new CCEntities())
+                    PL.Charity entry = null;
+                    if (false)
+                        using (CCEntities dc = new CCEntities())
+                        {
+                            //base.LoadId();
+
+                            //entry = JsonDatabase.GetTable<PL.Charity>().Where(c => c.CharityEmail == this.Email).FirstOrDefault();
+
+                        }
+                    else
                     {
                         base.LoadId(JsonDatabase.GetTable<PL.Charity>());
-                        
-                        PL.Charity entry = JsonDatabase.GetTable<PL.Charity>().Where(c => c.CharityEmail == this.Email).FirstOrDefault();
-                        this.Category = new Category(entry.CategoryID.Value);
-                        this.Location = new Location(entry.LocationID.Value);
+                        entry = JsonDatabase.GetTable<PL.Charity>().Where(c => c.CharityEmail == this.Email).FirstOrDefault();
                     }
+                    this.Category = new Category(entry.CategoryID.Value);
+                    this.Location = new Location(entry.LocationID.Value);
                 }
                 catch (Exception)
                 { throw; }
         }
-        public void LoadId(string email,bool preloaded =true)
+        internal void LoadId(string email,bool preloaded =true)
         {
             Email = email;
             LoadId(preloaded);
         }
-        public void Insert(Password password)
+        internal void Insert(Password password)
         {
             if (password == null)
                 throw new ArgumentNullException(nameof(password)); 
@@ -278,7 +293,7 @@ namespace Doorfail.Connections.BL
                     
             CharityCollection.AddToInstance(this);
         }
-        public void Update(Password password)
+        internal void Update(Password password)
         {
             if (password == null)
                 throw new ArgumentNullException(nameof(password));
@@ -294,7 +309,7 @@ namespace Doorfail.Connections.BL
             password.Update();
             CharityCollection.AddToInstance(this);
         }
-        public void Delete(Password password)
+        internal void Delete(Password password)
         {
             if (password == null)
                 throw new ArgumentNullException(nameof(password));
@@ -322,7 +337,7 @@ namespace Doorfail.Connections.BL
 
         //START instance
         private static CharityCollection INS = new CharityCollection();
-        public static CharityCollection INSTANCE
+        internal static CharityCollection INSTANCE
         {
             get
             {
@@ -333,19 +348,24 @@ namespace Doorfail.Connections.BL
             private set => INS = value;
         }
 
-        public static CharityCollection LoadInstance()
+        internal static CharityCollection LoadInstance()
         {
             try{
-                
-                
-                
+
+
+                if (!JsonDatabase.inintalized)
+                    JsonDatabase.LoadDatabase();
                 
                 INSTANCE = new CharityCollection();
+                if(false)
                 using (CCEntities dc = new CCEntities())
                 {
                     foreach (var c in dc.Charities.ToList())
                         INS.Add(new Charity(c));
                 }
+                else
+                    foreach (var c in JsonDatabase.GetTable<PL.Charity>().ToList())
+                        INS.Add(new Charity(c));
                 return INS;
             }
             catch (System.Data.SqlClient.SqlException)
@@ -380,6 +400,8 @@ namespace Doorfail.Connections.BL
             this.userPref = userPref ?? throw new ArgumentNullException(nameof(userPref));
         }
 
+        [assmbly: System.Runtime.CompilerServices.publicsVisibleTo("Doorfail.Connections.BL.Test")]
+        [assmbly: System.Runtime.CompilerServices.publicsVisibleTo("Doorfail.Connections.API")]
         public Charity[] LoadAll()
         {
             this.Clear();
@@ -387,7 +409,9 @@ namespace Doorfail.Connections.BL
             this.AddRange(INS);
             return INS.ToArray();
         }
-        public void LoadWithFilter(object id, SortBy sort)
+        [assmbly: System.Runtime.CompilerServices.publicsVisibleTo("Doorfail.Connections.BL.Test")]
+        [assmbly: System.Runtime.CompilerServices.publicsVisibleTo("Doorfail.Connections.API")]
+        internal void LoadWithFilter(object id, SortBy sort)
         {
             //throw new NotImplementedException();
             LoadAll();
@@ -417,7 +441,7 @@ namespace Doorfail.Connections.BL
         }
 
         //Loads list using preferences filter
-        public void LoadWithPreferences(Volunteer userpreferences)
+        internal void LoadWithPreferences(Volunteer userpreferences)
         {
             userPref = userpreferences;
             Clear();
@@ -449,12 +473,12 @@ namespace Doorfail.Connections.BL
         }
         //public new void Remove(Charity item)
         //{
-         //   if (SortID != null)
-         //       throw new Exception("Currently being used as a preference list. Please use DeletePreference instead");
+        //   if (SortID != null)
+        //       throw new Exception("Currently being used as a preference list. Please use DeletePreference instead");
         //    base.Remove(item);
         //}
 
-        public static int getCount() => new CCEntities().Charities.Count();
+        internal static int getCount() => new CCEntities().Charities.Count();
 
     }
 }

@@ -6,6 +6,7 @@ using System.Data.Entity.Core;
 using Doorfail.DataConnection;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace Doorfail.Connections.BL
 {
@@ -38,15 +39,13 @@ namespace Doorfail.Connections.BL
         }
         public string Image
         {
-            get { return (string)base.getProperty(nameof(Image)); }
+            get { return (string)base.getProperty(nameof(Image)) ?? "NAN"; }
             set { setProperty(nameof(Image), value); }
         }
 
         //PRES constructor and CRUD
-        public Category() :
-            base() { }
-        public Category(PL.Category entry) :
-            base(entry) { }
+        public Category() : base() { }
+        public Category(PL.Category entry) : base(entry) { }
         public Category(Guid id,bool preloaded =true) :
             base(JsonDatabase.GetTable<PL.Category>(), id,preloaded) {
             this.ID = id;
@@ -64,17 +63,14 @@ namespace Doorfail.Connections.BL
             if (c is null)
                 throw new ArgumentNullException(nameof(c));
 
-            this.ID    = c.ID;
-            this.Color = c.Color;
-            this.Desc  = c.Desc;
-            this.Image = c.Image;
+            setProperties(c);
         }
 
 
         public void LoadId(bool preloaded =true){
             if (preloaded == false)//definitly needs to be taken from database
                 if(false)
-                    using (CCEntities dc = new CCEntities()){
+                    using(CCEntities dc = new CCEntities()){
                         //base.LoadId(dc.Categories);//should only need to be called from INSTANCE
                     }
                 else
@@ -125,10 +121,16 @@ namespace Doorfail.Connections.BL
         }
     }
 
-    //STOP HERE
     public class CategoryCollection : CrudModelList<Category, PL.Category>
     {
         private static CategoryCollection ins = new CategoryCollection();
+
+        public CategoryCollection() :base(){}
+        public CategoryCollection(Category[] categories):base(categories){}
+        public CategoryCollection(PL.Category[] categories) : base(categories){}
+
+        [assmbly: System.Runtime.CompilerServices.publicsVisibleTo("Doorfail.Connections.BL.Test")]
+        [assmbly: System.Runtime.CompilerServices.publicsVisibleTo("Doorfail.Connections.API")]
         public static CategoryCollection INSTANCE
         {
             get
@@ -140,6 +142,8 @@ namespace Doorfail.Connections.BL
             private set => ins = value;
         }
 
+        [assmbly: System.Runtime.CompilerServices.publicsVisibleTo("Doorfail.Connections.BL.Test")]
+        [assmbly: System.Runtime.CompilerServices.publicsVisibleTo("Doorfail.Connections.API")]
         public static CategoryCollection LoadInstance()
         {
             try
@@ -161,29 +165,44 @@ namespace Doorfail.Connections.BL
             }
             catch (EntityException e) { throw e.InnerException; }
         }
+
+        [assmbly: System.Runtime.CompilerServices.publicsVisibleTo("Doorfail.Connections.BL.Test")]
+        [assmbly: System.Runtime.CompilerServices.publicsVisibleTo("Doorfail.Connections.API")]
         public static void AddToInstance(Category category)
         {
             ins.Add(category);
         }
+
         //Might be able to optimize better
-        internal static void UpdateInstance(Category category)
+        [assmbly: System.Runtime.CompilerServices.publicsVisibleTo("Doorfail.Connections.BL.Test")]
+        [assmbly: System.Runtime.CompilerServices.publicsVisibleTo("Doorfail.Connections.API")]
+        public static void UpdateInstance(Category category)
         {
             RemoveInstance(category);
             AddToInstance(category);
         }
 
-        internal static void RemoveInstance(Category category)
+        [assmbly: System.Runtime.CompilerServices.publicsVisibleTo("Doorfail.Connections.BL.Test")]
+        [assmbly: System.Runtime.CompilerServices.publicsVisibleTo("Doorfail.Connections.API")]
+        public static void RemoveInstance(Category category)
         {
             INSTANCE.Remove(category);
         }
 
-        public void LoadAll()
+
+        [assmbly: System.Runtime.CompilerServices.publicsVisibleTo("Doorfail.Connections.BL.Test")]
+        [assmbly: System.Runtime.CompilerServices.publicsVisibleTo("Doorfail.Connections.API")]
+        public Category[] LoadAll()
         {
             this.Clear();
             LoadInstance();//make sure Instance is filled
             this.AddRange(ins);
+            return this.ToArray();
         }
-        //hides categories that are unused
+
+        ////hides categories that are unused
+        [assmbly: System.Runtime.CompilerServices.publicsVisibleTo("Doorfail.Connections.BL.Test")]
+        [assmbly: System.Runtime.CompilerServices.publicsVisibleTo("Doorfail.Connections.API")]
         public void LoadUsed()
         {
             try{
@@ -220,8 +239,10 @@ namespace Doorfail.Connections.BL
         public void LoadPreferences()
         { LoadPreferences((string)base.joinGroupingID); }
         public void LoadPreferences(string VolunteerEmail){
+            volunteerEmail = VolunteerEmail;
+
+            if(false)
             using (CCEntities dc = new CCEntities()){
-                volunteerEmail = VolunteerEmail;
                 if (dc.Categories.ToList().Count != 0)
                     dc.PreferredCategories
                         .Where(c => c.VolunteerEmail == volunteerEmail).ToList()
@@ -231,21 +252,40 @@ namespace Doorfail.Connections.BL
                             ).FirstOrDefault()))
                         );
             }
+            else if (JsonDatabase.GetTable<PL.Category>().ToList().Count != 0)
+                JsonDatabase.GetTable<PL.PreferredCategory>()
+                    .Where(c => c.VolunteerEmail == volunteerEmail).ToList()
+                    .ForEach(b => base.Add(JsonDatabase.GetTable<PL.Category>()
+                        .Where(d =>
+                            d.ID == b.CategoryID
+                        ).FirstOrDefault())
+                    );
+
         }
         public void DeleteAllPreferences(){
-            using (CCEntities dc = new CCEntities()){
-                base.DeleteAllPreferences(dc, dc.PreferredCategories);
-            }
+            if (false)
+                using (CCEntities dc = new CCEntities())
+                {
+                    base.DeleteAllPreferences(dc, dc.PreferredCategories);
+                }
+            else
+                base.DeleteAllPreferences(JsonDatabase.GetTable<PL.PreferredCategory>());
         }
         public new void Add(Category category){
+            if(false)
             using (CCEntities dc = new CCEntities()){
                 base.Add(dc, dc.PreferredCategories,new PreferredCategory(), category);
             }
+            else
+                base.Add(JsonDatabase.GetTable<PL.PreferredCategory>(), new PreferredCategory(), category);
         }
         public new void Remove(Category category){
+            if(false)
             using (CCEntities dc = new CCEntities()){
                 base.Remove(dc, dc.PreferredCategories,category);
             }
+            else
+                base.Remove(category);
         }
     }
 }

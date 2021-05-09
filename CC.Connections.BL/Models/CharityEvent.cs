@@ -380,18 +380,25 @@ namespace Doorfail.Connections.BL
             if (preloaded == false)//definitly needs to be taken from database
                 try
                 {
-                    using (CCEntities dc = new CCEntities())
-                    {
-                        //if (this.ID == Guid.Empty)
-                        //    throw new Exception("ID is invalid");
+                    PL.CharityEvent entry = null;
+                    if (false)
+                        using (CCEntities dc = new CCEntities())
+                        {
+                            //if (this.ID == Guid.Empty)
+                            //    throw new Exception("ID is invalid");
 
-                        PL.CharityEvent entry = dc.CharityEvents.FirstOrDefault(c => c.ID == this.ID)
-                            ?? throw new Exception("Event does not exist ID: " + ID);
-                        //if (entry.CharityEventContactInfo_ID == null)
-                        //    throw new Exception("Event does not have a Contact Info");
-                        setEventInfo(entry);//LOADS
-                        atendees.LoadByEvent(entry.ID);
-                    }
+                            entry = dc.CharityEvents.FirstOrDefault(c => c.ID == this.ID)
+                                ?? throw new Exception("Event does not exist ID: " + ID);
+                            //if (entry.CharityEventContactInfo_ID == null)
+                            //    throw new Exception("Event does not have a Contact Info");
+
+                        }
+                    else
+                        entry = JsonDatabase.GetTable<PL.CharityEvent>().FirstOrDefault(c => c.ID == this.ID)
+                                ?? throw new Exception("Event does not exist ID: " + ID);
+
+                    setEventInfo(entry);//LOADS
+                    atendees.LoadByEvent(entry.ID);
                 }
                 catch (Exception)
                 {
@@ -447,12 +454,16 @@ namespace Doorfail.Connections.BL
         {
             try
             {
+                JsonDatabase.LoadDatabase();
                 ins = new CharityEventCollection();
+                if(false)
                 using (CCEntities dc = new CCEntities())
                 {
                     foreach (var c in dc.CharityEvents.ToList())
                         ins.Add(new CharityEvent(c));
                 }
+                else foreach (var c in JsonDatabase.GetTable<PL.CharityEvent>().ToList())
+                        ins.Add(new CharityEvent(c));
                 return ins;
             }
             catch (EntityException e) { throw e.InnerException; }
@@ -694,10 +705,12 @@ namespace Doorfail.Connections.BL
 
         public static int getCount()
         {
+            if(false)
             using (CCEntities dc = new CCEntities())
             {
                 return dc.CharityEvents.Count();
-            }
+            } else 
+                return JsonDatabase.GetTable<PL.CharityEvent>().Count;
         }
     }
 }

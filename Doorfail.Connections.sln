@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Doorfail.Connections.API", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Doorfail.DataConnection.Test", "Doorfail.DataConnection.Test\Doorfail.DataConnection.Test.csproj", "{208B198E-F4D3-4E9D-967E-5BB468A85F14}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Doorfail.Connections.API.Test", "Doorfail.Connections.API.Test\Doorfail.Connections.API.Test.csproj", "{81CABD65-379E-407A-AADA-6E9FDDA29507}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,6 +67,10 @@ Global
 		{208B198E-F4D3-4E9D-967E-5BB468A85F14}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{208B198E-F4D3-4E9D-967E-5BB468A85F14}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{208B198E-F4D3-4E9D-967E-5BB468A85F14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81CABD65-379E-407A-AADA-6E9FDDA29507}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81CABD65-379E-407A-AADA-6E9FDDA29507}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81CABD65-379E-407A-AADA-6E9FDDA29507}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81CABD65-379E-407A-AADA-6E9FDDA29507}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

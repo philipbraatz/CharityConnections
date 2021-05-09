@@ -13,7 +13,7 @@ namespace Doorfail.DataConnection.Test
         [TestMethod]
         public void DataCreationTest()
         {
-            JsonDatabase.file = "testData.json";
+            JsonDatabase.setFile( "testData.json");
 
             Doorfail.DataConnection.JsonDatabase.CreateJsonDatabase( new List<List<object>> {
                 new List<Category> { 
@@ -30,7 +30,7 @@ namespace Doorfail.DataConnection.Test
         [TestMethod]
         public void LoadDatabaseTest()
         {
-            JsonDatabase.file = "testData.json";
+            JsonDatabase.setFile( "testData.json");
             Doorfail.DataConnection.JsonDatabase.LoadDatabase();
 
             List<Category> d = JsonDatabase.GetTable<Category>();
@@ -43,7 +43,7 @@ namespace Doorfail.DataConnection.Test
         public void SaveDatabaseUpdates()
         {
             //use test
-            JsonDatabase.file = "testData.json";
+            JsonDatabase.setFile("testData.json");
             Doorfail.DataConnection.JsonDatabase.LoadDatabase();
 
             //load categories, add CCAACC

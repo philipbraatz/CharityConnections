@@ -13,9 +13,9 @@ namespace Doorfail.DataConnection
         where Tcrud : CrudModel_Json<TEntity>
     {
 
-        public CrudModelList()
-        {
-        }
+        public CrudModelList(){}
+        public CrudModelList(TEntity[] entities) :base(entities){ }
+        public CrudModelList(Tcrud[] entities) : base(entities) { }
     }
 
     public class CrudModel_DbSet<Tcrud, TEntity> :
@@ -35,6 +35,21 @@ namespace Doorfail.DataConnection
         {
             Type type = typeof(TEntity);
             properties = type.GetProperties();
+        }
+
+        public CrudModelCollection(Tcrud[] list)
+        {
+            Type type = typeof(TEntity);
+            properties = type.GetProperties();
+
+            this.AddRange(list);
+        }
+        public CrudModelCollection(TEntity[] list)
+        {
+            Type type = typeof(TEntity);
+            properties = type.GetProperties();
+
+            this.AddRange(list.Cast<Tcrud>());
         }
         //public AbsList(bool loadAll) {
         //    Type type = typeof(TEntity);

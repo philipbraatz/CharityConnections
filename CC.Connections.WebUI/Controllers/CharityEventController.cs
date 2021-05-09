@@ -16,51 +16,51 @@ namespace Doorfail.Connections.WebUI.Controllers
         // GET: CharityEvent
         public ActionResult Index()
        {
-            if (ViewBag.Title == null)
-                ViewBag.Title = "Volunteer Opportunities";
-
-            //load
-            //TempApiTest.RunAsync();
-            //var val =  Task.Run(async () => await TempApiTest.GetProductAsync()).Result;
-
-            //DEBUG checks if you can recieve data from api
-            //TODO move to test class
-            //bool testString = apiHelper.Ping();
-            List<CharityEvent> badthing = (CharityEventCollection)apiHelper.getAll<CharityEvent>();//JsonDatabase.CharityEvents;//
-
-            CharityEventCollection allEvents  = (CharityEventCollection)badthing;//TODO refactor all these to use both session and api
-            if (Session != null && Session["charityEvents"] != null)
+            try
             {
-                allEvents = ((CharityEventCollection)Session["charityEvents"]);
-                if (allEvents.Count != CharityEventCollection.getCount())//reload to catch missing //replace with api call
+                if (ViewBag.Title == null)
+                    ViewBag.Title = "Volunteer Opportunities";
+
+                CharityEventCollection allEvents = (CharityEventCollection)SessionUtil.GetList<CharityEvent>(Session,"CharityEvents"); ;//TODO refactor all these to use both session and api
+                if (Session != null && Session["charityEvents"] != null)
                 {
-                    try
+                    //allEvents = ((CharityEventCollection)Session["charityEvents"]);
+                    //Idk why it would do this
+                    if (false)//reload to catch missing //replace with api call
                     {
-                        allEvents.LoadAll();
-                        if (Session != null && Session["member"] != null && ((Password)Session["member"]).MemberType == MemberType.VOLLUNTEER)
-                            foreach (var ev in allEvents)
-                                ev.Member_Attendance = apiHelper.getAction<EventAttendee>("GetEmail", ev.ID);
-                    }
-                    catch(Exception e)
-                    {
-                        ViewBag.Message = e.Message;
-                        return View(allEvents);
+                        try
+                        {
+                            allEvents.LoadAll();
+                            if (Session != null && Session["member"] != null && ((Password)Session["member"]).MemberType == MemberType.VOLLUNTEER)
+                                foreach (var ev in allEvents)
+                                    ev.Member_Attendance = apiHelper.getAction<EventAttendee>("GetEmail", ev.ID);
+                        }
+                        catch (Exception e)
+                        {
+                            ViewBag.Message = e.Message;
+                            return View(allEvents);
+                        }
                     }
                 }
+                else
+                {
+                    //convert to Model
+                    allEvents = (CharityEventCollection)apiHelper.getAll<CharityEvent>();
+                    if (allEvents != null && Session != null && Session["member"] != null && ((Password)Session["member"]).MemberType == MemberType.VOLLUNTEER)
+                        foreach (var ev in allEvents)
+                            ev.Member_Attendance = apiHelper.getAction<EventAttendee>("GetEmail", ev.ID);// new AbsEventAttendee(ev.ID, ((Password)Session["member"]).email);
+
+                    //save
+                    Session["charityEvents"] = allEvents.ToArray();
+                }
+
+                return View(allEvents);
             }
-            else
+            catch(Exception e)
             {
-                //convert to Model
-                allEvents = (CharityEventCollection)apiHelper.getAll<CharityEvent>();
-                if ( allEvents != null && Session != null && Session["member"] != null && ((Password)Session["member"]).MemberType == MemberType.VOLLUNTEER)
-                    foreach (var ev in allEvents)
-                        ev.Member_Attendance = apiHelper.getAction<EventAttendee>("GetEmail",ev.ID);// new AbsEventAttendee(ev.ID, ((Password)Session["member"]).email);
-
-                //save
-                Session["charityEvents"] = allEvents;
+                ViewBag.Message = e.Message;
+                return View();
             }
-
-            return View(allEvents);
         }
 
         // GET: CharityEvent/CategoryView/2
@@ -69,31 +69,28 @@ namespace Doorfail.Connections.WebUI.Controllers
             ViewBag.Title = apiHelper.getOne<Category>(id).Desc;
 
             //load
-            CharityEventCollection allEvents = (CharityEventCollection)apiHelper.getAll<CharityEvent>();
-            if (Session != null && Session["charityEvents"] != null)
-            {
-                allEvents = ((CharityEventCollection)Session["charityEvents"]);
-                allEvents.Filter(id, SortBy.CATEGORY);
-                if (allEvents.Count != CharityEventCollection.getCount())//reload to catch missing
-                {
-                    allEvents.LoadWithFilter(id, SortBy.CATEGORY);
-                    if (Session != null && Session["member"] != null && ((Password)Session["member"]).MemberType == MemberType.VOLLUNTEER)
-                        foreach (var ev in allEvents)
-                            ev.Member_Attendance = apiHelper.getAction<EventAttendee>("GetEmail", ev.ID);
-                }
-            }
-            else
-            {
-                //convert to Model
-                allEvents = new CharityEventCollection();
-                allEvents.LoadWithFilter(id, SortBy.CATEGORY);
-                if (Session != null && Session["member"] != null && ((Password)Session["member"]).MemberType == MemberType.VOLLUNTEER)
-                    foreach (var ev in allEvents)
-                        ev.Member_Attendance = apiHelper.getAction<EventAttendee>("GetEmail", ev.ID);
+            CharityEventCollection allEvents = (CharityEventCollection)SessionUtil.GetList<CharityEvent>(Session,"charityEvents");
 
-                //save
-                Session["charityEvents"] = allEvents;
-            }
+            allEvents = ((CharityEventCollection)Session["charityEvents"]);
+            allEvents.Filter(id, SortBy.CATEGORY);
+            //if (allEvents.Count != CharityEventCollection.getCount())//reload to catch missing
+            //{
+            //    allEvents.LoadWithFilter(id, SortBy.CATEGORY);
+            //    if (Session != null && Session["member"] != null && ((Password)Session["member"]).MemberType == MemberType.VOLLUNTEER)
+            foreach (var ev in allEvents)
+                ev.Member_Attendance = apiHelper.getAction<EventAttendee>("GetEmail", ev.ID);
+            //}
+
+            //   //convert to Model
+            //   allEvents = new CharityEventCollection();
+            //   allEvents.LoadWithFilter(id, SortBy.CATEGORY);
+            //   if (Session != null && Session["member"] != null && ((Password)Session["member"]).MemberType == MemberType.VOLLUNTEER)
+            //       foreach (var ev in allEvents)
+            //           ev.Member_Attendance = apiHelper.getAction<EventAttendee>("GetEmail", ev.ID);
+            //
+            //   //save
+            //   Session["charityEvents"] = allEvents;
+
 
             return View("Index",allEvents);
         }
@@ -101,35 +98,22 @@ namespace Doorfail.Connections.WebUI.Controllers
         // GET: CharityEvent/CharityView/2
         public ActionResult CharityView(string id)
         {
-            Charity c =new Charity((Password)Session["member"]);
+            Charity c = apiHelper.fromPassword<Charity>((Password)Session["member"]);//new Charity((Password)Session["member"]);
             ViewBag.Title =  c.Name;
 
             //load
-            CharityEventCollection allEvents = (CharityEventCollection)apiHelper.getAll<CharityEvent>();
-            if (Session != null && Session["charityEvents"] != null)
-            {
-                allEvents = ((CharityEventCollection)Session["charityEvents"]);
-                allEvents.Filter(id, SortBy.CHARITY);
-                if (allEvents.Count != CharityEventCollection.getCount())//reload to catch missing
-                {
-                    allEvents.LoadWithFilter(id, SortBy.CHARITY);
-                    if (Session != null && Session["member"] != null && ((Password)Session["member"]).MemberType == MemberType.VOLLUNTEER)
-                        foreach (var ev in allEvents)
-                            ev.Member_Attendance = apiHelper.getAction<EventAttendee>("GetEmail", ev.ID);
-                }
-            }
-            else
-            {
-                //convert to Model
-                allEvents = new CharityEventCollection();
-                allEvents.LoadWithFilter(id, SortBy.CHARITY);
-                if (Session != null && Session["member"] != null && ((Password)Session["member"]).MemberType == MemberType.VOLLUNTEER)
-                    foreach (var ev in allEvents)
-                        ev.Member_Attendance = apiHelper.getAction<EventAttendee>("GetEmail", ev.ID);
-
-                //save
-                Session["charityEvents"] = allEvents;
-            }
+            CharityEventCollection allEvents = (CharityEventCollection)SessionUtil.GetList<CharityEvent>(Session,"charityEvents");
+            //if (Session != null && Session["charityEvents"] != null)
+            //{
+            //allEvents = ((CharityEventCollection)Session["charityEvents"]);
+            allEvents.Filter(id, SortBy.CHARITY);
+                //if (allEvents.Count != CharityEventCollection.getCount())//reload to catch missing
+                //{
+                //allEvents.LoadWithFilter(id, SortBy.CHARITY);
+            if (Session != null && Session["member"] != null && ((Password)Session["member"]).MemberType == MemberType.VOLLUNTEER)
+                foreach (var ev in allEvents)
+                    ev.Member_Attendance = apiHelper.getAction<EventAttendee>("GetEmail", ev.ID);
+           
 
             return View("Index", allEvents);
         }
@@ -139,39 +123,27 @@ namespace Doorfail.Connections.WebUI.Controllers
         {
             CharityEventCollection allEvents = (CharityEventCollection)apiHelper.getAll<CharityEvent>();
             CharityEvent detailEvent;
-            if (Session != null && Session["charityEvents"] != null)
-            {
-                allEvents = ((CharityEventCollection)Session["charityEvents"]);
-                detailEvent = allEvents.Where(c => c.ID == id).FirstOrDefault();//grab the one we need
-                if (detailEvent == null)
-                {
-                    detailEvent = new CharityEvent(id,true);
-                    allEvents.Add(detailEvent);//add it because it was missing
-                    if (Session != null && Session["member"] != null && ((Password)Session["member"]).MemberType == MemberType.VOLLUNTEER)
-                        Session["charityEvents"] = allEvents;
-                }
-            }
-            else
-            {
-                detailEvent = new CharityEvent(id,true);
-                allEvents.Add(detailEvent);//load the only one we need and save it to list
-                if (Session != null && Session["member"] != null && ((Password)Session["member"]).MemberType == MemberType.VOLLUNTEER)
-                    Session["charityEvents"] = allEvents;
-            }
+
+            allEvents = ((CharityEventCollection)Session["charityEvents"]);
+            detailEvent = allEvents.Where(c => c.ID == id).FirstOrDefault();//grab the one we need
+            //if (detailEvent == null)
+            //{
+            //    detailEvent = new CharityEvent(id,true);
+            //    allEvents.Add(detailEvent);//add it because it was missing
+            //    if (Session != null && Session["member"] != null && ((Password)Session["member"]).MemberType == MemberType.VOLLUNTEER)
+            //        Session["charityEvents"] = allEvents;
+            //}
 
             Password member;
-            if (Session != null && Session["member"] != null && ((Password)Session["member"]).MemberType == MemberType.VOLLUNTEER)
-            {
-                member = (Password)Session["member"];
-                detailEvent.Member_Attendance = new EventAttendee(detailEvent.ID, member.email);
-            }
+            if (SessionUtil.GetMemberType(Session) == MemberType.VOLLUNTEER)
+                detailEvent.Member_Attendance = new EventAttendee(detailEvent.ID, SessionUtil.GetMember(Session).email);
 
             return View(detailEvent);
         }
         //[ChildActionOnly]
         public ActionResult SideView(Guid id)
         {
-            CharityEventCollection allEvents = (CharityEventCollection)apiHelper.getAll<CharityEvent>();
+            CharityEventCollection allEvents = (CharityEventCollection)SessionUtil.GetList<CharityEvent>(Session,"charityEvents");
             CharityEvent detailEvent;
             if (Session != null && Session["charityEvents"] != null)
             {
@@ -182,7 +154,7 @@ namespace Doorfail.Connections.WebUI.Controllers
                     detailEvent = new CharityEvent(id, true);
                     allEvents.Add(detailEvent);//add it because it was missing
                     if (Session != null && Session["member"] != null && ((Password)Session["member"]).MemberType == MemberType.VOLLUNTEER)
-                        Session["charityEvents"] = allEvents;
+                        Session["charityEvents"] = allEvents.ToArray();
                 }
             }
             else
@@ -190,7 +162,7 @@ namespace Doorfail.Connections.WebUI.Controllers
                 detailEvent = new CharityEvent(id, true);
                 allEvents.Add(detailEvent);//load the only one we need and save it to list
                 if (Session != null && Session["member"] != null && ((Password)Session["member"]).MemberType == MemberType.VOLLUNTEER)
-                    Session["charityEvents"] = allEvents;
+                    Session["charityEvents"] = allEvents.ToArray();
             }
 
             Password member;
@@ -217,7 +189,14 @@ namespace Doorfail.Connections.WebUI.Controllers
                 return RedirectToAction("LoginView", "Login");
             if (credentals.MemberType == MemberType.CHARITY)
             {
-                evnt.Charity = new Charity((Password)Session["member"]);//charity id is set
+                try
+                {
+                    evnt.Charity = apiHelper.fromPassword<Charity>((Password)Session["member"]);//charity id is set
+                }
+                catch(HttpUnhandledException e)
+                {
+                    return Content(e.Message);
+                }
                 evnt.CharityEmail = evnt.Charity.Email;
                 evnt.Charity.Email = evnt.CharityEmail;
             }
@@ -239,7 +218,7 @@ namespace Doorfail.Connections.WebUI.Controllers
             ViewBag.TimeList = TimeUtils.TimeList;
             try
             {
-                cevent.Charity = new Charity((string)Session["charityId"],true);
+                cevent.Charity = apiHelper.getEmail<Charity>((string)Session["charityId"]);//new Charity((string)Session["charityId"],true);
                 cevent.CharityEmail = (string)Session["charityId"];
 
                    if (cevent.Charity    == null ||
@@ -268,36 +247,46 @@ namespace Doorfail.Connections.WebUI.Controllers
                 {
                     cevent.Requirements = "None";
                 }
-                else if (cevent.StartDate < DateTime.Now || cevent.StartDate.Date < cevent.EndDate.Date)
+                else if (cevent.StartDate < DateTime.Now ||
+                         cevent.StartDate.Date > cevent.EndDate.Date)
                 {
                     ViewBag.Message = "Cannot start on "+cevent.StartDate+" and end on "+cevent.EndDate;
                     return View(cevent);
                 }
-                else if (cevent.EndTime - cevent.StartTime == new TimeSpan(0, 0, 0))//Event that last 0 seconds
+                else if (cevent.StartDate == cevent.EndDate &&
+                    cevent.EndTime - cevent.StartTime == new TimeSpan(0, 0, 0))//Event that last 0 seconds
                 {
                     ViewBag.Message = "Start time can not be the same as the End time";
                     return View(cevent);
                 }
 
-                CharityEventCollection events;
+                CharityEventCollection events = new CharityEventCollection();
                 if (Session == null || Session["charityEvents"] == null)
                 {
-                    events = new CharityEventCollection();//should not happen
+                    //should not happen
                 }
                 else
-                    events = ((CharityEventCollection)Session["charityEvents"]);
+                    events.AddRange((CharityEvent[])Session["charityEvents"]) ; //((CharityEventCollection)Session["charityEvents"]);
 
-                cevent.Charity = new Charity((string)Session["charityId"],true);
+                cevent.Charity = apiHelper.getEmail<Charity>((string)Session["charityId"]);//new Charity((string)Session["charityId"],true);
                 cevent.CharityEmail = cevent.Charity.Email;
                 //apiHelper.create<CharityEvent>((CharityEvent)cevent);
+                cevent.Location.ID = Guid.NewGuid();
+                dynamic tempLoc = JsonDatabase.GetTable<PL.Location>();
+                tempLoc.Add(cevent.Location.ToPL());
+
                 dynamic temp = JsonDatabase.GetTable<PL.CharityEvent>();
                 temp.Add(cevent.toPL());
                 JsonDatabase.SetTable<PL.CharityEvent>(temp);
                 JsonDatabase.SaveChanges();
                 events.Add((CharityEvent)cevent);
-                Session["charityEvents"] = events;
+                Session["charityEvents"] = events.ToArray();
 
                 return RedirectToAction("Index", "CharityEvent");
+            }
+            catch(HttpUnhandledException e)
+            {
+                return Content(e.Message);
             }
             catch (Exception e)
             {
@@ -318,14 +307,15 @@ namespace Doorfail.Connections.WebUI.Controllers
             CharityEvent detailEvent;
             if (Session != null && Session["charityEvents"] != null)
             {
-                allEvents = ((CharityEventCollection)Session["charityEvents"]);
+                allEvents = new CharityEventCollection();
+                allEvents.AddRange((CharityEvent[])Session["charityEvents"]);
                 detailEvent = allEvents.Where(c => c.ID == id).FirstOrDefault();//grab the one we need
                 if (detailEvent == null)
                 {
                     detailEvent = new CharityEvent(id,true);
                     allEvents.Add(detailEvent);//add it because it was missing
                     if (Session == null || Session["charityEvents"] == null)
-                        Session["charityEvents"] = allEvents;
+                        Session["charityEvents"] = allEvents.ToArray();
                 }
             }
             else
@@ -333,7 +323,7 @@ namespace Doorfail.Connections.WebUI.Controllers
                 detailEvent = new CharityEvent(id,true);
                 allEvents.Add(detailEvent);//load the only one we need and save it to list
                 if (Session == null || Session["charityEvents"] == null)
-                    Session["charityEvents"] = allEvents;
+                    Session["charityEvents"] = allEvents.ToArray();
             }
 
             Password credentals = (Password)Session["member"];
@@ -363,13 +353,16 @@ namespace Doorfail.Connections.WebUI.Controllers
                     };//should not happen
                 }
                 else
-                    events = ((CharityEventCollection)Session["charityEvents"]);
+                {
+                    events = new CharityEventCollection();
+                    events.AddRange((CharityEvent[])Session["charityEvents"]);
+                }
 
                 CharityEvent editEvent = events.Where(c => c.ID == id).FirstOrDefault();
                 //collection.Update();
-                apiHelper.create<CharityEvent>(collection);
+                apiHelper.update<CharityEvent>(collection);
                 editEvent = collection;
-                Session["charityEvents"] = events;
+                Session["charityEvents"] = events.ToArray();
 
                 return RedirectToAction("Index");
             }
@@ -395,13 +388,16 @@ namespace Doorfail.Connections.WebUI.Controllers
                 };//should not happen
             }
             else
-                events = ((CharityEventCollection)Session["charityEvents"]);
+            {
+                events = new CharityEventCollection();
+                events.AddRange((CharityEvent[])Session["charityEvents"]);
+            }
 
             CharityEvent deleteEvent = events.Where(c => c.ID == id).FirstOrDefault();
             //deleteEvent.Delete();
             apiHelper.create<CharityEvent>(deleteEvent);
             events.Remove(deleteEvent);
-            Session["charityEvents"] = events;
+            Session["charityEvents"] = events.ToArray();
 
             return RedirectToAction("Index", "CharityEvent");
         }
@@ -424,7 +420,7 @@ namespace Doorfail.Connections.WebUI.Controllers
                 CharityEventCollection sesEvents = ((CharityEventCollection)Session["charityEvents"]);
                 sesEvents.Remove(sesEvents.Where(c => c.ID == id).FirstOrDefault());
                 sesEvents.Add(evnt);
-                Session["charityEvents"] = sesEvents;
+                Session["charityEvents"] = sesEvents.ToArray();
             }
             else
                 ViewBag.Message = "You need to sign in to do this.";
@@ -460,7 +456,7 @@ namespace Doorfail.Connections.WebUI.Controllers
                 CharityEventCollection sesEvents = ((CharityEventCollection)Session["charityEvents"]);
                 sesEvents.Remove(sesEvents.Where(c => c.ID == id).FirstOrDefault());
                 sesEvents.Add(evnt);
-                Session["charityEvents"] = sesEvents;
+                Session["charityEvents"] = sesEvents.ToArray();
             }
             else
                 ViewBag.Message = "You need to sign in to do this.";

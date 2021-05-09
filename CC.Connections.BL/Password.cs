@@ -1,4 +1,5 @@
 ﻿using Doorfail.Connections.PL;
+using Doorfail.DataConnection;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -123,11 +124,10 @@ namespace Doorfail.Connections.BL
 
         internal bool Insert()
         {
-            string iD;
+            string iD = this.email;
+            if(false)
             using (CCEntities dc = new CCEntities())
             {
-                iD = this.email;
-
                 if (dc.LogIns.Where(c => c.MemberEmail == email).FirstOrDefault() != null)
                     return false;//already exists
 
@@ -141,10 +141,29 @@ namespace Doorfail.Connections.BL
                 dc.SaveChanges();
                 return true;//added
             }
+            else
+            {
+                if (JsonDatabase.GetTable<PL.LogIn>().Where(c => c.MemberEmail == email).FirstOrDefault() != null)
+                    return false;//already exists
+
+                PL.LogIn entry = new PL.LogIn
+                {
+                    MemberEmail = email,
+                    Password = hash,
+                    MemberType = (int)this.MemberType
+                };
+
+                List<LogIn> logIns = JsonDatabase.GetTable<PL.LogIn>();
+                logIns.Add(entry);
+                JsonDatabase.SetTable<PL.LogIn>(logIns);
+                JsonDatabase.SaveChanges();
+                return true;//added
+            }
         }
 
         internal int Delete()
         {
+            if(false)
             using (CCEntities dc = new CCEntities())
             {
                 dc.LogIns.Remove(dc.LogIns.Where(c => c.MemberEmail == email).FirstOrDefault());
@@ -152,16 +171,34 @@ namespace Doorfail.Connections.BL
                 this.hash = string.Empty;
                 return dc.SaveChanges();
             }
+            else
+            {
+                dynamic table = JsonDatabase.GetTable<PL.LogIn>();
+                table.Remove(JsonDatabase.GetTable<PL.LogIn>().Where(c => c.MemberEmail == email).FirstOrDefault());
+                JsonDatabase.SetTable<LogIn>(table);
+                this.email = string.Empty;
+                this.hash = string.Empty;
+                JsonDatabase.SaveChanges();
+                return 1;
+            }
         }
 
         internal int Update()
         {
+            if(false)
             using (CCEntities dc = new CCEntities())
             {
                 PL.LogIn entry = dc.LogIns.Where(c => c.MemberEmail == this.email).FirstOrDefault();
                 entry.Password = hash;
                 entry.MemberType = (int)this.MemberType;
                 return dc.SaveChanges();
+            }else
+            {
+                PL.LogIn entry = JsonDatabase.GetTable<PL.LogIn>().Where(c => c.MemberEmail == this.email).FirstOrDefault();
+                entry.Password = hash;
+                entry.MemberType = (int)this.MemberType;
+                JsonDatabase.SaveChanges();
+                return 1;
             }
         }
 
@@ -177,9 +214,22 @@ namespace Doorfail.Connections.BL
                     throw new Exception("Password must be set");//no UserPass
                 else
                 {
+                    PL.LogIn entry = null;
+
+                    if (false)
                     using (CCEntities dc = new CCEntities())
                     {
-                        PL.LogIn entry = dc.LogIns.FirstOrDefault(u => u.MemberEmail == this.email);
+                        entry = dc.LogIns.FirstOrDefault(u => u.MemberEmail == this.email);
+                        if (entry == null)
+                            this.MemberType = MemberType.GUEST;//doesnt exist
+                        else if (entry.Password == hash)//success if match
+                            this.MemberType = (MemberType)entry.MemberType;
+                        else
+                            this.MemberType = MemberType.GUEST;//failed
+                    }
+                    else
+                    {
+                        entry = JsonDatabase.GetTable<PL.LogIn>().FirstOrDefault(u => u.MemberEmail == this.email);
                         if (entry == null)
                             this.MemberType = MemberType.GUEST;//doesnt exist
                         else if (entry.Password == hash)//success if match
@@ -201,12 +251,17 @@ namespace Doorfail.Connections.BL
         {
             try
             {
+                if(false)
                 using (CCEntities dc = new CCEntities())
                 {
                     if (dc.LogIns.ToList().Count != 0)
                         dc.LogIns.ToList().ForEach(c =>
                             this.Add(new Password(c.MemberEmail, c.Password,(MemberType)c.MemberType, true)));
                 }
+                else if (JsonDatabase.GetTable<PL.LogIn>().ToList().Count != 0)
+                    JsonDatabase.GetTable<PL.LogIn>().ToList().ForEach(c =>
+                        this.Add(new Password(c.MemberEmail, c.Password, (MemberType)c.MemberType, true)));
+
             }
             catch (Exception) { throw; }
         }
